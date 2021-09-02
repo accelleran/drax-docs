@@ -1,0 +1,4 @@
+.md-typeset img[align=middle], .md-typeset svg[align=middle] {
+    display: block;
+    margin: 0 auto;
+}
