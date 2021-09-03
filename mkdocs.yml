@@ -31,3 +31,9 @@ plugins:
   - section-index
 extra_css:
   - css/extra.css
+nav:
+    - 'index.md'
+    - 'core-install/index.md'
+    - 'kubernetes-install/index.md'
+    - 'drax-install/index.md'
+    - 'du-install/index.md'
