@@ -1,0 +1,2103 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="https://accelleran.github.io/drax-docs/drax-install/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.0">
+    
+    
+      
+        <title>dRAX Installation - dRAX</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.fe914879.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ba0d045b.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#drax-installation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="dRAX" class="md-header__button md-logo" aria-label="dRAX" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            dRAX
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              dRAX Installation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href=".." class="md-tabs__link">
+      Overview
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../core-install/" class="md-tabs__link">
+      Core Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../kubernetes-install/" class="md-tabs__link">
+      Kubernetes Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      dRAX Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../du-install/" class="md-tabs__link">
+      DU Installation
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="dRAX" class="md-nav__button md-logo" aria-label="dRAX" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    dRAX
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-install/" class="md-nav__link">
+        Core Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubernetes-install/" class="md-nav__link">
+        Kubernetes Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          <span class="md-nav__icon md-icon"></span>
+          
+            <a href="./" class="md-nav__link md-nav__link--active"
+              style="margin: initial; padding: initial; pointer-events: initial">
+          
+            dRAX Installation
+          </a>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        dRAX Installation
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#software-and-hardware-prerequisites" class="md-nav__link">
+    Software and Hardware Prerequisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Software and Hardware Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hardware-minimum-requirements" class="md-nav__link">
+    Hardware Minimum Requirements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#software-requirements-to-be-pre-installed" class="md-nav__link">
+    Software Requirements to be pre installed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-requirements" class="md-nav__link">
+    Other Requirements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4g-specific-requirements" class="md-nav__link">
+    4G Specific requirements:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduction_1" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plan-your-deployment" class="md-nav__link">
+    Plan your deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Plan your deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plan-parameters" class="md-nav__link">
+    Plan parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare-license-and-certificate" class="md-nav__link">
+    Prepare License and Certificate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namespaces" class="md-nav__link">
+    Namespaces
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-existing-installations" class="md-nav__link">
+    Updating existing installations
+  </a>
+  
+    <nav class="md-nav" aria-label="Updating existing installations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#update-helm-charts" class="md-nav__link">
+    Update Helm Charts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove-existing-deployments" class="md-nav__link">
+    Remove existing deployments
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-requirements" class="md-nav__link">
+    Pre-Requirements
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-accelleran-helm-chart-repo" class="md-nav__link">
+    Add Accelleran Helm Chart Repo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-namespaces-for-drax-optional" class="md-nav__link">
+    Create namespace(s) for dRAX (optional)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-dockerhub-credentials-in-kubernetes" class="md-nav__link">
+    Configure DockerHub credentials in Kubernetes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-license-in-kubernetes" class="md-nav__link">
+    Configure License in Kubernetes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-drax-ric-and-dashboard" class="md-nav__link">
+    Install dRAX RIC and Dashboard
+  </a>
+  
+    <nav class="md-nav" aria-label="Install dRAX RIC and Dashboard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prepare-ric-values-configuration-file" class="md-nav__link">
+    Prepare RIC values configuration file
+  </a>
+  
+    <nav class="md-nav" aria-label="Prepare RIC values configuration file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-specific-configuration" class="md-nav__link">
+    Dashboard specific configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-5g-components" class="md-nav__link">
+    Enabling 5G components
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-the-drax-ric-and-dashboard" class="md-nav__link">
+    Install the dRAX RIC and Dashboard
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-drax-4g-components" class="md-nav__link">
+    Install dRAX 4G components
+  </a>
+  
+    <nav class="md-nav" aria-label="Install dRAX 4G components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prepare-keys-and-certificates-for-the-drax-provisioner" class="md-nav__link">
+    Prepare keys and certificates for the dRAX Provisioner
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-configmaps-for-the-drax-provisioner" class="md-nav__link">
+    Create configMaps for the dRAX Provisioner
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare-the-values-configuration-file" class="md-nav__link">
+    Prepare the values configuration file
+  </a>
+  
+    <nav class="md-nav" aria-label="Prepare the values configuration file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-provisioning-the-list-of-e1000-dus" class="md-nav__link">
+    Pre-provisioning the list of E1000 DUs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-drax-4g-components-based-on-the-values-configuration-file" class="md-nav__link">
+    Install dRAX 4G components based on the values configuration file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-4g-radio-controller" class="md-nav__link">
+    Configure 4G Radio Controller
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-e1000-dus" class="md-nav__link">
+    Update E1000 DUs
+  </a>
+  
+    <nav class="md-nav" aria-label="Update E1000 DUs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#download-the-e1000-update-files" class="md-nav__link">
+    Download the E1000 update files
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-software-of-e1000" class="md-nav__link">
+    Update software of E1000
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-the-update-of-e1000-on-the-unit-and-the-alignment-with-drax-version" class="md-nav__link">
+    Verify the update of E1000 on the unit and the alignment with dRAX version
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-drax-5g-components" class="md-nav__link">
+    Install dRAX 5G Components
+  </a>
+  
+    <nav class="md-nav" aria-label="Install dRAX 5G Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5g-cu-cp-installation" class="md-nav__link">
+    5G CU-CP Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="5G CU-CP Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-parameters" class="md-nav__link">
+    Required Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-parameters" class="md-nav__link">
+    Optional Parameters
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5g-cu-up-installation" class="md-nav__link">
+    5G CU-UP Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="5G CU-UP Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-parameters_1" class="md-nav__link">
+    Required Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-parameters_1" class="md-nav__link">
+    Optional Parameters
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-xapps" class="md-nav__link">
+    Install xApps
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drax-configuration" class="md-nav__link">
+    dRAX Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="dRAX Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xapp-configuration" class="md-nav__link">
+    xApp Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e1000-provisioning" class="md-nav__link">
+    E1000 Provisioning
+  </a>
+  
+    <nav class="md-nav" aria-label="E1000 Provisioning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#listing-currently-provisioned-e1000s" class="md-nav__link">
+    Listing currently provisioned E1000s
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provisioning-additional-accelleran-e1000-dus" class="md-nav__link">
+    Provisioning additional Accelleran E1000 DUs
+  </a>
+  
+    <nav class="md-nav" aria-label="Provisioning additional Accelleran E1000 DUs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#determine-unique-identifier" class="md-nav__link">
+    Determine Unique Identifier
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare-configuration-file" class="md-nav__link">
+    Prepare configuration file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#push-new-configuration" class="md-nav__link">
+    Push new configuration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-the-name-of-an-e1000" class="md-nav__link">
+    Changing the name of an E1000
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4g-ran-configuration" class="md-nav__link">
+    4G RAN Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="4G RAN Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enb-configuration-via-enb-list" class="md-nav__link">
+    eNB Configuration via eNB list
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enb-configuration-via-dashboard" class="md-nav__link">
+    eNB Configuration via Dashboard
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5g-ran-configuration" class="md-nav__link">
+    5G RAN Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="5G RAN Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5g-cu-cp-configuration" class="md-nav__link">
+    5G CU-CP configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5g-cu-up-configuration" class="md-nav__link">
+    5G CU-UP configuration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verifying-the-drax-installation" class="md-nav__link">
+    Verifying the dRAX installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Verifying the dRAX installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monitoring-via-the-kubernetes-api" class="md-nav__link">
+    Monitoring via the Kubernetes API
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-grafana-accelleran-drax-system-dashboard" class="md-nav__link">
+    The Grafana Accelleran dRAX System Dashboard
+  </a>
+  
+    <nav class="md-nav" aria-label="The Grafana Accelleran dRAX System Dashboard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4g-system-health-dashboard" class="md-nav__link">
+    4G system health dashboard
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5g-system-health-dashboard" class="md-nav__link">
+    5G system health dashboard
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-install-helm-version-3" class="md-nav__link">
+    Appendix: Install Helm version 3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-how-to-enabledisable-dhcp-for-the-ip-address-of-the-e1000-4g-du" class="md-nav__link">
+    Appendix: How to enable/disable DHCP for the IP address of the E1000 4G DU
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: How to enable/disable DHCP for the IP address of the E1000 4G DU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-configure-drax-for-a-cell" class="md-nav__link">
+    How to configure dRAX for a cell
+  </a>
+  
+    <nav class="md-nav" aria-label="How to configure dRAX for a cell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#introduction_2" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-enable-the-drax-provisioner" class="md-nav__link">
+    How to enable the dRAX Provisioner
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-drax-and-accelleran-e1000s-on-different-subnets" class="md-nav__link">
+    Appendix: dRAX and Accelleran E1000s on different subnets
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: dRAX and Accelleran E1000s on different subnets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prepare-conf-file" class="md-nav__link">
+    Prepare conf file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-docker-login-details" class="md-nav__link">
+    Create docker login details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pull-the-image-from-dockerhub" class="md-nav__link">
+    Pull the image from DockerHub
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-as-docker-container" class="md-nav__link">
+    Run as docker container
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-drax-provisioner-keys-and-certificates-generation" class="md-nav__link">
+    Appendix: dRAX Provisioner - Keys and Certificates Generation
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: dRAX Provisioner - Keys and Certificates Generation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-the-certificates" class="md-nav__link">
+    Create the certificates
+  </a>
+  
+    <nav class="md-nav" aria-label="Create the certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-the-serverkey" class="md-nav__link">
+    Create the server.key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-server-certificate" class="md-nav__link">
+    Create a server certificate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-self-signed-client-certificate" class="md-nav__link">
+    Create a self-signed client certificate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sign-the-server-certificate-using-the-root-certificate-authority-key" class="md-nav__link">
+    Sign the server certificate using the root certificate authority key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-the-certificates-work" class="md-nav__link">
+    Verify the certificates work
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../du-install/" class="md-nav__link">
+        DU Installation
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="drax-installation">dRAX Installation<a class="headerlink" href="#drax-installation" title="Permanent link">⚓︎</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">⚓︎</a></h2>
+<p>This document contains only the minimal set of information to achieve a default installation of dRAX, with some assumptions made such as software and hardware prerequisites as well as Network Configuration.</p>
+<p>The first section gives a detailed overview on hardware, software and other requirements that are considered as default prerequisites to install and operate a dRAX installation.
+Customers who require a more custom-designed deployment should contact Accelleran's Customer Support team to get a tailored solution.</p>
+<p>The second section describes all of the steps needed to deploy and run a new software version of Accelleran's dRAX  for the first time, using provided Helm charts.
+This section is split into multiple subsections, including one for the installation of the dRAX base, one for the 4G components, and one for the 5G components.
+For a first time installation, it is important to verify of course the SW and HW prerequisites presented in this document before proceeding further.</p>
+<p>The third section covers configuration of dRAX, including details on both RAN as well as xApp configuration.</p>
+<p>We advise customers who wish to know more about dRAX's architecture to request the full dRAX Architecture User Guide.</p>
+<h2 id="software-and-hardware-prerequisites">Software and Hardware Prerequisites<a class="headerlink" href="#software-and-hardware-prerequisites" title="Permanent link">⚓︎</a></h2>
+<p>The assumption made in this User Guide is that the typical Customer who doesn't want a full turn key dRAX kit is familiar with Server installations, VMs and VNFs so here we limit to describe what are the minimum requirements, OS used, and software packages that allow the dRAX to run correctly.</p>
+<h3 id="hardware-minimum-requirements">Hardware Minimum Requirements<a class="headerlink" href="#hardware-minimum-requirements" title="Permanent link">⚓︎</a></h3>
+<ol>
+<li>Intel Xeon D-1541 or stronger 64-bit processor</li>
+<li>32GB DDR4 RAM</li>
+<li>250GB Hard Disk</li>
+</ol>
+<h3 id="software-requirements-to-be-pre-installed">Software Requirements to be pre installed<a class="headerlink" href="#software-requirements-to-be-pre-installed" title="Permanent link">⚓︎</a></h3>
+<ol>
+<li>Linux Ubuntu Server 20.04 LTS</li>
+<li>Docker (recommended version 19.03, check the latest compatible version with Kubernetes)</li>
+<li>Kubernetes 1.13 or later (1.21 is currently unsupported)</li>
+<li>Helm, version 3</li>
+</ol>
+<h3 id="other-requirements">Other Requirements<a class="headerlink" href="#other-requirements" title="Permanent link">⚓︎</a></h3>
+<ol>
+<li>dRAX License, as provided by Accelleran's Customer Support team</li>
+<li>The Customer Network allows access to internet services</li>
+<li>a DockerHub account, and have shared the username with the Accelleran team to provide access to the needed images</li>
+<li>EPC/5GC must be routable without NAT from dRAX (and E1000 DUs in case of 4G)</li>
+</ol>
+<h3 id="4g-specific-requirements">4G Specific requirements:<a class="headerlink" href="#4g-specific-requirements" title="Permanent link">⚓︎</a></h3>
+<ol>
+<li>A DHCP server must be available on the subnet where the E1000 DUs will be installed</li>
+<li>E1000 DUs must be in the same subnet as Kubernetes' advertise address (otherwise refer to <a href="#appendix-drax-and-accelleran-e1000s-on-different-subnets">Appendix: E1000 on separate subnet</a>)</li>
+</ol>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">⚓︎</a></h2>
+<h3 id="introduction_1">Introduction<a class="headerlink" href="#introduction_1" title="Permanent link">⚓︎</a></h3>
+<p>This section explains how to install dRAX for the very first time in its default configuration.
+Assuming that the Customer has already verified all the prerequisites described in the previous Section 4.
+If you already have dRAX and are only updating it, please refer to the <a href="#updating-existing-installations">section on updating an existing installation</a>.</p>
+<p><strong>Please note:</strong> if you are updating an old version of dRAX which was installed without our Helm charts, a fresh install will be needed.</p>
+<p>dRAX consists of multiple components:</p>
+<ul>
+<li>RIC and Dashboard (required)</li>
+<li>4G components based on Accelleran's E1000 DU and 4G CU</li>
+<li>5G components based on Accelleran's 5G SA CU</li>
+</ul>
+<p>You should decide at this point which of these components you intend to install during this process as it will impact many of the steps.</p>
+<h3 id="plan-your-deployment">Plan your deployment<a class="headerlink" href="#plan-your-deployment" title="Permanent link">⚓︎</a></h3>
+<p>We recommend storing all files created during this installation process inside of a dedicated folder, e.g. <em>dRAX-yyyymmdd</em>, so that they are clearly available for when you next update the installation.
+These files could also be committed to version control, or backed up to the cloud.</p>
+<h4 id="plan-parameters">Plan parameters<a class="headerlink" href="#plan-parameters" title="Permanent link">⚓︎</a></h4>
+<p>Please determine the following parameters for your setup - these will be used during the installation process.</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th>Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kubernetes advertise IP address</td>
+<td>$NODE_IP</td>
+</tr>
+<tr>
+<td>The interface where Kubernetes is advertising</td>
+<td>$NODE_INT</td>
+</tr>
+</tbody>
+</table>
+<h4 id="prepare-license-and-certificate">Prepare License and Certificate<a class="headerlink" href="#prepare-license-and-certificate" title="Permanent link">⚓︎</a></h4>
+<p>In order to run Accelleran's dRAX software, a License file is required - please contact Accelleran's customer support to request the appropriate license.
+This license file will be named license.crt and will be used in a later step.</p>
+<p>If you intend to deploy the 4G aspects of dRAX (together with Accelleran's E1000 4G DUs), you will also need to prepare a certificate to ensure secure communication between the various components.
+Please refer to <a href="#appendix-drax-provisioner-keys-and-certificates-generation">the Appendix on creating certificates</a>.
+This will also need to be validated by Accelleran's customer support team, so please do this in advance of attempting the installation.</p>
+<h4 id="namespaces">Namespaces<a class="headerlink" href="#namespaces" title="Permanent link">⚓︎</a></h4>
+<p>At the preference of the customer, additional Kubernetes namespaces may be used for the various components which will be installed during this process.
+Kubernetes namespaces should be all lowercase letters and can include the "-" sign.</p>
+<p>Please note that when selecting to use custom namespaces, extra steps or flags must be used with most of the commands that follow.
+The following table describes the different "blocks" of components, and for each, a distinct namespace may be used (please note that this is entirely optional!), as well as the default namespace where these components will be installed.</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th>Parameter</th>
+<th>Default Namespace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core dRAX components</td>
+<td><code>$NS_DRAX</code></td>
+<td>default</td>
+</tr>
+<tr>
+<td>dRAX 4G components</td>
+<td><code>$NS_4G</code></td>
+<td>default</td>
+</tr>
+<tr>
+<td>dRAX 4G CUs</td>
+<td><code>$NS_4G_CU</code></td>
+<td><code>$NS_4G</code></td>
+</tr>
+<tr>
+<td>dRAX 5G components</td>
+<td><code>$NS_5G</code></td>
+<td><code>$NS_DRAX</code></td>
+</tr>
+<tr>
+<td>dRAX 5G CUs</td>
+<td><code>$NS_5G_CU</code></td>
+<td>default</td>
+</tr>
+</tbody>
+</table>
+<p>The Default Namespace column sometimes contains another Namespace placeholder, e.g. the NS_4G_CU default is $NS_4G - this means that the default behaviour is to run the CUs in the $NS_4G namespace, but it can be overridden.
+If neither $NS_4G or $NS_4G_CU is specified, the CU will run in the "default" namespace.</p>
+<h3 id="updating-existing-installations">Updating existing installations<a class="headerlink" href="#updating-existing-installations" title="Permanent link">⚓︎</a></h3>
+<p>If you already have an existing dRAX installation (based on our Helm charts), please follow these instructions first, otherwise skip to the next section.</p>
+<h4 id="update-helm-charts">Update Helm Charts<a class="headerlink" href="#update-helm-charts" title="Permanent link">⚓︎</a></h4>
+<p>To update to our latest version, we need to update the Helm charts:</p>
+<div class="highlight"><pre><span></span><code>helm repo update
+</code></pre></div>
+<h4 id="remove-existing-deployments">Remove existing deployments<a class="headerlink" href="#remove-existing-deployments" title="Permanent link">⚓︎</a></h4>
+<p>In order to continue with the remaining steps, we remove the existing deployments of our charts.
+Note that this will not remove the data, so any configured components should remain once the installation is completed.</p>
+<p>It may be that the previous versions used different names for the Helm deployments, so to check the correct names we can use the <code>helm list</code> command:</p>
+<div class="highlight"><pre><span></span><code>$ helm list
+NAME    NAMESPACE    REVISION    UPDATED                                    STATUS      CHART      APP    VERSION
+drax    default      <span class="m">1</span>           <span class="m">2021</span>-05-11 <span class="m">12</span>:53:50.978520059 +0000 UTC    deployed    drax-1.    <span class="m">5</span>.2    <span class="m">1</span>.5.2
+ric     default      <span class="m">1</span>           <span class="m">2021</span>-05-11 <span class="m">13</span>:52:35.587178279 +0000 UTC    deployed    ric-1.1    <span class="m">5</span>.4    <span class="m">1</span>.15.4
+</code></pre></div>
+<p>In the above example, the installations are called <code>drax</code> and <code>ric</code>, so the required commands would be:</p>
+<div class="highlight"><pre><span></span><code>helm uninstall ric
+helm uninstall drax
+</code></pre></div>
+<p>Please wait until all the pods and resources of the previous dRAX installation are deleted.
+You can view them by:</p>
+<div class="highlight"><pre><span></span><code>watch kubectl get pods -A
+</code></pre></div>
+<p>You can now continue with the remaining steps.</p>
+<h3 id="pre-requirements">Pre-Requirements<a class="headerlink" href="#pre-requirements" title="Permanent link">⚓︎</a></h3>
+<h4 id="add-accelleran-helm-chart-repo">Add Accelleran Helm Chart Repo<a class="headerlink" href="#add-accelleran-helm-chart-repo" title="Permanent link">⚓︎</a></h4>
+<p>Use the helm command:</p>
+<div class="highlight"><pre><span></span><code>helm repo add acc-helm https://accelleran.github.io/helm-charts/
+</code></pre></div>
+<h4 id="create-namespaces-for-drax-optional">Create namespace(s) for dRAX (optional)<a class="headerlink" href="#create-namespaces-for-drax-optional" title="Permanent link">⚓︎</a></h4>
+<p>If you choose to use dedicated namespaces for dRAX, please create them before the installation process.
+So for example if you choose $NS_DRAX=drax, then create it using the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl create namespace drax
+</code></pre></div>
+<p>This needs to be repeated for each namespace that you wish to use for dRAX, either for the RIC, 4G or 5G components, as per the table in <a href="#namespaces">the Namespaces section</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you choose to use specific namespaces, special care must be used throughout the remaining steps when executing the kubectl commands.
+For each one, it is important to specify the appropriate namespace using the -n option, example:</p>
+<div class="highlight"><pre><span></span><code>kubectl get pods -n <span class="nv">$NS_DRAX</span>
+</code></pre></div>
+</div>
+<h4 id="configure-dockerhub-credentials-in-kubernetes">Configure DockerHub credentials in Kubernetes<a class="headerlink" href="#configure-dockerhub-credentials-in-kubernetes" title="Permanent link">⚓︎</a></h4>
+<p>Create a secret named <code>accelleran-secret</code> with your DockerHub credentials, specifically using the kubectl command (do not forget the <code>-n &lt;namespace&gt;</code> option if you selected different namespaces previously):</p>
+<div class="highlight"><pre><span></span><code>kubectl create secret docker-registry accelleran-secret --docker-server<span class="o">=</span>docker.io --docker-username<span class="o">=</span>&lt;username&gt; --docker-password<span class="o">=</span>&lt;password&gt; --docker-email<span class="o">=</span>&lt;email&gt;
+</code></pre></div>
+<p>This needs to be repeated for each namespace that you created previously, specifying each namespace one time using the -n flag.</p>
+<h4 id="configure-license-in-kubernetes">Configure License in Kubernetes<a class="headerlink" href="#configure-license-in-kubernetes" title="Permanent link">⚓︎</a></h4>
+<p>Create a secret named <code>accelleran-license</code> using the previously provided License file.
+The name of this secret is critical - this name is used in our Helm charts to access the License file.
+Please refer to <a href="#prepare-license-and-certificate">the previous section on the License file</a> if you don't yet have one.</p>
+<div class="highlight"><pre><span></span><code>kubectl create secret generic accelleran-license --from-file<span class="o">=</span>license.crt
+</code></pre></div>
+<p>This needs to be repeated for each namespace that you created previously, specifying each namespace one time using the -n flag.</p>
+<h3 id="install-drax-ric-and-dashboard">Install dRAX RIC and Dashboard<a class="headerlink" href="#install-drax-ric-and-dashboard" title="Permanent link">⚓︎</a></h3>
+<h4 id="prepare-ric-values-configuration-file">Prepare RIC values configuration file<a class="headerlink" href="#prepare-ric-values-configuration-file" title="Permanent link">⚓︎</a></h4>
+<p>We first have to prepare the Helm values configuration file for the dRAX RIC and Dashboard Helm chart.
+To do so, we first retrieve the default values file from the Helm chart repository and save it to a file named <code>ric-values.yaml</code>.
+We do this with the following command:</p>
+<div class="highlight"><pre><span></span><code>curl https://raw.githubusercontent.com/accelleran/helm-charts/master/ric/values.yaml  &gt; ric-values.yaml
+</code></pre></div>
+<p>Next, edit the newly created <code>ric-values.yaml</code> file.
+Find the following fields and edit them according to your setup.
+We use parameters from the <a href="#plan-parameters">Plan your deployment</a> section, such as <code>$NODE_IP</code>, to show what should be filled in:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">global</span><span class="p">:</span>
+    <span class="nt">kubeIp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">$NODE_IP</span>
+    <span class="c1"># Enable the components that you intend to install</span>
+    <span class="c1"># Note that these must also be supported by the License you have</span>
+    <span class="nt">enable4G</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="nt">enable5G</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div>
+<p>If you'd like to use specific nodes in the Kubernetes cluster, you can adjust the following settings to select the nodes based on labels assigned to them (this needs to have been done separately and is outside the scope of this document):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">global</span><span class="p">:</span>
+    <span class="c1"># If using a node label, enable the dRAX Node Selector and specify the draxName label value</span>
+    <span class="nt">draxNodeSelectorEnabled</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+    <span class="nt">draxName</span><span class="p">:</span> <span class="s">&quot;main&quot;</span>
+</code></pre></div>
+<p>If you've chosen to use specific namespaces during the <a href="#namespaces">Plan your deployment</a> section, additional changes are needed to handle these additional namespaces.
+If you've chosen not to use one of these dedicated namespaces, use the default value as described in the <a href="#namespaces">Plan your deployment</a> section, e.g. if you don't have a dedicated <code>$NS_4G_CU</code> namespace, but you are using a dedicated <code>$NS_4G</code> namespace for all 4G components, use that value to replace both <code>$NS_4G</code> and <code>$NS_4G_CU</code>.
+Find and update the following fields with the names of the Namespaces which you've chosen to use:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">dash-front-back-end</span><span class="p">:</span>
+    <span class="nt">config</span><span class="p">:</span>
+        <span class="c1"># The namespace where the 4G CUs will be run</span>
+        <span class="nt">defaultServiceNamespace</span><span class="p">:</span> <span class="s">&quot;$NS_4G_CU&quot;</span>
+        <span class="c1"># The namespace where the other 4G components will be installed</span>
+        <span class="nt">defaultOranNamespace</span><span class="p">:</span> <span class="s">&quot;$NS_4G&quot;</span>
+<span class="nt">acc-service-monitor</span><span class="p">:</span>
+    <span class="c1"># Enter all namespaces used by your dRAX deployment, in a comma-separated-list of namespace names</span>
+    <span class="nt">monitoredNamespaces</span><span class="p">:</span> <span class="s">&quot;$NS_DRAX,</span><span class="nv"> </span><span class="s">$NS_4G,</span><span class="nv"> </span><span class="s">$NS_4G_CU,</span><span class="nv"> </span><span class="s">$NS_5G,</span><span class="nv"> </span><span class="s">$NS_5G_CU&quot;</span>
+</code></pre></div>
+<p>Note: For the monitoredNamespaces list, make sure that each value is unique, i.e. if two of the namespaces are the same, only add them to the list once.</p>
+<h5 id="dashboard-specific-configuration">Dashboard specific configuration<a class="headerlink" href="#dashboard-specific-configuration" title="Permanent link">⚓︎</a></h5>
+<p>When opening the dRAX Dashboard in a browser, the frontend needs to be able to connect to the backend.
+For this to work properly, the following fields in the RIC values.yaml need to be edited:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">dash-front-back-end</span><span class="p">:</span>
+    <span class="nt">config</span><span class="p">:</span>
+        <span class="nt">grafanaURL</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">.Values.global.kubeIp</span><span class="nv"> </span><span class="s">}}&quot;</span>
+        <span class="nt">apiUrl</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">.Values.global.kubeIp</span><span class="nv"> </span><span class="s">}}&quot;</span>
+</code></pre></div>
+<p>By default, these IPs are taken to be the <code>$NODE_IP</code>.
+If you are browsing the dRAX Dashboard from a machine that can reach the <code>$NODE_IP</code>, this will work.
+However, in certain use cases, dRAX can be installed on a public IP, and the <code>$NODE_IP</code> will not be reachable from your local machine.
+In that case, it's best to set these two IPs above to the public IP.</p>
+<h5 id="enabling-5g-components">Enabling 5G components<a class="headerlink" href="#enabling-5g-components" title="Permanent link">⚓︎</a></h5>
+<p>If you plan to install the 5G components (and you have the license to support this), you need to make a few other adjustments to the <code>ric-values.yaml</code> file:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">global</span><span class="p">:</span>
+    <span class="nt">enable5G</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">acc-5g-infrastructure</span><span class="p">:</span>
+    <span class="nt">metallb</span><span class="p">:</span>
+        <span class="nt">configInline</span><span class="p">:</span>
+            <span class="nt">address-pools</span><span class="p">:</span>
+                <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">default</span>
+                  <span class="nt">protocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">layer2</span>
+                  <span class="c1"># IP pool used for E1, F1 and GTP interfaces when exposed outside of Kubernetes</span>
+                  <span class="nt">addresses</span><span class="p">:</span>
+                      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">10.55.1.20-10.55.1.60</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The IP pool which is selected here will be used by <a href="https://metallb.universe.tf/">MetalLB</a>, which we use to expose the E1, F1, and GTP interfaces to the external O-RAN components, such as the DU, and the 5GC.
+MetalLB works by handling ARP requests for these addresses, so the external components need to be in the same L2 subnet in order to access these interfaces.
+To avoid difficulties, it's recommended that this IP pool is unique in the wider network.</p>
+</div>
+<h4 id="install-the-drax-ric-and-dashboard">Install the dRAX RIC and Dashboard<a class="headerlink" href="#install-the-drax-ric-and-dashboard" title="Permanent link">⚓︎</a></h4>
+<p>Install the RIC and Dashboard with Helm (if installing without dedicated namespaces, leave off the -n option):</p>
+<div class="highlight"><pre><span></span><code>helm install ric acc-helm/ric --version <span class="m">2</span> --values ric-values.yaml -n <span class="nv">$NS_DRAX</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The installation process can take some minutes, please hold on and don't interrupt the installation.</p>
+</div>
+<h3 id="install-drax-4g-components">Install dRAX 4G components<a class="headerlink" href="#install-drax-4g-components" title="Permanent link">⚓︎</a></h3>
+<h4 id="prepare-keys-and-certificates-for-the-drax-provisioner">Prepare keys and certificates for the dRAX Provisioner<a class="headerlink" href="#prepare-keys-and-certificates-for-the-drax-provisioner" title="Permanent link">⚓︎</a></h4>
+<p>The working assumption is that keys and certificates for the dRAX Provisioner have been created by the Accelleran Support Team, however, for a more detailed guide, please check the <a href="#appendix-drax-provisioner-keys-and-certificates-generation">Appendix: dRAX Provisioner - Keys and Certificates Generation</a> of this document.</p>
+<h4 id="create-configmaps-for-the-drax-provisioner">Create configMaps for the dRAX Provisioner<a class="headerlink" href="#create-configmaps-for-the-drax-provisioner" title="Permanent link">⚓︎</a></h4>
+<p>We now need to store the previously created keys and certificates as configMaps in Kubernetes, so that they can be used by the dRAX Provisioner:</p>
+<div class="highlight"><pre><span></span><code>kubectl create configmap -n <span class="nv">$NS_DRAX_4G</span> prov-server-key --from-file<span class="o">=</span>server.key
+kubectl create configmap -n <span class="nv">$NS_DRAX_4G</span> prov-server-crt --from-file<span class="o">=</span>server.crt
+kubectl create configmap -n <span class="nv">$NS_DRAX_4G</span> prov-client-crt --from-file<span class="o">=</span>client.crt
+kubectl create configmap -n <span class="nv">$NS_DRAX_4G</span> prov-client-key --from-file<span class="o">=</span>client.key
+kubectl create configmap -n <span class="nv">$NS_DRAX_4G</span> prov-ca-crt --from-file<span class="o">=</span>ca.crt
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The names of these configmaps are critical - these names are referenced specifically in other parts of Accelleran's software.</p>
+</div>
+<h4 id="prepare-the-values-configuration-file">Prepare the values configuration file<a class="headerlink" href="#prepare-the-values-configuration-file" title="Permanent link">⚓︎</a></h4>
+<p>To install the dRAX 4G components, we first have to prepare the Helm values configuration file for the dRAX 4G components Helm chart.
+To do so, we first retrieve the default values file from the Helm chart repository and save it to a file named <code>drax-4g-values.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code>curl https://raw.githubusercontent.com/accelleran/helm-charts/master/drax/values.yaml &gt; drax-4g-values.yaml
+</code></pre></div>
+<p>Next, edit the newly created <code>drax-4g-values.yaml</code> file.
+Find the following fields and edit them according to your setup.
+We then use parameters from the planning section, such as <code>$NODE_IP</code> and <code>$NODE_INT</code> to show what should be filled in:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">global</span><span class="p">:</span>
+    <span class="c1"># The Kubernetes advertise IP, $NODE_IP</span>
+    <span class="nt">kubeIp</span><span class="p">:</span> <span class="s">&quot;$NODE_IP&quot;</span>
+</code></pre></div>
+<p>If you'd like to use specific nodes in the Kubernetes cluster, you can adjust the following settings to select the nodes based on labels assigned to them (this needs to have been done separately and is outside the scope of this document):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">global</span><span class="p">:</span>
+    <span class="c1"># If using a node label, enable the dRAX Node Selector and specify the draxName label value</span>
+    <span class="nt">draxNodeSelectorEnabled</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+    <span class="nt">draxName</span><span class="p">:</span> <span class="s">&quot;main&quot;</span>
+</code></pre></div>
+<p>If you've chosen to use specific namespaces during the <a href="#namespaces">Namespaces</a> section, additional changes are needed to handle these additional namespaces.
+If you don't have a dedicated <code>$NS_4G_CU</code> namespace, but you are using a dedicated <code>$NS_4G</code> namespace for all 4G components, use that value to replace <code>$NS_4G_CU</code>.</p>
+<p>Find and update the following fields with the names of the Namespaces which you've chosen to use:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">4g-radio-controller</span><span class="p">:</span>
+  <span class="nt">config</span><span class="p">:</span>
+    <span class="c1"># The namespace where the 4G CU pods will be installed</span>
+    <span class="nt">l3Namespace</span><span class="p">:</span> <span class="s">&quot;$NS_4G_CU&quot;</span>
+</code></pre></div>
+<p>Finally, if you are using the Provisioner, you need to configure the provisioner-dhcp component.
+This component is using the DHCP protocol, and hence needs to know the default interface of the machine where dRAX is installed.
+This interface will be used to reach the cells, hence make sure the cells are reachable through the interface specified here.
+The configuration is located here:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">provisioner-dhcp</span><span class="p">:</span>
+  <span class="nt">configuration</span><span class="p">:</span>
+    <span class="nt">Interface</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">eno1</span>
+</code></pre></div>
+<p>Here, change <code>eno1</code> to the intended interface on your machine.</p>
+<h5 id="pre-provisioning-the-list-of-e1000-dus">Pre-provisioning the list of E1000 DUs<a class="headerlink" href="#pre-provisioning-the-list-of-e1000-dus" title="Permanent link">⚓︎</a></h5>
+<p>If you already have access to the Accelleran E1000 DUs that you wish to use with this dRAX installation, we can pre-provision the information regarding these during installation.
+This can also be done later, or if new E1000 DUs are added.</p>
+<p>Each Accelleran E1000 has a Model, a Hardware Version, and a Serial Number - this information is displayed on the label attached to the unit, and is required in order to pre-provision the DUs.
+A unique identifier is constructed from this information in the following format: <code>Model-HardwareVersion-SerialNumber</code>.
+This identifier is then listed, along with a unique name, for each E1000.
+This name could be as simple as <code>du-1</code> - all that matters is that it is unique in this dRAX installation.</p>
+<p>Edit the <code>drax-4g-values.yaml</code> file, adding a new line for each E1000 that you would like to pre-provision:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">configurator</span><span class="p">:</span>
+    <span class="nt">provisioner</span><span class="p">:</span>
+        <span class="c1"># Pre-provision the E1000 4G DUs, create a list of identifier: name as shown below</span>
+        <span class="nt">cells</span><span class="p">:</span>
+            <span class="nt">E1011-GC01-ACC000000000001</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">du-1</span>
+            <span class="nt">E1011-GC01-ACC000000000002</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">du-2</span>
+</code></pre></div>
+<p>(In this example, the E1000 specific Model is E1011, the Hardware Version is GC01, and the Serial Numbers were 0001, and 0002. Update this according to the values of your E1000s.)</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If your dRAX installation and Accelleran E1000s will not be on the same subnet, after completing the previous step, please also follow <a href="#appendix-drax-and-accelleran-e1000s-on-different-subnets">Appendix: dRAX and Accelleran E1000s on different subnets</a>.</p>
+</div>
+<h4 id="install-drax-4g-components-based-on-the-values-configuration-file">Install dRAX 4G components based on the values configuration file<a class="headerlink" href="#install-drax-4g-components-based-on-the-values-configuration-file" title="Permanent link">⚓︎</a></h4>
+<p>Install the dRAX 4G components with Helm using the above create file:</p>
+<div class="highlight"><pre><span></span><code>helm install drax-4g acc-helm/drax  --version <span class="m">2</span> --values drax-4g-values.yaml -n <span class="nv">$NS_4G</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The installation process can take some minutes, please hold on and don't interrupt the installation.</p>
+</div>
+<h4 id="configure-4g-radio-controller">Configure 4G Radio Controller<a class="headerlink" href="#configure-4g-radio-controller" title="Permanent link">⚓︎</a></h4>
+<p>In order for the dRAX 4G components to function properly, we need to configure the 4G Radio Controller.
+This can be done from the Dashboard, which is accessible at <a href="http://$NODE_IP:31315">http://$NODE_IP:31315</a>.
+From the sidebar, select the <strong>xApps Management</strong> section, and then click <strong>Overview</strong>:</p>
+<p><img align="middle" alt="Overview section" src="images/dashboard-sidebar-expanded-xapps-management.png" /></p>
+<p>From the <strong>dRAX Core</strong> section, find the <strong>4G-Radio-Controller</strong> entry, and click on the corresponding cog icon in the Configure column, as shown in the picture below:</p>
+<p><img align="middle" alt="xApp List" src="images/dashboard-xapp-list-hover-4GRC-configure.png" /></p>
+<p>You will be presented with a configuration page - the following changes should be made, making sure to replace <code>$NODE_IP</code> with the value from your installation:</p>
+<p><img align="middle" alt="4G Radio Controller configuration" src="images/dashboard-4grc-configuration.png" /></p>
+<h4 id="update-e1000-dus">Update E1000 DUs<a class="headerlink" href="#update-e1000-dus" title="Permanent link">⚓︎</a></h4>
+<p>The Accelleran E1000 DUs need to be updated to match the new version of dRAX.
+The following steps will guide you through this update process.
+As a prerequisite, the E1000s must be powered on, and you must be able to connect to them via SSH.
+If you do not have an SSH key to access the E1000s, contact Accelleran's support team.</p>
+<h5 id="download-the-e1000-update-files">Download the E1000 update files<a class="headerlink" href="#download-the-e1000-update-files" title="Permanent link">⚓︎</a></h5>
+<p>There is a server included with the dRAX installation that hosts the E1000 update files.
+Depending on the E1000 type (FDD or TDD), you can grab those files using the following command:</p>
+<div class="highlight"><pre><span></span><code>curl http://<span class="nv">$NODE_IP</span>:30603/fdd --output fdd-update.tar.gz
+curl http://<span class="nv">$NODE_IP</span>:30603/tdd --output tdd-update.tar.gz
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please replace the $NODE_IP with the advertised address of your Kubernetes</p>
+</div>
+<h5 id="update-software-of-e1000">Update software of E1000<a class="headerlink" href="#update-software-of-e1000" title="Permanent link">⚓︎</a></h5>
+<p>Copy the TDD or FDD image to the E1000 in /tmp/.
+For example:</p>
+<div class="highlight"><pre><span></span><code>scp -i ~/guest.key tdd-update.tar.gz guest@&lt;ip_of_e1000&gt;:/tmp/update.tar.gz
+</code></pre></div>
+<p>SSH into the E1000:</p>
+<div class="highlight"><pre><span></span><code>ssh -i guest.key guest@&lt;ip_of_e1000&gt;
+</code></pre></div>
+<p>Now execute:</p>
+<div class="highlight"><pre><span></span><code>do_update.sh
+</code></pre></div>
+<h5 id="verify-the-update-of-e1000-on-the-unit-and-the-alignment-with-drax-version">Verify the update of E1000 on the unit and the alignment with dRAX version<a class="headerlink" href="#verify-the-update-of-e1000-on-the-unit-and-the-alignment-with-drax-version" title="Permanent link">⚓︎</a></h5>
+<p>To validate that the newly updated software matches with the installed version of dRAX, we can run the following steps:</p>
+<p>SSH into the E1000:</p>
+<div class="highlight"><pre><span></span><code>ssh -i guest.key guest@&lt;ip_of_e1000&gt;
+</code></pre></div>
+<p>Note down the Git commit of the newly installed software:</p>
+<div class="highlight"><pre><span></span><code>strings /mnt/app/acc.tar <span class="p">|</span> grep Git
+</code></pre></div>
+<p>Now on the dRAX server, we need to retrieve the Git commit of the <code>4g-radio-controller</code> to compare.</p>
+<p>Find the correct pod name using this command:</p>
+<div class="highlight"><pre><span></span><code>kubectl get pods <span class="p">|</span> grep 4g-radio-controller
+</code></pre></div>
+<p>With the full pod name, run the following command (replace xxx with the correct identifier from the previous command):</p>
+<div class="highlight"><pre><span></span><code>kubectl <span class="nb">exec</span> -it drax-4g-4g-radio-controller-xxxx -- cat /data/oranC <span class="p">|</span> strings <span class="p">|</span> grep Git
+</code></pre></div>
+<p>The two commits must match, if not please verify the installation and contact Accelleran for support.</p>
+<h3 id="install-drax-5g-components">Install dRAX 5G Components<a class="headerlink" href="#install-drax-5g-components" title="Permanent link">⚓︎</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>5G DU installation is not currently covered by dRAX, but support for DUs from our partners can be provided - contact Accelleran's support team for further details.</p>
+</div>
+<p>Accelleran's 5G Components are managed and installed via the Dashboard.
+From the dRAX Dashboard sidebar, select <strong>New deployment</strong> and then click <strong>5G CU deployment</strong>:</p>
+<p><img align="middle" alt="New Deployment menu" src="images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png" /></p>
+<p>You will reach the <strong>Deploy a new CU component</strong> page.
+Here, you have the ability to deploy either a CU-CP or a CU-UP component.
+Therefore, you first have to pick one from the drop-down menu:</p>
+<p><img align="middle" alt="Deploy CU component" src="images/dashboard-deploy-a-new-cu-component.png" /></p>
+<h4 id="5g-cu-cp-installation">5G CU-CP Installation<a class="headerlink" href="#5g-cu-cp-installation" title="Permanent link">⚓︎</a></h4>
+<p>When installing the 5G CU-CP component, there are a number of configuration parameters that should be filled in the <strong>Deploy a new CU component</strong> form once the CU-CP is chosen from the drop-down menu.
+The form with the deployment parameters is shown below:</p>
+<p><img align="middle" alt="Deploy CU-CP form" src="images/dashboard-cu-cp-deployment.png" /></p>
+<h5 id="required-parameters">Required Parameters<a class="headerlink" href="#required-parameters" title="Permanent link">⚓︎</a></h5>
+<p>The deployment parameters are split into required and optional ones.
+The required parameters are:</p>
+<table>
+<thead>
+<tr>
+<th>Required Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Instance ID</td>
+<td>The instance ID of the CU-CP component - this must be unique across all CU-CP and CU-UPs</td>
+</tr>
+<tr>
+<td>Number of supported AMFs</td>
+<td>The maximum number of AMFs which can be connected to at any time</td>
+</tr>
+<tr>
+<td>Number of supported CU-UPs</td>
+<td>The maximum number of CU-UPs which can be connected to at any time</td>
+</tr>
+<tr>
+<td>Number of supported DUs</td>
+<td>The maximum number of DUs which can be connected to at any time</td>
+</tr>
+<tr>
+<td>Number of supported RUs</td>
+<td>The maximum number of RUs which can be supported at any time</td>
+</tr>
+<tr>
+<td>Number of supported UEs</td>
+<td>The maximum number of UEs which can be supported at any time</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The Instance ID must consist of lower case alphanumeric characters or '-', start with an alphabetic character, and end with an alphanumeric character (e.g. 'my-name',  or 'abc-123').
+The regex used for validation is <code>^[a-z]([a-z0-9-]*[a-z0-9])?$</code>.
+The Instance ID also cannot be longer than 16 alphanumeric characters!</p>
+</div>
+<p>Once the deployment parameters are set, click the submit button to deploy the 5G CU-CP.</p>
+<h5 id="optional-parameters">Optional Parameters<a class="headerlink" href="#optional-parameters" title="Permanent link">⚓︎</a></h5>
+<p>The optional parameters are auto-discovered and auto-filled by dRAX.
+As such they do not need to be changed.
+However, depending on the use case, you may want to edit them.
+In this case, you first have to toggle the <strong>Set optional parameters</strong> to <strong>ON</strong>.
+The optional parameters are:</p>
+<table>
+<thead>
+<tr>
+<th>Optional Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NATS URL/Port</td>
+<td>Connection details towards NATS. When installing the RIC and Dashboard component, if you set the <code>enable5g</code> option to true, a NATS server was deployed, which will be auto-discovered.</td>
+</tr>
+<tr>
+<td>Redis URL/Port</td>
+<td>Connection details towards Redis. Similar to NATS, if you set the <code>enable5g</code> option to true, a Redis server was deployed, which will be auto-discovered.</td>
+</tr>
+<tr>
+<td>dRAX Node Selector name</td>
+<td>If you label your Kubernetes node with the label <code>draxName</code>, you can specify the value of that label here and force the CU component to be installed on a specific node in the cluster.</td>
+</tr>
+<tr>
+<td>Namespace</td>
+<td>The namespace where the CU component should be installed.</td>
+</tr>
+<tr>
+<td>E1 Service IP</td>
+<td>Part of the CU-CP is the E1 interface. The 5G component will be exposed outside of Kubernetes on a specific IP and the E1 port of 38462. This IP is given by MetalLB, which is part of the 5G infrastructure. If this field is set to auto, MetalLB will give out the first free IP, otherwise you can specify the exact IP to be used. NOTE: The IP must be from the MetalLB IP pool defined in <a href="#enabling-5g-components">Enabling 5G components</a>.</td>
+</tr>
+<tr>
+<td>F1 Service IP</td>
+<td>Similar to E1, you can specify the IP to be used for the F1 interface. NOTE: Again it has to be from the MetalLB IP pool defined in <a href="#enabling-5g-components">Enabling 5G components</a>.</td>
+</tr>
+<tr>
+<td>NETCONF Server Port</td>
+<td>The NETCONF server used for configuring the 5G CU-CP component is exposed on the host machine on a random port. You can override this and set a predefined port. NOTE: The exposed port has to be in the Kubernetes NodePort range.</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>This is the version of the 5G CU component. By default, the latest stable version compatible with the dRAX version is installed. Other versions can be specified, but compatibility is not guaranteed.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="5g-cu-up-installation">5G CU-UP Installation<a class="headerlink" href="#5g-cu-up-installation" title="Permanent link">⚓︎</a></h4>
+<p>When deploying the 5G CU-UP component, there is only one required parameter in the <strong>Deploy a new CU component</strong> form.
+The form with the deployment parameters is shown below:</p>
+<p><img align="middle" alt="Deploy CU-UP form" src="images/dashboard-cu-up-deployment.png" /></p>
+<h5 id="required-parameters_1">Required Parameters<a class="headerlink" href="#required-parameters_1" title="Permanent link">⚓︎</a></h5>
+<p>The required deployment parameter is:</p>
+<table>
+<thead>
+<tr>
+<th>Required Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Instance ID</td>
+<td>The instance ID of the CU-UP component. The Instance ID must consist of lower case alphanumeric characters or '-', start with an alphabetic character, and end with an alphanumeric character (e.g. 'my-name',  or 'abc-123'). The regex used for validation is <code>^[a-z]([a-z0-9-]*[a-z0-9])?$</code>. The Instance ID also cannot be longer than 16 alphanumeric characters!</td>
+</tr>
+</tbody>
+</table>
+<h5 id="optional-parameters_1">Optional Parameters<a class="headerlink" href="#optional-parameters_1" title="Permanent link">⚓︎</a></h5>
+<p>Optional parameters are auto-discovered and auto-filled by dRAX.
+As such they do not need to be changed.
+However, depending on the use case, you may want to edit them.
+In this case, you first have to toggle the <strong>Set optional parameters</strong> to <strong>ON</strong>.
+The optional parameters are:</p>
+<table>
+<thead>
+<tr>
+<th>Optional Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NATS URL/Port</td>
+<td>Connection details towards NATS. When installing the RIC and Dashboard component, if you set the <code>enable5g</code> option to true, a NATS server was deployed, which will be auto-discovered</td>
+</tr>
+<tr>
+<td>Redis URL/Port</td>
+<td>Connection details towards Redis. Similar to NATS, if you set the <code>enable5g</code> option to true, a Redis server was deployed, which will be auto-discovered</td>
+</tr>
+<tr>
+<td>dRAX Node Selector name</td>
+<td>If you label your Kubernetes node with the label <code>draxName</code>, you can specify the value of that label here and force the CU component to be installed on a specific node in the cluster</td>
+</tr>
+<tr>
+<td>Namespace</td>
+<td>The namespace where the CU component should be installed</td>
+</tr>
+<tr>
+<td>NETCONF Server Port</td>
+<td>The NETCONF server used for configuring the 5G CU-UP component is exposed on the host machine on a random port. You can override this and set a predefined port. NOTE: The exposed port has to be in the Kubernetes NodePort range.</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>This is the version of the 5G CU component. By default, the latest stable version compatible with the dRAX version is installed. Other versions can be specified, but compatibility is not guaranteed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install-xapps">Install xApps<a class="headerlink" href="#install-xapps" title="Permanent link">⚓︎</a></h3>
+<p>Compatible xApps can be managed and installed via the Dashboard.
+This can be achieved by clicking on <strong>New deployment</strong> in the sidebar, and then clicking <strong>xApp deployment:</strong></p>
+<p><img align="middle" alt="Sidebar with Deploy xApp selected" src="images/dashboard-sidebar-expanded-new-deployment-selected-xapp-deployment.png" /></p>
+<p>In the resulting form, xApps can be deployed either from a remote Helm repository or by uploading a local packaged Helm chart file.</p>
+<p><img align="middle" alt="Deploy an xApp" src="images/dashboard-xapp-deployment.png" /></p>
+<p>In the "Metadata" section of the form, the user inputs information regarding the xApp name, the organization and team who own the xApp, the version of the xApp Helm Chart and the namespace where the xApp will be deployed on.</p>
+<p>When deploying an xApp from a remote Helm repository, the user needs to specify the name of the remote repository, its URL and the Helm chart name.
+Optionally, the user can upload a values configuration file to override the default configuration present in the remote Helm Chart.</p>
+<p>When deploying an xApp using the second method, the user can upload a local packaged Helm chart (a .tgz file produced by the command "helm package &lt;chartName&gt;") which contains the dRAX compatible xApp and optionally an accompanying values configuration file.</p>
+<p><img align="middle" alt="Upload a local Helm chart" src="images/dashboard-local-helm-upload.png" /></p>
+<p>Upon clicking the "Submit" button, the xApp will be deployed on the user-defined namespace in Kubernetes following the naming convention "organization-team-xappname-version".</p>
+<h2 id="drax-configuration">dRAX Configuration<a class="headerlink" href="#drax-configuration" title="Permanent link">⚓︎</a></h2>
+<p>dRAX configuration is split into multiple subsections which mirrors the microservice approach central to dRAX's design.
+Most of the configuration can be managed via the Dashboard.
+The Dashboard is accessible at <a href="http://$NODE_IP:31315">http://$NODE_IP:31315</a>.</p>
+<h3 id="xapp-configuration">xApp Configuration<a class="headerlink" href="#xapp-configuration" title="Permanent link">⚓︎</a></h3>
+<p>xApps can be configured via our Dashboard.
+From the sidebar, select the <strong>xApps Management </strong>section, and then click <strong>Overview</strong>:</p>
+<p><img align="middle" alt="xApps Management with Overview xApp selected" src="images/dashboard-xapp-configuration.png" /></p>
+<p>You will be presented with a list of installed xApps - you can click on the icon in the Details column to access further information on the xApp:</p>
+<p><img align="middle" alt="List of installed xApps" src="images/dashboard-xapps-list.jpg" /></p>
+<p>From the following page, you will be presented with information on the behaviour of the xApp and the topics that the xApp consumes and produces - the exact information is dependent on the vendor of the xApp.
+Configuration of the xApp is now managed in the Configuration Parameters section - it may need to be expanded with the collapse/expand button at the top right of the section.</p>
+<p>You can also expand the Services, by clicking the Show button in the Services column.
+This will show all the services used and exposed by the xApp, including the port information.</p>
+<h3 id="e1000-provisioning">E1000 Provisioning<a class="headerlink" href="#e1000-provisioning" title="Permanent link">⚓︎</a></h3>
+<p>The certificates and keys referenced in this section are those mentioned in the <a href="#prepare-keys-and-certificates-for-the-drax-provisioner">Prepare keys and certificates for the dRAX Provisioner section</a>.
+These are required so that the onboarding of new E1000s is a secure process.</p>
+<h4 id="listing-currently-provisioned-e1000s">Listing currently provisioned E1000s<a class="headerlink" href="#listing-currently-provisioned-e1000s" title="Permanent link">⚓︎</a></h4>
+<p>The current list of provisioned E1000s can be retrieved with the following command:</p>
+<div class="highlight"><pre><span></span><code>curl --cacert ca.crt https://<span class="nv">$NODE_IP</span>:31610/get/
+</code></pre></div>
+<h4 id="provisioning-additional-accelleran-e1000-dus">Provisioning additional Accelleran E1000 DUs<a class="headerlink" href="#provisioning-additional-accelleran-e1000-dus" title="Permanent link">⚓︎</a></h4>
+<p>Each additional E1000 DU, which is to be used with this dRAX installation, needs to be provisioned.
+This is only needed for E1000 DUs which were not pre-provisioned during the installation process.</p>
+<h5 id="determine-unique-identifier">Determine Unique Identifier<a class="headerlink" href="#determine-unique-identifier" title="Permanent link">⚓︎</a></h5>
+<p>Each Accelleran E1000 has a Model, a Hardware Version, and a Serial Number - this information is displayed on the label attached to the unit, and is required in order to pre-provision the DUs.
+A unique identifier is constructed from this information in the following format:</p>
+<div class="highlight"><pre><span></span><code>Model-HardwareVersion-SerialNumber
+</code></pre></div>
+<p>This identifier can also be determined automatically via SSH using the following command:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span> <span class="s2">&quot;</span><span class="k">$(</span>eeprom_vars.sh -k<span class="k">)</span><span class="s2">-</span><span class="k">$(</span>eeprom_vars.sh -v<span class="k">)</span><span class="s2">-</span><span class="k">$(</span>eeprom_vars.sh -s<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>Each E1000 also needs to be given a unique name.
+This name could be as simple as "du-1" - all that matters is that it is unique in this dRAX installation.</p>
+<h5 id="prepare-configuration-file">Prepare configuration file<a class="headerlink" href="#prepare-configuration-file" title="Permanent link">⚓︎</a></h5>
+<p>To provision a new E1000, create a new file called <code>cellconfig.yaml</code> with the following contents:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">E1011-GC01-ACC000000000001</span><span class="p">:</span>
+     <span class="nt">redis</span><span class="p">:</span>
+         <span class="nt">hostname</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">$NODE_IP</span>
+         <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">32000</span>
+     <span class="nt">loki</span><span class="p">:</span>
+         <span class="nt">hostname</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">$NODE_IP</span>
+         <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30302</span>
+     <span class="nt">instance</span><span class="p">:</span>
+        <span class="nt">filter</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">du-1</span>
+</code></pre></div>
+<p>Replace the unique identifier based on the specific E1000, replace <code>$KUBE_IP</code> with the correct IP for your installation, and replace <code>du-1</code> with the chosen unique name for this DU.</p>
+<p>If you'd like to provision multiple E1000s at once, duplicate the above snippet for each additional E1000, updating the unique identifier and the name in each case.
+Make sure to match the indentation in each duplicated snippet - incorrect indentation will result in an error.
+It's recommended to keep these snippets all in the same file so that we can push the new configuration with a single command.</p>
+<h5 id="push-new-configuration">Push new configuration<a class="headerlink" href="#push-new-configuration" title="Permanent link">⚓︎</a></h5>
+<p>Now run the following command to push this configuration to the Provisioner:</p>
+<div class="highlight"><pre><span></span><code>curl --cacert ca.crt --cert client.crt --key client.key https://<span class="nv">$NODE_IP</span>:31610/push/ --data-binary @cellconfig.yaml
+</code></pre></div>
+<h4 id="changing-the-name-of-an-e1000">Changing the name of an E1000<a class="headerlink" href="#changing-the-name-of-an-e1000" title="Permanent link">⚓︎</a></h4>
+<p>The name of a specific E1000 can be updated if required in a slightly more straightforward manner.
+First determine the unique identifier - refer to the <a href="#determine-unique-identifier">Determine Unique Identifier section</a> above for the exact instructions.
+Use the following command, replacing <code>$KUBE_IP</code> with the correct IP for your installation, the unique identifier with that just determined, and replacing <code>du-1</code> with the new name:</p>
+<div class="highlight"><pre><span></span><code>curl --cacert ca.crt --cert admin.crt --key admin.key https://_<span class="nv">$NODE_IP</span>:31610_/set/E0123-GC01-ACC0123456978901/instance/filter -d du-1
+</code></pre></div>
+<h3 id="4g-ran-configuration">4G RAN Configuration<a class="headerlink" href="#4g-ran-configuration" title="Permanent link">⚓︎</a></h3>
+<p>Configuration of the 4G RAN is made simple, intuitive and efficient when using the dRAX Dashboard.</p>
+<p>Note: all of these options require the Accelleran E1000s to already have been provisioned as described in the <a href="#e1000-provisioning">E1000 Provisioning section</a> above, or during the installation process.</p>
+<h4 id="enb-configuration-via-enb-list">eNB Configuration via eNB list<a class="headerlink" href="#enb-configuration-via-enb-list" title="Permanent link">⚓︎</a></h4>
+<p>To access the configuration page for an eNB, first click on the <strong>RAN Configuration</strong> section, and then click on <strong>eNB Configuration.</strong>
+From the displayed list of eNBs, click on the Cog icon in the Edit column corresponding to the eNB you'd like to reconfigure.</p>
+<p><img align="middle" alt="eNB reconfiguration" src="images/dashboard-manual-config.png" /></p>
+<p>From the following screen, the configuration of this eNB can be adjusted.
+Once the configuration has been updated as desired, click on the <strong>Create</strong> button at the bottom left of the page:</p>
+<p><img align="middle" alt="eNB configuration" src="images/dashboard-enb-configuration.png" /></p>
+<p>Notes:</p>
+<ol>
+<li>the Cell ID is a multiple of 256, this is automatically taken into consideration not allowing to submit Cell IDs that are not a multiple of 256</li>
+<li>There is no conflict or error check in manual mode, therefore for instance it is possible to configure two cells with the same ID, set an EARFCN that is out of band, and so on: it is assumed that the User is aware of what he/she tries to set up</li>
+<li>The reference signal power is calculated automatically from the output power, please adjust the output power in dBm which represent the maximum power per channel at the exit without antenna gain</li>
+</ol>
+<h4 id="enb-configuration-via-dashboard">eNB Configuration via Dashboard<a class="headerlink" href="#enb-configuration-via-dashboard" title="Permanent link">⚓︎</a></h4>
+<p>An alternative way of configuring an individual eNB is to make use of the <strong>Dashboard</strong> initial page (click on <strong>Dashboard</strong> in the sidebar to return there).
+Click on the eNB in the Network Topology, and then choose <strong>Configure Cell</strong> on the <strong>Selected Node </strong>window at the right: this will take you to the  <strong>eNB Configuration</strong> page and described in the previous section.</p>
+<p><img align="middle" alt="Configure from Network Topology" src="images/dashboard-network-topology.png" /></p>
+<h3 id="5g-ran-configuration">5G RAN Configuration<a class="headerlink" href="#5g-ran-configuration" title="Permanent link">⚓︎</a></h3>
+<p>If you have a dRAX License for 5G, have enabled 5G during the RIC and Dashboard installation in <a href="#enabling-5g-components">Enabling 5G components</a>, and have deployed the CU components as instructed in <a href="#install-drax-5g-components">Install dRAX 5G Components</a>, you can now configure the 5G CU components.
+You can do so by navigating to <strong>RAN Configuration</strong> in the dRAX Dashboard sidebar and clicking the <strong>gNB Configuration</strong>:</p>
+<p><img align="middle" alt="5G CU Configuration from the dRAX Dashboard" src="images/dashboard-sidebar-5g-config-menu.png" /></p>
+<p>You will reach the 5G CU components configuration page:</p>
+<p><img align="middle" alt="5G CU Components configuration page" src="images/dashboard-cu-config-page.png" /></p>
+<p>On this page there are two lists, one for CU-CPs and one for CU-UPs.
+You can click the icon under the Edit column of each CU component to edit its configuration.
+When you deploy the 5G CU component and click this button for the first time, you will be asked to set the initial configuration.
+Later on, you can click this button to edit the configuration.</p>
+<h4 id="5g-cu-cp-configuration">5G CU-CP configuration<a class="headerlink" href="#5g-cu-cp-configuration" title="Permanent link">⚓︎</a></h4>
+<p>The 5G CU-CP components have a number of parameters that you can set as can be seen below:</p>
+<ul>
+<li>PLMN ID: The PLMN ID to be used</li>
+<li>GNB ID: The GNB ID</li>
+<li>GNB CU-CP name: A friendly name of the 5G CU-CP component</li>
+<li>AMF NG interface IP Address: You can click on the (+) sign in the table to expand it like on the figure below. You can now Add Rows to add multiple AMF NG interface IP addresses, or delete them using the Delete Row field. Edit the <strong>NG Destination IP Address</strong> to be the AMF NG IP address of your setup.</li>
+</ul>
+<p>Click the <strong>Submit</strong> button to send the configuration.</p>
+<p><img align="middle" alt="5G CU-CP Configuration parameters" src="images/dashboard-cu-cp-config.png" /></p>
+<h4 id="5g-cu-up-configuration">5G CU-UP configuration<a class="headerlink" href="#5g-cu-up-configuration" title="Permanent link">⚓︎</a></h4>
+<p>The 5G CU-UP has a number of configuration parameters as seen below:</p>
+<ul>
+<li>GNB CU-UP ID: The 3GPP ID of the CU-UP component.</li>
+<li>GNB CU-UP name: The 3GPP friendly name of the CU-UP component,</li>
+<li>E1 Links: You can Add Row or Delete Rows using the button. Here we add the E1 IP address of the CU-CP component that this CU-UP component will connect to. Enter the E1 IP under <strong>E1 Destination IP Address.</strong></li>
+<li>Supported PLMN Slices; Expand the table by clicking the (+) sign. You can now Add Rows or Delete Rows to add multiple PLMN IDs. For each PLMN ID, you can Add Rows to add slices or Delete Rows to delete slices. Each slice is defined by the Slice Type and Slice Differentiator.</li>
+</ul>
+<p><img align="middle" alt="5G CU-UP Configuration parameters" src="images/dashboard-cu-up-config.png" /></p>
+<h2 id="verifying-the-drax-installation">Verifying the dRAX installation<a class="headerlink" href="#verifying-the-drax-installation" title="Permanent link">⚓︎</a></h2>
+<h3 id="monitoring-via-the-kubernetes-api">Monitoring via the Kubernetes API<a class="headerlink" href="#monitoring-via-the-kubernetes-api" title="Permanent link">⚓︎</a></h3>
+<p>As specified in the previous sections of this document, the installation of Accelleran dRAX consists of multiple components.
+Exactly which are installed depends on the choices made during the installation process.
+All Pods that have been installed should be running correctly at this point though.
+To verify this, we can use the following command:</p>
+<div class="highlight"><pre><span></span><code>watch <span class="s2">&quot;kubectl get pods -A | grep -e ric- -e drax-4g- -e acc-5g- -e l3-&quot;</span>
+</code></pre></div>
+<p>The listed Pods should either all be Running and fully Ready (i.e. all expected instances are running - 1/1, 2/2, etc.), or Completed - it may take a few minutes to reach this state.
+The number of restarts for each pod should also stabilize and stop increasing.</p>
+<p>If something crashes or you need to restart a pod, you can use the scale command - for example:</p>
+<div class="highlight"><pre><span></span><code>kubectl scale deployment <span class="nv">$DEPLOYMENT_NAME</span> --replicas<span class="o">=</span><span class="m">0</span>
+kubectl scale deployment <span class="nv">$DEPLOYMENT_NAME</span> --replicas<span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+<h3 id="the-grafana-accelleran-drax-system-dashboard">The Grafana Accelleran dRAX System Dashboard<a class="headerlink" href="#the-grafana-accelleran-drax-system-dashboard" title="Permanent link">⚓︎</a></h3>
+<p>The dRAX Grafana contains two system health dashboards, one for 4G and one for 5G.
+On these dashboards we can check if all the 4G or 5G components are running, if there are Kubernetes pods that are in an error state, we can check the RAM and CPU usage per pod, etc.
+In fact, they give a complete overview of the System in 5 sections, each containing detailed information to allow a graphic, intuitive approach to the System health conditions.
+Each section can be expanded by clicking on its name.</p>
+<ol>
+<li><strong>Cluster Information</strong> contains:<ol>
+<li>Number of nodes</li>
+<li>Allocatable RAM</li>
+<li>Running PODs</li>
+<li>Pending Containers</li>
+<li>Crashed Containers</li>
+<li>Pending or Crashed containers listed by Node, Namespace, Status, POD name and package</li>
+</ol>
+</li>
+<li><strong>RAM Information</strong> contains:<ol>
+<li>Total RAM Usage</li>
+<li>Node RAM Usage</li>
+<li>POD RAM Usage</li>
+<li>Container RAM Usage</li>
+<li>RAM Usage History</li>
+<li>Node RAM Info listed by Node, Requested RAM Limit RAM Allocatable RAM RAM Reserved, RAM Usage</li>
+<li>POD RAM information listed by Node, Pod, Requested RAM, RAM Limit, Used RAM</li>
+<li>Container RAM information listed by Node, Pod, Requested RAM, RAM Limit, Used RAM</li>
+</ol>
+</li>
+<li><strong>CPU Information </strong>contains:<ol>
+<li>Total CPU Usage</li>
+<li>Node CPU Usage</li>
+<li>POD CPU Usage</li>
+<li>Container CPU Usage</li>
+<li>CPU Usage History</li>
+<li>Node CPU Info listed by Node, Requested Core Limit Cores Allocatable Cores CPU Reserved,CPU Burstable, CPU Usage</li>
+<li>POD CPU information listed by Node, Pod, Requested Cores, Limit Cores, Used Cores</li>
+<li>Container CPU information listed by Node, Pod, Requested Cores, Limit Cores, Used Cores</li>
+</ol>
+</li>
+<li><strong>Network Information</strong> contains:<ol>
+<li>TX Traffic</li>
+<li>RX Traffic</li>
+</ol>
+</li>
+<li><strong>Disk Space information</strong> contains:<ol>
+<li>Disk Usage</li>
+<li>Disk Usage History</li>
+<li>Disk Usage per Node listed by Node, User Disk Space, Free Disk Space, Total Disk Space</li>
+<li>Persistent Disk Volumes listed by Node, Volume Name,Disk Space, Bound status</li>
+</ol>
+</li>
+</ol>
+<h4 id="4g-system-health-dashboard">4G system health dashboard<a class="headerlink" href="#4g-system-health-dashboard" title="Permanent link">⚓︎</a></h4>
+<p>To access the dRAX Grafana, browse to <a href="http://$NODE_IP:30300">http://$NODE_IP:30300</a>.
+From here you can browse the different pre-built Grafana dashboards that come with dRAX.
+One of them is the <strong>Accelleran dRAX System Dashboard</strong>:</p>
+<p><img align="middle" alt="Accelleran dRAX 4G Health Dashboard" src="images/dashboard-4g-health-1.png" /></p>
+<p>The 4G specific health dashboard, in addition to the 5 global sections explained above, also shows which components of 4G dRAX are running (Redis, NATS, 4GRC, etc.).</p>
+<h4 id="5g-system-health-dashboard">5G system health dashboard<a class="headerlink" href="#5g-system-health-dashboard" title="Permanent link">⚓︎</a></h4>
+<p>The 5G system health dashboard can also be found on dRAX Grafana on <a href="http://$NODE_IP:30300">http://$NODE_IP:30300</a>.
+This time, pick the <strong>Accelleran dRAX 5G System Dashboard</strong> from the list of pre-built Grafana dashboards:</p>
+<p><img align="middle" alt="Accelleran dRAX 5G Health Dashboard" src="images/dashboard-5g-health-1.png" /></p>
+<p>The 5G specific health dashboard, in addition to the 5 global sections explained above, also shows which components of 5G dRAX are running (AMF Controller, CUUP, DS Ctrl, etc.).</p>
+<h2 id="appendix-install-helm-version-3">Appendix: Install Helm version 3<a class="headerlink" href="#appendix-install-helm-version-3" title="Permanent link">⚓︎</a></h2>
+<p>Helm version 3 is required for the installation of dRAX. Detailed instructions on installing Helm, which should be done first, can be found here: <a href="https://helm.sh/docs/intro/install/">https://helm.sh/docs/intro/install/</a>.</p>
+<h2 id="appendix-how-to-enabledisable-dhcp-for-the-ip-address-of-the-e1000-4g-du">Appendix: How to enable/disable DHCP for the IP address of the E1000 4G DU<a class="headerlink" href="#appendix-how-to-enabledisable-dhcp-for-the-ip-address-of-the-e1000-4g-du" title="Permanent link">⚓︎</a></h2>
+<p>The DU units are separate hardware components and therefore get preconfigured at Accelleran with a standard SW image which of course will have default settings that may require changes.
+Typically in fact a network component will require IP address Netmask default gateway to be configured and the Customer will want to rework these settings before commissioning the component into the existing Network.
+The default settings are:</p>
+<ul>
+<li>Static IP address</li>
+<li>DHCP Off</li>
+<li>Provisioner Off</li>
+<li>Bootstrap file with Redis port 32000, dRAX IP 10.20.20.20 and a generic eNB Name indicating for instance the Customer name, Band, and a progressing number</li>
+</ul>
+<p>The rest of environment variables are visible once logged in to the E1000 using the <code>fprintenv</code> command.
+So for instance the variable you will be able to see are:</p>
+<div class="highlight"><pre><span></span><code>ethact=octeth0
+ethaddr=1C:49:7B:DE:35:F7
+fdtcontroladdr=80000
+gatewayip=10.188.6.1
+gpsenable=1
+ipaddr=10.20.20.222
+loadaddr=0x20000000
+mtdparts=mtdparts=octeon_nor0:0x220000(u-boot)ro,128k(u-boot-env)ro,128k(u-boot-env-bak)ro,128k(u-boot-env-gemtek)ro,0x1340000(init-app)ro,-(accelleran-app)ro
+namedalloc=namedalloc dsp-dump 0x400000 0x7f4D0000; namedalloc pf4cazac 0x13000 0x84000000; namedalloc cazac 0x630000 0x7f8D0000; namedalloc cpu-dsp-if 0x100000 0x7ff00000; namedalloc dsp-log-buf 0x4000000 0x80000000; namedalloc initrd 0x2B00000 0x30800000;
+netmask=255.255.255.0
+numcores=4
+octeon_failsafe_mode=0
+octeon_ram_mode=0
+serverip=10.188.6.137
+stderr=serial
+stdin=serial
+stdout=serial
+swloadby=flash
+unprotect=protect off 0x17cc0000 0x1fc00000;
+ver=U-Boot 2017.05 (Sep 08 2017 - 16:27:53 +0000)
+xoservoenable=1
+xoservolog=/var/log/xolog.txt
+dhcp=yes
+</code></pre></div>
+<p>If the Customers wants to change IP address using the command line he can do the following (special attention must be put as an error in the input can bring the E1000 out of reach):</p>
+<div class="highlight"><pre><span></span><code>fsetenv ipaddr &lt;new_ip_address&gt;
+</code></pre></div>
+<p>In order to modify the netmask type:</p>
+<div class="highlight"><pre><span></span><code>fsetenv netmask &lt;new_net_mask&gt; <span class="o">(</span>ex. <span class="m">255</span>.255.255.0<span class="o">)</span>
+</code></pre></div>
+<p>NOTE: the User that wishes to perform such modifications must be aware of the consequences of that choice, for instance the necessity of shipping back the unit to Accelleran for refurbishment in case of misconfigurations.</p>
+<p>In case the E1000 is supposed to get a dynamic address from a DHCP server in the Customer network the related flag shall be enable:</p>
+<div class="highlight"><pre><span></span><code>fsetenv dhcp yes
+</code></pre></div>
+<p>Don't forget to reboot the E1000 once done with the settings.</p>
+<p>If for any reasons the Customer decides not to use the dynamic address assignment he can revert the choice by typing:</p>
+<div class="highlight"><pre><span></span><code>fsetenv dhcp no
+</code></pre></div>
+<p><strong>IMPORTANT</strong>: In this case it is also essential to configure a static address and an IP Mask in harmony with the rest of the network:</p>
+<div class="highlight"><pre><span></span><code>fsetenv ipaddr &lt;new_ip_address&gt;
+fsetenv netmask &lt;new_net_mask&gt; <span class="o">(</span>ex. <span class="m">255</span>.255.255.0<span class="o">)</span>
+</code></pre></div>
+<p><em>After that</em>, you can reboot the E1000 which will come back with ARP signals with the chosen static address.</p>
+<h4 id="how-to-configure-drax-for-a-cell">How to configure dRAX for a cell<a class="headerlink" href="#how-to-configure-drax-for-a-cell" title="Permanent link">⚓︎</a></h4>
+<h5 id="introduction_2">Introduction<a class="headerlink" href="#introduction_2" title="Permanent link">⚓︎</a></h5>
+<p>For the cell to be able to communicate with the dRAX Provisioner, it needs to use its own certificate.
+For this certificate to be valid, the time and date on the cell need to be synchronized.
+If the time and date are not correct, the certificates will not work.</p>
+<h5 id="how-to-enable-the-drax-provisioner">How to enable the dRAX Provisioner<a class="headerlink" href="#how-to-enable-the-drax-provisioner" title="Permanent link">⚓︎</a></h5>
+<p>SSH into the E1000:</p>
+<div class="highlight"><pre><span></span><code>ssh -i guest.key guest@&lt;ip_of_e1000&gt;
+</code></pre></div>
+<p>Create a folder:</p>
+<div class="highlight"><pre><span></span><code>mkdir /mnt/common/bootstrap_source
+</code></pre></div>
+<p>Create and save an empty dhcp file in the folder created:</p>
+<div class="highlight"><pre><span></span><code>touch /mnt/common/bootstrap_source/dhcp
+</code></pre></div>
+<h2 id="appendix-drax-and-accelleran-e1000s-on-different-subnets">Appendix: dRAX and Accelleran E1000s on different subnets<a class="headerlink" href="#appendix-drax-and-accelleran-e1000s-on-different-subnets" title="Permanent link">⚓︎</a></h2>
+<p>Normally, we recommend your Accelleran E1000s are located on the same subnet as your dRAX.
+However, if that is not the case, then you need to run a specific component of the dRAX Provisioner called the Provisioner-DHCP.
+This component should be running on any machine that is part of the subnet where the Accelleran E1000s are.
+We support running this component via Docker, so you must have Docker installed on that machine.</p>
+<h3 id="prepare-conf-file">Prepare conf file<a class="headerlink" href="#prepare-conf-file" title="Permanent link">⚓︎</a></h3>
+<p>Create the configuration file named udhcpd.conf. The contents are:</p>
+<div class="highlight"><pre><span></span><code>start        10.0.0.20
+end          10.255.255.254
+interface    eth0
+opt     dns     10.0.0.1 10.0.0.2
+option  subnet  255.0.0.0
+opt     router  10.0.0.1
+opt     wins    10.0.0.2
+option  domain  local
+option  lease   86400
+option  provision  https://$NODE_IP:31610
+option staticroutes 10.20.20.0/24 10.22.10.52
+</code></pre></div>
+<p>Substitute the IP in the "option provision …" line to where the provisioner is installed.</p>
+<p>Also change the interface to the main interface of the machine (eth0, eno1, br0, …) that is used to reach the subnet where the dRAX is installed.</p>
+<p>NOTE: You should make sure from your networking aspect that the two subnets are reachable by one-another.
+If this is not the case, although we do not recommend this, you can create a static route on the E1000s towards the subnet where dRAX is installed.
+This can be done using the Provisioner-DHCP component. Find the line: <code>option staticroutes 10.20.20.0/24 10.22.10.52</code>.
+This translates to "create a static route to the 10.20.20.0/24 network (where the dRAX is) via gateway 10.22.10.52".
+Replace the values with the correct ones for your network case.</p>
+<h3 id="create-docker-login-details">Create docker login details<a class="headerlink" href="#create-docker-login-details" title="Permanent link">⚓︎</a></h3>
+<p>Login with docker command:</p>
+<div class="highlight"><pre><span></span><code>sudo docker login
+</code></pre></div>
+<p>Then use the username and password of your DockerHub account that you also used to create the kubernetes secret.</p>
+<h3 id="pull-the-image-from-dockerhub">Pull the image from DockerHub<a class="headerlink" href="#pull-the-image-from-dockerhub" title="Permanent link">⚓︎</a></h3>
+<p>Check what is the latest version on DockerHub <a href="https://hub.docker.com/repository/docker/accelleran/provisioner-dhcp">https://hub.docker.com/repository/docker/accelleran/provisioner-dhcp</a>.</p>
+<p>Pull the image using the docker command, and substitute the &lt;version&gt; with the one found in the above step:</p>
+<div class="highlight"><pre><span></span><code>sudo docker image pull accelleran/provisioner-dhcp:&lt;version&gt;
+</code></pre></div>
+<h3 id="run-as-docker-container">Run as docker container<a class="headerlink" href="#run-as-docker-container" title="Permanent link">⚓︎</a></h3>
+<p>Start the container with the docker run command. Make sure to give the full path to the configuration file (/home/ad/...). Also make sure you give the correct docker image name at the end of the command including the version:</p>
+<div class="highlight"><pre><span></span><code>sudo docker run -d --name dhcp --net host --mount <span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>/path/to/udhcpd.conf,target<span class="o">=</span>/conf/udhcpd.conf accelleran/provisioner-dhcp:&lt;version&gt;
+</code></pre></div>
+<p>To check if the service is running use</p>
+<div class="highlight"><pre><span></span><code>sudo docker ps <span class="p">|</span> grep dhcp
+</code></pre></div>
+<h2 id="appendix-drax-provisioner-keys-and-certificates-generation">Appendix: dRAX Provisioner - Keys and Certificates Generation<a class="headerlink" href="#appendix-drax-provisioner-keys-and-certificates-generation" title="Permanent link">⚓︎</a></h2>
+<p>In general, TLS certificates only allow you to connect to a server if the URL of the server matches one of the subjects in the certificate configuration.</p>
+<p>This section assumes the usage of <code>openssl</code> to handle TLS security due to its flexibility, even if  it is both complex to use and easy to make mistakes.
+Customers can choose to use different options to generate the keys and certificates as long as of course the final output matches the content of this section.</p>
+<h3 id="create-the-certificates">Create the certificates<a class="headerlink" href="#create-the-certificates" title="Permanent link">⚓︎</a></h3>
+<h4 id="create-the-serverkey">Create the server.key<a class="headerlink" href="#create-the-serverkey" title="Permanent link">⚓︎</a></h4>
+<p>First thing is to create a key (if it doesn't exist yet):</p>
+<div class="highlight"><pre><span></span><code>openssl genrsa -out server.key <span class="m">4096</span>
+</code></pre></div>
+<p>This command will create a RSA based server key with a key length of 4096 bits.</p>
+<h4 id="create-a-server-certificate">Create a server certificate<a class="headerlink" href="#create-a-server-certificate" title="Permanent link">⚓︎</a></h4>
+<p>First, create the <code>cert.conf</code>.
+Create a file like the example below and save it as <code>cert.conf</code>:</p>
+<div class="highlight"><pre><span></span><code>[ req ]
+default_bits        = 2048
+default_keyfile     = server-key.pem
+distinguished_name  = subject
+req_extensions      = req_ext
+x509_extensions     = req_ext
+string_mask         = utf8only
+
+[ subject ]
+countryName         = Country Name (2 letter code)
+countryName_default     = BE
+
+stateOrProvinceName     = State or Province Name (full name)
+stateOrProvinceName_default = Example state
+
+localityName            = Locality Name (eg, city)
+localityName_default        = Example city
+
+organizationName         = Organization Name (eg, company)
+organizationName_default    = Example company
+
+commonName          = Common Name (e.g. server FQDN or YOUR name)
+commonName_default      = Example Company
+
+emailAddress            = Email Address
+emailAddress_default        = test@example.com
+
+[ req_ext ]
+
+subjectKeyIdentifier        = hash
+basicConstraints        = CA:FALSE
+keyUsage            = digitalSignature, keyEncipherment
+subjectAltName          = @alternate_names
+nsComment           = &quot;OpenSSL Generated Certificate&quot;
+
+[ alternate_names ]
+DNS.1        = localhost
+IP.1         = 10.0.0.1
+IP.2         = 10.20.20.20
+</code></pre></div>
+<p>Fill in the details, like the country, company name, etc.</p>
+<p><strong>IMPORTANT:</strong> Edit the last line of the file.
+<code>IP.2</code> should be equal to IP where the provisioner will be running.
+This is the <code>$NODE_IP</code> from the planning phase.
+The default is set to 10.20.20.20.</p>
+<p>To create the server certificate, use the following command:</p>
+<div class="highlight"><pre><span></span><code>openssl req -new -key server.key -config cert.conf -out server.csr -batch
+</code></pre></div>
+<p>Command explanation:</p>
+<ul>
+<li><code>openssl req -new</code>: create a new certificate</li>
+<li><code>-key server.key</code>: use server.key as the private half of the certificate</li>
+<li><code>-config cert.conf</code>: use the configuration as a template</li>
+<li><code>-out server.csr</code>: generate a csr</li>
+<li><code>-batch</code>: don't ask about the configuration on the terminal</li>
+</ul>
+<h4 id="create-a-self-signed-client-certificate">Create a self-signed client certificate<a class="headerlink" href="#create-a-self-signed-client-certificate" title="Permanent link">⚓︎</a></h4>
+<p>To create the client certificate, use the following command:</p>
+<div class="highlight"><pre><span></span><code>openssl req -newkey rsa:4096 -nodes -keyout client.key -sha384 -x509 -days <span class="m">3650</span> -out client.crt -subj /C<span class="o">=</span>XX/ST<span class="o">=</span>YY/O<span class="o">=</span>RootCA
+</code></pre></div>
+<p>This command will create a <code>client.key</code> and <code>client.crt</code> from scratch to use for TLS-based authentication, in details the options are:</p>
+<ul>
+<li><code>openssl req</code>: create a certificate</li>
+<li><code>-newkey rsa:4096</code>: create a new client key</li>
+<li><code>-nodes</code>: do not encrypt the newly create client key with a passphrase (other options are -aes)</li>
+<li><code>-keyout client.key</code>: write the key to client.key</li>
+<li><code>-x509</code>: sign this certificate immediately</li>
+<li><code>-sha384</code>: use sha384 for signing the certificate`</li>
+<li><code>-days 3650</code>: this certificate is valid for ten years</li>
+<li><code>-subj /C=XX/ST=YY/O=RootCA</code>: use some default configuration</li>
+<li><code>-out client.crt</code>: write the certificate to client.crt</li>
+</ul>
+<h4 id="sign-the-server-certificate-using-the-root-certificate-authority-key">Sign the server certificate using the root certificate authority key<a class="headerlink" href="#sign-the-server-certificate-using-the-root-certificate-authority-key" title="Permanent link">⚓︎</a></h4>
+<p>The server certificate needs to be signed by Accelleran.
+To do so, please contact the Accelleran Customers Support Team and send us the following files you created previously:</p>
+<ul>
+<li>server.csr</li>
+<li>cert.conf</li>
+</ul>
+<p>You will receive from Accelleran the following files:</p>
+<ul>
+<li>signed server.crt</li>
+<li>ca.crt</li>
+</ul>
+<h4 id="verify-the-certificates-work">Verify the certificates work<a class="headerlink" href="#verify-the-certificates-work" title="Permanent link">⚓︎</a></h4>
+<p>The following commands should be used and return both OK:</p>
+<div class="highlight"><pre><span></span><code>openssl verify -CAfile client.crt client.crt
+openssl verify -CAfile ca.crt server.crt
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../kubernetes-install/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Kubernetes Installation" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Kubernetes Installation
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../du-install/" class="md-footer__link md-footer__link--next" aria-label="Next: DU Installation" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              DU Installation
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.53c85856.min.js", "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.716f8af4.min.js"></script>
+      
+    
+  </body>
+</html>

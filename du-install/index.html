@@ -1,0 +1,1017 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="https://accelleran.github.io/drax-docs/du-install/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.0">
+    
+    
+      
+        <title>DU Installation - dRAX</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.fe914879.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ba0d045b.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#du-installation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="dRAX" class="md-header__button md-logo" aria-label="dRAX" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            dRAX
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DU Installation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href=".." class="md-tabs__link">
+      Overview
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../core-install/" class="md-tabs__link">
+      Core Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../kubernetes-install/" class="md-tabs__link">
+      Kubernetes Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../drax-install/" class="md-tabs__link">
+      dRAX Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      DU Installation
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="dRAX" class="md-nav__button md-logo" aria-label="dRAX" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    dRAX
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-install/" class="md-nav__link">
+        Core Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubernetes-install/" class="md-nav__link">
+        Kubernetes Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drax-install/" class="md-nav__link">
+        dRAX Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          <span class="md-nav__icon md-icon"></span>
+          
+            <a href="./" class="md-nav__link md-nav__link--active"
+              style="margin: initial; padding: initial; pointer-events: initial">
+          
+            DU Installation
+          </a>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        DU Installation
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-a-low-latency-kernel" class="md-nav__link">
+    Install a Low Latency Kernel
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-the-systest-utility-from-phluido" class="md-nav__link">
+    Run the sysTest utility from Phluido
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-pcscd-docker-image" class="md-nav__link">
+    Create a PCSCD Docker Image
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-the-phluido-and-effnet-docker-images" class="md-nav__link">
+    Install the Phluido and Effnet Docker Images
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-the-du" class="md-nav__link">
+    Configure the DU
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-the-b210" class="md-nav__link">
+    Prepare the B210
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-the-du" class="md-nav__link">
+    Start the DU
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="du-installation">DU Installation<a class="headerlink" href="#du-installation" title="Permanent link">⚓︎</a></h1>
+<p>The DU will be installed in several Docker containers that run on the host machine.</p>
+<p>This chapter assumes that Docker and docker-compose have been installed and that docker can be run without superuser privileges.
+See <a href="/drax-docs/kubernetes-install">the chapter on Kubernetes Installation</a> for information on how to do this.</p>
+<h2 id="install-a-low-latency-kernel">Install a Low Latency Kernel<a class="headerlink" href="#install-a-low-latency-kernel" title="Permanent link">⚓︎</a></h2>
+<p>The PHY layer has very stringent latency requirements, therefore we install a low latency kernel:</p>
+<div class="highlight"><pre><span></span><code>sudo apt install linux-image-lowlatency
+</code></pre></div>
+<p>Create a sysctl configuration file to configure the low latency kernel:</p>
+<div class="highlight"><pre><span></span><code>sudo tee /etc/sysctl.d/10-phluido.conf <span class="s">&lt;&lt;EOF</span>
+<span class="s"># Improves scheduling responsiveness for Phluido L1</span>
+<span class="s">kernel.sched_min_granularity_ns = 100000</span>
+<span class="s">kernel.sched_wakeup_granularity_ns = 20000</span>
+<span class="s">kernel.sched_latency_ns = 500000</span>
+<span class="s">kernel.sched_rt_runtime_us = -1</span>
+<span class="s"># Message queue</span>
+<span class="s">fs.mqueue.msg_max = 64</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Remove the generic kernel to avoid the low latency kernel to be replaced by a generic kernel when updates are performed:</p>
+<div class="highlight"><pre><span></span><code>sudo apt remove linux-image-generic
+sudo apt autoremove
+</code></pre></div>
+<p>In order to avoid possible system performance degradation, CPU scaling must be disabled:</p>
+<div class="highlight"><pre><span></span><code>sudo apt install cpufrequtils
+<span class="nb">echo</span> <span class="s1">&#39;GOVERNOR=&quot;performance&quot;&#39;</span> <span class="p">|</span> sudo tee /etc/default/cpufrequtils
+sudo systemctl disable ondemand
+</code></pre></div>
+<p>Restart the machine to make the changes take effect:</p>
+<div class="highlight"><pre><span></span><code>sudo reboot
+</code></pre></div>
+<h2 id="run-the-systest-utility-from-phluido">Run the sysTest utility from Phluido<a class="headerlink" href="#run-the-systest-utility-from-phluido" title="Permanent link">⚓︎</a></h2>
+<p>Create the directory to store the Phluido sysTest utility:</p>
+<div class="highlight"><pre><span></span><code>mkdir Phluido_sysTest
+</code></pre></div>
+<p>Copy <code>Phluido_sysTest.zip</code> to <code>Phluido_sysTest</code> and unzip it:</p>
+<div class="highlight"><pre><span></span><code>unzip Phluido_sysTest/Phluido_sysTest.zip -d Phluido_sysTest
+</code></pre></div>
+<p>Run the <code>sysTest</code> utility:</p>
+<div class="highlight"><pre><span></span><code><span class="o">(</span><span class="nb">cd</span> Phluido_sysTest<span class="p">;</span> ./sysTest<span class="o">)</span>
+</code></pre></div>
+<p>This will run a test of the system.
+Once it is finsihed it produces a file <code>Phluido_sysTest/Phluido_sysTest.bin</code>.
+Send this file to Accelleran, it will allow us to verify the setup of the machine is correct and provide the license key needed to run the L1 docker on the machine.</p>
+<h2 id="create-a-pcscd-docker-image">Create a PCSCD Docker Image<a class="headerlink" href="#create-a-pcscd-docker-image" title="Permanent link">⚓︎</a></h2>
+<p>The DU software needs access to a YubiKey that contains its license.
+The license in the YubiKey is shared by the PCSCD daemon, which itself can run in a Docker container to satisfy OS dependencies.
+Plug the YubiKey in a USB port of the machine.
+Then, create a Dockerfile named Dockerfile.pcscd for this Docker image:</p>
+<div class="highlight"><pre><span></span><code>mkdir -p pcscd
+tee pcscd/Dockerfile.pcscd <span class="s">&lt;&lt;EOF</span>
+<span class="s">FROM ubuntu:20.04</span>
+
+<span class="s">RUN \</span>
+<span class="s">set -xe &amp;&amp; \</span>
+<span class="s">apt-get update &amp;&amp; \</span>
+<span class="s">DEBIAN_FRONTEND=&quot;noninteractive&quot; apt-get install -y \</span>
+<span class="s">    pcscd</span>
+
+<span class="s"># Cleanup</span>
+<span class="s">RUN \</span>
+<span class="s">set -xe &amp;&amp; \</span>
+<span class="s">apt-get clean &amp;&amp; \</span>
+<span class="s">rm -rf \</span>
+<span class="s">    /var/lib/apt/lists/* \</span>
+<span class="s">    /var/tmp/* \</span>
+<span class="s">    /tmp/*</span>
+
+<span class="s">ENTRYPOINT [&quot;/usr/sbin/pcscd&quot;, &quot;--foreground&quot;]</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>The Docker image can now be built and started with:</p>
+<div class="highlight"><pre><span></span><code>docker build --rm -t pcscd_yubikey - &lt;pcscd/Dockerfile.pcscd
+docker run -id --privileged --name pcscd_yubikey_c -v /run/pcscd:/run/pcscd pcscd_yubikey
+</code></pre></div>
+<p>You can verify it is running correct with the command:</p>
+<div class="highlight"><pre><span></span><code>docker container ls --filter <span class="nv">name</span><span class="o">=</span>pcscd_yubikey_c
+</code></pre></div>
+<p>If every step was performed correctly this command should produce output similar to:</p>
+<div class="highlight"><pre><span></span><code>CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+df4f41eb70c9        pcscd_yubikey       <span class="s2">&quot;/usr/sbin/pcscd --f…&quot;</span>   <span class="m">1</span> minute ago        Up <span class="m">1</span> minute                             pcscd_yubikey_c
+</code></pre></div>
+<h2 id="install-the-phluido-and-effnet-docker-images">Install the Phluido and Effnet Docker Images<a class="headerlink" href="#install-the-phluido-and-effnet-docker-images" title="Permanent link">⚓︎</a></h2>
+<p>Create the directories to store the Effnet and Phluido software:</p>
+<div class="highlight"><pre><span></span><code>mkdir -p accelleran-du-phluido Phluido5GL1/Phluido5GL1_v0.8.1
+</code></pre></div>
+<p>Place <code>accelleran-du-phluido-2021-06-30.zip</code> in <code>accelleran-du-phluido</code> and unzip it:</p>
+<div class="highlight"><pre><span></span><code>unzip accelleran-du-phluido/accelleran-du-phluido-2021-06-30.zip -d accelleran-du-phluido
+</code></pre></div>
+<p>Place <code>Phluido5GL1_v0.8.1.zip</code> in <code>Phluido5GL1</code> and unzip it:</p>
+<div class="highlight"><pre><span></span><code>unzip Phluido5GL1/Phluido5GL1_v0.8.1.zip -d Phluido5GL1/Phluido5GL1_v0.8.1
+</code></pre></div>
+<p>Create <code>Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright</code>.
+This file contains the date and time on which you agreed to the Phluido copyright notice and is required to build the Phluido L1 Docker image:</p>
+<div class="highlight"><pre><span></span><code>date <span class="s1">&#39;+%Y-%m-%d, %H:%M:%S&#39;</span> &gt;Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright
+</code></pre></div>
+<p>Load the Effnet DU Docker image:</p>
+<div class="highlight"><pre><span></span><code>bzcat accelleran-du-phluido/accelleran-du-phluido-2021-06-30/gnb_du_main_phluido-2021-06-30.tar.bz2 <span class="p">|</span> docker image load
+</code></pre></div>
+<p>Load the Phluido L1 Docker image:</p>
+<div class="highlight"><pre><span></span><code>docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-06-30/phluido/docker/Dockerfile.l1 -t phluido_l1 Phluido5GL1/Phluido5GL1_v0.8.1
+</code></pre></div>
+<p>Load the Phluido RRU Docker image:</p>
+<div class="highlight"><pre><span></span><code>docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-06-30/phluido/docker/Dockerfile.rru -t phluido_rru Phluido5GL1/Phluido5GL1_v0.8.1
+</code></pre></div>
+<h2 id="configure-the-du">Configure the DU<a class="headerlink" href="#configure-the-du" title="Permanent link">⚓︎</a></h2>
+<p>Create a configuration file for the Phluido RRU:</p>
+<div class="highlight"><pre><span></span><code>tee accelleran-du-phluido/accelleran-du-phluido-2021-06-30/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg <span class="s">&lt;&lt;EOF</span>
+<span class="s">/******************************************************************</span>
+<span class="s">*</span>
+<span class="s">* This file is subject to the terms and conditions defined in</span>
+<span class="s">* file &#39;LICENSE.txt&#39;, which is part of this source code package.</span>
+<span class="s">*</span>
+<span class="s">******************************************************************/</span>
+
+<span class="s">//BBU IPv4 address.</span>
+<span class="s">bbuFronthaulServerAddr = &quot;127.0.0.1&quot;;</span>
+
+<span class="s">// Number of slots in one subframe.</span>
+<span class="s">numSubframeSlots = 2;</span>
+
+<span class="s">//Number of TX antennas for fronthaul data exchange.</span>
+<span class="s">numTxAntennas = 1;</span>
+<span class="s">//Number of RX antennas for fronthaul data exchange.</span>
+<span class="s">numRxAntennas = 1;</span>
+
+<span class="s">/// Frequency [kHz] for TX &quot;point A&quot; (see NR definition).</span>
+<span class="s">txFreqPointA_kHz = 3301680;</span>
+<span class="s">/// Frequency [kHz] for RX &quot;point A&quot; (see NR definition).</span>
+<span class="s">rxFreqPointA_kHz = 3301680;</span>
+
+<span class="s">/// Number of PRBs for both downlink and uplink. Must match the L2-L3 configuration.</span>
+<span class="s">numPrbs = 51;</span>
+
+<span class="s">uhdClockMode = 0;</span>
+
+<span class="s">uhdSendAdvance_ns = 8000;</span>
+
+<span class="s">/// Parameters used for PhluidoPrototypeBPP.</span>
+<span class="s">bppMode = 10;</span>
+<span class="s">uhdSamplingRate_kHz = 23040;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Create a configuration file for the Phluido L1.
+Make sure to set the value <code>LicenseKey</code> option to the received Phluido license key:</p>
+<div class="highlight"><pre><span></span><code>tee accelleran-du-phluido/accelleran-du-phluido-2021-06-30/phluido/PhluidoL1_NR_B210.cfg <span class="s">&lt;&lt;EOF</span>
+<span class="s">/******************************************************************</span>
+<span class="s">*</span>
+<span class="s">* This file is subject to the terms and conditions defined in</span>
+<span class="s">* file &#39;LICENSE&#39;.</span>
+<span class="s">*</span>
+<span class="s">******************************************************************/</span>
+
+<span class="s">//Enables verbose binary logging. WARNING: very CPU intensive and creates potentially huge output files. Use with caution.</span>
+<span class="s">//logLevel_verbose    = &quot;DEBUG&quot;;</span>
+
+<span class="s">//Enable 64-QAM support for PUSCH (license-specific)</span>
+<span class="s">//maxPuschModOrder = 6;</span>
+
+<span class="s">//Enable radio unit emulation mode and define corresponding number of (emulated) antennas</span>
+<span class="s">//backEndMode = 0;</span>
+<span class="s">//numEmulTxAntennas = 2;</span>
+<span class="s">//numEmulRxAntennas = 1;</span>
+
+<span class="s">//Enable 64-QAM support for PUSCH (license-specific)</span>
+<span class="s">maxPuschModOrder = 6;</span>
+
+<span class="s">maxNumPdschLayers = 2;</span>
+<span class="s">maxNumPuschLayers = 1;</span>
+<span class="s">maxNumPrachDetectionSymbols = 1;</span>
+
+<span class="s">//License key</span>
+<span class="s">LicenseKey = &quot;XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX&quot;;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Create a configuration file for the Effnet DU:</p>
+<div class="highlight"><pre><span></span><code>tee accelleran-du-phluido/accelleran-du-phluido-2021-06-30/b210_config_20mhz.json <span class="s">&lt;&lt;EOF</span>
+<span class="s">{</span>
+<span class="s">    &quot;configuration&quot;: {</span>
+<span class="s">        &quot;du_address&quot;: &quot;du&quot;,</span>
+<span class="s">        &quot;cu_address&quot;: &quot;cu&quot;,</span>
+<span class="s">        &quot;gtp_listen_address&quot;: &quot;du&quot;,</span>
+<span class="s">        &quot;vphy_listen_address&quot;: &quot;127.0.0.1&quot;,</span>
+<span class="s">        &quot;vphy_port&quot;: 13337,</span>
+<span class="s">        &quot;vphy_tick_multiplier&quot;: 1,</span>
+<span class="s">        &quot;gnb_du_id&quot;: 38209903575,</span>
+<span class="s">        &quot;gnb_du_name&quot;: &quot;The quick brown fox jumps over a lazy dog&quot;,</span>
+<span class="s">        &quot;phy_control&quot;: {</span>
+<span class="s">            &quot;crnti_range&quot;: {</span>
+<span class="s">                &quot;min&quot;: 42000,</span>
+<span class="s">                &quot;max&quot;: 42049</span>
+<span class="s">            }</span>
+<span class="s">        },</span>
+<span class="s">        &quot;rrc_version&quot;: {</span>
+<span class="s">            &quot;x&quot;: 15,</span>
+<span class="s">            &quot;y&quot;: 6,</span>
+<span class="s">            &quot;z&quot;: 0</span>
+<span class="s">        },</span>
+<span class="s">        &quot;served_cells_list&quot;: [</span>
+<span class="s">            {</span>
+<span class="s">                &quot;served_cell_information&quot;: {</span>
+<span class="s">                    &quot;nr_cgi&quot;: {</span>
+<span class="s">                        &quot;plmn_identity&quot;: &quot;001f01&quot;,</span>
+<span class="s">                        &quot;nr_cell_identity&quot;: &quot;000000000000000000000000000000000001&quot;</span>
+<span class="s">                    },</span>
+<span class="s">                    &quot;nr_pci&quot;: 42,</span>
+<span class="s">                    &quot;5gs_tac&quot;: &quot;000001&quot;,</span>
+<span class="s">                    &quot;ran_area_code&quot;: 1,</span>
+<span class="s">                    &quot;served_plmns&quot;: [</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;plmn_identity&quot;: &quot;001f01&quot;,</span>
+<span class="s">                            &quot;tai_slice_support_list&quot;: [</span>
+<span class="s">                                {</span>
+<span class="s">                                    &quot;sst&quot;: 1</span>
+<span class="s">                                }</span>
+<span class="s">                            ]</span>
+<span class="s">                        }</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;nr_mode_info&quot;: {</span>
+<span class="s">                        &quot;nr_freq_info&quot;: {</span>
+<span class="s">                            &quot;nr_arfcn&quot;: 620112,</span>
+<span class="s">                            &quot;frequency_band_list&quot;: [</span>
+<span class="s">                                {</span>
+<span class="s">                                    &quot;nr_frequency_band&quot;: 78</span>
+<span class="s">                                }</span>
+<span class="s">                            ]</span>
+<span class="s">                        },</span>
+<span class="s">                        &quot;transmission_bandwidth&quot;: {</span>
+<span class="s">                            &quot;bandwidth_mhz&quot;: 20,</span>
+<span class="s">                            &quot;scs_khz&quot;: 30,</span>
+<span class="s">                            &quot;nrb&quot;: 51</span>
+<span class="s">                        },</span>
+<span class="s">                        &quot;pattern&quot;: {</span>
+<span class="s">                            &quot;periodicity_in_slots&quot;: 5,</span>
+<span class="s">                            &quot;downlink&quot;: {</span>
+<span class="s">                                &quot;slots&quot;: 3,</span>
+<span class="s">                                &quot;symbols&quot;: 7</span>
+<span class="s">                            },</span>
+<span class="s">                            &quot;uplink&quot;: {</span>
+<span class="s">                                &quot;slots&quot;: 1,</span>
+<span class="s">                                &quot;symbols&quot;: 4</span>
+<span class="s">                            }</span>
+<span class="s">                        }</span>
+<span class="s">                    },</span>
+<span class="s">                    &quot;measurement_timing_configuration&quot;: [</span>
+<span class="s">                        222,</span>
+<span class="s">                        173,</span>
+<span class="s">                        190,</span>
+<span class="s">                        239</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;dmrs_type_a_position&quot;: &quot;pos3&quot;,</span>
+<span class="s">                    &quot;intra_freq_reselection&quot;: &quot;allowed&quot;,</span>
+<span class="s">                    &quot;ssb_pattern&quot;: &quot;1000000000000000000000000000000000000000000000000000000000000000&quot;,</span>
+<span class="s">                    &quot;ssb_periodicity_serving_cell_ms&quot;: 20,</span>
+<span class="s">                    &quot;prach_configuration_index&quot;: 202,</span>
+<span class="s">                    &quot;ssb_pbch_scs&quot;: 30,</span>
+<span class="s">                    &quot;offset_point_a&quot;: 0,</span>
+<span class="s">                    &quot;k_ssb&quot;: 0,</span>
+<span class="s">                    &quot;coreset_zero_index&quot;: 5,</span>
+<span class="s">                    &quot;search_space_zero_index&quot;: 2,</span>
+<span class="s">                    &quot;ra_response_window_slots&quot;: 20,</span>
+<span class="s">                    &quot;sr_slot_periodicity&quot;: 40,</span>
+<span class="s">                    &quot;sr_slot_offset&quot;: 3,</span>
+<span class="s">                    &quot;search_space_other_si&quot;: 1,</span>
+<span class="s">                    &quot;paging_search_space&quot;: 1,</span>
+<span class="s">                    &quot;ra_search_space&quot;: 1,</span>
+<span class="s">                    &quot;bwps&quot;: [</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;id&quot;: 0,</span>
+<span class="s">                            &quot;start_crb&quot;: 0,</span>
+<span class="s">                            &quot;num_rb&quot;: 51,</span>
+<span class="s">                            &quot;scs&quot;: 30,</span>
+<span class="s">                            &quot;cyclic_prefix&quot;: &quot;normal&quot;</span>
+<span class="s">                        }</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;coresets&quot;: [</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;id&quot;: 1,</span>
+<span class="s">                            &quot;bwp_id&quot;: 0,</span>
+<span class="s">                            &quot;fd_resources&quot;: &quot;111100000000000000000000000000000000000000000&quot;,</span>
+<span class="s">                            &quot;duration&quot;: 3,</span>
+<span class="s">                            &quot;interleaved&quot;: {</span>
+<span class="s">                                &quot;reg_bundle_size&quot;: 6,</span>
+<span class="s">                                &quot;interleaver_size&quot;: 2</span>
+<span class="s">                            },</span>
+<span class="s">                            &quot;precoder_granularity&quot;: &quot;same_as_reg_bundle&quot;</span>
+<span class="s">                        }</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;search_spaces&quot;: [</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;id&quot;: 1,</span>
+<span class="s">                            &quot;control_resource_set_id&quot;: 0,</span>
+<span class="s">                            &quot;common&quot;: {}</span>
+<span class="s">                        },</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;id&quot;: 2,</span>
+<span class="s">                            &quot;control_resource_set_id&quot;: 1,</span>
+<span class="s">                            &quot;ue_specific&quot;: {</span>
+<span class="s">                                &quot;dci_formats&quot;: &quot;formats0-1-And-1-1&quot;</span>
+<span class="s">                            }</span>
+<span class="s">                        }</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;num_tx_antennas&quot;: 1,</span>
+<span class="s">                    &quot;trs&quot;: {</span>
+<span class="s">                        &quot;periodicity_and_offset&quot;: {</span>
+<span class="s">                            &quot;period&quot;: 80,</span>
+<span class="s">                            &quot;offset&quot;: 1</span>
+<span class="s">                        },</span>
+<span class="s">                        &quot;symbol_pair&quot;: &quot;four_eight&quot;,</span>
+<span class="s">                        &quot;subcarrier_location&quot;: 1</span>
+<span class="s">                    },</span>
+<span class="s">                    &quot;csi_rs&quot;: {</span>
+<span class="s">                        &quot;periodicity_and_offset&quot;: {</span>
+<span class="s">                            &quot;period&quot;: 40,</span>
+<span class="s">                            &quot;offset&quot;: 15</span>
+<span class="s">                        }</span>
+<span class="s">                    },</span>
+<span class="s">                    &quot;force_dl_mimo_layers&quot;: 1,</span>
+<span class="s">                    &quot;harq_processes_for_pdsch&quot;: 16,</span>
+<span class="s">                    &quot;minimum_k1_delay&quot;: 3,</span>
+<span class="s">                    &quot;minimum_k2_delay&quot;: 3,</span>
+<span class="s">                    &quot;force_rlc_buffer_size&quot;: 112500</span>
+<span class="s">                }</span>
+<span class="s">            }</span>
+<span class="s">        ]</span>
+<span class="s">    }</span>
+<span class="s">}</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Before creating the <code>docker-compose.yml</code> file, make sure to set the <code>$CU_IP</code> environment variable.
+This IP address can be determined by executing the following command.
+The CU address is the second IP address.
+This IP address should be in the IP pool that was assigned to MetalLB in <a href="/drax-docs/drax-install/">dRax Installation</a>.</p>
+<div class="highlight"><pre><span></span><code>kubectl get services <span class="p">|</span> grep <span class="s1">&#39;acc-5g-cu-cp-.*-sctp-f1&#39;</span>
+</code></pre></div>
+<p>Now, create a docker-compose configuration file:</p>
+<div class="highlight"><pre><span></span><code>tee accelleran-du-phluido/accelleran-du-phluido-2021-06-30/docker-compose.yml <span class="s">&lt;&lt;EOF</span>
+<span class="s">version: &quot;3&quot;</span>
+
+<span class="s">services:</span>
+
+<span class="s">  phluido_l1:</span>
+<span class="s">    image: phluido_l1</span>
+<span class="s">    container_name: phluido_l1_cn</span>
+<span class="s">    tty: true</span>
+<span class="s">    privileged: true</span>
+<span class="s">    ipc: shareable</span>
+<span class="s">    shm_size: 2gb</span>
+<span class="s">    command: /config.cfg</span>
+<span class="s">    volumes:</span>
+<span class="s">      - &quot;$PWD/phluido/PhluidoL1_NR_B210.cfg:/config.cfg:ro&quot;</span>
+<span class="s">      - &quot;$PWD/logs/l1:/workdir&quot;</span>
+<span class="s">      - &quot;/etc/machine-id:/etc/machine-id:ro&quot;</span>
+<span class="s">    working_dir: &quot;/workdir&quot;</span>
+<span class="s">    network_mode: host</span>
+
+<span class="s">  du:</span>
+<span class="s">    image: gnb_du_main_phluido</span>
+<span class="s">    volumes:</span>
+<span class="s">      - &quot;$PWD/b210_config_20mhz.json:/config.json:ro&quot;</span>
+<span class="s">      - &quot;$PWD/logs/du:/workdir&quot;</span>
+<span class="s">      - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm</span>
+<span class="s">    ipc: container:phluido_l1_cn</span>
+<span class="s">    tty: true</span>
+<span class="s">    cap_add:</span>
+<span class="s">      - CAP_SYS_NICE</span>
+<span class="s">      - CAP_IPC_LOCK</span>
+<span class="s">    depends_on:</span>
+<span class="s">      - phluido_l1</span>
+<span class="s">    entrypoint: [&quot;/bin/sh&quot;, &quot;-c&quot;, &quot;sleep 4 &amp;&amp; exec /gnb_du_main_phluido /config.json&quot;]</span>
+<span class="s">    working_dir: &quot;/workdir&quot;</span>
+<span class="s">    extra_hosts:</span>
+<span class="s">      - &quot;cu:$CU_IP&quot;</span>
+
+<span class="s">  phluido_rru:</span>
+<span class="s">    image: phluido_rru</span>
+<span class="s">    tty: true</span>
+<span class="s">    privileged: true</span>
+<span class="s">    depends_on:</span>
+<span class="s">      - du</span>
+<span class="s">      - phluido_l1</span>
+<span class="s">    network_mode: host</span>
+<span class="s">    volumes:</span>
+<span class="s">      - &quot;$PWD/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg:/config.cfg:ro&quot;</span>
+<span class="s">      - &quot;$PWD/logs/rru:/workdir&quot;</span>
+<span class="s">    entrypoint: [&quot;/bin/sh&quot;, &quot;-c&quot;, &quot;sleep 20 &amp;&amp; exec /PhluidoRRU_NR /config.cfg&quot;]</span>
+<span class="s">    working_dir: &quot;/workdir&quot;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<h2 id="prepare-the-b210">Prepare the B210<a class="headerlink" href="#prepare-the-b210" title="Permanent link">⚓︎</a></h2>
+<p>Create the UDEV rules for the B210:</p>
+<div class="highlight"><pre><span></span><code>sudo tee /etc/udev/rules.d/uhd-usrp.rules <span class="s">&lt;&lt;EOF</span>
+<span class="s">#</span>
+<span class="s"># Copyright 2011,2015 Ettus Research LLC</span>
+<span class="s"># Copyright 2018 Ettus Research, a National Instruments Company</span>
+<span class="s">#</span>
+<span class="s"># SPDX-License-Identifier: GPL-3.0-or-later</span>
+<span class="s">#</span>
+
+<span class="s">#USRP1</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;fffe&quot;, ATTRS{idProduct}==&quot;0002&quot;, MODE:=&quot;0666&quot;</span>
+
+<span class="s">#B100</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;2500&quot;, ATTRS{idProduct}==&quot;0002&quot;, MODE:=&quot;0666&quot;</span>
+
+<span class="s">#B200</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;2500&quot;, ATTRS{idProduct}==&quot;0020&quot;, MODE:=&quot;0666&quot;</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;2500&quot;, ATTRS{idProduct}==&quot;0021&quot;, MODE:=&quot;0666&quot;</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;2500&quot;, ATTRS{idProduct}==&quot;0022&quot;, MODE:=&quot;0666&quot;</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;3923&quot;, ATTRS{idProduct}==&quot;7813&quot;, MODE:=&quot;0666&quot;</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;3923&quot;, ATTRS{idProduct}==&quot;7814&quot;, MODE:=&quot;0666&quot;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Connect the B210 to the machine.
+Make sure it is enumerated as USB3 by executing:</p>
+<div class="highlight"><pre><span></span><code>lsusb -d <span class="m">2500</span>:0020 -v <span class="p">|</span> grep -F bcdUSB
+</code></pre></div>
+<p>This should print:</p>
+<div class="highlight"><pre><span></span><code>bcdUSB               3.00
+</code></pre></div>
+<p>Add the Ettus Research APT repositories:</p>
+<div class="highlight"><pre><span></span><code>sudo add-apt-repository ppa:ettusresearch/uhd
+sudo apt update
+</code></pre></div>
+<p>Install the software required by the B210:</p>
+<div class="highlight"><pre><span></span><code>sudo apt install libuhd-dev uhd-host libuhd3.15.0
+</code></pre></div>
+<p>Download the UHD images:</p>
+<div class="highlight"><pre><span></span><code>sudo uhd_images_downloader
+</code></pre></div>
+<p>Check if the B210 is detecting using the following command:</p>
+<div class="highlight"><pre><span></span><code>uhd_find_devices
+</code></pre></div>
+<p>This should output something similar to:</p>
+<div class="highlight"><pre><span></span><code>[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
+--------------------------------------------------
+-- UHD Device 0
+--------------------------------------------------
+Device Address:
+    serial: 3218C86
+    name: MyB210
+    product: B210
+    type: b200
+</code></pre></div>
+<p>Burn the correct EEPROM for the B210:</p>
+<div class="highlight"><pre><span></span><code>/usr/lib/uhd/utils/usrp_burn_mb_eeprom* --values<span class="o">=</span><span class="s1">&#39;name=B210-#4&#39;</span>
+</code></pre></div>
+<p>If everything goes well this should output something similar to:</p>
+<div class="highlight"><pre><span></span><code>Creating USRP device from address:
+[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
+[INFO] [B200] Detected Device: B210
+[INFO] [B200] Loading FPGA image: /usr/share/uhd/images/usrp_b210_fpga.bin...
+[INFO] [B200] Operating over USB 3.
+[INFO] [B200] Detecting internal GPSDO....
+[INFO] [GPS] No GPSDO found
+[INFO] [B200] Initialize CODEC control...
+[INFO] [B200] Initialize Radio control...
+[INFO] [B200] Performing register loopback test...
+[INFO] [B200] Register loopback test passed
+[INFO] [B200] Performing register loopback test...
+[INFO] [B200] Register loopback test passed
+[INFO] [B200] Setting master clock rate selection to &#39;automatic&#39;.
+[INFO] [B200] Asking for clock rate 16.000000 MHz...
+[INFO] [B200] Actually got clock rate 16.000000 MHz.
+
+Fetching current settings from EEPROM...
+    EEPROM [&quot;name&quot;] is &quot;MyB210&quot;
+
+Setting EEPROM [&quot;name&quot;] to &quot;B210-#4&quot;...
+Power-cycle the USRP device for the changes to take effect.
+
+Done
+</code></pre></div>
+<p>Check if the current EEPROM was flashed by executing:</p>
+<div class="highlight"><pre><span></span><code>uhd_find_devices
+</code></pre></div>
+<p>The output should look like:</p>
+<div class="highlight"><pre><span></span><code>[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
+--------------------------------------------------
+-- UHD Device 0
+--------------------------------------------------
+Device Address:
+    serial: 3218C86
+    name: B210-#4
+    product: B210
+    type: b200
+</code></pre></div>
+<h2 id="start-the-du">Start the DU<a class="headerlink" href="#start-the-du" title="Permanent link">⚓︎</a></h2>
+<p>Start the DU by running the following command:</p>
+<div class="highlight"><pre><span></span><code>docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2021-06-30/docker-compose.yml
+</code></pre></div>
+<p>If all goes well this will produce output similar to:</p>
+<div class="highlight"><pre><span></span><code>Starting phluido_l1_cn ... done
+Recreating accelleran-du-phluido-2021-06-30_du_1 ... done
+Recreating accelleran-du-phluido-2021-06-30_phluido_rru_1 ... done
+Attaching to phluido_l1_cn, accelleran-du-phluido-2021-06-30_du_1, accelleran-du-phluido-2021-06-30_phluido_rru_1
+phluido_l1_cn  | Reading configuration from config file &quot;/config.cfg&quot;...
+phluido_l1_cn  | *******************************************************************************************************
+phluido_l1_cn  | *                                                                                                     *
+phluido_l1_cn  | *  Phluido 5G-NR virtualized L1 implementation                                                        *
+phluido_l1_cn  | *                                                                                                     *
+phluido_l1_cn  | *  Copyright (c) 2014-2020 Phluido Inc.                                                               *
+phluido_l1_cn  | *  All rights reserved.                                                                               *
+phluido_l1_cn  | *                                                                                                     *
+phluido_l1_cn  | *  The User shall not, and shall not permit others to:                                                *
+phluido_l1_cn  | *   - integrate Phluido Software within its own products;                                             *
+phluido_l1_cn  | *   - mass produce products that are designed, developed or derived from Phluido Software;            *
+phluido_l1_cn  | *   - sell products which use Phluido Software;                                                       *
+phluido_l1_cn  | *   - modify, correct, adapt, translate, enhance or otherwise prepare derivative works or             *
+phluido_l1_cn  | *     improvements to Phluido Software;                                                               *
+phluido_l1_cn  | *   - rent, lease, lend, sell, sublicense, assign, distribute, publish, transfer or otherwise         *
+phluido_l1_cn  | *     make available the PHLUIDO Solution or any portion thereof to any third party;                  *
+phluido_l1_cn  | *   - reverse engineer, disassemble and/or decompile Phluido Software.                                *
+phluido_l1_cn  | *                                                                                                     *
+phluido_l1_cn  | *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS&#39;&#39; AND ANY EXPRESS OR IMPLIED WARRANTIES,           *
+phluido_l1_cn  | *  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A         *
+phluido_l1_cn  | *  PARTICULAR PURPOSE ARE DISCLAIMED.                                                                 *
+phluido_l1_cn  | *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,              *
+phluido_l1_cn  | *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF                 *
+phluido_l1_cn  | *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)             *
+phluido_l1_cn  | *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR           *
+phluido_l1_cn  | *  TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS                 *
+phluido_l1_cn  | *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                                       *
+phluido_l1_cn  | *                                                                                                     *
+phluido_l1_cn  | *******************************************************************************************************
+phluido_l1_cn  |
+phluido_l1_cn  | Copyright information already accepted on 2020-11-27, 08:56:08.
+phluido_l1_cn  | Starting Phluido 5G-NR L1 software...
+phluido_l1_cn  |    PHAPI version       = 0.5 (12/10/2020)
+phluido_l1_cn  |    L1 SW version       = 0.8.1
+phluido_l1_cn  |    L1 SW internal rev  = r3852
+phluido_l1_cn  | Parsed configuration parameters:
+phluido_l1_cn  |     LicenseKey = XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX
+phluido_l1_cn  |     maxNumPrachDetectionSymbols = 1
+phluido_l1_cn  |     maxNumPdschLayers = 2
+phluido_l1_cn  |     maxNumPuschLayers = 1
+phluido_l1_cn  |     maxPuschModOrder = 6
+phluido_l1_cn  |
+phluido_rru_1  | linux; GNU C++ version 7.3.0; Boost_106501; UHD_003.010.003.000-0-unknown
+phluido_rru_1  |
+phluido_rru_1  | Logs will be written to file &quot;phluidoRru.log&quot;.
+phluido_rru_1  | -- Detected Device: B210
+phluido_rru_1  | -- Operating over USB 3.
+phluido_rru_1  | -- Initialize CODEC control...
+phluido_rru_1  | -- Initialize Radio control...
+phluido_rru_1  | -- Performing register loopback test... pass
+phluido_rru_1  | -- Performing register loopback test... pass
+phluido_rru_1  | -- Performing CODEC loopback test... pass
+phluido_rru_1  | -- Performing CODEC loopback test... pass
+phluido_rru_1  | -- Setting master clock rate selection to &#39;automatic&#39;.
+phluido_rru_1  | -- Asking for clock rate 16.000000 MHz...
+phluido_rru_1  | -- Actually got clock rate 16.000000 MHz.
+phluido_rru_1  | -- Performing timer loopback test... pass
+phluido_rru_1  | -- Performing timer loopback test... pass
+phluido_rru_1  | -- Setting master clock rate selection to &#39;manual&#39;.
+phluido_rru_1  | -- Asking for clock rate 23.040000 MHz...
+phluido_rru_1  | -- Actually got clock rate 23.040000 MHz.
+phluido_rru_1  | -- Performing timer loopback test... pass
+phluido_rru_1  | -- Performing timer loopback test... pass
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../drax-install/" class="md-footer__link md-footer__link--prev" aria-label="Previous: dRAX Installation" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              dRAX Installation
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.53c85856.min.js", "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.716f8af4.min.js"></script>
+      
+    
+  </body>
+</html>
