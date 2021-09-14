@@ -192,7 +192,7 @@ The name of this secret is critical - this name is used in our Helm charts to ac
 Please refer to [the previous section on the License file](#prepare-license-and-certificate) if you don't yet have one.
 
 ``` bash
-kubectl create secret generic accelleran-license --from-file=license.crt
+kubectl create secret generic accelleran-license --from-file=license.crt=<name-of-license-file>
 ```
 
 This needs to be repeated for each namespace that you created previously, specifying each namespace one time using the -n flag.
