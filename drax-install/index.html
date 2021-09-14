@@ -1228,7 +1228,7 @@ For each one, it is important to specify the appropriate namespace using the -n 
 <p>Create a secret named <code>accelleran-license</code> using the previously provided License file.
 The name of this secret is critical - this name is used in our Helm charts to access the License file.
 Please refer to <a href="#prepare-license-and-certificate">the previous section on the License file</a> if you don't yet have one.</p>
-<div class="highlight"><pre><span></span><code>kubectl create secret generic accelleran-license --from-file<span class="o">=</span>license.crt
+<div class="highlight"><pre><span></span><code>kubectl create secret generic accelleran-license --from-file<span class="o">=</span>license.crt<span class="o">=</span>&lt;name-of-license-file&gt;
 </code></pre></div>
 <p>This needs to be repeated for each namespace that you created previously, specifying each namespace one time using the -n flag.</p>
 <h3 id="install-drax-ric-and-dashboard">Install dRAX RIC and Dashboard<a class="headerlink" href="#install-drax-ric-and-dashboard" title="Permanent link">⚓︎</a></h3>
