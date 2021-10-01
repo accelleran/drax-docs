@@ -131,10 +131,10 @@ Create the directories to store the Effnet and Phluido software:
 mkdir -p accelleran-du-phluido Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
-Place `accelleran-du-phluido-2021-06-30.zip` in `accelleran-du-phluido` and unzip it:
+Place `accelleran-du-phluido-2021-09-03.zip` in `accelleran-du-phluido` and unzip it:
 
 ``` bash
-unzip accelleran-du-phluido/accelleran-du-phluido-2021-06-30.zip -d accelleran-du-phluido
+unzip accelleran-du-phluido/accelleran-du-phluido-2021-09-03.zip -d accelleran-du-phluido
 ```
 
 Place `Phluido5GL1_v0.8.1.zip` in `Phluido5GL1` and unzip it:
@@ -153,19 +153,19 @@ date '+%Y-%m-%d, %H:%M:%S' >Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright
 Load the Effnet DU Docker image:
 
 ``` bash
-bzcat accelleran-du-phluido/accelleran-du-phluido-2021-06-30/gnb_du_main_phluido-2021-06-30.tar.bz2 | docker image load
+bzcat accelleran-du-phluido/accelleran-du-phluido-2021-09-03/gnb_du_main_phluido-2021-09-03.tar.bz2 | docker image load
 ```
 
 Load the Phluido L1 Docker image:
 
 ``` bash
-docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-06-30/phluido/docker/Dockerfile.l1 -t phluido_l1 Phluido5GL1/Phluido5GL1_v0.8.1
+docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-03/phluido/docker/Dockerfile.l1 -t phluido_l1:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
 Load the Phluido RRU Docker image:
 
 ``` bash
-docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-06-30/phluido/docker/Dockerfile.rru -t phluido_rru Phluido5GL1/Phluido5GL1_v0.8.1
+docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-03/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
 ## Configure the DU
@@ -173,7 +173,7 @@ docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-06-30/phluido/d
 Create a configuration file for the Phluido RRU:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-06-30/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2021-09-03/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg <<EOF
 /******************************************************************
 *
 * This file is subject to the terms and conditions defined in
@@ -214,7 +214,7 @@ Create a configuration file for the Phluido L1.
 Make sure to set the value `LicenseKey` option to the received Phluido license key:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-06-30/phluido/PhluidoL1_NR_B210.cfg <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2021-09-03/phluido/PhluidoL1_NR_B210.cfg <<EOF
 /******************************************************************
 *
 * This file is subject to the terms and conditions defined in
@@ -248,7 +248,7 @@ EOF
 Create a configuration file for the Effnet DU:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-06-30/b210_config_20mhz.json <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2021-09-03/b210_config_20mhz.json <<EOF
 {
     "configuration": {
         "du_address": "du",
@@ -414,14 +414,14 @@ kubectl get services | grep 'acc-5g-cu-cp-.*-sctp-f1'
 Now, create a docker-compose configuration file:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-06-30/docker-compose.yml <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2021-09-03/docker-compose.yml <<EOF
 version: "3"
 
 services:
 
   phluido_l1:
-    image: phluido_l1
-    container_name: phluido_l1_cn
+    image: phluido_l1:v0.8.1
+    container_name: phluido_l1
     tty: true
     privileged: true
     ipc: shareable
@@ -435,16 +435,14 @@ services:
     network_mode: host
 
   du:
-    image: gnb_du_main_phluido
+    image: gnb_du_main_phluido:2021-09-03
     volumes:
       - "$PWD/b210_config_20mhz.json:/config.json:ro"
       - "$PWD/logs/du:/workdir"
       - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm
-    ipc: container:phluido_l1_cn
+    ipc: container:phluido_l1
     tty: true
-    cap_add:
-      - CAP_SYS_NICE
-      - CAP_IPC_LOCK
+    privileged: true
     depends_on:
       - phluido_l1
     entrypoint: ["/bin/sh", "-c", "sleep 4 && exec /gnb_du_main_phluido /config.json"]
@@ -453,7 +451,7 @@ services:
       - "cu:$CU_IP"
 
   phluido_rru:
-    image: phluido_rru
+    image: phluido_rru:v0.8.1
     tty: true
     privileged: true
     depends_on:
@@ -608,58 +606,58 @@ Device Address:
 Start the DU by running the following command:
 
 ``` bash
-docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2021-06-30/docker-compose.yml
+docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2021-09-03/docker-compose.yml
 ```
 
 If all goes well this will produce output similar to:
 
 ```
-Starting phluido_l1_cn ... done
-Recreating accelleran-du-phluido-2021-06-30_du_1 ... done
-Recreating accelleran-du-phluido-2021-06-30_phluido_rru_1 ... done
-Attaching to phluido_l1_cn, accelleran-du-phluido-2021-06-30_du_1, accelleran-du-phluido-2021-06-30_phluido_rru_1
-phluido_l1_cn  | Reading configuration from config file "/config.cfg"...
-phluido_l1_cn  | *******************************************************************************************************
-phluido_l1_cn  | *                                                                                                     *
-phluido_l1_cn  | *  Phluido 5G-NR virtualized L1 implementation                                                        *
-phluido_l1_cn  | *                                                                                                     *
-phluido_l1_cn  | *  Copyright (c) 2014-2020 Phluido Inc.                                                               *
-phluido_l1_cn  | *  All rights reserved.                                                                               *
-phluido_l1_cn  | *                                                                                                     *
-phluido_l1_cn  | *  The User shall not, and shall not permit others to:                                                *
-phluido_l1_cn  | *   - integrate Phluido Software within its own products;                                             *
-phluido_l1_cn  | *   - mass produce products that are designed, developed or derived from Phluido Software;            *
-phluido_l1_cn  | *   - sell products which use Phluido Software;                                                       *
-phluido_l1_cn  | *   - modify, correct, adapt, translate, enhance or otherwise prepare derivative works or             *
-phluido_l1_cn  | *     improvements to Phluido Software;                                                               *
-phluido_l1_cn  | *   - rent, lease, lend, sell, sublicense, assign, distribute, publish, transfer or otherwise         *
-phluido_l1_cn  | *     make available the PHLUIDO Solution or any portion thereof to any third party;                  *
-phluido_l1_cn  | *   - reverse engineer, disassemble and/or decompile Phluido Software.                                *
-phluido_l1_cn  | *                                                                                                     *
-phluido_l1_cn  | *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,           *
-phluido_l1_cn  | *  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A         *
-phluido_l1_cn  | *  PARTICULAR PURPOSE ARE DISCLAIMED.                                                                 *
-phluido_l1_cn  | *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,              *
-phluido_l1_cn  | *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF                 *
-phluido_l1_cn  | *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)             *
-phluido_l1_cn  | *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR           *
-phluido_l1_cn  | *  TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS                 *
-phluido_l1_cn  | *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                                       *
-phluido_l1_cn  | *                                                                                                     *
-phluido_l1_cn  | *******************************************************************************************************
-phluido_l1_cn  |
-phluido_l1_cn  | Copyright information already accepted on 2020-11-27, 08:56:08.
-phluido_l1_cn  | Starting Phluido 5G-NR L1 software...
-phluido_l1_cn  | 	PHAPI version       = 0.5 (12/10/2020)
-phluido_l1_cn  | 	L1 SW version       = 0.8.1
-phluido_l1_cn  | 	L1 SW internal rev  = r3852
-phluido_l1_cn  | Parsed configuration parameters:
-phluido_l1_cn  |     LicenseKey = XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX
-phluido_l1_cn  |     maxNumPrachDetectionSymbols = 1
-phluido_l1_cn  |     maxNumPdschLayers = 2
-phluido_l1_cn  |     maxNumPuschLayers = 1
-phluido_l1_cn  |     maxPuschModOrder = 6
-phluido_l1_cn  |
+Starting phluido_l1 ... done
+Recreating accelleran-du-phluido-2021-09-03_du_1 ... done
+Recreating accelleran-du-phluido-2021-09-03_phluido_rru_1 ... done
+Attaching to phluido_l1, accelleran-du-phluido-2021-09-03_du_1, accelleran-du-phluido-2021-09-03_phluido_rru_1
+phluido_l1  | Reading configuration from config file "/config.cfg"...
+phluido_l1  | *******************************************************************************************************
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  Phluido 5G-NR virtualized L1 implementation                                                        *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  Copyright (c) 2014-2020 Phluido Inc.                                                               *
+phluido_l1  | *  All rights reserved.                                                                               *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  The User shall not, and shall not permit others to:                                                *
+phluido_l1  | *   - integrate Phluido Software within its own products;                                             *
+phluido_l1  | *   - mass produce products that are designed, developed or derived from Phluido Software;            *
+phluido_l1  | *   - sell products which use Phluido Software;                                                       *
+phluido_l1  | *   - modify, correct, adapt, translate, enhance or otherwise prepare derivative works or             *
+phluido_l1  | *     improvements to Phluido Software;                                                               *
+phluido_l1  | *   - rent, lease, lend, sell, sublicense, assign, distribute, publish, transfer or otherwise         *
+phluido_l1  | *     make available the PHLUIDO Solution or any portion thereof to any third party;                  *
+phluido_l1  | *   - reverse engineer, disassemble and/or decompile Phluido Software.                                *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,           *
+phluido_l1  | *  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A         *
+phluido_l1  | *  PARTICULAR PURPOSE ARE DISCLAIMED.                                                                 *
+phluido_l1  | *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,              *
+phluido_l1  | *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF                 *
+phluido_l1  | *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)             *
+phluido_l1  | *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR           *
+phluido_l1  | *  TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS                 *
+phluido_l1  | *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                                       *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *******************************************************************************************************
+phluido_l1  |
+phluido_l1  | Copyright information already accepted on 2020-11-27, 08:56:08.
+phluido_l1  | Starting Phluido 5G-NR L1 software...
+phluido_l1  | 	PHAPI version       = 0.5 (12/10/2020)
+phluido_l1  | 	L1 SW version       = 0.8.1
+phluido_l1  | 	L1 SW internal rev  = r3852
+phluido_l1  | Parsed configuration parameters:
+phluido_l1  |     LicenseKey = XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX
+phluido_l1  |     maxNumPrachDetectionSymbols = 1
+phluido_l1  |     maxNumPdschLayers = 2
+phluido_l1  |     maxNumPuschLayers = 1
+phluido_l1  |     maxPuschModOrder = 6
+phluido_l1  |
 phluido_rru_1  | linux; GNU C++ version 7.3.0; Boost_106501; UHD_003.010.003.000-0-unknown
 phluido_rru_1  |
 phluido_rru_1  | Logs will be written to file "phluidoRru.log".
