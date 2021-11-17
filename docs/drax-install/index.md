@@ -283,6 +283,7 @@ acc-5g-infrastructure:
                   addresses:
                       - 10.55.1.20-10.55.1.60
 ```
+
 !!! Note
     The IP pool which is selected here will be used by [MetalLB](https://metallb.universe.tf/), which we use to expose the E1, F1, and GTP interfaces to the external O-RAN components, such as the DU, and the 5GC.
     MetalLB works by handling ARP requests for these addresses, so the external components need to be in the same L2 subnet in order to access these interfaces.
@@ -293,7 +294,7 @@ acc-5g-infrastructure:
 Install the RIC and Dashboard with Helm (if installing without dedicated namespaces, leave off the -n option):
 
 ``` bash
-helm install ric acc-helm/ric --version 2 --values ric-values.yaml -n $NS_DRAX
+helm install ric acc-helm/ric --version 4.0.0 --values ric-values.yaml -n $NS_DRAX
 ```
 
 !!! info

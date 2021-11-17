@@ -131,10 +131,10 @@ Create the directories to store the Effnet and Phluido software:
 mkdir -p accelleran-du-phluido Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
-Place `accelleran-du-phluido-2021-09-03.zip` in `accelleran-du-phluido` and unzip it:
+Place `accelleran-du-phluido-2021-09-30.zip` in `accelleran-du-phluido` and unzip it:
 
 ``` bash
-unzip accelleran-du-phluido/accelleran-du-phluido-2021-09-03.zip -d accelleran-du-phluido
+unzip accelleran-du-phluido/accelleran-du-phluido-2021-09-30.zip -d accelleran-du-phluido
 ```
 
 Place `Phluido5GL1_v0.8.1.zip` in `Phluido5GL1` and unzip it:
@@ -153,19 +153,19 @@ date '+%Y-%m-%d, %H:%M:%S' >Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright
 Load the Effnet DU Docker image:
 
 ``` bash
-bzcat accelleran-du-phluido/accelleran-du-phluido-2021-09-03/gnb_du_main_phluido-2021-09-03.tar.bz2 | docker image load
+bzcat accelleran-du-phluido/accelleran-du-phluido-2021-09-30/gnb_du_main_phluido-2021-09-30.tar.bz2 | docker image load
 ```
 
 Load the Phluido L1 Docker image:
 
 ``` bash
-docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-03/phluido/docker/Dockerfile.l1 -t phluido_l1:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
+docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/docker/Dockerfile.l1 -t phluido_l1:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
 Load the Phluido RRU Docker image:
 
 ``` bash
-docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-03/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
+docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
 ## Configure the DU
@@ -173,7 +173,7 @@ docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-03/phluido/d
 Create a configuration file for the Phluido RRU:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-03/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg <<EOF
 /******************************************************************
 *
 * This file is subject to the terms and conditions defined in
@@ -214,7 +214,7 @@ Create a configuration file for the Phluido L1.
 Make sure to set the value `LicenseKey` option to the received Phluido license key:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-03/phluido/PhluidoL1_NR_B210.cfg <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/PhluidoL1_NR_B210.cfg <<EOF
 /******************************************************************
 *
 * This file is subject to the terms and conditions defined in
@@ -248,7 +248,7 @@ EOF
 Create a configuration file for the Effnet DU:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-03/b210_config_20mhz.json <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/b210_config_20mhz.json <<EOF
 {
     "configuration": {
         "du_address": "du",
@@ -414,7 +414,7 @@ kubectl get services | grep 'acc-5g-cu-cp-.*-sctp-f1'
 Now, create a docker-compose configuration file:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-03/docker-compose.yml <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/docker-compose.yml <<EOF
 version: "3"
 
 services:
@@ -435,7 +435,7 @@ services:
     network_mode: host
 
   du:
-    image: gnb_du_main_phluido:2021-09-03
+    image: gnb_du_main_phluido:2021-09-30
     volumes:
       - "$PWD/b210_config_20mhz.json:/config.json:ro"
       - "$PWD/logs/du:/workdir"
@@ -606,16 +606,16 @@ Device Address:
 Start the DU by running the following command:
 
 ``` bash
-docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2021-09-03/docker-compose.yml
+docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/docker-compose.yml
 ```
 
 If all goes well this will produce output similar to:
 
 ```
 Starting phluido_l1 ... done
-Recreating accelleran-du-phluido-2021-09-03_du_1 ... done
-Recreating accelleran-du-phluido-2021-09-03_phluido_rru_1 ... done
-Attaching to phluido_l1, accelleran-du-phluido-2021-09-03_du_1, accelleran-du-phluido-2021-09-03_phluido_rru_1
+Recreating accelleran-du-phluido-2021-09-30_du_1 ... done
+Recreating accelleran-du-phluido-2021-09-30_phluido_rru_1 ... done
+Attaching to phluido_l1, accelleran-du-phluido-2021-09-30_du_1, accelleran-du-phluido-2021-09-30_phluido_rru_1
 phluido_l1  | Reading configuration from config file "/config.cfg"...
 phluido_l1  | *******************************************************************************************************
 phluido_l1  | *                                                                                                     *

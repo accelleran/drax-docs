@@ -66,7 +66,7 @@ Kubernetes refuses to run if swap is enabled on the node, so we disable swap imm
 ``` bash
 sudo swapoff -a
 sudo sed -i '/\sswap\s/ s/^\(.*\)$/#\1/g' /etc/fstab
-``` bash
+```
 
 ## Install Kubernetes
 
