@@ -1,3 +1,25 @@
+# Summary
+## Drawing
+
+```
+  10.10.0.100:ssh
+  +-------------+
+  |             |
+  |             |             +-----------+         +-----------+
+  |             |             |           |         |           |
+  |     RRU     +----fiber----+   L1      |         |    DU     |
+  |             |             |           |         |           |
+  |             |             +-----------+         +-----------+
+  |             |
+  +-------------+
+aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
+
+  10.10.0.2:44000              10.10.0.1:44000
+
+             eth0              enp45s0f0
+```
+
+             
 ## Configure the DU
 
 Other then the B210, benetel uses 2 software components. 2 Containers, a effnet du and phluido l1.
@@ -82,6 +104,14 @@ services:
 EOF
 ```
 
+Add mac entry script in routable.d. Benetel650 does not answer arp requests. With this apr entry in the arp table the server knows to which mac address it needs to sent the ip packet to. The ip packet towards the RRU with ip 10.10.0.2.
+
+```
+$ cat /etc/networkd-dispatcher/routable.d/macs.sh 
+#!/bin/sh
+sudo arp -s 10.10.0.2 aa:bb:cc:dd:ee:ff -i enp45s0f0
+```
+
 ## Prepare the Benetel 560
 
 The benetel is connected with a fiber to the server.
@@ -142,7 +172,7 @@ network:
           optional: true
           addresses:
               - 10.10.0.1/24
-
+          mtu: 9000
 ```
 
 To apply this configuration you can use
@@ -159,7 +189,7 @@ enp45s0f0        UP             10.10.0.1/24 fe80::6eb3:11ff:fe08:a4e0/64
 enp45s0f1        DOWN           
 ```
 
-The ip benetel is configured with is `10.10.0.100`.
+The ip benetel is configured with is `10.10.0.100`. This is the MGMT ip. We can ssh to it.
 We found out using nmap this way.
 
 ``` bash
@@ -223,3 +253,174 @@ drwxrwxrwx    2 root     root             0 Feb  7 16:44 adrv9025
 -rwxr-xr-x    1 root     root           182 Feb  7 16:41 trialHandshake
 root@benetelru:~# 
 ```
+
+## Configure the RRU release V4
+### Set DU mac address for version V4
+
+Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that.
+
+```
+root@benetelru:~# cat progDuMAC-5GCN-enp45s0f0 
+# 6c:b3:11:08:a4:e0  5GCN-itf
+registercontrol -w 0xC036B -x 0x88000088
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1A:0x01:0x11
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1B:0x01:0x22
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1C:0x01:0x33
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1D:0x01:0x44
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1E:0x01:0x55
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1F:0x01:0x66
+```
+
+
+
+
+## Configure the RRU release V3
+### Set DU mac address for version V3
+
+Inside the file ```/etc/radio_init.sh``` we program the mac. 
+
+
+ 
+## Throubleshoot 
+
+finding out the version
+
+```
+root@benetelru:~# registercontrol -v
+Lightweight HPS-to-FPGA Control Program Version : V1.2.0
+
+****BENETEL PRODUCT VERSIONING BLOCK****
+This Build Was Created Locally. Please Use Git Pipeline!
+Project ID NUMBER: 	0
+Git # Number: 		f6366d7adf84933ab2b242a345bd63c07fedb9e5
+Build ID: 		0
+Version Number: 	0.0.1
+Build Date: 		2/12/2021
+Build Time H:M:S: 	18:20:3
+****BENETEL PRODUCT VERSIONING BLOCK END****
+```
+
+See if GPS is locked
+```
+root@benetelru:~# syncmon
+DPLL0 State (SyncE/Ethernet clock): LOCKED
+DPLL1 State (FPGA clocks): FREERUN
+DPLL2 State (FPGA clocks): FREERUN
+DPLL3 State (RF/PTP clock): LOCKED
+
+CLK0 SyncE LIVE: OK
+CLK0 SyncE STICKY: LOS + No Activity
+CLK2 10MHz LIVE: LOS + No Activity
+CLK2 10MHz STICKY: LOS + No Activity
+CLK5 GPS LIVE: OK
+CLK5 GPS STICKY: LOS and Frequency Offset
+CLK6 EXT 1PPS LIVE: LOS and Frequency Offset
+CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
+```
+some important registers
+```
+root@benetelru:~# reportRuStatus 
+
+[INFO] Sync status is: 
+Register 0xc0367, Value : 0x1
+-------------------------------
+
+[INFO] RU Status information is: 
+Register 0xc0306, Value : 0x470800
+-------------------------------
+
+[INFO] Fill level of Reception Window is: 
+Register 0xc0308, Value : 0x6c12
+-------------------------------
+
+[INFO] Sample Count is: 
+Register 0xc0311, Value : 0x56f49
+-------------------------------
+
+
+============================================================
+RU Status Register description:
+============================================================
+[31:19] not used                                                        
+[18]    set to 1 if handshake is successful                             
+[17]    set to 1 when settling time (fronthaul) has  completed 
+[16]    set to 1 if symbolndex=0 was captured                           
+[15]    set to 1 if payload format is invalid                           
+[14]    set to 1 if symbol index error has been detected                
+[13:12] not used                                                        
+[11]    set to 1 if DU MAC address is correct                           
+[10:2]  not used                                                        
+[1]     Reception Window Buffer is empty                                
+[0]     Reception Window Buffer is full                                 
+------------------------------------------------------------
+===========================================================
+[NOTE] Max buffer  depth is 53424 (112 symbols, 2 antennas)
+===========================================================
+```
+
+trace traffic between RRU and L1. Also the mac can be read from this trace. Packet lengths are 3874. 
+Remember we increased the MTU size to 9000. Without increasing the L1 would crash on the fragmented udp packets.
+
+```
+$ tcpdump -i enp45s0f0 -c 5 port 44000 -en
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on enp45s0f0, link-type EN10MB (Ethernet), capture size 262144 bytes
+19:22:47.096453 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
+19:22:47.106677 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 54: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 12
+19:23:14.596247 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 12
+19:23:14.596621 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 3874: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 3832
+19:23:14.596631 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 3874: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 3832
+5 packets captured
+```
+
+Check if the L1 is listening 
+```
+$ while true ; do sleep 1 ; netstat -ano | grep 44000 ;echo $RANDOM; done
+udp        0 118272 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
+1427
+udp        0  16896 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
+11962
+udp        0  42240 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
+16780
+udp        0      0 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
+502
+```
+
+Show the traffic between rru and du
+
+```
+$ ifstat -i enp45s0f0
+    enp45s0f0     
+ KB/s in  KB/s out
+71320.01  105959.7
+71313.36  105930.1
+```
+
+### Starting RRU Benetel 650
+Perform these steps to get a running active cell.
+
+1) Start L1
+2) Start DU  
+   At this point following sequence is 
+```
+     DU                                        CU
+      |  F1SetupRequest--->                     |
+      |                    <---F1SetupResponse  |
+      |			                        |
+      |	          <---GNBCUConfigurationUpdate  |
+      |                                         |
+```
+   The L1 starts listening on ip:port 10.10.0.1:44000
+
+3) type ```ssh root@10.10.0.100  handshake```
+   After less than 30 seconds communication between rru and du starts. around 100 Mbytes/second
+ 
+```
+     DU                                        CU
+      |  GNBCUConfigurationUpdateAck--->        |
+      |                                         |
+```
+
+5) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. ( If it does not stop use ```ssh_rru "registercontrol -w c0310 -x 0 ``` but be carefull )
+
+ 
