@@ -254,17 +254,17 @@ drwxrwxrwx    2 root     root             0 Feb  7 16:44 adrv9025
 root@benetelru:~# 
 ```
 
-## Configure the RRU release V4
-### Set DU mac address for version V4
+## Configure the RRU release V0.4
+### Set DU mac address in the RRU
 
 Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that.
 
 ```
 root@benetelru:~# cat progDuMAC-5GCN-enp45s0f0 
-# 6c:b3:11:08:a4:e0  5GCN-itf
-registercontrol -w 0xC036B -x 0x88000088
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1A:0x01:0x11
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1B:0x01:0x22
+# 11:22:33:44:55:66  5GCN-itf
+registercontrol -w 0xC036B -x 0x88000088                            # don't touch file
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1A:0x01:0x11             # first byte of mac address is 0x11
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1B:0x01:0x22             # etc ...
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1C:0x01:0x33
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1D:0x01:0x44
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1E:0x01:0x55
@@ -272,14 +272,17 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1F:0x01:0x66
 ```
 
 
+## Configure the RRU release V0.3
+### Set DU mac address for version V0.3
 
-
-## Configure the RRU release V3
-### Set DU mac address for version V3
 
 Inside the file ```/etc/radio_init.sh``` we program the mac. 
 
 
+## Configure for any RRU release
+### Set RRU mac address in DU server
+ 
+ 
  
 ## Throubleshoot 
 
