@@ -278,6 +278,11 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1F:0x01:0x66
 
 Inside the file ```/etc/radio_init.sh``` we program the mac. 
 
+Example for MAC address 00:1E:67:FD:F5:51.
+    registercontrol -w c0315 -x 0x67FDF551 >> /home/root/radio_boot_response 
+    registercontrol -w c0316 -x 0x001E >> /home/root/radio_boot_response 
+    echo "Configure the MAC address of the O-DU: 00:1E:67:FD:F5:51 " >> /home/root/radio_status 
+
 
 ## Configure for any RRU release
 ### Set RRU mac address in DU server
