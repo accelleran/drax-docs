@@ -289,6 +289,18 @@ Make sure to edit those as MAC address of the fiber port.
 
 Reboot the BNTL650
 
+### Set the Frequency for version V0.3
+
+Inside the file ```/etc/radio_init.sh``` we program the mac. 
+
+Example for frequency 3751.68MHz (ARFCN=650112) you will find in the file:
+
+        echo "Set attn for 25dBm Lab Power - SN 06502100206 at 3751.68" >> /home/root/radio_status 
+
+Make sure to edit the pointA frequency in the DU config (in this example PointA_ARFCN=648840).
+
+Reboot the BNTL650
+
 ## Configure for any RRU release
 ### Set RRU mac address in DU server
  
@@ -296,6 +308,7 @@ Reboot the BNTL650
  
 ## Throubleshoot 
 
+### Version Check
 finding out the version
 
 ```
@@ -313,6 +326,7 @@ Build Time H:M:S: 	18:20:3
 ****BENETEL PRODUCT VERSIONING BLOCK END****
 ```
 
+### GPS
 See if GPS is locked
 ```
 root@benetelru:~# syncmon
@@ -330,6 +344,7 @@ CLK5 GPS STICKY: LOS and Frequency Offset
 CLK6 EXT 1PPS LIVE: LOS and Frequency Offset
 CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
 ```
+### To be noted
 some important registers
 ```
 root@benetelru:~# reportRuStatus 
