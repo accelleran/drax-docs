@@ -104,6 +104,9 @@ services:
 EOF
 ```
 
+
+## Prepare the Benetel 650
+
 Add mac entry script in routable.d. Benetel650 does not answer arp requests. With this apr entry in the arp table the server knows to which mac address it needs to sent the ip packet to. The ip packet towards the RRU with ip 10.10.0.2.
 
 ```
@@ -111,8 +114,6 @@ $ cat /etc/networkd-dispatcher/routable.d/macs.sh
 #!/bin/sh
 sudo arp -s 10.10.0.2 aa:bb:cc:dd:ee:ff -i enp45s0f0
 ```
-
-## Prepare the Benetel 560
 
 The benetel is connected with a fiber to the server.
 
@@ -278,14 +279,15 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1F:0x01:0x66
 
 Inside the file ```/etc/radio_init.sh``` we program the mac. 
 
-Example for MAC address 00:1E:67:FD:F5:51.
+Example for MAC address 00:1E:67:FD:F5:51 you will find in the file:
 
     registercontrol -w c0315 -x 0x67FDF551 >> /home/root/radio_boot_response 
-    
     registercontrol -w c0316 -x 0x001E >> /home/root/radio_boot_response
-    
     echo "Configure the MAC address of the O-DU: 00:1E:67:FD:F5:51 " >> /home/root/radio_status 
 
+Make sure to edit those as MAC address of the fiber port.
+
+Reboot the BNTL650
 
 ## Configure for any RRU release
 ### Set RRU mac address in DU server
@@ -407,7 +409,11 @@ $ ifstat -i enp45s0f0
 71313.36  105930.1
 ```
 
-### Starting RRU Benetel 650
+### Troubleshooting Fiber Port not showing up
+https://www.serveradminz.com/blog/unsupported-sfp-linux/
+
+
+## Starting RRU Benetel 650
 Perform these steps to get a running active cell.
 
 1) Start L1
