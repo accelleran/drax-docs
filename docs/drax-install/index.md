@@ -1186,6 +1186,11 @@ cat $HOME/.tmux.conf
 set -g mouse on
 bind q killw
 ```
+add this line in $HOME/.profile
+```
+export PATH=$HOME/5g-engineering/utilities/custatus:$PATH
+```
+
 #### use
 to start 
 ```
