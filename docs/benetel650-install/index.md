@@ -272,6 +272,47 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1E:0x01:0x55
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1F:0x01:0x66
 ```
 
+### Set attenuation level
+1. read current attenuations
+```
+~# radiocontrol -o G a
+
+Benetel radiocontrol Version          : 0.9.0
+Madura API Version                    : 5.1.0.21
+Madura ARM FW version                 : 5.0.0.32
+Madura ARM DPD FW version             : 5.0.0.32
+Madura Stream version                 : 8.0.0.5
+Madura Product ID                     : 0x84
+Madura Device Revision                : 0xb0
+Tx1 Attenuation (mdB)                 : 20000
+Tx2 Attenuation (mdB)                 : 40000
+Tx3 Attenuation (mdB)                 : 21000
+Tx4 Attenuation (mdB)                 : 40000
+PLL1 Frequency (Hz)                   : 0 
+PLL2 Frequency (Hz)                   : 3751680000 
+Front-end Control                     : 0x2aa491
+Madura Deframer 0                     : 0x87
+Madura Framer 0                       : 0xa
+Internal Temperature (degC)           : 47
+External Temperature (degC)           : 42.789063
+RX1 Power Level (dBFS)                : -60.750000
+RX2 Power Level (dBFS)                : -60.750000
+RX3 Power Level (dBFS)                : -60.750000
+RX4 Power Level (dBFS)                : -60.750000
+ORX1 Peak/Mean Power Level (dBFS)     : -10.839418/-22.709361
+ORX2 Peak/Mean Power Level (dBFS)     : -inf/-inf
+ORX3 Peak/Mean Power Level (dBFS)     : -10.748048/-21.656226
+ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
+```
+2. set attenuation for antenna 1
+```
+/usr/bin/radiocontrol -o A 20000 1
+```
+3. set attenuation for antenna 3
+```
+/usr/bin/radiocontrol -o A 21000 4
+```
+>yes the 4 at the end seems to be correct.
 
 ## Configure the RRU release V0.3
 ### Set DU mac address for version V0.3
