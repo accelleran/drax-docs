@@ -107,13 +107,15 @@ EOF
 
 ## Prepare the Benetel 650
 
-Add mac entry script in routable.d. Benetel650 does not answer arp requests. With this apr entry in the arp table the server knows to which mac address it needs to sent the ip packet to. The ip packet towards the RRU with ip 10.10.0.2.
+Add mac entry script in routable.d. 
 
 ```
 $ cat /etc/networkd-dispatcher/routable.d/macs.sh 
 #!/bin/sh
 sudo arp -s 10.10.0.2 aa:bb:cc:dd:ee:ff -i enp45s0f0
 ```
+> Benetel650 does not answer arp requests. With this apr entry in the arp table the server knows to which mac address it needs to sent the ip packet to. The ip packet towards the RRU with ip 10.10.0.2.
+>
 
 The benetel is connected with a fiber to the server.
 
