@@ -256,6 +256,39 @@ drwxrwxrwx    2 root     root             0 Feb  7 16:44 adrv9025
 -rwxr-xr-x    1 root     root           182 Feb  7 16:41 trialHandshake
 root@benetelru:~# 
 ```
+## Configure the RRU release V0.3
+### Set DU mac address for version V0.3
+
+
+Inside the file ```/etc/radio_init.sh``` we program the mac. 
+
+Example for MAC address 00:1E:67:FD:F5:51 you will find in the file:
+
+    registercontrol -w c0315 -x 0x67FDF551 >> /home/root/radio_boot_response 
+    registercontrol -w c0316 -x 0x001E >> /home/root/radio_boot_response
+    echo "Configure the MAC address of the O-DU: 00:1E:67:FD:F5:51 " >> /home/root/radio_status 
+
+Make sure to edit those as MAC address of the fiber port.
+
+Reboot the BNTL650
+
+
+
+### Set the Frequency for version V0.3
+
+
+This file ```/etc/systemd/system/multi-user.target.wants/autoconfig.service``` is called during boot that sets the frequency.
+change the frequency here.
+
+```
+[Service]
+ExecStart =/bin/sh /etc/radio_init.sh 3751.680
+```
+
+Example for frequency 3751.68MHz (ARFCN=650112) you will find in the file:
+Make sure to edit the pointA frequency ARFCN value in the DU config (in this example PointA_ARFCN=648840).
+
+Reboot the BNTL650
 
 ## Configure the RRU release V0.4
 ### Set DU mac address in the RRU
@@ -273,6 +306,46 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1D:0x01:0x44
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1E:0x01:0x55
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1F:0x01:0x66
 ```
+
+### Set the Frequency for version v0.4
+
+This file ```/etc/systemd/system/multi-user.target.wants/autoconfig.service``` is called during boot that sets the frequency.
+
+```
+[Service]
+ExecStart =/bin/sh /etc/radio_init.sh $(read_default_tx_frequency)
+```
+
+In this version the frequency is read from the eeprom. So we program the eeprom with the correct center frequency.
+Programming the eeprom with the center frequency we do with this script.
+
+```
+root@benetelru:~# cat progFreq
+
+registercontrol -w 0xC036B -x 0x88000088                            # don't touch file
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x174:0x01:0x33
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x175:0x01:0x37
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x176:0x01:0x35
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x177:0x01:0x31
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x178:0x01:0x2E
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x36
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x38
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x30
+
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17C:0x01:0x33
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17D:0x01:0x37
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17E:0x01:0x35
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17F:0x01:0x31
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x180:0x01:0x2E
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x181:0x01:0x36
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x182:0x01:0x38
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x183:0x01:0x30
+
+eeprog_cp60 -f -16 /dev/i2c-0 0x57 -r 0x174:8
+eeprog_cp60 -f -16 /dev/i2c-0 0x57 -r 0x17C:8
+```
+
+Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680
 
 ### Set attenuation level
 1. read current attenuations
@@ -316,33 +389,7 @@ ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
 ```
 >yes the 4 at the end seems to be correct.
 
-## Configure the RRU release V0.3
-### Set DU mac address for version V0.3
 
-
-Inside the file ```/etc/radio_init.sh``` we program the mac. 
-
-Example for MAC address 00:1E:67:FD:F5:51 you will find in the file:
-
-    registercontrol -w c0315 -x 0x67FDF551 >> /home/root/radio_boot_response 
-    registercontrol -w c0316 -x 0x001E >> /home/root/radio_boot_response
-    echo "Configure the MAC address of the O-DU: 00:1E:67:FD:F5:51 " >> /home/root/radio_status 
-
-Make sure to edit those as MAC address of the fiber port.
-
-Reboot the BNTL650
-
-### Set the Frequency for version V0.3
-
-Inside the file ```/etc/radio_init.sh``` we program the mac. 
-
-Example for frequency 3751.68MHz (ARFCN=650112) you will find in the file:
-
-        echo "Set attn for 25dBm Lab Power - SN 06502100206 at 3751.68" >> /home/root/radio_status 
-
-Make sure to edit the pointA frequency in the DU config (in this example PointA_ARFCN=648840).
-
-Reboot the BNTL650
 
 ## Configure for any RRU release
 ### Set RRU mac address in DU server
