@@ -1174,3 +1174,16 @@ The following commands should be used and return both OK:
 openssl verify -CAfile client.crt client.crt
 openssl verify -CAfile ca.crt server.crt
 ```
+
+## Appendix: Engineering tips and tricks
+### custatus
+
+* unzip custatus.zip so you get create a directory ```$HOME/5g-engineering/utilities/custatus```
+* ```sudo apt install tmux```
+* create the ```.tmux.conf``` file with following content.
+```
+cat $HOME/.tmux.conf 
+set -g mouse on
+bind q killw
+```
+
