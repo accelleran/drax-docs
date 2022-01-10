@@ -88,19 +88,6 @@ services:
     extra_hosts:
       - "cu:$CU_IP"
 
-  phluido_rru:
-    image: phluido_rru
-    tty: true
-    privileged: true
-    depends_on:
-      - du
-      - phluido_l1
-    network_mode: host
-    volumes:
-      - "$PWD/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg:/config.cfg:ro"
-      - "$PWD/logs/rru:/workdir"
-    entrypoint: ["/bin/sh", "-c", "sleep 20 && exec /PhluidoRRU_NR /config.cfg"]
-    working_dir: "/workdir"
 EOF
 ```
 
