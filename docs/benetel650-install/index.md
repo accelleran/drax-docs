@@ -256,6 +256,31 @@ drwxrwxrwx    2 root     root             0 Feb  7 16:44 adrv9025
 -rwxr-xr-x    1 root     root           182 Feb  7 16:41 trialHandshake
 root@benetelru:~# 
 ```
+
+## Version Check
+finding out the version and commit hash of the benetel650
+
+commit hash
+```
+root@benetelru:~# registercontrol -v
+Lightweight HPS-to-FPGA Control Program Version : V1.2.0
+
+****BENETEL PRODUCT VERSIONING BLOCK****
+This Build Was Created Locally. Please Use Git Pipeline!
+Project ID NUMBER: 	0
+Git # Number: 		f6366d7adf84933ab2b242a345bd63c07fedb9e5
+Build ID: 		0
+Version Number: 	0.0.1
+Build Date: 		2/12/2021
+Build Time H:M:S: 	18:20:3
+****BENETEL PRODUCT VERSIONING BLOCK END****
+```
+version
+```
+root@benetelru:~# cat /etc/benetel-rootfs-version 
+RAN650-2V0.4
+```
+
 ## Configure the RRU release V0.3
 ### Set DU mac address for version V0.3
 
@@ -398,23 +423,7 @@ ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
  
 ## Throubleshoot 
 
-### Version Check
-finding out the version
 
-```
-root@benetelru:~# registercontrol -v
-Lightweight HPS-to-FPGA Control Program Version : V1.2.0
-
-****BENETEL PRODUCT VERSIONING BLOCK****
-This Build Was Created Locally. Please Use Git Pipeline!
-Project ID NUMBER: 	0
-Git # Number: 		f6366d7adf84933ab2b242a345bd63c07fedb9e5
-Build ID: 		0
-Version Number: 	0.0.1
-Build Date: 		2/12/2021
-Build Time H:M:S: 	18:20:3
-****BENETEL PRODUCT VERSIONING BLOCK END****
-```
 
 ### GPS
 See if GPS is locked
