@@ -17,6 +17,8 @@ aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
   10.10.0.2:44000              10.10.0.1:44000
 
              eth0              enp45s0f0
+
+      port FIBER1
 ```
 
              
@@ -94,6 +96,7 @@ EOF
 
 ## Prepare the Benetel 650
 
+
 Add mac entry script in routable.d. 
 
 ```
@@ -104,8 +107,8 @@ sudo arp -s 10.10.0.2 aa:bb:cc:dd:ee:ff -i enp45s0f0
 > Benetel650 does not answer arp requests. With this apr entry in the arp table the server knows to which mac address it needs to sent the ip packet to. The ip packet towards the RRU with ip 10.10.0.2.
 >
 
-The benetel is connected with a fiber to the server.
 
+The benetel is connected with a fiber to the server. The port on the RRU is labeled ```port FIBER1```
 
 ``` bash
 :ad@5GCN:~$ lshw | grep SFP -C 5
