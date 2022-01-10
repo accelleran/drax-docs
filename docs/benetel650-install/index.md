@@ -275,7 +275,8 @@ Build Date: 		2/12/2021
 Build Time H:M:S: 	18:20:3
 ****BENETEL PRODUCT VERSIONING BLOCK END****
 ```
-version
+The version which is referred to. This is version 0.4. 
+Depending on the version different configuration commands apply.
 ```
 root@benetelru:~# cat /etc/benetel-rootfs-version 
 RAN650-2V0.4
