@@ -103,12 +103,22 @@ Add mac entry script in routable.d.
 $ cat /etc/networkd-dispatcher/routable.d/macs.sh 
 #!/bin/sh
 sudo arp -s 10.10.0.2 aa:bb:cc:dd:ee:ff -i enp45s0f0
+chmod 777 /etc/networkd-dispatcher/routable.d/macs.sh
 ```
 > Benetel650 does not answer arp requests. With this apr entry in the arp table the server knows to which mac address it needs to sent the ip packet to. The ip packet towards the RRU with ip 10.10.0.2.
 >
 
+Test the script by running it and checking the arp -a table like this
 
-The benetel is connected with a fiber to the server. The port on the RRU is labeled ```port FIBER1```
+```
+$ arp -a | grep 10.10.0.2
+? (10.10.0.2) at 02:00:5e:01:01:01 [ether] PERM on enp45s0f0
+```
+
+
+The benetel is connected with a fiber to the server. 
+1. The port on the RRU is labeled ```port FIBER1```
+2. The port on the server is one of these listed below.
 
 ``` bash
 :ad@5GCN:~$ lshw | grep SFP -C 5
