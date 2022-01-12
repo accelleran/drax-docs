@@ -421,14 +421,17 @@ ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
 
 ### The frequency in the RRU
 
-The frequency set in in the RRU is the center frequency. The center frequency has to be divisible by 3.84 Mhz.
+The frequency set in in the RRU is the center frequency. The center frequency has to be divisable by 3.84 Mhz.
 
 Ths is an example of a configuration
 * point A frequency : 3732.60  ( arfcn : 648840 ) - du configuration
 * center Frequency  : 3751.68  ( arfcn : 650112 ) - rru configuration
 
+3751.68 / 3.84 = 977 . It is divisable.
+
 Some things you can check in the logging to see if everything is set correctly.
-The same info in more detail can be found herehttps://accelleran.atlassian.net/wiki/spaces/DB/pages/2003042324/Benetel+650#Frequency
+The same info in more detail can be found here
+[Link setting frequency benetel650](https://accelleran.atlassian.net/wiki/spaces/DB/pages/2003042324/Benetel+650#Frequency)
 
 ```
 root@benetelru:~# radiocontrol -o G a
