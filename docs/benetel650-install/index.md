@@ -418,8 +418,49 @@ ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
 
 
 ## Configure for any RRU release
-### Set RRU mac address in DU server
+
+### The frequency in the RRU
+
+The frequency set in in the RRU is the center frequency. The center frequency has to be divisible by 3.84 Mhz.
+
+Ths is an example of a configuration
+* point A frequency : 3732.60  ( arfcn : 648840 ) - du configuration
+* center Frequency  : 3751.68  ( arfcn : 650112 ) - rru configuration
+
+Some things you can check in the logging to see if everything is set correctly.
+The same info in more detail can be found herehttps://accelleran.atlassian.net/wiki/spaces/DB/pages/2003042324/Benetel+650#Frequency
+
+```
+root@benetelru:~# radiocontrol -o G a
+PLL2 Frequency (Hz)                   : 3751680000
  
+cat du-config.json| grep -e bandwidth_mhz -e scs_khz  -e coreset_zero -e frequency_band -e arfcn -e nrb
+                            "nr_arfcn": 648840,          
+                            "frequency_band_list": [
+                                    "nr_frequency_band": 78
+                        "transmission_bandwidth": {
+                            "bandwidth_mhz": 40,
+                            "scs_khz": 30,
+                            "nrb": 106
+                    "coreset_zero_index": 3,
+
+
+cat eff_log_bin | grep -i -e freq -e scs -e band
+00001261908350886288 info add_coreset_zero: 0xff BWP{id=0, start_crb=0, num_rb=24, Scs::KHZ_30, CyclicPrefix::NORMAL}
+00001261908350897548 info add_coreset_zero: 0x00 BWP{id=0, start_crb=0, num_rb=106, Scs::KHZ_30, CyclicPrefix::NORMAL}
+00001261908387312201 info dlChannelBandwidth: 106
+00001261908387312831 info ulChannelBandwidth_present: 0
+00001261908387313431 info band: 78
+00001261908387313991 info absoluteFrequencyPointA: 648840
+00001261908387314601 info ulCenterFrequency_present: 0
+00001261908387320821 info ssbConfig.absoluteFrequencySsb: 649152
+00001261908387328381 info prachConfig.msg1_FrequencyStart: 0
+
+
+
+```
+
+### Set RRU mac address in DU server
  
  
 ## Throubleshoot 
