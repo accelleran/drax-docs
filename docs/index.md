@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This BLABLA guide describes the installation of the Accelleran dRax base, 4G and 5G components, the Effnet DU, Phluido L1 and optionally a core network on a single machine.
+This guide describes the installation of the Accelleran dRax base, 4G and 5G components, the Effnet DU, Phluido L1 and optionally a core network on a single machine.
 
 ## Prerequisites
 
