@@ -558,7 +558,7 @@ udp        0      0 10.10.0.1:44000         0.0.0.0:*                           
 502
 ```
 
-Show the traffic between rru and du
+Show the traffic between rru and l1
 
 ```
 $ ifstat -i enp45s0f0
