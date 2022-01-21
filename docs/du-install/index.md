@@ -1,4 +1,4 @@
-# DU Installation
+# DU Installation 
 
 The DU will be installed in several Docker containers that run on the host machine.
 
@@ -107,7 +107,7 @@ The Docker image can now be built and started with:
 
 ``` bash
 docker build --rm -t pcscd_yubikey - <pcscd/Dockerfile.pcscd
-docker run -id --privileged --name pcscd_yubikey_c -v /run/pcscd:/run/pcscd pcscd_yubikey
+docker run --restart always -id --privileged --name pcscd_yubikey_c -v /run/pcscd:/run/pcscd pcscd_yubikey
 ```
 
 You can verify it is running correct with the command:

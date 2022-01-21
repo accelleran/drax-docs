@@ -22,8 +22,9 @@ aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
 ```
 
              
-## Configure the DU
-
+## Configure the DU ( under construction )
+This chapter on only focuses on what to configure to get the Benetel650 working. 
+ The complete installation of the DU can be found in the du-install doc itself.
 Other then the B210, benetel uses 2 software components. 2 Containers, a effnet du and phluido l1.
 The phluido rru is not needed. This component resides in the benetel equipment.
 
@@ -94,27 +95,7 @@ EOF
 ```
 
 
-## Prepare the Benetel 650
-
-
-Add mac entry script in routable.d. 
-
-```
-$ cat /etc/networkd-dispatcher/routable.d/macs.sh 
-#!/bin/sh
-sudo arp -s 10.10.0.2 aa:bb:cc:dd:ee:ff -i enp45s0f0
-chmod 777 /etc/networkd-dispatcher/routable.d/macs.sh
-```
-> Benetel650 does not answer arp requests. With this apr entry in the arp table the server knows to which mac address it needs to sent the ip packet to. The ip packet towards the RRU with ip 10.10.0.2.
->
-
-Test the script by running it and checking the arp -a table like this
-
-```
-$ arp -a | grep 10.10.0.2
-? (10.10.0.2) at 02:00:5e:01:01:01 [ether] PERM on enp45s0f0
-```
-
+## Prepare the server for the Benetel 650
 
 The benetel is connected with a fiber to the server. 
 1. The port on the RRU is labeled ```port FIBER1```
@@ -149,7 +130,7 @@ WARNING: you should run this program as super-user.
 ```
 
 by setting both network devices to UP you find out which one is connected.
-In our case its enp45s0f0.
+In our case its enp45s0f0. This port is the one we connected the fiber with.
 
 ``` bash
 :ad@5GCN:~$ sudo ip link set dev enp45s0f0 up
@@ -256,6 +237,31 @@ drwxrwxrwx    2 root     root             0 Feb  7 16:44 adrv9025
 -rwxr-xr-x    1 root     root           182 Feb  7 16:41 trialHandshake
 root@benetelru:~# 
 ```
+
+The mac address of the benetel data interface can be found like this
+
+```
+to be done
+```
+
+Add mac entry script in routable.d. 
+
+```
+$ cat /etc/networkd-dispatcher/routable.d/macs.sh 
+#!/bin/sh
+sudo arp -s 10.10.0.2 aa:bb:cc:dd:ee:ff -i enp45s0f0
+chmod 777 /etc/networkd-dispatcher/routable.d/macs.sh
+```
+> Benetel650 does not answer arp requests. With this apr entry in the arp table the server knows to which mac address it needs to sent the ip packet to. The ip packet towards the RRU with ip 10.10.0.2.
+>
+
+Test the script by running it and checking the arp -a table like this
+
+```
+$ arp -a | grep 10.10.0.2
+? (10.10.0.2) at 02:00:5e:01:01:01 [ether] PERM on enp45s0f0
+```
+
 
 ## Version Check
 finding out the version and commit hash of the benetel650
