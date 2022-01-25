@@ -29,7 +29,7 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 
 1. Linux Ubuntu Server 20.04 LTS
 2. Docker (recommended version 19.03, check the latest compatible version with Kubernetes)
-4. Kubernetes 1.13 or later (1.21 is currently unsupported)
+4. Kubernetes 1.13 or later till 1.20 (1.21 is currently unsupported)
 5. Helm, version 3
 
 ### Other Requirements
@@ -51,8 +51,6 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 This section explains how to install dRAX for the very first time in its default configuration.
 Assuming that the Customer has already verified all the prerequisites described in the previous Section 4.
 If you already have dRAX and are only updating it, please refer to the [section on updating an existing installation](#updating-existing-installations).
-
-**Please note:** if you are updating an old version of dRAX which was installed without our Helm charts, a fresh install will be needed.
 
 dRAX consists of multiple components:
 
@@ -87,11 +85,10 @@ This will also need to be validated by Accelleran's customer support team, so pl
 
 #### Namespaces
 
-At the preference of the customer, additional Kubernetes namespaces may be used for the various components which will be installed during this process.
+The definition of namespaces is optional and should be avoided if there is no specific need to define them in order to separate the pods and their visibility, as it brings in a certain complexity in the installation, the creation of secrets, keys, and the execution of kubernetes commands that is worth being considered upfront. At the preference of the customer, additional Kubernetes namespaces may be used for the various components which will be installed during this process.
 Kubernetes namespaces should be all lowercase letters and can include the "-" sign.
 
-Please note that when selecting to use custom namespaces, extra steps or flags must be used with most of the commands that follow.
-The following table describes the different "blocks" of components, and for each, a distinct namespace may be used (please note that this is entirely optional!), as well as the default namespace where these components will be installed.
+As mentioned, extra steps or flags must be used with most of the commands that follow. The following table describes the different “blocks” of components, and for each, a distinct namespace that may be used, as well as the default namespace where these components will be installed.
 
 | Description          | Parameter   | Default Namespace |
 | -------------------- | ----------- | ----------------- |
@@ -106,7 +103,7 @@ If neither $NS_4G or $NS_4G_CU is specified, the CU will run in the "default" na
 
 ### Updating existing installations
 
-If you already have an existing dRAX installation (based on our Helm charts), please follow these instructions first, otherwise skip to the next section.
+If you already have an existing Helm charts based dRAX installation, please follow these instructions first, otherwise skip to the next section.
 
 #### Update Helm Charts
 
@@ -125,15 +122,18 @@ It may be that the previous versions used different names for the Helm deploymen
 
 ``` bash
 $ helm list
-NAME    NAMESPACE    REVISION    UPDATED                                    STATUS      CHART      APP    VERSION
-drax    default      1           2021-05-11 12:53:50.978520059 +0000 UTC    deployed    drax-1.    5.2    1.5.2
-ric     default      1           2021-05-11 13:52:35.587178279 +0000 UTC    deployed    ric-1.1    5.4    1.15.4
+NAME        	NAMESPACE	REVISION	UPDATED                                	STATUS  	CHART             	APP VERSION               
+acc-5g-cu-cp	default  	1       	2022-01-21 15:16:35.893230618 +0000 UTC	deployed	acc-5g-cu-cp-3.0.0	release-2.3-duvel-8b8d7f05
+acc-5g-cu-up	default  	1       	2022-01-21 15:16:44.931753616 +0000 UTC	deployed	acc-5g-cu-up-3.0.0	release-2.3-duvel-8b8d7f05
+acc-helm-ric	default  	1       	2022-01-09 17:20:52.860528687 +0000 UTC	deployed  	ric-4.0.0         	4.0.0                     
+
 ```
 
-In the above example, the installations are called `drax` and `ric`, so the required commands would be:
+In the above example, the installations are called `acc-5g-cu-cp-3.0.0` , acc-5g-cu-up-3.0.0 and `ric`, so the required commands would be:
 
 ``` bash
-helm uninstall ric
+helm uninstall acc-5g-cu-cp
+helm uninstall acc-5g-cu-up
 helm uninstall drax
 ```
 
@@ -192,7 +192,12 @@ The name of this secret is critical - this name is used in our Helm charts to ac
 Please refer to [the previous section on the License file](#prepare-license-and-certificate) if you don't yet have one.
 
 ``` bash
-kubectl create secret generic accelleran-license --from-file=license.crt=<name-of-license-file>
+kubectl create secret generic accelleran-license --from-file=license.crt
+```
+Note: if you need for any reason to use a license file with a different (ex. myfile) name the command is a bit more cumbersome:
+
+``` bash
+kubectl create secret generic accelleran-license --from-file=license.crt=myfile
 ```
 
 This needs to be repeated for each namespace that you created previously, specifying each namespace one time using the -n flag.
@@ -206,7 +211,7 @@ To do so, we first retrieve the default values file from the Helm chart reposito
 We do this with the following command:
 
 ``` bash
-curl https://raw.githubusercontent.com/accelleran/helm-charts/master/ric/values.yaml  > ric-values.yaml
+curl https://raw.githubusercontent.com/accelleran/helm-charts/4/ric/values.yaml  > ric-values.yaml
 ```
 
 Next, edit the newly created `ric-values.yaml` file.
@@ -258,13 +263,22 @@ For this to work properly, the following fields in the RIC values.yaml need to b
 dash-front-back-end:
     config:
         grafanaURL: "{{ .Values.global.kubeIp }}"
+        nodeApiURL: "{{ .Values.global.kubeIp }}"
         apiUrl: "{{ .Values.global.kubeIp }}"
 ```
 
 By default, these IPs are taken to be the `$NODE_IP`.
 If you are browsing the dRAX Dashboard from a machine that can reach the `$NODE_IP`, this will work.
 However, in certain use cases, dRAX can be installed on a public IP, and the `$NODE_IP` will not be reachable from your local machine.
-In that case, it's best to set these two IPs above to the public IP.
+In that case, it's best to set these two IPs above to the public IP:
+
+``` yaml
+dash-front-back-end:
+    config:
+        grafanaURL: "publicIP"
+        nodeApiURL: "publicIP"
+        apiUrl: "publicIP"
+```
 
 ##### Enabling 5G components
 
@@ -285,16 +299,29 @@ acc-5g-infrastructure:
 ```
 
 !!! Note
-    The IP pool which is selected here will be used by [MetalLB](https://metallb.universe.tf/), which we use to expose the E1, F1, and GTP interfaces to the external O-RAN components, such as the DU, and the 5GC.
+    The IP pool which is selected here will be used by [MetalLB](https://metallb.universe.tf/), which we use to expose the E1, F1, and GTP interfaces to the external O-RAN components, such as the DU, and the 5GC. In other words, the CUCP E1, CUCP F1 and the CUUP GTP IP addresses will be taken from the specifed pool:
+    
+``` bash
+ad@drax03:~$ kubectl get services
+NAME                                             TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                                                     AGE
+acc-5g-cu-cp-cucp-1-sctp-e1                      LoadBalancer   10.107.230.196   10.55.1.23    38462:31859/SCTP                                                                            3h35m
+acc-5g-cu-cp-cucp-1-sctp-f1                      LoadBalancer   10.99.246.255    10.55.1.22    38472:30306/SCTP                                                                            3h35m
+acc-5g-cu-up-cuup-1-cu-up-gtp-0                  LoadBalancer   10.104.129.111   10.55.1.24    2152:30176/UDP                                                                              3h34m
+acc-5g-cu-up-cuup-1-cu-up-gtp-1                  LoadBalancer   10.110.90.45     10.55.1.25    2152:30816/UDP                                                                              3h34m
+acc-5g-cu-up-cuup-2-cu-up-gtp-0                  LoadBalancer   10.108.122.206   10.55.1.27    2152:32351/UDP                                                                              3h34m
+acc-5g-cu-up-cuup-2-cu-up-gtp-1                  LoadBalancer   10.99.205.127    10.55.1.26    2152:32262/UDP                                                                              3h34m
+```
+    
+    
     MetalLB works by handling ARP requests for these addresses, so the external components need to be in the same L2 subnet in order to access these interfaces.
-    To avoid difficulties, it's recommended that this IP pool is unique in the wider network.
+    To avoid difficulties, it's recommended that this IP pool is unique in the wider network and in the same subnet of your Kubernetes Node
 
 #### Install the dRAX RIC and Dashboard
 
 Install the RIC and Dashboard with Helm (if installing without dedicated namespaces, leave off the -n option):
 
 ``` bash
-helm install ric acc-helm/ric --version 4.0.0 --values ric-values.yaml -n $NS_DRAX
+helm install ric acc-helm/ric --version 4 --values ric-values.yaml -n $NS_DRAX
 ```
 
 !!! info
@@ -327,7 +354,7 @@ To install the dRAX 4G components, we first have to prepare the Helm values conf
 To do so, we first retrieve the default values file from the Helm chart repository and save it to a file named `drax-4g-values.yaml`:
 
 ``` bash
-curl https://raw.githubusercontent.com/accelleran/helm-charts/master/drax/values.yaml > drax-4g-values.yaml
+curl https://raw.githubusercontent.com/accelleran/helm-charts/4/drax/values.yaml > drax-4g-values.yaml
 ```
 
 Next, edit the newly created `drax-4g-values.yaml` file.
@@ -405,7 +432,7 @@ configurator:
 Install the dRAX 4G components with Helm using the above create file:
 
 ``` bash
-helm install drax-4g acc-helm/drax  --version 2 --values drax-4g-values.yaml -n $NS_4G
+helm install drax-4g acc-helm/drax  --version 4 --values drax-4g-values.yaml -n $NS_4G
 ```
 
 !!! warning
@@ -502,13 +529,12 @@ The two commits must match, if not please verify the installation and contact Ac
 
 ### Install dRAX 5G Components
 
-!!! note
-    5G DU installation is not currently covered by dRAX, but support for DUs from our partners can be provided - contact Accelleran's support team for further details.
-
 Accelleran's 5G Components are managed and installed via the Dashboard.
 From the dRAX Dashboard sidebar, select **New deployment** and then click **5G CU deployment**:
 
-![New Deployment menu](images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png){ align=middle }
+
+![New Deployment menu](images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png){align=middle }
+
 
 You will reach the **Deploy a new CU component** page.
 Here, you have the ability to deploy either a CU-CP or a CU-UP component.
