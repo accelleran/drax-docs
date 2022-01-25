@@ -444,15 +444,20 @@ In order for the dRAX 4G components to function properly, we need to configure t
 This can be done from the Dashboard, which is accessible at [http://$NODE_IP:31315](http://$NODE_IP:31315).
 From the sidebar, select the **xApps Management** section, and then click **Overview**:
 
-![Overview section](images/dashboard-sidebar-expanded-xapps-management.png){ align=middle }
+<p align="center">
+  <img width="200" height="300" src="images/dashboard-sidebar-expanded-xapps-management.png">
+</p>
 
 From the **dRAX Core** section, find the **4G-Radio-Controller** entry, and click on the corresponding cog icon in the Configure column, as shown in the picture below:
 
-![xApp List](images/dashboard-xapp-list-hover-4GRC-configure.png){ align=middle }
+![xApp List](images/dashboard-xapp-list-hover-4GRC-configure.png)
 
 You will be presented with a configuration page - the following changes should be made, making sure to replace `$NODE_IP` with the value from your installation:
 
-![4G Radio Controller configuration](images/dashboard-4grc-configuration.png){ align=middle }
+<p align="center">
+  <img width="300" height="450" src="images/dashboard-4grc-configuration.png">
+</p>
+
 
 #### Update E1000 DUs
 
@@ -532,22 +537,26 @@ The two commits must match, if not please verify the installation and contact Ac
 Accelleran's 5G Components are managed and installed via the Dashboard.
 From the dRAX Dashboard sidebar, select **New deployment** and then click **5G CU deployment**:
 
-
-![New Deployment menu](images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png){align=middle }
+<p align="center">
+  <img width="200" height="300" src="images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png">
+</p>
 
 
 You will reach the **Deploy a new CU component** page.
 Here, you have the ability to deploy either a CU-CP or a CU-UP component.
 Therefore, you first have to pick one from the drop-down menu:
 
-![Deploy CU component](images/dashboard-deploy-a-new-cu-component.png){ align=middle }
+<p align="center">
+  <img width="400" height="300" src="images/dashboard-deploy-a-new-cu-component.png">
+</p>
+
 
 #### 5G CU-CP Installation
 
 When installing the 5G CU-CP component, there are a number of configuration parameters that should be filled in the **Deploy a new CU component** form once the CU-CP is chosen from the drop-down menu.
 The form with the deployment parameters is shown below:
 
-![Deploy CU-CP form](images/dashboard-cu-cp-deployment.png){ align=middle }
+![Deploy CU-CP form](images/dashboard-cu-cp-deployment.png)
 
 ##### Required Parameters
 
@@ -594,7 +603,7 @@ The optional parameters are:
 When deploying the 5G CU-UP component, there is only one required parameter in the **Deploy a new CU component** form.
 The form with the deployment parameters is shown below:
 
-![Deploy CU-UP form](images/dashboard-cu-up-deployment.png){ align=middle }
+![Deploy CU-UP form](images/dashboard-cu-up-deployment.png)
 
 ##### Required Parameters
 
@@ -626,11 +635,13 @@ The optional parameters are:
 Compatible xApps can be managed and installed via the Dashboard.
 This can be achieved by clicking on **New deployment** in the sidebar, and then clicking **xApp deployment:**
 
-![Sidebar with Deploy xApp selected](images/dashboard-sidebar-expanded-new-deployment-selected-xapp-deployment.png){ align=middle }
+<p align="center">
+  <img width="200" height="300" src="images/dashboard-sidebar-expanded-new-deployment-selected-xapp-deployment.png">
+</p>
 
 In the resulting form, xApps can be deployed either from a remote Helm repository or by uploading a local packaged Helm chart file.
 
-![Deploy an xApp](images/dashboard-xapp-deployment.png){ align=middle }
+![Deploy an xApp](images/dashboard-xapp-deployment.png)
 
 In the "Metadata" section of the form, the user inputs information regarding the xApp name, the organization and team who own the xApp, the version of the xApp Helm Chart and the namespace where the xApp will be deployed on.
 
@@ -639,7 +650,10 @@ Optionally, the user can upload a values configuration file to override the defa
 
 When deploying an xApp using the second method, the user can upload a local packaged Helm chart (a .tgz file produced by the command "helm package &lt;chartName>") which contains the dRAX compatible xApp and optionally an accompanying values configuration file.
 
-![Upload a local Helm chart](images/dashboard-local-helm-upload.png){ align=middle }
+<p align="center">
+  <img width="400" height="300" src="images/dashboard-local-helm-upload.png">
+</p>
+
 
 Upon clicking the "Submit" button, the xApp will be deployed on the user-defined namespace in Kubernetes following the naming convention "organization-team-xappname-version".
 
@@ -654,11 +668,13 @@ The Dashboard is accessible at [http://$NODE_IP:31315](http://$NODE_IP:31315).
 xApps can be configured via our Dashboard.
 From the sidebar, select the **xApps Management **section, and then click **Overview**:
 
-![xApps Management with Overview xApp selected](images/dashboard-xapp-configuration.png){ align=middle }
+<p align="center">
+  <img width="200" height="300" src="images/dashboard-xapp-configuration.png">
+</p>
 
 You will be presented with a list of installed xApps - you can click on the icon in the Details column to access further information on the xApp:
 
-![List of installed xApps](images/dashboard-xapps-list.jpg){ align=middle }
+![List of installed xApps](images/dashboard-xapps-list.jpg)
 
 From the following page, you will be presented with information on the behaviour of the xApp and the topics that the xApp consumes and produces - the exact information is dependent on the vendor of the xApp.
 Configuration of the xApp is now managed in the Configuration Parameters section - it may need to be expanded with the collapse/expand button at the top right of the section.
@@ -753,12 +769,12 @@ Note: all of these options require the Accelleran E1000s to already have been pr
 To access the configuration page for an eNB, first click on the **RAN Configuration** section, and then click on **eNB Configuration.**
 From the displayed list of eNBs, click on the Cog icon in the Edit column corresponding to the eNB you'd like to reconfigure.
 
-![eNB reconfiguration](images/dashboard-manual-config.png){ align=middle }
+![eNB reconfiguration](images/dashboard-manual-config.png)
 
 From the following screen, the configuration of this eNB can be adjusted.
 Once the configuration has been updated as desired, click on the **Create** button at the bottom left of the page:
 
-![eNB configuration](images/dashboard-enb-configuration.png){ align=middle }
+![eNB configuration](images/dashboard-enb-configuration.png)
 
 Notes:
 
@@ -771,18 +787,21 @@ Notes:
 An alternative way of configuring an individual eNB is to make use of the **Dashboard** initial page (click on **Dashboard** in the sidebar to return there).
 Click on the eNB in the Network Topology, and then choose **Configure Cell** on the **Selected Node **window at the right: this will take you to the  **eNB Configuration** page and described in the previous section.
 
-![Configure from Network Topology](images/dashboard-network-topology.png){ align=middle }
+![Configure from Network Topology](images/dashboard-network-topology.png)
 
 ### 5G RAN Configuration
 
 If you have a dRAX License for 5G, have enabled 5G during the RIC and Dashboard installation in [Enabling 5G components](#enabling-5g-components), and have deployed the CU components as instructed in [Install dRAX 5G Components](#install-drax-5g-components), you can now configure the 5G CU components.
 You can do so by navigating to **RAN Configuration** in the dRAX Dashboard sidebar and clicking the **gNB Configuration**:
 
-![5G CU Configuration from the dRAX Dashboard](images/dashboard-sidebar-5g-config-menu.png){ align=middle }
+<p align="center">
+  <img width="200" height="300" src="images/dashboard-sidebar-5g-config-menu.png">
+</p>
+
 
 You will reach the 5G CU components configuration page:
 
-![5G CU Components configuration page](images/dashboard-cu-config-page.png){ align=middle }
+![5G CU Components configuration page](images/dashboard-cu-config-page.png)
 
 On this page there are two lists, one for CU-CPs and one for CU-UPs.
 You can click the icon under the Edit column of each CU component to edit its configuration.
@@ -800,7 +819,7 @@ The 5G CU-CP components have a number of parameters that you can set as can be s
 
 Click the **Submit** button to send the configuration.
 
-![5G CU-CP Configuration parameters](images/dashboard-cu-cp-config.png){ align=middle }
+![5G CU-CP Configuration parameters](images/dashboard-cu-cp-config.png)
 
 #### 5G CU-UP configuration
 
@@ -811,7 +830,7 @@ The 5G CU-UP has a number of configuration parameters as seen below:
 * E1 Links: You can Add Row or Delete Rows using the button. Here we add the E1 IP address of the CU-CP component that this CU-UP component will connect to. Enter the E1 IP under **E1 Destination IP Address.**
 * Supported PLMN Slices; Expand the table by clicking the (+) sign. You can now Add Rows or Delete Rows to add multiple PLMN IDs. For each PLMN ID, you can Add Rows to add slices or Delete Rows to delete slices. Each slice is defined by the Slice Type and Slice Differentiator.
 
-![5G CU-UP Configuration parameters](images/dashboard-cu-up-config.png){ align=middle }
+![5G CU-UP Configuration parameters](images/dashboard-cu-up-config.png)
 
 ## Verifying the dRAX installation
 
@@ -883,7 +902,7 @@ To access the dRAX Grafana, browse to [http://$NODE_IP:30300](http://$NODE_IP:30
 From here you can browse the different pre-built Grafana dashboards that come with dRAX.
 One of them is the **Accelleran dRAX System Dashboard**:
 
-![Accelleran dRAX 4G Health Dashboard](images/dashboard-4g-health-1.png){ align=middle }
+![Accelleran dRAX 4G Health Dashboard](images/dashboard-4g-health-1.png)
 
 The 4G specific health dashboard, in addition to the 5 global sections explained above, also shows which components of 4G dRAX are running (Redis, NATS, 4GRC, etc.).
 
@@ -892,7 +911,7 @@ The 4G specific health dashboard, in addition to the 5 global sections explained
 The 5G system health dashboard can also be found on dRAX Grafana on [http://$NODE_IP:30300](http://$NODE_IP:30300).
 This time, pick the **Accelleran dRAX 5G System Dashboard** from the list of pre-built Grafana dashboards:
 
-![Accelleran dRAX 5G Health Dashboard](images/dashboard-5g-health-1.png){ align=middle }
+![Accelleran dRAX 5G Health Dashboard](images/dashboard-5g-health-1.png)
 
 The 5G specific health dashboard, in addition to the 5 global sections explained above, also shows which components of 5G dRAX are running (AMF Controller, CUUP, DS Ctrl, etc.).
 
