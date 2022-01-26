@@ -2,8 +2,9 @@
 
 The DU will be installed in several Docker containers that run on the host machine.
 
-This chapter assumes that Docker and docker-compose have been installed and that docker can be run without superuser privileges.
-See [the chapter on Kubernetes Installation](/drax-docs/kubernetes-install) for information on how to do this.
+**Before proceding further make sure Docker and docker-compose have been installed and that docker can be run without superuser privileges, this is a prerequisite.**
+
+See, if you didn't do it already, [the chapter on Kubernetes Installation](/drax-docs/kubernetes-install) for information on how to do this.
 
 ## Install a Low Latency Kernel
 
@@ -48,29 +49,58 @@ Restart the machine to make the changes take effect:
 sudo reboot
 ```
 
-## Run the sysTest utility from Phluido
+## Obtain the Effnet and Phluido licenses
 
-Create the directory to store the Phluido sysTest utility:
+### Preparation steps
+
+Verify the following archive files have been delivered and are available to you before taking further actions:
+
+1. accelleran-du-phluido-2021-09-30.zip
+2. Phluido5GL1_v0.8.1.zip
+3. effnet-license-activation-2021-12-16.zip 
+
+Create the directories to store the Effnet and Phluido software:
 
 ``` bash
-mkdir Phluido_sysTest
+mkdir -p accelleran-du-phluido Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
-Copy `Phluido_sysTest.zip` to `Phluido_sysTest` and unzip it:
+Place `accelleran-du-phluido-2021-09-30.zip` in `accelleran-du-phluido` and unzip it:
 
 ``` bash
-unzip Phluido_sysTest/Phluido_sysTest.zip -d Phluido_sysTest
+unzip accelleran-du-phluido/accelleran-du-phluido-2021-09-30.zip -d accelleran-du-phluido
 ```
 
+Place `Phluido5GL1_v0.8.1.zip` in `Phluido5GL1` and unzip it:
+
+``` bash
+unzip Phluido5GL1/Phluido5GL1_v0.8.1.zip -d Phluido5GL1/Phluido5GL1_v0.8.1
+```
+
+Create `Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright`.
+This file contains the date and time on which you agreed to the Phluido copyright notice and is required to build the Phluido L1 Docker image:
+
+``` bash
+date '+%Y-%m-%d, %H:%M:%S' >Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright
+```
+
+
+### Run the sysTest utility from Phluido
+
+go to the directory where the Phluido sysTest utility is :
+
+``` bash
+cd  Phluido5GL1/Phluido5GL1_v0.8.1/tools
+```
 Run the `sysTest` utility:
 
 ``` bash
 (cd Phluido_sysTest; ./sysTest)
 ```
 
-This will run a test of the system.
-Once it is finsihed it produces a file `Phluido_sysTest/Phluido_sysTest.bin`.
-Send this file to Accelleran, it will allow us to verify the setup of the machine is correct and provide the license key needed to run the L1 docker on the machine.
+This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components
+Once it is finsihed it produces a file `sysTest.bin` in the same directory
+Send this file to Accelleran, to obtain the Phluido license key
 
 ## Create a PCSCD Docker Image
 
@@ -125,30 +155,6 @@ df4f41eb70c9        pcscd_yubikey       "/usr/sbin/pcscd --f…"   1 minute ago 
 
 ## Install the Phluido and Effnet Docker Images
 
-Create the directories to store the Effnet and Phluido software:
-
-``` bash
-mkdir -p accelleran-du-phluido Phluido5GL1/Phluido5GL1_v0.8.1
-```
-
-Place `accelleran-du-phluido-2021-09-30.zip` in `accelleran-du-phluido` and unzip it:
-
-``` bash
-unzip accelleran-du-phluido/accelleran-du-phluido-2021-09-30.zip -d accelleran-du-phluido
-```
-
-Place `Phluido5GL1_v0.8.1.zip` in `Phluido5GL1` and unzip it:
-
-``` bash
-unzip Phluido5GL1/Phluido5GL1_v0.8.1.zip -d Phluido5GL1/Phluido5GL1_v0.8.1
-```
-
-Create `Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright`.
-This file contains the date and time on which you agreed to the Phluido copyright notice and is required to build the Phluido L1 Docker image:
-
-``` bash
-date '+%Y-%m-%d, %H:%M:%S' >Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright
-```
 
 Load the Effnet DU Docker image:
 
