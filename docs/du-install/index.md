@@ -52,6 +52,7 @@ sudo reboot
 ## Obtain the Effnet and Phluido licenses
 
 ### Preparation steps
+In this phase we will need to act in parallel for the DU and the L1/RRU licenses, which depend on our partner company so it is essential to give priority and possibly anticipate these two steps as there is no specific effort involved from the user/customer perspective and they may require longer than one working day before we can proceed further.
 
 Verify the following archive files have been delivered and are available to you before taking further actions:
 
@@ -59,7 +60,34 @@ Verify the following archive files have been delivered and are available to you 
 2. Phluido5GL1_v0.8.1.zip
 3. effnet-license-activation-2021-12-16.zip 
 
-Create the directories to store the Effnet and Phluido software:
+**Note:** if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed phisically to a USB port:
+
+To check if the server can see the key do (in this example Device004 is your key): 
+``` bash
+lsusb
+~$ lsusb
+Bus 002 Device 002: ID 8087:8002 Intel Corp. 
+Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 8087:800a Intel Corp. 
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 004 Device 003: ID 2500:0020 Ettus Research LLC USRP B200
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+**Bus 003 Device 004: ID 1050:0407 Yubico.com Yubikey 4 OTP+U2F+CCID**
+Bus 003 Device 029: ID 2a70:9024 OnePlus AC2003
+Bus 003 Device 006: ID 413c:a001 Dell Computer Corp. Hub
+Bus 003 Device 016: ID 20ce:0023 Minicircuits Mini-Circuits
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+
+```
+
+Then you can find the serial number :
+
+``` bash
+~$ ykman list --serials
+13134288
+```
+
+Once you have the three archive files mentioned above create the directories to store the Effnet and Phluido software:
 
 ``` bash
 mkdir -p accelleran-du-phluido Phluido5GL1/Phluido5GL1_v0.8.1
@@ -85,7 +113,7 @@ date '+%Y-%m-%d, %H:%M:%S' >Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright
 ```
 
 
-### Run the sysTest utility from Phluido
+### Phluido License: Run the sysTest utility from Phluido 
 
 go to the directory where the Phluido sysTest utility is :
 
@@ -102,7 +130,8 @@ This will run a test of the system that will allow to determine if the server is
 Once it is finsihed it produces a file `sysTest.bin` in the same directory
 Send this file to Accelleran, to obtain the Phluido license key
 
-## Create a PCSCD Docker Image
+
+### Effnet License: Create a PCSCD Docker Image 
 
 The DU software needs access to a YubiKey that contains its license.
 The license in the YubiKey is shared by the PCSCD daemon, which itself can run in a Docker container to satisfy OS dependencies.
@@ -153,6 +182,39 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 df4f41eb70c9        pcscd_yubikey       "/usr/sbin/pcscd --f…"   1 minute ago        Up 1 minute                             pcscd_yubikey_c
 ```
 
+### Effnet License: activate the yubikey 
+
+In order to activate the license dongles unzip the license activation bundle (effnet-license-activation-2021-12-16.zip) and then you need to load the included Docker image into your docker-daemon, i.e.
+
+``` bash
+bunzip2 --stdout license-activation-2021-06-29.tar.bz2 | docker load
+```
+
+Then run the image mapping the folder containing the `pcscd` daemon socket into
+the container, e.g. for Ubuntu 20.XX:
+
+``` bash
+docker run -it --rm -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-2021-12-16
+```
+
+If you get warnings similar to:
+
+``` bash
+WARNING: No dongle with serial-number 13134288 found
+```
+
+It means that a dongle for the bundled license was not found, i.e. in this case
+the dongle with the serial number 13134288 has not been activated, or the licens bundle file you have received is not the correct one, contact Accelleran in such case
+
+Successful activation of a license-dongle should produce an output similar to:
+
+``` bash
+Loading certificate to Yubico YubiKey CCID 00 00 (serial: 13134288)
+```
+
+Which means that a license for the dongle with serial-number 13134288 was loaded to the dongle (i.e., it was bundled in the license-activation image).
+
+
 ## Install the Phluido and Effnet Docker Images
 
 
@@ -168,13 +230,161 @@ Load the Phluido L1 Docker image:
 docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/docker/Dockerfile.l1 -t phluido_l1:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
-Load the Phluido RRU Docker image:
+**FOR B210 RU ONLY** : Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):
 
 ``` bash
 docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
-## Configure the DU
+
+
+
+## Prepare and bring on air the USRP B210 Radio
+
+This section is exclusively applicable to the user/customer that intends to use the Ettus USRP B210 Radio End with our Accellleran 5G end to end solution, if you do not have such radio end the informations included in this section may be misleading and bring to undefined error scenarios. Please contact Accelleran if your Radio End is not included in any section of this user guide
+
+Create the UDEV rules for the B210:
+
+``` bash
+sudo tee /etc/udev/rules.d/uhd-usrp.rules <<EOF
+#
+# Copyright 2011,2015 Ettus Research LLC
+# Copyright 2018 Ettus Research, a National Instruments Company
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+#USRP1
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="fffe", ATTRS{idProduct}=="0002", MODE:="0666"
+
+#B100
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0002", MODE:="0666"
+
+#B200
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0020", MODE:="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0021", MODE:="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0022", MODE:="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3923", ATTRS{idProduct}=="7813", MODE:="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3923", ATTRS{idProduct}=="7814", MODE:="0666"
+EOF
+```
+
+Connect the B210 to the machine.
+Make sure it is enumerated as USB3 by executing:
+
+``` bash
+lsusb -d 2500:0020 -v | grep -F bcdUSB
+```
+
+This should print:
+
+```
+bcdUSB               3.00
+```
+
+Add the Ettus Research APT repositories:
+
+``` bash
+sudo add-apt-repository ppa:ettusresearch/uhd
+sudo apt update
+```
+
+Install the software required by the B210:
+
+``` bash
+sudo apt install libuhd-dev uhd-host libuhd3.15.0
+```
+
+Download the UHD images:
+
+``` bash
+sudo uhd_images_downloader
+```
+
+Check if the B210 is detecting using the following command:
+
+``` bash
+uhd_find_devices
+```
+
+This should output something similar to:
+
+```
+[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
+--------------------------------------------------
+-- UHD Device 0
+--------------------------------------------------
+Device Address:
+    serial: 3218C86
+    name: MyB210
+    product: B210
+    type: b200
+```
+
+Burn the correct EEPROM for the B210:
+
+``` bash
+/usr/lib/uhd/utils/usrp_burn_mb_eeprom* --values='name=B210-#4'
+```
+
+If everything goes well this should output something similar to:
+
+```
+Creating USRP device from address:
+[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
+[INFO] [B200] Detected Device: B210
+[INFO] [B200] Loading FPGA image: /usr/share/uhd/images/usrp_b210_fpga.bin...
+[INFO] [B200] Operating over USB 3.
+[INFO] [B200] Detecting internal GPSDO....
+[INFO] [GPS] No GPSDO found
+[INFO] [B200] Initialize CODEC control...
+[INFO] [B200] Initialize Radio control...
+[INFO] [B200] Performing register loopback test...
+[INFO] [B200] Register loopback test passed
+[INFO] [B200] Performing register loopback test...
+[INFO] [B200] Register loopback test passed
+[INFO] [B200] Setting master clock rate selection to 'automatic'.
+[INFO] [B200] Asking for clock rate 16.000000 MHz...
+[INFO] [B200] Actually got clock rate 16.000000 MHz.
+
+Fetching current settings from EEPROM...
+    EEPROM ["name"] is "MyB210"
+
+Setting EEPROM ["name"] to "B210-#4"...
+Power-cycle the USRP device for the changes to take effect.
+
+Done
+```
+
+Check if the current EEPROM was flashed by executing:
+
+``` bash
+uhd_find_devices
+```
+
+The output should look like:
+
+```
+[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
+--------------------------------------------------
+-- UHD Device 0
+--------------------------------------------------
+Device Address:
+    serial: 3218C86
+    name: B210-#4
+    product: B210
+    type: b200
+```
+### DU/L1/RRU Configuration and docker compose
+
+Before starting the configuration of the components it is important to avoid confusion so please create a folder file and move in all the configuration files you find for the L1, RRU and the DU configuration and remove the docker-compose as well:
+``` bash
+mkdir accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/cfg
+mv accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/*.cfg accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/cfg/
+mkdir accelleran-du-phluido/accelleran-du-phluido-2021-09-30/json
+mv accelleran-du-phluido/accelleran-du-phluido-2021-09-30/*.json accelleran-du-phluido/accelleran-du-phluido-2021-09-30/json/
+rm accelleran-du-phluido/accelleran-du-phluido-2021-09-30/docker-compose.yml
+```
 
 Create a configuration file for the Phluido RRU:
 
@@ -246,10 +456,12 @@ maxNumPdschLayers = 2;
 maxNumPuschLayers = 1;
 maxNumPrachDetectionSymbols = 1;
 
-//License key
+//License key put here please the effective 32 digits sequence you received for this deployment
 LicenseKey = "XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX";
 EOF
 ```
+**IMPORTANT: After this replace the LicenseKey value with the effective license sequence you obtained from Accelleran 
+
 
 Create a configuration file for the Effnet DU:
 
@@ -408,13 +620,16 @@ tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/b210_config_20mhz.jso
 EOF
 ```
 
-Before creating the `docker-compose.yml` file, make sure to set the `$CU_IP` environment variable.
-This IP address can be determined by executing the following command.
-The CU address is the second IP address.
-This IP address should be in the IP pool that was assigned to MetalLB in [dRax Installation](/drax-docs/drax-install/).
+Before creating the `docker-compose.yml` file, make sure to set the `$CU_IP` environment variable where you will store the F1 IP address of the CUCP that you have already deployed using the dRAX Dashboard (section [CUCP Installation](/drax-docs/drax-install/images/dashboard-cu-cp-deployment.png) )
+This IP address can be determined by executing the following command:
 
 ``` bash
-kubectl get services | grep 'acc-5g-cu-cp-.*-sctp-f1'
+kubectl get services | grep f1
+```
+The CUCP F1 SCTP interface external address is the second IP address and should be in the IP pool that was assigned to MetalLB in [dRax Installation](/drax-docs/drax-install/).
+
+``` bash
+kubectl get services | grep f1
 ```
 
 Now, create a docker-compose configuration file:
@@ -472,142 +687,7 @@ services:
 EOF
 ```
 
-## Prepare the B210
-
-Create the UDEV rules for the B210:
-
-``` bash
-sudo tee /etc/udev/rules.d/uhd-usrp.rules <<EOF
-#
-# Copyright 2011,2015 Ettus Research LLC
-# Copyright 2018 Ettus Research, a National Instruments Company
-#
-# SPDX-License-Identifier: GPL-3.0-or-later
-#
-
-#USRP1
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="fffe", ATTRS{idProduct}=="0002", MODE:="0666"
-
-#B100
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0002", MODE:="0666"
-
-#B200
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0020", MODE:="0666"
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0021", MODE:="0666"
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0022", MODE:="0666"
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="3923", ATTRS{idProduct}=="7813", MODE:="0666"
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="3923", ATTRS{idProduct}=="7814", MODE:="0666"
-EOF
-```
-
-Connect the B210 to the machine.
-Make sure it is enumerated as USB3 by executing:
-
-``` bash
-lsusb -d 2500:0020 -v | grep -F bcdUSB
-```
-
-This should print:
-
-```
-bcdUSB               3.00
-```
-
-Add the Ettus Research APT repositories:
-
-``` bash
-sudo add-apt-repository ppa:ettusresearch/uhd
-sudo apt update
-```
-
-Install the software required by the B210:
-
-``` bash
-sudo apt install libuhd-dev uhd-host libuhd3.15.0
-```
-
-Download the UHD images:
-
-``` bash
-sudo uhd_images_downloader
-```
-
-Check if the B210 is detecting using the following command:
-
-``` bash
-uhd_find_devices
-```
-
-This should output something similar to:
-
-```
-[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
---------------------------------------------------
--- UHD Device 0
---------------------------------------------------
-Device Address:
-    serial: 3218C86
-    name: MyB210
-    product: B210
-    type: b200
-```
-
-Burn the correct EEPROM for the B210:
-
-``` bash
-/usr/lib/uhd/utils/usrp_burn_mb_eeprom* --values='name=B210-#4'
-```
-
-If everything goes well this should output something similar to:
-
-```
-Creating USRP device from address:
-[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
-[INFO] [B200] Detected Device: B210
-[INFO] [B200] Loading FPGA image: /usr/share/uhd/images/usrp_b210_fpga.bin...
-[INFO] [B200] Operating over USB 3.
-[INFO] [B200] Detecting internal GPSDO....
-[INFO] [GPS] No GPSDO found
-[INFO] [B200] Initialize CODEC control...
-[INFO] [B200] Initialize Radio control...
-[INFO] [B200] Performing register loopback test...
-[INFO] [B200] Register loopback test passed
-[INFO] [B200] Performing register loopback test...
-[INFO] [B200] Register loopback test passed
-[INFO] [B200] Setting master clock rate selection to 'automatic'.
-[INFO] [B200] Asking for clock rate 16.000000 MHz...
-[INFO] [B200] Actually got clock rate 16.000000 MHz.
-
-Fetching current settings from EEPROM...
-    EEPROM ["name"] is "MyB210"
-
-Setting EEPROM ["name"] to "B210-#4"...
-Power-cycle the USRP device for the changes to take effect.
-
-Done
-```
-
-Check if the current EEPROM was flashed by executing:
-
-``` bash
-uhd_find_devices
-```
-
-The output should look like:
-
-```
-[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
---------------------------------------------------
--- UHD Device 0
---------------------------------------------------
-Device Address:
-    serial: 3218C86
-    name: B210-#4
-    product: B210
-    type: b200
-```
-
-## Start the DU
+### Start the DU
 
 Start the DU by running the following command:
 
@@ -686,3 +766,8 @@ phluido_rru_1  | -- Actually got clock rate 23.040000 MHz.
 phluido_rru_1  | -- Performing timer loopback test... pass
 phluido_rru_1  | -- Performing timer loopback test... pass
 ```
+
+## Prepare and bring on air the Benetel 650 Radio
+
+This section is exclusively applicable to the user/customer that intends to use the Benetel B650 Radio End with our Accellleran 5G end to end solution, if you do not have such radio end the informations included in this section may be misleading and bring to undefined error scenarios. Please contact Accelleran if your Radio End is not included in any section of this user guide
+
