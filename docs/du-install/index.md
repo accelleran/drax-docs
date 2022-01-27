@@ -4,7 +4,7 @@ The DU will be installed in several Docker containers that run on the host machi
 
 **Before proceding further make sure Docker and docker-compose have been installed and that docker can be run without superuser privileges, this is a prerequisite.**
 
-See, if you didn't do it already, [the chapter on Kubernetes Installation](/drax-docs/kubernetes-install) for information on how to do this.
+See, if you didn't do it already, [the chapter on Kubernetes Installation](../kubernetes-install/index.md) for information on how to do this.
 
 ## Install a Low Latency Kernel
 
@@ -620,13 +620,13 @@ tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/b210_config_20mhz.jso
 EOF
 ```
 
-Before creating the `docker-compose.yml` file, make sure to set the `$CU_IP` environment variable where you will store the F1 IP address of the CUCP that you have already deployed using the dRAX Dashboard (section [CUCP Installation](/drax-docs/drax-install/images/dashboard-cu-cp-deployment.png) )
+Before creating the `docker-compose.yml` file, make sure to set the `$CU_IP` environment variable where you will store the F1 IP address of the CUCP that you have already deployed using the dRAX Dashboard (section [CUCP Installation](../drax-install/images/dashboard-cu-cp-deployment.png) )
 This IP address can be determined by executing the following command:
 
 ``` bash
 kubectl get services | grep f1
 ```
-The CUCP F1 SCTP interface external address is the second IP address and should be in the IP pool that was assigned to MetalLB in [dRax Installation](/drax-docs/drax-install/).
+The CUCP F1 SCTP interface external address is the second IP address and should be in the IP pool that was assigned to MetalLB in [dRax Installation](../drax-install/index.md).
 
 ``` bash
 kubectl get services | grep f1
