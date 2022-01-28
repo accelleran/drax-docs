@@ -1018,10 +1018,19 @@ Let's proceed with an example:
 We want to set a center frequency of 3750 MHz, this is not devisable by 3.84, the first next frequencies that meet this condition are 3747,84 (976*3.84) 3751.68 (977*3,84) so let's consider first 3747,84 MHz and verify the conditions on the K_ssb and Offset to Point A with this online tool (link at:  (https://www.sqimway.com/nr_refA.php) ) 
 
 - We remember to set the Band 78, SCs at 30 KHz, the Bandwidth at 40 MHz and the ARFCN of the center frequency 3747,84 which is 649856 and when we hit the **RUN** button we obtain:
+<p align="center">
+  <img width="600" height="800" src="Freq3747dot84.png">
+</p>
+This Frequency, however does not meet the **GSCN Synchronisation requirements** as in fact the Offset to Point A of the first channel is 2 and the K_ssb is 14, this will cause the UE to listen on the wrong channel so the SIBs will never be seen and therefore the cell is "invisible"
 
+- We then repeat the exercise with the higher center frequency 3751,68 MHz, which yelds a center frequency ARFCN of 650112 and a point A ARFCN of 648840 and giving another run we will see that now the K_ssb and the Offset to Point A are correct:
+<p align="center">
+  <img width="600" height="800" src="Freq3751dot68.png">
+</p>
+With these information at hand we are going to determine:
 
-
-
+* point A frequency : 3732.60  ( arfcn : 648840 ) - edit du configuration in the appropriate json file
+* center Frequency  : 3751.68  ( arfcn : 650112 ) - edit rru configuration directly on the Benetel Radio End (see next sections)
 
 ### Create docker compose
 
@@ -1065,13 +1074,6 @@ services:
     ipc: container:phluido_l1
     tty: true
     privileged: true
-**???**
-
-    cap_add:
-      - CAP_SYS_NICE
-      - CAP_IPC_LOCK
-      
-      
     depends_on:
       - phluido_l1
     entrypoint: ["/bin/sh", "-c", "sleep 4 && exec /gnb_du_main_phluido /config.json"]
@@ -1082,11 +1084,10 @@ services:
 EOF
 ```
 
-
-## Prepare the server for the Benetel 650
+### Prepare the server for the Benetel 650
 
 The benetel is connected with a fiber to the server. 
-1. The port on the RRU is labeled ```port FIBER1```
+1. The port on the physical B650 RRU is labeled ```port FIBER1```
 2. The port on the server is one of these listed below.
 
 ``` bash
@@ -1118,7 +1119,7 @@ WARNING: you should run this program as super-user.
 ```
 
 by setting both network devices to UP you find out which one is connected.
-In our case its enp45s0f0. This port is the one we connected the fiber with.
+In this example it's enp45s0f0. This port is the one we connected the fiber to.
 
 ``` bash
 :ad@5GCN:~$ sudo ip link set dev enp45s0f0 up
@@ -1130,12 +1131,9 @@ enp45s0f1        DOWN
 	:
 ```
 
-configuring the static ip of enp45s0f0 is done via netplan.
-add this part to `/etc/netplan/50-cloud-init.yaml` . 
-In some installation it might be anot 
+configure the static ip 10.10.0.1 of for enp45s0f0 on your server netplan (typically `/etc/netplan/50-cloud-init.yaml`) as follows: 
 
 ``` bash
-
 network:
     ethernets:
        enp45s0f0:
@@ -1153,7 +1151,7 @@ To apply this configuration you can use
 sudo netplan apply 
 ```
 
-This needs to be the result
+Double check the result
 
 ``` bash
 $ ip -br a | grep enp45
@@ -1161,8 +1159,8 @@ enp45s0f0        UP             10.10.0.1/24 fe80::6eb3:11ff:fe08:a4e0/64
 enp45s0f1        DOWN           
 ```
 
-The ip benetel is configured with is `10.10.0.100`. This is the MGMT ip. We can ssh to it.
-We found out using nmap this way.
+The default ip of the benetel radio is `10.10.0.100`. This is the MGMT ip. We can ssh to it as root@10.10.0.100 without password
+We can anyway find that IP out using nmap 
 
 ``` bash
 $ nmap 10.10.0.0/24
@@ -1188,7 +1186,7 @@ Nmap done: 256 IP addresses (2 hosts up) scanned in 3.10 seconds
 
 ```
 
-A route is added also in the route table automatically
+A route is added also in the routing table automatically
 
 ``` bash
 $ route -n | grep 10.10.0.0
@@ -1225,25 +1223,20 @@ drwxrwxrwx    2 root     root             0 Feb  7 16:44 adrv9025
 -rwxr-xr-x    1 root     root           182 Feb  7 16:41 trialHandshake
 root@benetelru:~# 
 ```
-
-The mac address of the benetel data interface can be found like this
-
-```
-to be done
-```
+However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RRU has always the same MAC on 10.10.0.2 namely ```bash 02:00:5e:01:01:01``` and we can put this directly on the Server where the DU runs in the file: /etc/networkd-dispatcher/routable.d/macs.sh
 
 Add mac entry script in routable.d. 
 
 ```
 $ cat /etc/networkd-dispatcher/routable.d/macs.sh 
 #!/bin/sh
-sudo arp -s 10.10.0.2 aa:bb:cc:dd:ee:ff -i enp45s0f0
+sudo arp -s 10.10.0.2 02:00:5e:01:01:01 -i enp45s0f0
 chmod 777 /etc/networkd-dispatcher/routable.d/macs.sh
 ```
-> Benetel650 does not answer arp requests. With this apr entry in the arp table the server knows to which mac address it needs to sent the ip packet to. The ip packet towards the RRU with ip 10.10.0.2.
->
+> Benetel650 does not answer arp requests. With this arp entry in the arp table the server knows to which mac address the ip packets with destination ip 10.10.0.2 
+ should go
 
-Test the script by running it and checking the arp -a table like this
+run the script and check now the arp table like this
 
 ```
 $ arp -a | grep 10.10.0.2
@@ -1276,13 +1269,13 @@ root@benetelru:~# cat /etc/benetel-rootfs-version
 RAN650-2V0.4
 ```
 
-## Configure the RRU release V0.3
-### Set DU mac address for version V0.3
+### Prepare the physical Benetel Radio End - Release V0.3
 
-
-Inside the file ```/etc/radio_init.sh``` we program the mac. 
-
-Example for MAC address 00:1E:67:FD:F5:51 you will find in the file:
+ - MAC Address of the DU
+ 
+Let's now concentrate on the Radio End, which in all aspect is a separate box, accessible via ssh as discussed above
+The first thing we must edit is the destination mac address where the DU is listening, this is the MAC address of the server port where we connected the fiber and with IP address 10.0.0.1, in our example we talk about the port enp45s0f0 which for the sake of argument has MAC 00:1E:67:FD:F5:51
+We login to the Radio End (ssh root@10.10.0.100) and edit the file ```/etc/radio_init.sh``` we program that mac address (carefully check the first two bytes are the mast ones, the next four bytes come first, capitol letters no spaces) :
 
     registercontrol -w c0315 -x 0x67FDF551 >> /home/root/radio_boot_response 
     registercontrol -w c0316 -x 0x001E >> /home/root/radio_boot_response
@@ -1290,28 +1283,24 @@ Example for MAC address 00:1E:67:FD:F5:51 you will find in the file:
 
 Make sure to edit those as MAC address of the fiber port.
 
-Reboot the BNTL650
+To take effect, reboot the BNTL650
 
+ - Frequency of the Radio End
 
-
-### Set the Frequency for version V0.3
-
-
-This file ```/etc/systemd/system/multi-user.target.wants/autoconfig.service``` is called during boot that sets the frequency.
-change the frequency here.
+Edit file ```/etc/systemd/system/multi-user.target.wants/autoconfig.service``` to set the frequency: 
 
 ```
 [Service]
 ExecStart =/bin/sh /etc/radio_init.sh 3751.680
 ```
+Once again, this is the **CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above**
+Example for frequency 3751.68MHz (ARFCN=650112) you will find in the file make sure to edit/check the pointA frequency ARFCN value in the DU config json file (in this example PointA_ARFCN=648840)
 
-Example for frequency 3751.68MHz (ARFCN=650112) you will find in the file:
-Make sure to edit the pointA frequency ARFCN value in the DU config (in this example PointA_ARFCN=648840).
+Once again, reboot the BNTL650 to make changes effective
 
-Reboot the BNTL650
+### Prepare the physical Benetel Radio End - Release V0.3
 
-## Configure the RRU release V0.4
-### Set DU mac address in the RRU
+- MAC Address of the DU
 
 Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that.
 
@@ -1327,7 +1316,7 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1E:0x01:0x55
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1F:0x01:0x66
 ```
 
-### Set the Frequency for version v0.4
+- Set the Frequency for version v0.4
 
 This file ```/etc/systemd/system/multi-user.target.wants/autoconfig.service``` is called during boot that sets the frequency.
 
@@ -1367,7 +1356,13 @@ eeprog_cp60 -f -16 /dev/i2c-0 0x57 -r 0x17C:8
 
 Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680
 
-### Set attenuation level
+Once again, this is the **CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above**
+Example for frequency 3751.68MHz (ARFCN=650112) you have set make sure to edit/check the pointA frequency ARFCN value back in the DU config json file in the server (in this example PointA_ARFCN=648840)
+
+Once again, reboot the BNTL650 to make changes effective
+
+
+- Set attenuation level
 1. read current attenuations
 ```
 ~# radiocontrol -o G a
@@ -1407,62 +1402,9 @@ ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
 ```
 /usr/bin/radiocontrol -o A 21000 4
 ```
->yes the 4 at the end seems to be correct.
+**yes the 4 at the end seems to be correct**
 
-
-
-## Configure for any RRU release
-
-### The frequency in the RRU
-
-The frequency set in in the RRU is the center frequency. The center frequency has to be divisable by 3.84 Mhz.
-
-Ths is an example of a configuration
-* point A frequency : 3732.60  ( arfcn : 648840 ) - du configuration
-* center Frequency  : 3751.68  ( arfcn : 650112 ) - rru configuration
-
-3751.68 / 3.84 = 977 . It is divisable.
-
-Some things you can check in the logging to see if everything is set correctly.
-The same info in more detail can be found here
-[Link setting frequency benetel650](https://accelleran.atlassian.net/wiki/spaces/DB/pages/2003042324/Benetel+650#Frequency)
-
-```
-root@benetelru:~# radiocontrol -o G a
-PLL2 Frequency (Hz)                   : 3751680000
- 
-cat du-config.json| grep -e bandwidth_mhz -e scs_khz  -e coreset_zero -e frequency_band -e arfcn -e nrb
-                            "nr_arfcn": 648840,          
-                            "frequency_band_list": [
-                                    "nr_frequency_band": 78
-                        "transmission_bandwidth": {
-                            "bandwidth_mhz": 40,
-                            "scs_khz": 30,
-                            "nrb": 106
-                    "coreset_zero_index": 3,
-
-
-cat eff_log_bin | grep -i -e freq -e scs -e band
-00001261908350886288 info add_coreset_zero: 0xff BWP{id=0, start_crb=0, num_rb=24, Scs::KHZ_30, CyclicPrefix::NORMAL}
-00001261908350897548 info add_coreset_zero: 0x00 BWP{id=0, start_crb=0, num_rb=106, Scs::KHZ_30, CyclicPrefix::NORMAL}
-00001261908387312201 info dlChannelBandwidth: 106
-00001261908387312831 info ulChannelBandwidth_present: 0
-00001261908387313431 info band: 78
-00001261908387313991 info absoluteFrequencyPointA: 648840
-00001261908387314601 info ulCenterFrequency_present: 0
-00001261908387320821 info ssbConfig.absoluteFrequencySsb: 649152
-00001261908387328381 info prachConfig.msg1_FrequencyStart: 0
-
-
-
-```
-
-### Set RRU mac address in DU server
- 
- 
-## Throubleshoot 
-
-
+### Generally available checks on the B650 (all releases)
 
 ### GPS
 See if GPS is locked
@@ -1482,9 +1424,10 @@ CLK5 GPS STICKY: LOS and Frequency Offset
 CLK6 EXT 1PPS LIVE: LOS and Frequency Offset
 CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
 ```
-### To be noted
-some important registers
-```
+### RRU Status Report
+some important registers must be checked to determine if the boot sequence has completed correctly:
+
+```bash
 root@benetelru:~# reportRuStatus 
 
 [INFO] Sync status is: 
@@ -1524,7 +1467,71 @@ RU Status Register description:
 ===========================================================
 ```
 
-trace traffic between RRU and L1. Also the mac can be read from this trace. Packet lengths are 3874. 
+### HANDSHAKE
+
+Once the Cell and the server have been configured correctly, open two consoles, login in one of them to the server and in the other one login to the Benetel Radio End.
+Take the following two steps:
+
+a)run the handshake command 
+
+
+2)without waiting, bring the components up with docker compose
+
+``` bash
+docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/docker-compose-benetel.yml
+```
+
+If all goes well this will produce output similar to:
+
+```
+Starting phluido_l1 ... done
+Recreating accelleran-du-phluido-2021-09-30_du_1 ... done
+Attaching to phluido_l1, accelleran-du-phluido-2021-09-30_du_1
+phluido_l1  | Reading configuration from config file "/config.cfg"...
+phluido_l1  | *******************************************************************************************************
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  Phluido 5G-NR virtualized L1 implementation                                                        *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  Copyright (c) 2014-2020 Phluido Inc.                                                               *
+phluido_l1  | *  All rights reserved.                                                                               *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  The User shall not, and shall not permit others to:                                                *
+phluido_l1  | *   - integrate Phluido Software within its own products;                                             *
+phluido_l1  | *   - mass produce products that are designed, developed or derived from Phluido Software;            *
+phluido_l1  | *   - sell products which use Phluido Software;                                                       *
+phluido_l1  | *   - modify, correct, adapt, translate, enhance or otherwise prepare derivative works or             *
+phluido_l1  | *     improvements to Phluido Software;                                                               *
+phluido_l1  | *   - rent, lease, lend, sell, sublicense, assign, distribute, publish, transfer or otherwise         *
+phluido_l1  | *     make available the PHLUIDO Solution or any portion thereof to any third party;                  *
+phluido_l1  | *   - reverse engineer, disassemble and/or decompile Phluido Software.                                *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,           *
+phluido_l1  | *  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A         *
+phluido_l1  | *  PARTICULAR PURPOSE ARE DISCLAIMED.                                                                 *
+phluido_l1  | *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,              *
+phluido_l1  | *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF                 *
+phluido_l1  | *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)             *
+phluido_l1  | *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR           *
+phluido_l1  | *  TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS                 *
+phluido_l1  | *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                                       *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *******************************************************************************************************
+phluido_l1  |
+phluido_l1  | Copyright information already accepted on 2020-11-27, 08:56:08.
+phluido_l1  | Starting Phluido 5G-NR L1 software...
+phluido_l1  | 	PHAPI version       = 0.5 (12/10/2020)
+phluido_l1  | 	L1 SW version       = 0.8.1
+phluido_l1  | 	L1 SW internal rev  = r3852
+phluido_l1  | Parsed configuration parameters:
+phluido_l1  |     LicenseKey = XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX
+phluido_l1  |     maxNumPrachDetectionSymbols = 1
+phluido_l1  |     maxNumPdschLayers = 2
+phluido_l1  |     maxNumPuschLayers = 1
+phluido_l1  |     maxPuschModOrder = 6
+phluido_l1  |
+```
+
+trace traffic between RRU and L1. Also the mac can be read from this trace. The first packet goes out from the Radio End to the DU, this is the handshake packet, the destination MAC address is that address we configured in the Radio End (file  ```/etc/radio_init.sh```).The second Packet is the Handshake response of the DU and we have to make sure that as described the MAC address used in such response from the DU has been set correctly so that the DATA Interface MAC address of the Radio End is used (by default in the Benetel Radio this MAC address is ```02:00:5e:01:01:01```) When data flows the udp packet lengths are 3874. 
 Remember we increased the MTU size to 9000. Without increasing the L1 would crash on the fragmented udp packets.
 
 ```
@@ -1568,10 +1575,9 @@ https://www.serveradminz.com/blog/unsupported-sfp-linux/
 
 ## Starting RRU Benetel 650
 Perform these steps to get a running active cell.
-
-1) Start L1
-2) Start DU  
-   At this point following sequence is 
+1) Start the Handshake on the Radio End ```ssh root@10.10.0.100  handshake```
+2) Start L1 and DU (docker-compose)
+3) Use wireshark to follow the CPlane traffic, at this point following sequence:
 ```
      DU                                        CU
       |  F1SetupRequest--->                     |
@@ -1582,8 +1588,7 @@ Perform these steps to get a running active cell.
 ```
    The L1 starts listening on ip:port 10.10.0.1:44000
 
-3) type ```ssh root@10.10.0.100  handshake```
-   After less than 30 seconds communication between rru and du starts. around 100 Mbytes/second
+3) After less than 30 seconds communication between rru and du starts. around 100 Mbytes/second
  
 ```
      DU                                        CU
@@ -1591,6 +1596,6 @@ Perform these steps to get a running active cell.
       |                                         |
 ```
 
-5) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. ( If it does not stop use ```ssh_rru "registercontrol -w c0310 -x 0 ``` but be carefull )
+4) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. ( If it does not stop use ```ssh_rru "registercontrol -w c0310 -x 0 ``` but be carefull )
 
  
