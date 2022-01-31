@@ -29,7 +29,7 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 
 1. Linux Ubuntu Server 20.04 LTS
 2. Docker (recommended version 19.03, check the latest compatible version with Kubernetes)
-4. Kubernetes 1.13 or later (1.21 is currently unsupported)
+4. Kubernetes 1.13 or later till 1.20 (1.21 is currently unsupported)
 5. Helm, version 3
 6. BIOS set to performance. System BIOS.System profile settings.Performance
 
@@ -52,8 +52,6 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 This section explains how to install dRAX for the very first time in its default configuration.
 Assuming that the Customer has already verified all the prerequisites described in the previous Section 4.
 If you already have dRAX and are only updating it, please refer to the [section on updating an existing installation](#updating-existing-installations).
-
-**Please note:** if you are updating an old version of dRAX which was installed without our Helm charts, a fresh install will be needed.
 
 dRAX consists of multiple components:
 
@@ -88,11 +86,10 @@ This will also need to be validated by Accelleran's customer support team, so pl
 
 #### Namespaces
 
-At the preference of the customer, additional Kubernetes namespaces may be used for the various components which will be installed during this process.
+The definition of namespaces is optional and should be avoided if there is no specific need to define them in order to separate the pods and their visibility, as it brings in a certain complexity in the installation, the creation of secrets, keys, and the execution of kubernetes commands that is worth being considered upfront. At the preference of the customer, additional Kubernetes namespaces may be used for the various components which will be installed during this process.
 Kubernetes namespaces should be all lowercase letters and can include the "-" sign.
 
-Please note that when selecting to use custom namespaces, extra steps or flags must be used with most of the commands that follow.
-The following table describes the different "blocks" of components, and for each, a distinct namespace may be used (please note that this is entirely optional!), as well as the default namespace where these components will be installed.
+As mentioned, extra steps or flags must be used with most of the commands that follow. The following table describes the different “blocks” of components, and for each, a distinct namespace that may be used, as well as the default namespace where these components will be installed.
 
 | Description          | Parameter   | Default Namespace |
 | -------------------- | ----------- | ----------------- |
@@ -107,7 +104,7 @@ If neither $NS_4G or $NS_4G_CU is specified, the CU will run in the "default" na
 
 ### Updating existing installations
 
-If you already have an existing dRAX installation (based on our Helm charts), please follow these instructions first, otherwise skip to the next section.
+If you already have an existing Helm charts based dRAX installation, please follow these instructions first, otherwise skip to the next section.
 
 #### Update Helm Charts
 
@@ -126,15 +123,18 @@ It may be that the previous versions used different names for the Helm deploymen
 
 ``` bash
 $ helm list
-NAME    NAMESPACE    REVISION    UPDATED                                    STATUS      CHART      APP    VERSION
-drax    default      1           2021-05-11 12:53:50.978520059 +0000 UTC    deployed    drax-1.    5.2    1.5.2
-ric     default      1           2021-05-11 13:52:35.587178279 +0000 UTC    deployed    ric-1.1    5.4    1.15.4
+NAME        	NAMESPACE	REVISION	UPDATED                                	STATUS  	CHART             	APP VERSION               
+acc-5g-cu-cp	default  	1       	2022-01-21 15:16:35.893230618 +0000 UTC	deployed	acc-5g-cu-cp-3.0.0	release-2.3-duvel-8b8d7f05
+acc-5g-cu-up	default  	1       	2022-01-21 15:16:44.931753616 +0000 UTC	deployed	acc-5g-cu-up-3.0.0	release-2.3-duvel-8b8d7f05
+acc-helm-ric	default  	1       	2022-01-09 17:20:52.860528687 +0000 UTC	deployed  	ric-4.0.0         	4.0.0                     
+
 ```
 
-In the above example, the installations are called `drax` and `ric`, so the required commands would be:
+In the above example, the installations are called `acc-5g-cu-cp-3.0.0` , acc-5g-cu-up-3.0.0 and `ric`, so the required commands would be:
 
 ``` bash
-helm uninstall ric
+helm uninstall acc-5g-cu-cp
+helm uninstall acc-5g-cu-up
 helm uninstall drax
 ```
 
@@ -193,7 +193,12 @@ The name of this secret is critical - this name is used in our Helm charts to ac
 Please refer to [the previous section on the License file](#prepare-license-and-certificate) if you don't yet have one.
 
 ``` bash
-kubectl create secret generic accelleran-license --from-file=license.crt=<name-of-license-file>
+kubectl create secret generic accelleran-license --from-file=license.crt
+```
+Note: if you need for any reason to use a license file with a different (ex. myfile) name the command is a bit more cumbersome:
+
+``` bash
+kubectl create secret generic accelleran-license --from-file=license.crt=myfile
 ```
 
 This needs to be repeated for each namespace that you created previously, specifying each namespace one time using the -n flag.
@@ -207,7 +212,7 @@ To do so, we first retrieve the default values file from the Helm chart reposito
 We do this with the following command:
 
 ``` bash
-curl https://raw.githubusercontent.com/accelleran/helm-charts/master/ric/values.yaml  > ric-values.yaml
+curl https://raw.githubusercontent.com/accelleran/helm-charts/4/ric/values.yaml  > ric-values.yaml
 ```
 
 Next, edit the newly created `ric-values.yaml` file.
@@ -259,13 +264,22 @@ For this to work properly, the following fields in the RIC values.yaml need to b
 dash-front-back-end:
     config:
         grafanaURL: "{{ .Values.global.kubeIp }}"
+        nodeApiURL: "{{ .Values.global.kubeIp }}"
         apiUrl: "{{ .Values.global.kubeIp }}"
 ```
 
 By default, these IPs are taken to be the `$NODE_IP`.
 If you are browsing the dRAX Dashboard from a machine that can reach the `$NODE_IP`, this will work.
 However, in certain use cases, dRAX can be installed on a public IP, and the `$NODE_IP` will not be reachable from your local machine.
-In that case, it's best to set these two IPs above to the public IP.
+In that case, it's best to set these two IPs above to the public IP:
+
+``` yaml
+dash-front-back-end:
+    config:
+        grafanaURL: "publicIP"
+        nodeApiURL: "publicIP"
+        apiUrl: "publicIP"
+```
 
 ##### Enabling 5G components
 
@@ -286,16 +300,29 @@ acc-5g-infrastructure:
 ```
 
 !!! Note
-    The IP pool which is selected here will be used by [MetalLB](https://metallb.universe.tf/), which we use to expose the E1, F1, and GTP interfaces to the external O-RAN components, such as the DU, and the 5GC.
+    The IP pool which is selected here will be used by [MetalLB](https://metallb.universe.tf/), which we use to expose the E1, F1, and GTP interfaces to the external O-RAN components, such as the DU, and the 5GC. In other words, the CUCP E1, CUCP F1 and the CUUP GTP IP addresses will be taken from the specifed pool:
+    
+``` bash
+ad@drax03:~$ kubectl get services
+NAME                                             TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                                                     AGE
+acc-5g-cu-cp-cucp-1-sctp-e1                      LoadBalancer   10.107.230.196   10.55.1.23    38462:31859/SCTP                                                                            3h35m
+acc-5g-cu-cp-cucp-1-sctp-f1                      LoadBalancer   10.99.246.255    10.55.1.22    38472:30306/SCTP                                                                            3h35m
+acc-5g-cu-up-cuup-1-cu-up-gtp-0                  LoadBalancer   10.104.129.111   10.55.1.24    2152:30176/UDP                                                                              3h34m
+acc-5g-cu-up-cuup-1-cu-up-gtp-1                  LoadBalancer   10.110.90.45     10.55.1.25    2152:30816/UDP                                                                              3h34m
+acc-5g-cu-up-cuup-2-cu-up-gtp-0                  LoadBalancer   10.108.122.206   10.55.1.27    2152:32351/UDP                                                                              3h34m
+acc-5g-cu-up-cuup-2-cu-up-gtp-1                  LoadBalancer   10.99.205.127    10.55.1.26    2152:32262/UDP                                                                              3h34m
+```
+    
+    
     MetalLB works by handling ARP requests for these addresses, so the external components need to be in the same L2 subnet in order to access these interfaces.
-    To avoid difficulties, it's recommended that this IP pool is unique in the wider network.
+    To avoid difficulties, it's recommended that this IP pool is unique in the wider network and in the same subnet of your Kubernetes Node
 
 #### Install the dRAX RIC and Dashboard
 
 Install the RIC and Dashboard with Helm (if installing without dedicated namespaces, leave off the -n option):
 
 ``` bash
-helm install ric acc-helm/ric --version 4.0.0 --values ric-values.yaml -n $NS_DRAX
+helm install ric acc-helm/ric --version 4 --values ric-values.yaml -n $NS_DRAX
 ```
 
 !!! info
@@ -328,7 +355,7 @@ To install the dRAX 4G components, we first have to prepare the Helm values conf
 To do so, we first retrieve the default values file from the Helm chart repository and save it to a file named `drax-4g-values.yaml`:
 
 ``` bash
-curl https://raw.githubusercontent.com/accelleran/helm-charts/master/drax/values.yaml > drax-4g-values.yaml
+curl https://raw.githubusercontent.com/accelleran/helm-charts/4/drax/values.yaml > drax-4g-values.yaml
 ```
 
 Next, edit the newly created `drax-4g-values.yaml` file.
@@ -406,27 +433,11 @@ configurator:
 Install the dRAX 4G components with Helm using the above create file:
 
 ``` bash
-helm install drax-4g acc-helm/drax  --version 2 --values drax-4g-values.yaml -n $NS_4G
+helm install drax-4g acc-helm/drax  --version 4 --values drax-4g-values.yaml -n $NS_4G
 ```
 
 !!! warning
-    The installation process can take some minutes, please hold on and don't interrupt the installation.
-
-#### Configure 4G Radio Controller
-
-In order for the dRAX 4G components to function properly, we need to configure the 4G Radio Controller.
-This can be done from the Dashboard, which is accessible at [http://$NODE_IP:31315](http://$NODE_IP:31315).
-From the sidebar, select the **xApps Management** section, and then click **Overview**:
-
-![Overview section](images/dashboard-sidebar-expanded-xapps-management.png){ align=middle }
-
-From the **dRAX Core** section, find the **4G-Radio-Controller** entry, and click on the corresponding cog icon in the Configure column, as shown in the picture below:
-
-![xApp List](images/dashboard-xapp-list-hover-4GRC-configure.png){ align=middle }
-
-You will be presented with a configuration page - the following changes should be made, making sure to replace `$NODE_IP` with the value from your installation:
-
-![4G Radio Controller configuration](images/dashboard-4grc-configuration.png){ align=middle }
+    **The installation process can take some minutes, please hold on and don't interrupt the installation.**
 
 #### Update E1000 DUs
 
@@ -503,30 +514,40 @@ The two commits must match, if not please verify the installation and contact Ac
 
 ### Install dRAX 5G Components
 
-!!! note
-    5G DU installation is not currently covered by dRAX, but support for DUs from our partners can be provided - contact Accelleran's support team for further details.
-
 Accelleran's 5G Components are managed and installed via the Dashboard.
 From the dRAX Dashboard sidebar, select **New deployment** and then click **5G CU deployment**:
 
-![New Deployment menu](images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png){ align=middle }
+<p align="center">
+  <img width="200" height="300" src="images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png">
+</p>
+
 
 You will reach the **Deploy a new CU component** page.
 Here, you have the ability to deploy either a CU-CP or a CU-UP component.
 Therefore, you first have to pick one from the drop-down menu:
 
-![Deploy CU component](images/dashboard-deploy-a-new-cu-component.png){ align=middle }
+<p align="center">
+  <img width="400" height="300" src="images/dashboard-deploy-a-new-cu-component.png">
+</p>
+
 
 #### 5G CU-CP Installation
 
 When installing the 5G CU-CP component, there are a number of configuration parameters that should be filled in the **Deploy a new CU component** form once the CU-CP is chosen from the drop-down menu.
+
 The form with the deployment parameters is shown below:
 
-![Deploy CU-CP form](images/dashboard-cu-cp-deployment.png){ align=middle }
+![Deploy CU-CP form](images/dashboard-cu-cp-deployment.png)
 
 ##### Required Parameters
 
 The deployment parameters are split into required and optional ones.
+
+It is important to pay attention to certain constraints on two of the parameters in order to obtain the desired installation:
+
+- The Instance ID must consist of no more than 16 **lower case** alphanumeric characters or '-', start with an alphabetic character, and end with an alphanumeric character (e.g. 'my-name',  or 'abc-123', but not 123-cucp)
+- The maximum number of UE that can be admitted depends also on how many ds-ctrl components get created (by default one per UE) so because occasionally at attach the UE may need two of such components, as a rule of thumb the desired maximum number of UEs must be doubled: if you intend to have at most 2 UEs, set the maximum number of UEs to 4
+
 The required parameters are:
 
 | Required Parameter         | Description                                                                              |
@@ -537,11 +558,6 @@ The required parameters are:
 | Number of supported DUs    | The maximum number of DUs which can be connected to at any time                          |
 | Number of supported RUs    | The maximum number of RUs which can be supported at any time                             |
 | Number of supported UEs    | The maximum number of UEs which can be supported at any time                             |
-
-!!! warning
-    The Instance ID must consist of lower case alphanumeric characters or '-', start with an alphabetic character, and end with an alphanumeric character (e.g. 'my-name',  or 'abc-123').
-    The regex used for validation is `^[a-z]([a-z0-9-]*[a-z0-9])?$`.
-    The Instance ID also cannot be longer than 16 alphanumeric characters!
 
 Once the deployment parameters are set, click the submit button to deploy the 5G CU-CP.
 
@@ -562,14 +578,14 @@ The optional parameters are:
 | E1 Service IP           | Part of the CU-CP is the E1 interface. The 5G component will be exposed outside of Kubernetes on a specific IP and the E1 port of 38462. This IP is given by MetalLB, which is part of the 5G infrastructure. If this field is set to auto, MetalLB will give out the first free IP, otherwise you can specify the exact IP to be used. NOTE: The IP must be from the MetalLB IP pool defined in [Enabling 5G components](#enabling-5g-components). |
 | F1 Service IP           | Similar to E1, you can specify the IP to be used for the F1 interface. NOTE: Again it has to be from the MetalLB IP pool defined in [Enabling 5G components](#enabling-5g-components). |
 | NETCONF Server Port     | The NETCONF server used for configuring the 5G CU-CP component is exposed on the host machine on a random port. You can override this and set a predefined port. NOTE: The exposed port has to be in the Kubernetes NodePort range. |
-| Version                 | This is the version of the 5G CU component. By default, the latest stable version compatible with the dRAX version is installed. Other versions can be specified, but compatibility is not guaranteed. |
+| Version                 | This is the version of the 5G CU component. By default, the latest stable version compatible with the dRAX version is installed. Other released versions can be specified, but compatibility is not guaranteed. |
 
 #### 5G CU-UP Installation
 
 When deploying the 5G CU-UP component, there is only one required parameter in the **Deploy a new CU component** form.
 The form with the deployment parameters is shown below:
 
-![Deploy CU-UP form](images/dashboard-cu-up-deployment.png){ align=middle }
+![Deploy CU-UP form](images/dashboard-cu-up-deployment.png)
 
 ##### Required Parameters
 
@@ -577,7 +593,7 @@ The required deployment parameter is:
 
 | Required Parameter | Description |
 | ------------------ | ----------- |
-| Instance ID        | The instance ID of the CU-UP component. The Instance ID must consist of lower case alphanumeric characters or '-', start with an alphabetic character, and end with an alphanumeric character (e.g. 'my-name',  or 'abc-123'). The regex used for validation is `^[a-z]([a-z0-9-]*[a-z0-9])?$`. The Instance ID also cannot be longer than 16 alphanumeric characters! |
+| Instance ID        | The instance ID of the CU-UP component. As before, the Instance ID must be unique, different from the relative CU-CP and must consist of at most 16 lower case alphanumeric characters or '-', start with an alphabetic character, and end with an alphanumeric character (e.g. 'my-name',  or 'abc-123'). 
 
 ##### Optional Parameters
 
@@ -589,10 +605,10 @@ The optional parameters are:
 
 | Optional Parameter      | Description |
 | ----------------------- | ----------- |
-| NATS URL/Port           | Connection details towards NATS. When installing the RIC and Dashboard component, if you set the `enable5g` option to true, a NATS server was deployed, which will be auto-discovered |
-| Redis URL/Port          | Connection details towards Redis. Similar to NATS, if you set the `enable5g` option to true, a Redis server was deployed, which will be auto-discovered |
+| NATS URL/Port           | The details where the NATS is located. When installing the RIC and Dashboard component, if you set the enable5g option to true, the 5G infrastructure will be deployed, which includes the 5G NATS. This NATS is auto-discovered and auto-filled here |
+| Redis URL/Port          | Like NATS, a 5G REDIS is deployed and autofilled |
 | dRAX Node Selector name | If you label your Kubernetes node with the label `draxName`, you can specify the value of that label here and force the CU component to be installed on a specific node in the cluster |
-| Namespace               | The namespace where the CU component should be installed |
+| Namespace               | The namespace where the CU component will be installed |
 | NETCONF Server Port     | The NETCONF server used for configuring the 5G CU-UP component is exposed on the host machine on a random port. You can override this and set a predefined port. NOTE: The exposed port has to be in the Kubernetes NodePort range. |
 | Version                 | This is the version of the 5G CU component. By default, the latest stable version compatible with the dRAX version is installed. Other versions can be specified, but compatibility is not guaranteed |
 
@@ -601,11 +617,13 @@ The optional parameters are:
 Compatible xApps can be managed and installed via the Dashboard.
 This can be achieved by clicking on **New deployment** in the sidebar, and then clicking **xApp deployment:**
 
-![Sidebar with Deploy xApp selected](images/dashboard-sidebar-expanded-new-deployment-selected-xapp-deployment.png){ align=middle }
+<p align="center">
+  <img width="200" height="300" src="images/dashboard-sidebar-expanded-new-deployment-selected-xapp-deployment.png">
+</p>
 
 In the resulting form, xApps can be deployed either from a remote Helm repository or by uploading a local packaged Helm chart file.
 
-![Deploy an xApp](images/dashboard-xapp-deployment.png){ align=middle }
+![Deploy an xApp](images/dashboard-xapp-deployment.png)
 
 In the "Metadata" section of the form, the user inputs information regarding the xApp name, the organization and team who own the xApp, the version of the xApp Helm Chart and the namespace where the xApp will be deployed on.
 
@@ -614,7 +632,10 @@ Optionally, the user can upload a values configuration file to override the defa
 
 When deploying an xApp using the second method, the user can upload a local packaged Helm chart (a .tgz file produced by the command "helm package &lt;chartName>") which contains the dRAX compatible xApp and optionally an accompanying values configuration file.
 
-![Upload a local Helm chart](images/dashboard-local-helm-upload.png){ align=middle }
+<p align="center">
+  <img width="400" height="300" src="images/dashboard-local-helm-upload.png">
+</p>
+
 
 Upon clicking the "Submit" button, the xApp will be deployed on the user-defined namespace in Kubernetes following the naming convention "organization-team-xappname-version".
 
@@ -629,11 +650,13 @@ The Dashboard is accessible at [http://$NODE_IP:31315](http://$NODE_IP:31315).
 xApps can be configured via our Dashboard.
 From the sidebar, select the **xApps Management **section, and then click **Overview**:
 
-![xApps Management with Overview xApp selected](images/dashboard-xapp-configuration.png){ align=middle }
+<p align="center">
+  <img width="200" height="300" src="images/dashboard-xapp-configuration.png">
+</p>
 
 You will be presented with a list of installed xApps - you can click on the icon in the Details column to access further information on the xApp:
 
-![List of installed xApps](images/dashboard-xapps-list.jpg){ align=middle }
+![List of installed xApps](images/dashboard-xapps-list.jpg)
 
 From the following page, you will be presented with information on the behaviour of the xApp and the topics that the xApp consumes and produces - the exact information is dependent on the vendor of the xApp.
 Configuration of the xApp is now managed in the Configuration Parameters section - it may need to be expanded with the collapse/expand button at the top right of the section.
@@ -696,7 +719,7 @@ E1011-GC01-ACC000000000001:
 Replace the unique identifier based on the specific E1000, replace `$KUBE_IP` with the correct IP for your installation, and replace `du-1` with the chosen unique name for this DU.
 
 If you'd like to provision multiple E1000s at once, duplicate the above snippet for each additional E1000, updating the unique identifier and the name in each case.
-Make sure to match the indentation in each duplicated snippet - incorrect indentation will result in an error.
+Make sure to match the indentation in each duplicated snippet - **incorrect indentation will result in an error.**
 It's recommended to keep these snippets all in the same file so that we can push the new configuration with a single command.
 
 ##### Push new configuration
@@ -728,36 +751,39 @@ Note: all of these options require the Accelleran E1000s to already have been pr
 To access the configuration page for an eNB, first click on the **RAN Configuration** section, and then click on **eNB Configuration.**
 From the displayed list of eNBs, click on the Cog icon in the Edit column corresponding to the eNB you'd like to reconfigure.
 
-![eNB reconfiguration](images/dashboard-manual-config.png){ align=middle }
+![eNB reconfiguration](images/dashboard-manual-config.png)
 
 From the following screen, the configuration of this eNB can be adjusted.
 Once the configuration has been updated as desired, click on the **Create** button at the bottom left of the page:
 
-![eNB configuration](images/dashboard-enb-configuration.png){ align=middle }
+![eNB configuration](images/dashboard-enb-configuration.png)
 
 Notes:
 
-1. the Cell ID is a multiple of 256, this is automatically taken into consideration not allowing to submit Cell IDs that are not a multiple of 256
+1. Make sure the Cell ID is a multiple of 256, you can submit Cell IDs that are not a multiple of 256, however this will result in a Macro eNB ID that looks different on the surface, 
 2. There is no conflict or error check in manual mode, therefore for instance it is possible to configure two cells with the same ID, set an EARFCN that is out of band, and so on: it is assumed that the User is aware of what he/she tries to set up
 3. The reference signal power is calculated automatically from the output power, please adjust the output power in dBm which represent the maximum power per channel at the exit without antenna gain
 
 #### eNB Configuration via Dashboard
 
 An alternative way of configuring an individual eNB is to make use of the **Dashboard** initial page (click on **Dashboard** in the sidebar to return there).
-Click on the eNB in the Network Topology, and then choose **Configure Cell** on the **Selected Node **window at the right: this will take you to the  **eNB Configuration** page and described in the previous section.
+Click on the eNB in the Network Topology, and then choose **Configure Cell** on the **Selected Node** window at the right: this will take you to the  **eNB Configuration** page and described in the previous section.
 
-![Configure from Network Topology](images/dashboard-network-topology.png){ align=middle }
+![Configure from Network Topology](images/dashboard-network-topology.png)
 
 ### 5G RAN Configuration
 
 If you have a dRAX License for 5G, have enabled 5G during the RIC and Dashboard installation in [Enabling 5G components](#enabling-5g-components), and have deployed the CU components as instructed in [Install dRAX 5G Components](#install-drax-5g-components), you can now configure the 5G CU components.
 You can do so by navigating to **RAN Configuration** in the dRAX Dashboard sidebar and clicking the **gNB Configuration**:
 
-![5G CU Configuration from the dRAX Dashboard](images/dashboard-sidebar-5g-config-menu.png){ align=middle }
+<p align="center">
+  <img width="200" height="300" src="images/dashboard-sidebar-5g-config-menu.png">
+</p>
+
 
 You will reach the 5G CU components configuration page:
 
-![5G CU Components configuration page](images/dashboard-cu-config-page.png){ align=middle }
+![5G CU Components configuration page](images/dashboard-cu-config-page.png)
 
 On this page there are two lists, one for CU-CPs and one for CU-UPs.
 You can click the icon under the Edit column of each CU component to edit its configuration.
@@ -775,7 +801,7 @@ The 5G CU-CP components have a number of parameters that you can set as can be s
 
 Click the **Submit** button to send the configuration.
 
-![5G CU-CP Configuration parameters](images/dashboard-cu-cp-config.png){ align=middle }
+![5G CU-CP Configuration parameters](images/dashboard-cu-cp-config.png)
 
 #### 5G CU-UP configuration
 
@@ -786,7 +812,7 @@ The 5G CU-UP has a number of configuration parameters as seen below:
 * E1 Links: You can Add Row or Delete Rows using the button. Here we add the E1 IP address of the CU-CP component that this CU-UP component will connect to. Enter the E1 IP under **E1 Destination IP Address.**
 * Supported PLMN Slices; Expand the table by clicking the (+) sign. You can now Add Rows or Delete Rows to add multiple PLMN IDs. For each PLMN ID, you can Add Rows to add slices or Delete Rows to delete slices. Each slice is defined by the Slice Type and Slice Differentiator.
 
-![5G CU-UP Configuration parameters](images/dashboard-cu-up-config.png){ align=middle }
+![5G CU-UP Configuration parameters](images/dashboard-cu-up-config.png)
 
 ## Verifying the dRAX installation
 
@@ -825,6 +851,7 @@ Each section can be expanded by clicking on its name.
     4. Pending Containers
     5. Crashed Containers
     6. Pending or Crashed containers listed by Node, Namespace, Status, POD name and package
+ 
 2. **RAM Information** contains:
     7. Total RAM Usage
     8. Node RAM Usage
@@ -834,6 +861,8 @@ Each section can be expanded by clicking on its name.
     12. Node RAM Info listed by Node, Requested RAM Limit RAM Allocatable RAM RAM Reserved, RAM Usage
     13. POD RAM information listed by Node, Pod, Requested RAM, RAM Limit, Used RAM
     14. Container RAM information listed by Node, Pod, Requested RAM, RAM Limit, Used RAM
+
+
 3. **CPU Information **contains:
     15. Total CPU Usage
     16. Node CPU Usage
@@ -843,9 +872,13 @@ Each section can be expanded by clicking on its name.
     20. Node CPU Info listed by Node, Requested Core Limit Cores Allocatable Cores CPU Reserved,CPU Burstable, CPU Usage
     21. POD CPU information listed by Node, Pod, Requested Cores, Limit Cores, Used Cores
     22. Container CPU information listed by Node, Pod, Requested Cores, Limit Cores, Used Cores
+
+
 4. **Network Information** contains:
     23. TX Traffic
     24. RX Traffic
+
+
 5. **Disk Space information** contains:
     25. Disk Usage
     26. Disk Usage History
@@ -858,7 +891,7 @@ To access the dRAX Grafana, browse to [http://$NODE_IP:30300](http://$NODE_IP:30
 From here you can browse the different pre-built Grafana dashboards that come with dRAX.
 One of them is the **Accelleran dRAX System Dashboard**:
 
-![Accelleran dRAX 4G Health Dashboard](images/dashboard-4g-health-1.png){ align=middle }
+![Accelleran dRAX 4G Health Dashboard](images/dashboard-4g-health-1.png)
 
 The 4G specific health dashboard, in addition to the 5 global sections explained above, also shows which components of 4G dRAX are running (Redis, NATS, 4GRC, etc.).
 
@@ -867,7 +900,7 @@ The 4G specific health dashboard, in addition to the 5 global sections explained
 The 5G system health dashboard can also be found on dRAX Grafana on [http://$NODE_IP:30300](http://$NODE_IP:30300).
 This time, pick the **Accelleran dRAX 5G System Dashboard** from the list of pre-built Grafana dashboards:
 
-![Accelleran dRAX 5G Health Dashboard](images/dashboard-5g-health-1.png){ align=middle }
+![Accelleran dRAX 5G Health Dashboard](images/dashboard-5g-health-1.png)
 
 The 5G specific health dashboard, in addition to the 5 global sections explained above, also shows which components of 5G dRAX are running (AMF Controller, CUUP, DS Ctrl, etc.).
 
@@ -877,7 +910,7 @@ Helm version 3 is required for the installation of dRAX. Detailed instructions o
 
 ## Appendix: How to enable/disable DHCP for the IP address of the E1000 4G DU
 
-The DU units are separate hardware components and therefore get preconfigured at Accelleran with a standard SW image which of course will have default settings that may require changes.
+The 4G DU units are separate hardware components and therefore get preconfigured at Accelleran with a standard SW image which of course will have default settings that may require changes.
 Typically in fact a network component will require IP address Netmask default gateway to be configured and the Customer will want to rework these settings before commissioning the component into the existing Network.
 The default settings are:
 
@@ -1175,6 +1208,55 @@ The following commands should be used and return both OK:
 openssl verify -CAfile client.crt client.crt
 openssl verify -CAfile ca.crt server.crt
 ```
+
+## Appendix: Configure 4G Radio Controller
+
+In order for the dRAX 4G components to function properly, we need to configure the 4G Radio Controller.
+This can be done from the Dashboard, which is accessible at [http://$NODE_IP:31315](http://$NODE_IP:31315).
+From the sidebar, select the **xApps Management** section, and then click **Overview**:
+
+<p align="center">
+  <img width="200" height="300" src="images/dashboard-sidebar-expanded-xapps-management.png">
+</p>
+
+From the **dRAX Core** section, find the **4G-Radio-Controller** entry, and click on the corresponding cog icon in the Configure column, as shown in the picture below:
+
+![xApp List](images/dashboard-xapp-list-hover-4GRC-configure.png)
+
+You will be presented with a configuration page - the following changes should be made, making sure to replace `$NODE_IP` with the value from your installation:
+
+<p align="center">
+  <img width="300" height="450" src="images/dashboard-4grc-configuration.png">
+</p>
+
+The parameters are:
+Automatic Handover: If set to true, the 4G default handover algorithm is activated, based on the A3 event. If set to false, the A3 event from the UE is ignored by dRAX and the handover will not be triggered. 
+Publish Measurement Data:
+Publish UE Data:
+Measurement Type:
+Orchestrator URL: This should be the $KUBE_IP:6443, so the Kubernetes advertise address and using the secure port 6443
+
+## Appendix: License Error Codes
+
+Sometimes you might run into issues when trying to launch dRAX due to a licensing error. A list of possible error codes is provided below:
+
+|ID        | Tag                   | Explanation                                                                       |
+|----------|-----------------------| ----------------------------------------------------------------------------------|
+| E001      | ENotInEnv             | Environment variable not set                                                      |
+| E002      | EInvalidUTF8          | The content of the environment varable is not valid UTF8                          |
+| E003      | ECannotOpen          |  Cannot open license file, was it added as a secret with the right name? To verify whether it's loaded correctly, run: ```  bash kubectl get secret accelleran-license -o'jsonpath={.data.license\\.crt}' ```   which should give you a base64 encoded dump. |
+|E004|ELicenseExpired|Your license is expired! You'll likely need a new license from Accelleran|
+|E005|EDecryption|An error occurred during decryption
+|E006|EVerification|An error occurred during verification
+|E007|EMissingPermission|You do not have the permissions to execute the software. You'll likely need a more permissive license from Accelleran.
+|E008|ESOError|Inner function returned an error
+|E009|ERunFn|Cannot find the correct function in the library
+|E010|ELoadLibrary|Cannot load the .so file
+|E011|ETryWait|An error occurred while waiting for the subprocess to return
+|E012|ESpawn|Could not spawn subprocess
+|E013|EWriteDecrypted|Cannot write to file descriptor
+|E014|EMemFd|Cannot open memory file descriptor
+|E015|ECypher|Cannot create cypher|
 
 ## Appendix: Engineering tips and tricks
 ### custatus
