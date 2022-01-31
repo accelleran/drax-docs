@@ -23,7 +23,7 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 
 1. Intel Xeon D-1541 or stronger 64-bit processor
 2. 32GB DDR4 RAM
-3. 250GB Hard Disk
+3. 800GB Hard Disk ( inludes space for logging/monitor the system )
 
 ### Software Requirements to be pre installed
 
@@ -31,6 +31,7 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 2. Docker (recommended version 19.03, check the latest compatible version with Kubernetes)
 4. Kubernetes 1.13 or later (1.21 is currently unsupported)
 5. Helm, version 3
+6. BIOS set to performance. System BIOS.System profile settings.Performance
 
 ### Other Requirements
 
