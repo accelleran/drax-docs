@@ -130,7 +130,7 @@ acc-helm-ric	default  	1       	2022-01-09 17:20:52.860528687 +0000 UTC	deployed
 
 ```
 
-In the above example, the installations are called `acc-5g-cu-cp-3.0.0` , acc-5g-cu-up-3.0.0 and `ric`, so the required commands would be:
+In the above example, the installations are called `acc-5g-cu-cp` , acc-5g-cu-up and `ric`, so the required commands would be:
 
 ``` bash
 helm uninstall acc-5g-cu-cp
