@@ -191,7 +191,7 @@ bunzip2 --stdout license-activation-2021-06-29.tar.bz2 | docker load
 ```
 
 Then run the image mapping the folder containing the `pcscd` daemon socket into
-the container, e.g. for Ubuntu 20.XX:
+the container:
 
 ``` bash
 docker run -it --rm -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-2021-12-16
@@ -791,7 +791,7 @@ aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
              
 ### DU/L1 Configuration and docker compose
 
-Differently from the Ettus B210, Benetel runs the Phluido RRU software on board, therefore we only need to prepare 2 software components in the server, that is. 2 Containers, Effnet DU and Phluido L1.
+Differently from the Ettus B210, Benetel runs the RRU software on board, therefore we only need to prepare 2 software components in the server, that is, 2 Containers, Effnet DU and Phluido L1.
 
 Create the configuration file for the Phluido L1 component the `PhluidoL1_NR_Benetel.cfg` file delivered by effnet
 Make sure to set the value `LicenseKey` option to the received Phluido license key:
@@ -1223,7 +1223,7 @@ drwxrwxrwx    2 root     root             0 Feb  7 16:44 adrv9025
 -rwxr-xr-x    1 root     root           182 Feb  7 16:41 trialHandshake
 root@benetelru:~# 
 ```
-However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RRU has always the same MAC on 10.10.0.2 namely ```bash 02:00:5e:01:01:01``` and we can put this directly on the Server where the DU runs in the file: /etc/networkd-dispatcher/routable.d/macs.sh
+However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RRU has always the same MAC on 10.10.0.2 namely ``` 02:00:5e:01:01:01``` and we can put this directly on the Server where the DU runs in the file: /etc/networkd-dispatcher/routable.d/macs.sh
 
 Add mac entry script in routable.d. 
 
@@ -1262,20 +1262,20 @@ Build Date: 		2/12/2021
 Build Time H:M:S: 	18:20:3
 ****BENETEL PRODUCT VERSIONING BLOCK END****
 ```
-The version which is referred to. This is version 0.4. 
+The version which is referred to. This is version 0.3. 
 Depending on the version different configuration commands apply.
 ```
 root@benetelru:~# cat /etc/benetel-rootfs-version 
-RAN650-2V0.4
+RAN650-2V0.3
 ```
 
 ### Prepare the physical Benetel Radio End - Release V0.3
 
- - MAC Address of the DU
+ #### MAC Address of the DU
  
 Let's now concentrate on the Radio End, which in all aspect is a separate box, accessible via ssh as discussed above
 The first thing we must edit is the destination mac address where the DU is listening, this is the MAC address of the server port where we connected the fiber and with IP address 10.0.0.1, in our example we talk about the port enp45s0f0 which for the sake of argument has MAC 00:1E:67:FD:F5:51
-We login to the Radio End (ssh root@10.10.0.100) and edit the file ```/etc/radio_init.sh``` we program that mac address (carefully check the first two bytes are the mast ones, the next four bytes come first, capitol letters no spaces) :
+We login to the Radio End (ssh root@10.10.0.100) and edit the file ```/etc/radio_init.sh``` we program that mac address (carefully check the first two bytes are the last ones, the next four bytes come first, capitol letters no spaces) :
 
     registercontrol -w c0315 -x 0x67FDF551 >> /home/root/radio_boot_response 
     registercontrol -w c0316 -x 0x001E >> /home/root/radio_boot_response
@@ -1285,7 +1285,7 @@ Make sure to edit those as MAC address of the fiber port.
 
 To take effect, reboot the BNTL650
 
- - Frequency of the Radio End
+ #### Frequency of the Radio End
 
 Edit file ```/etc/systemd/system/multi-user.target.wants/autoconfig.service``` to set the frequency: 
 
@@ -1298,9 +1298,9 @@ Example for frequency 3751.68MHz (ARFCN=650112) you will find in the file make s
 
 Once again, reboot the BNTL650 to make changes effective
 
-### Prepare the physical Benetel Radio End - Release V0.3
+### Prepare the physical Benetel Radio End - Release V0.4
 
-- MAC Address of the DU
+#### MAC Address of the DU
 
 Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that.
 
@@ -1316,7 +1316,7 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1E:0x01:0x55
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1F:0x01:0x66
 ```
 
-- Set the Frequency for version v0.4
+#### Set the Frequency for version v0.4
 
 This file ```/etc/systemd/system/multi-user.target.wants/autoconfig.service``` is called during boot that sets the frequency.
 
@@ -1359,10 +1359,10 @@ Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680
 Once again, this is the **CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above**
 Example for frequency 3751.68MHz (ARFCN=650112) you have set make sure to edit/check the pointA frequency ARFCN value back in the DU config json file in the server (in this example PointA_ARFCN=648840)
 
-Once again, reboot the BNTL650 to make changes effective
+**Once again, reboot the BNTL650 to make changes effective**
 
 
-- Set attenuation level
+#### Set attenuation level
 1. read current attenuations
 ```
 ~# radiocontrol -o G a
@@ -1406,7 +1406,7 @@ ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
 
 ### Generally available checks on the B650 (all releases)
 
-### GPS
+#### GPS
 See if GPS is locked
 ```
 root@benetelru:~# syncmon
@@ -1424,7 +1424,7 @@ CLK5 GPS STICKY: LOS and Frequency Offset
 CLK6 EXT 1PPS LIVE: LOS and Frequency Offset
 CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
 ```
-### RRU Status Report
+#### RRU Status Report
 some important registers must be checked to determine if the boot sequence has completed correctly:
 
 ```bash
@@ -1467,13 +1467,15 @@ RU Status Register description:
 ===========================================================
 ```
 
-### HANDSHAKE
+#### Handshake
 
 Once the Cell and the server have been configured correctly, open two consoles, login in one of them to the server and in the other one login to the Benetel Radio End.
 Take the following two steps:
 
-a)run the handshake command 
-
+1)run the handshake command 
+``` bash 
+handshake
+```
 
 2)without waiting, bring the components up with docker compose
 
