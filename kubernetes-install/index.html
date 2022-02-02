@@ -309,6 +309,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#install-kubernetes" class="md-nav__link">
+    Install Kubernetes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configure-kubernetes" class="md-nav__link">
     Configure Kubernetes
   </a>
@@ -318,6 +325,27 @@
         <li class="md-nav__item">
   <a href="#install-flannel" class="md-nav__link">
     Install Flannel
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enable-pod-scheduling" class="md-nav__link">
+    Enable Pod Scheduling
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-small-busybox-pod-for-testing" class="md-nav__link">
+    A small busybox pod for testing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remove-in-full-a-kubernetes-installation" class="md-nav__link">
+    Remove in full a Kubernetes installation
   </a>
   
 </li>
@@ -416,14 +444,10 @@ sudo systemctl restart docker
 <p>Kubernetes refuses to run if swap is enabled on the node, so we disable swap immediately and then also disable it following a reboot:</p>
 <div class="highlight"><pre><span></span><code>sudo swapoff -a
 sudo sed -i <span class="s1">&#39;/\sswap\s/ s/^\(.*\)$/#\1/g&#39;</span> /etc/fstab
-<span class="sb">```</span> bash
-
-<span class="c1">## Install Kubernetes</span>
-
-Add the Kubernetes APT repository:
-
-<span class="sb">```</span> bash
-sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+</code></pre></div>
+<h2 id="install-kubernetes">Install Kubernetes<a class="headerlink" href="#install-kubernetes" title="Permanent link">⚓︎</a></h2>
+<p>Add the Kubernetes APT repository:</p>
+<div class="highlight"><pre><span></span><code>sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 <span class="nb">echo</span> <span class="s2">&quot;deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt update
 </code></pre></div>
@@ -438,7 +462,7 @@ From here on, this IP is referred to as <code>$NODE_IP</code> - we store it as a
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">NODE_IP</span><span class="o">=</span><span class="m">1</span>.2.3.4   <span class="c1"># replace 1.2.3.4 with the correct IP</span>
 </code></pre></div>
 <p>This guide assumes we will use Flannel as the CNI-based Pod network for this Kubernetes instance, which uses the <code>10.244.0.0/16</code> subnet by default.
-If you wish to use a different subnet, change it in the following command where we store it again as an environment variable for later use:</p>
+We store it again as an environment variable for later use, and of course if you wish to use a different subnet, change the command accordingly:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">POD_NETWORK</span><span class="o">=</span><span class="m">10</span>.244.0.0/16
 </code></pre></div>
 <p>The following command initializes the cluster on this node:</p>
@@ -451,10 +475,6 @@ We won't do that at this point, but it's a sign that the command completed succe
 sudo cp -i /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
 sudo chown <span class="s2">&quot;</span><span class="k">$(</span>id -u<span class="k">)</span><span class="s2">:</span><span class="k">$(</span>id -g<span class="k">)</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.kube/config&quot;</span>
 </code></pre></div>
-<p>By default, Kubernetes will not schedule Pods on the control-plane node for security reasons.
-As we're running with a single Node, we need to remove the node-role.kubernetes.io/master taint, meaning that the scheduler will then be able to schedule Pods on it.</p>
-<div class="highlight"><pre><span></span><code>kubectl taint nodes --all node-role.kubernetes.io/master-
-</code></pre></div>
 <h2 id="install-flannel">Install Flannel<a class="headerlink" href="#install-flannel" title="Permanent link">⚓︎</a></h2>
 <p>Prepare the Manifest file:</p>
 <div class="highlight"><pre><span></span><code>curl -sSOJ https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
@@ -462,6 +482,54 @@ sed -i <span class="s1">&#39;/net-conf.json/,/}/{ s#10.244.0.0/16#&#39;</span><s
 </code></pre></div>
 <p>Apply the Manifest file:</p>
 <div class="highlight"><pre><span></span><code>kubectl apply -f kube-flannel.yml
+</code></pre></div>
+<h2 id="enable-pod-scheduling">Enable Pod Scheduling<a class="headerlink" href="#enable-pod-scheduling" title="Permanent link">⚓︎</a></h2>
+<p>By default, Kubernetes will not schedule Pods on the control-plane node for security reasons.
+As we're running with a single Node, we need to remove the node-role.kubernetes.io/master taint, meaning that the scheduler will then be able to schedule Pods on it.</p>
+<div class="highlight"><pre><span></span><code>kubectl taint nodes --all node-role.kubernetes.io/master-
+</code></pre></div>
+<h2 id="a-small-busybox-pod-for-testing">A small busybox pod for testing<a class="headerlink" href="#a-small-busybox-pod-for-testing" title="Permanent link">⚓︎</a></h2>
+<p>It is very convenient (however optional) to test the Kubernetes installation with a simple busybox pod for instance to test your DNS resolution inside a pod. To do so create the following yaml file (/tmp/busybox.yaml):</p>
+<div class="highlight"><pre><span></span><code>apiVersion: v1
+kind: Pod
+metadata:
+ name: busybox
+ namespace: default
+spec:
+ containers:
+ - name: busybox
+   image: busybox:1.28
+   command:
+     - sleep
+     - <span class="s2">&quot;3600&quot;</span>
+   imagePullPolicy: IfNotPresent
+ restartPolicy: Always
+</code></pre></div>
+<p>Then you can create the pod:</p>
+<div class="highlight"><pre><span></span><code>kubectl --kubeconfig &lt;CONFIG_PATH&gt; create -f /tmp/busybox.yaml
+</code></pre></div>
+<p>If all went well a new POD was created, you can verify this with the following command</p>
+<div class="highlight"><pre><span></span><code>kubectl --kubeconfig &lt;CONFIG_PATH&gt; get pods
+NAME      READY STATUS    RESTARTS AGE
+busybox   <span class="m">1</span>/1 Running   <span class="m">21</span> 21h
+</code></pre></div>
+<p>In order to verify if your Kubernetes is working correctly you could try some simple commands using the busybox POD. 
+For instance to verify your name resolution works do:</p>
+<div class="highlight"><pre><span></span><code>kubectl <span class="nb">exec</span> -ti busybox -- nslookup mirrors.ubuntu.com 
+Server:    <span class="m">10</span>.96.0.10
+Address <span class="m">1</span>: <span class="m">10</span>.96.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      mirrors.ubuntu.com
+Address <span class="m">1</span>: <span class="m">91</span>.189.89.32 bilimbi.canonical.com
+</code></pre></div>
+<h2 id="remove-in-full-a-kubernetes-installation">Remove in full a Kubernetes installation<a class="headerlink" href="#remove-in-full-a-kubernetes-installation" title="Permanent link">⚓︎</a></h2>
+<p>On occasion, it may be deemed necessary to fully remove Kubernetes, for instance if for any reason your server IP address will change, then the advertised Kubernetes IP address will have to follow. THe following command help making sure the previous installation is cleared up: </p>
+<div class="highlight"><pre><span></span><code>sudo kubeadm reset
+sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*
+sudo rm -rf ~/.kube
+sudo rm -rf /etc/cni/net.d
+sudo ip link delete cni0
+sudo ip link delete flannel.1
 </code></pre></div>
                 
               
