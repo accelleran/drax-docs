@@ -45,6 +45,9 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 1. A DHCP server must be available on the subnet where the E1000 DUs will be installed
 2. E1000 DUs must be in the same subnet as Kubernetes' advertise address (otherwise refer to [Appendix: E1000 on separate subnet](#appendix-drax-and-accelleran-e1000s-on-different-subnets))
 
+### Limitations : 
+1. When using a graphical interface, make sure it will not go to sleep or to standby. 
+
 ## Installation
 
 ### Introduction
