@@ -305,6 +305,14 @@ Make sure to edit those as MAC address of the fiber port.
 Reboot the BNTL650
 
 
+It is possible to run the commands manually to speed up things.
+
+```
+registercontrol -w c0315 -x 0x67FDF551 >> /home/root/radio_boot_response 
+registercontrol -w c0316 -x 0x001E >> /home/root/radio_boot_response
+```
+
+
 
 ### Set the Frequency for version V0.3
 
@@ -320,7 +328,9 @@ ExecStart =/bin/sh /etc/radio_init.sh 3751.680
 Example for frequency 3751.68MHz (ARFCN=650112) you will find in the file:
 Make sure to edit the pointA frequency ARFCN value in the DU config (in this example PointA_ARFCN=648840).
 
-Reboot the BNTL650
+Reboot the Benetel.
+
+
 
 ## Configure the RRU release V0.4
 ### Set DU mac address in the RRU
