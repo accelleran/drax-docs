@@ -187,7 +187,7 @@ df4f41eb70c9        pcscd_yubikey       "/usr/sbin/pcscd --f…"   1 minute ago 
 In order to activate the license dongles unzip the license activation bundle (effnet-license-activation-2021-12-16.zip) and then you need to load the included Docker image into your docker-daemon, i.e.
 
 ``` bash
-bunzip2 --stdout license-activation-2021-06-29.tar.bz2 | docker load
+bunzip2 --stdout license-activation-2021-12-16.tar.bz2 | docker load
 ```
 
 Then run the image mapping the folder containing the `pcscd` daemon socket into
