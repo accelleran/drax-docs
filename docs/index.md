@@ -22,8 +22,7 @@ This installation guide assumes that that the following things are available:
 	* A YubiKey with an activated Effnet license
 * Software:
 	* Ubuntu (Server) 20.04
-	* Phluido sysTest: Phluido_sysTest.zip
-	* Effnet DU: accelleran-du-phluido-2021-06-30.zip
+	* Effnet DU: accelleran-du-phluido-2021-09-30.zip
 	* Phluido L1: Phluido5GL1_v0.8.1.zip
 
 ## Preparation
