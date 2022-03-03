@@ -686,7 +686,7 @@ df4f41eb70c9        pcscd_yubikey       <span class="s2">&quot;/usr/sbin/pcscd -
 </code></pre></div>
 <h3 id="effnet-license-activate-the-yubikey">Effnet License: activate the yubikey<a class="headerlink" href="#effnet-license-activate-the-yubikey" title="Permanent link">⚓︎</a></h3>
 <p>In order to activate the license dongles unzip the license activation bundle (effnet-license-activation-2021-12-16.zip) and then you need to load the included Docker image into your docker-daemon, i.e.</p>
-<div class="highlight"><pre><span></span><code>bunzip2 --stdout license-activation-2021-06-29.tar.bz2 <span class="p">|</span> docker load
+<div class="highlight"><pre><span></span><code>bunzip2 --stdout license-activation-2021-12-16.tar.bz2 <span class="p">|</span> docker load
 </code></pre></div>
 <p>Then run the image mapping the folder containing the <code>pcscd</code> daemon socket into
 the container:</p>

@@ -544,6 +544,10 @@ echo &quot;Configure the MAC address of the O-DU: 00:1E:67:FD:F5:51 &quot; &gt;&
 </code></pre></div>
 <p>Make sure to edit those as MAC address of the fiber port.</p>
 <p>Reboot the BNTL650</p>
+<p>It is possible to run the commands manually to speed up things.</p>
+<div class="highlight"><pre><span></span><code>registercontrol -w c0315 -x 0x67FDF551 &gt;&gt; /home/root/radio_boot_response 
+registercontrol -w c0316 -x 0x001E &gt;&gt; /home/root/radio_boot_response
+</code></pre></div>
 <h3 id="set-the-frequency-for-version-v03">Set the Frequency for version V0.3<a class="headerlink" href="#set-the-frequency-for-version-v03" title="Permanent link">⚓︎</a></h3>
 <p>This file <code>/etc/systemd/system/multi-user.target.wants/autoconfig.service</code> is called during boot that sets the frequency.
 change the frequency here.</p>
@@ -552,7 +556,7 @@ ExecStart =/bin/sh /etc/radio_init.sh 3751.680
 </code></pre></div>
 <p>Example for frequency 3751.68MHz (ARFCN=650112) you will find in the file:
 Make sure to edit the pointA frequency ARFCN value in the DU config (in this example PointA_ARFCN=648840).</p>
-<p>Reboot the BNTL650</p>
+<p>Reboot the Benetel.</p>
 <h2 id="configure-the-rru-release-v04">Configure the RRU release V0.4<a class="headerlink" href="#configure-the-rru-release-v04" title="Permanent link">⚓︎</a></h2>
 <h3 id="set-du-mac-address-in-the-rru">Set DU mac address in the RRU<a class="headerlink" href="#set-du-mac-address-in-the-rru" title="Permanent link">⚓︎</a></h3>
 <p>Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that.</p>
