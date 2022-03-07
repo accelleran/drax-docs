@@ -587,6 +587,22 @@ $ ifstat -i enp45s0f0
 ### Troubleshooting Fiber Port not showing up
 https://www.serveradminz.com/blog/unsupported-sfp-linux/
 
+fiber port should always be like this
+```
+enp1s0f1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 9000
+enp1s0f1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 9000
+enp1s0f1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 9000
+enp1s0f1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 9000
+enp1s0f1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 9000
+```
+
+There should exist an arp entry like this
+```
+$ arp -an | grep 10.10
+? (10.10.0.2) at 02:00:5e:01:01:01 [ether] PERM on enp1s0f1
+```
+
+
 
 ## Starting RRU Benetel 650
 Perform these steps to get a running active cell.
