@@ -56,9 +56,11 @@ In this phase we will need to act in parallel for the DU and the L1/RRU licenses
 
 Verify the following archive files have been delivered and are available to you before taking further actions:
 
-1. accelleran-du-phluido-2021-09-30.zip
+1. accelleran-du-phluido-2022-01-31.zip
 2. Phluido5GL1_v0.8.1.zip
-3. effnet-license-activation-2021-12-16.zip 
+3. effnet-license-activation-yyyy_mm_dd.zip 
+
+**Note** For the license activation file we indicate the genereic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
 
 **Note:** if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed phisically to a USB port:
 
@@ -93,10 +95,10 @@ Once you have the three archive files mentioned above create the directories to 
 mkdir -p accelleran-du-phluido Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
-Place `accelleran-du-phluido-2021-09-30.zip` in `accelleran-du-phluido` and unzip it:
+Place `accelleran-du-phluido-2022-01-31.zip` in `accelleran-du-phluido` and unzip it:
 
 ``` bash
-unzip accelleran-du-phluido/accelleran-du-phluido-2021-09-30.zip -d accelleran-du-phluido
+unzip accelleran-du-phluido/accelleran-du-phluido-2022-01-31.zip -d accelleran-du-phluido
 ```
 
 Place `Phluido5GL1_v0.8.1.zip` in `Phluido5GL1` and unzip it:
@@ -184,17 +186,17 @@ df4f41eb70c9        pcscd_yubikey       "/usr/sbin/pcscd --f…"   1 minute ago 
 
 ### Effnet License: activate the yubikey 
 
-In order to activate the license dongles unzip the license activation bundle (effnet-license-activation-2021-12-16.zip) and then you need to load the included Docker image into your docker-daemon, i.e.
+In order to activate the license dongles unzip the received license activation bundle effnet-license-activation-yyyy-mm-dd.zip (as mentioned the date may differ on each case so let's use the generic format) and then you need to load the included Docker image into your docker-daemon, i.e.
 
 ``` bash
-bunzip2 --stdout license-activation-2021-12-16.tar.bz2 | docker load
+bunzip2 --stdout license-activation-yyyy-mm-dd.tar.bz2 | docker load
 ```
 
 Then run the image mapping the folder containing the `pcscd` daemon socket into
 the container:
 
 ``` bash
-docker run -it --rm -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-2021-12-16
+docker run -it --rm -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-yyyy-mm-dd
 ```
 
 If you get warnings similar to:
@@ -221,19 +223,19 @@ Which means that a license for the dongle with serial-number 13134288 was loaded
 Load the Effnet DU Docker image:
 
 ``` bash
-bzcat accelleran-du-phluido/accelleran-du-phluido-2021-09-30/gnb_du_main_phluido-2021-09-30.tar.bz2 | docker image load
+bzcat accelleran-du-phluido/accelleran-du-phluido-2022-01-31/gnb_du_main_phluido-2022-01-31.tar.bz2 | docker image load
 ```
 
 Load the Phluido L1 Docker image:
 
 ``` bash
-docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/docker/Dockerfile.l1 -t phluido_l1:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
+docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.l1 -t phluido_l1:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
 **FOR B210 RU ONLY** : Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):
 
 ``` bash
-docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
+docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
 
@@ -379,17 +381,17 @@ Device Address:
 
 Before starting the configuration of the components it is important to avoid confusion so please create a folder file and move in all the configuration files you find for the L1, RRU and the DU configuration and remove the docker-compose as well:
 ``` bash
-mkdir accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/cfg
-mv accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/*.cfg accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/cfg/
-mkdir accelleran-du-phluido/accelleran-du-phluido-2021-09-30/json
-mv accelleran-du-phluido/accelleran-du-phluido-2021-09-30/*.json accelleran-du-phluido/accelleran-du-phluido-2021-09-30/json/
-rm accelleran-du-phluido/accelleran-du-phluido-2021-09-30/docker-compose.yml
+mkdir accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/cfg
+mv accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/*.cfg accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/cfg/
+mkdir accelleran-du-phluido/accelleran-du-phluido-2022-01-31/json
+mv accelleran-du-phluido/accelleran-du-phluido-2022-01-31/*.json accelleran-du-phluido/accelleran-du-phluido-2022-01-31/json/
+rm accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose.yml
 ```
 
 Create a configuration file for the Phluido RRU:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg <<EOF
 /******************************************************************
 *
 * This file is subject to the terms and conditions defined in
@@ -430,7 +432,7 @@ Create a configuration file for the Phluido L1.
 Make sure to set the value `LicenseKey` option to the received Phluido license key:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/PhluidoL1_NR_B210.cfg <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoL1_NR_B210.cfg <<EOF
 /******************************************************************
 *
 * This file is subject to the terms and conditions defined in
@@ -466,7 +468,7 @@ EOF
 Create a configuration file for the Effnet DU:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/b210_config_20mhz.json <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b210_config_20mhz.json <<EOF
 {
     "configuration": {
         "du_address": "du",
@@ -652,7 +654,7 @@ services:
     network_mode: host
 
   du:
-    image: gnb_du_main_phluido:2021-09-30
+    image: gnb_du_main_phluido:2022-01-31
     volumes:
       - "$PWD/b210_config_20mhz.json:/config.json:ro"
       - "$PWD/logs/du:/workdir"
@@ -688,16 +690,16 @@ EOF
 Start the DU by running the following command:
 
 ``` bash
-docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/docker-compose.yml
+docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose.yml
 ```
 
 If all goes well this will produce output similar to:
 
 ```
 Starting phluido_l1 ... done
-Recreating accelleran-du-phluido-2021-09-30_du_1 ... done
-Recreating accelleran-du-phluido-2021-09-30_phluido_rru_1 ... done
-Attaching to phluido_l1, accelleran-du-phluido-2021-09-30_du_1, accelleran-du-phluido-2021-09-30_phluido_rru_1
+Recreating accelleran-du-phluido-2022-01-31_du_1 ... done
+Recreating accelleran-du-phluido-2022-01-31_phluido_rru_1 ... done
+Attaching to phluido_l1, accelleran-du-phluido-2022-01-31_du_1, accelleran-du-phluido-2022-01-31_phluido_rru_1
 phluido_l1  | Reading configuration from config file "/config.cfg"...
 phluido_l1  | *******************************************************************************************************
 phluido_l1  | *                                                                                                     *
@@ -797,7 +799,7 @@ Create the configuration file for the Phluido L1 component the `PhluidoL1_NR_Ben
 Make sure to set the value `LicenseKey` option to the received Phluido license key:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/PhluidoL1_NR_Benetel.cfg <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoL1_NR_Benetel.cfg <<EOF
 /******************************************************************
  *
  * This file is subject to the terms and conditions defined in
@@ -837,7 +839,7 @@ EOF
 Create a configuration file for the Effnet DU:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/b650_config_40mhz.json <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.json <<EOF
 {
     "configuration": {
         "du_address": "du",
@@ -1045,7 +1047,7 @@ The CUCP F1 SCTP interface external address is the second IP address and should 
 Now, create a docker-compose configuration file:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-06-30/docker-compose-B650.yml <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose-B650.yml <<EOF
 version: "3"
 
 services:
@@ -1480,15 +1482,15 @@ handshake
 2)without waiting, bring the components up with docker compose
 
 ``` bash
-docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/docker-compose-benetel.yml
+docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose-benetel.yml
 ```
 
 If all goes well this will produce output similar to:
 
 ```
 Starting phluido_l1 ... done
-Recreating accelleran-du-phluido-2021-09-30_du_1 ... done
-Attaching to phluido_l1, accelleran-du-phluido-2021-09-30_du_1
+Recreating accelleran-du-phluido-2022-01-31_du_1 ... done
+Attaching to phluido_l1, accelleran-du-phluido-2022-01-31_du_1
 phluido_l1  | Reading configuration from config file "/config.cfg"...
 phluido_l1  | *******************************************************************************************************
 phluido_l1  | *                                                                                                     *
