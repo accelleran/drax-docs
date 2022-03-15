@@ -60,9 +60,9 @@ Verify the following archive files have been delivered and are available to you 
 2. Phluido5GL1_v0.8.1.zip
 3. effnet-license-activation-yyyy_mm_dd.zip 
 
-**Note** For the license activation file we indicate the genereic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
+**Note** For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
 
-**Note:** if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed phisically to a USB port:
+**Note:** if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed physically to a USB port:
 
 To check if the server can see the key do (in this example Device004 is your key): 
 ``` bash
@@ -849,7 +849,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
         "vphy_port": 13337,
         "vphy_tick_multiplier": 1,
         "gnb_du_id": 38209903575,
-        "gnb_du_name": "This is the setup",
+        "gnb_du_name": "This is the dell two HO setup cell one",
         "phy_control": {
             "crnti_range": {
                 "min": 42000,
@@ -868,7 +868,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
                         "plmn_identity": "001f01",
                         "nr_cell_identity": "000000000000000000000000000000000001"
                     },
-                    "nr_pci": 501,
+                    "nr_pci": 51,
                     "5gs_tac": "000001",
                     "ran_area_code": 1,
                     "served_plmns": [
@@ -965,7 +965,8 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
                             }
                         }
                     ],
-                    "num_tx_antennas": 1,
+                    "maximum_ru_power_dbm": 23.0,
+                    "num_tx_antennas": 2,
                     "trs": {
                         "periodicity_and_offset": {
                             "period": 80,
@@ -974,17 +975,17 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
                         "symbol_pair": "four_eight",
                         "subcarrier_location": 1
                     },
+                    "periodic_srs_periodicity": 64,
                     "csi_rs": {
                         "periodicity_and_offset": {
                             "period": 40,
                             "offset": 15
                         }
                     },
-                    "force_dl_mimo_layers": 2,
+                    "force_rlc_buffer_size": 2500000,
                     "harq_processes_for_pdsch": 16,
                     "minimum_k1_delay": 1,
-                    "minimum_k2_delay": 1,
-                    "force_rlc_buffer_size": 1125000
+                    "minimum_k2_delay": 1                
                 }
             }
         ]
@@ -1023,7 +1024,7 @@ We want to set a center frequency of 3750 MHz, this is not devisable by 3.84, th
 <p align="center">
   <img width="600" height="800" src="Freq3747dot84.png">
 </p>
-This Frequency, however does not meet the **GSCN Synchronisation requirements** as in fact the Offset to Point A of the first channel is 2 and the K_ssb is 14, this will cause the UE to listen on the wrong channel so the SIBs will never be seen and therefore the cell is "invisible"
+This Frequency, however does not meet the **GSCN Synchronisation requirements** as in fact the Offset to Point A of the first channel is 2 and the K_ssb is 16, this will cause the UE to listen on the wrong channel so the SIBs will never be seen and therefore the cell is "invisible"
 
 - We then repeat the exercise with the higher center frequency 3751,68 MHz, which yelds a center frequency ARFCN of 650112 and a point A ARFCN of 648840 and giving another run we will see that now the K_ssb and the Offset to Point A are correct:
 <p align="center">
@@ -1133,7 +1134,7 @@ enp45s0f1        DOWN
 	:
 ```
 
-configure the static ip 10.10.0.1 of for enp45s0f0 on your server netplan (typically `/etc/netplan/50-cloud-init.yaml`) as follows: 
+configure the static ip 10.10.0.1 of port enp45s0f0 on your server netplan (typically `/etc/netplan/50-cloud-init.yaml`) as follows: 
 
 ``` bash
 network:
@@ -1225,7 +1226,7 @@ drwxrwxrwx    2 root     root             0 Feb  7 16:44 adrv9025
 -rwxr-xr-x    1 root     root           182 Feb  7 16:41 trialHandshake
 root@benetelru:~# 
 ```
-However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RRU has always the same MAC on 10.10.0.2 namely ``` 02:00:5e:01:01:01``` and we can put this directly on the Server where the DU runs in the file: /etc/networkd-dispatcher/routable.d/macs.sh
+However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RRU has a different MAC on 10.10.0.2 for instance ``` 02:00:5e:01:01:01``` and we can put this on the Server where the DU runs in the file: /etc/networkd-dispatcher/routable.d/macs.sh
 
 Add mac entry script in routable.d. 
 
@@ -1271,55 +1272,39 @@ root@benetelru:~# cat /etc/benetel-rootfs-version
 RAN650-2V0.3
 ```
 
-### Prepare the physical Benetel Radio End - Release V0.3
 
- #### MAC Address of the DU
- 
-Let's now concentrate on the Radio End, which in all aspect is a separate box, accessible via ssh as discussed above
-The first thing we must edit is the destination mac address where the DU is listening, this is the MAC address of the server port where we connected the fiber and with IP address 10.0.0.1, in our example we talk about the port enp45s0f0 which for the sake of argument has MAC 00:1E:67:FD:F5:51
-We login to the Radio End (ssh root@10.10.0.100) and edit the file ```/etc/radio_init.sh``` we program that mac address (carefully check the first two bytes are the last ones, the next four bytes come first, capitol letters no spaces) :
+### Prepare the physical Benetel Radio End - Release V0.5
 
-    registercontrol -w c0315 -x 0x67FDF551 >> /home/root/radio_boot_response 
-    registercontrol -w c0316 -x 0x001E >> /home/root/radio_boot_response
-    echo "Configure the MAC address of the O-DU: 00:1E:67:FD:F5:51 " >> /home/root/radio_status 
-
-Make sure to edit those as MAC address of the fiber port.
-
-To take effect, reboot the BNTL650
-
- #### Frequency of the Radio End
-
-Edit file ```/etc/systemd/system/multi-user.target.wants/autoconfig.service``` to set the frequency: 
-
-```
-[Service]
-ExecStart =/bin/sh /etc/radio_init.sh 3751.680
-```
-Once again, this is the **CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above**
-Example for frequency 3751.68MHz (ARFCN=650112) you will find in the file make sure to edit/check the pointA frequency ARFCN value in the DU config json file (in this example PointA_ARFCN=648840)
-
-Once again, reboot the BNTL650 to make changes effective
-
-### Prepare the physical Benetel Radio End - Release V0.4
+There are several parameters that can be checked and modified by reading writing the EEPROM, for this we recommend to make use of the original Benetel Software User Guide for RANx50-02 CAT-B O-RUs, in case of doubt ask for clarifciation to Accelleran Customer Support . Here we just present three of the most used parameters, that will probably need an adjustment for each deployment
 
 #### MAC Address of the DU
 
-Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that.
+Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that. If the MAC address of the server port you use to connect to the Benetel B650 Radio End (the NIC Card port where the fiber originates from) is 00:7D:93:02:BB:FE then you can program the EEPROM of your B650 unit as follows:
 
 ```
-root@benetelru:~# cat progDuMAC-5GCN-enp45s0f0 
-# 11:22:33:44:55:66  5GCN-itf
-registercontrol -w 0xC036B -x 0x88000088                            # don't touch file
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1A:0x01:0x11             # first byte of mac address is 0x11
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1B:0x01:0x22             # etc ...
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1C:0x01:0x33
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1D:0x01:0x44
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1E:0x01:0x55
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1F:0x01:0x66
+registercontrol -w 0xC036B -x 0x88000088
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x00
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x7D
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1c:0x01:0x93
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x02
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0xBB
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0xFE
+
+
+Don't forget to write lock the EEPROM again:
+
 ```
+registercontrol -w 0xC036B -x 0x88000488
 
-#### Set the Frequency for version v0.4
+You can read the EEPROM now and double check what you did:
 
+```
+eeprog_cp60 -q -f -x -16 /dev/i2c-0 0x57 -x -r 26:6
+
+Finally, reboot your Radio End to make the changes effective
+
+
+#### Set the Frequency of the Radio End 
 This file ```/etc/systemd/system/multi-user.target.wants/autoconfig.service``` is called during boot that sets the frequency.
 
 ```
