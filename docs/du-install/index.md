@@ -1320,8 +1320,7 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x36
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x38
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x30
 registercontrol -w 0xC036B -x 0x88000488
-
-
+```
 
 Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680, often the calculation stops at two digits after the comma, consider the last digit always as a zero
 
@@ -1329,12 +1328,14 @@ You may then want to double check what you did by reading the EEPROM:
 
 ```
 eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 372:8
+```
 
 
 Once again, this is the **CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above**
+
 Example for frequency 3751.68MHz (ARFCN=650112) you have set make sure to edit/check the pointA frequency ARFCN value back in the DU config json file in the server (in this example PointA_ARFCN=648840)
 
-**Once again, reboot the BNTL650 to make changes effective**
+**Reboot the BNTL650 to make changes effective**
 
 
 #### Set attenuation level
@@ -1347,7 +1348,7 @@ To adjust this power for the transmitter the user must edit the attenuation sett
 
 
 
-**IMPORTANT NOTE: As of now, channel 2 and 4 are off and are not up for modification please do not try and modify those attenuation paramters**
+**IMPORTANT NOTE: As of now, channel 2 and 4 are off and are not up for modification please do not try and modify those attenuation parameters**
 
 So if we want, for instance, to REDUCE the Tx Power by 5 dB, we will then INCREASE the attenuation by 5000 mdB. Let's consider that each cell is calibrated individually so the first thing to do is to take note of the default values and offset from there to obtained the desired TX Power per channel
 
@@ -1396,7 +1397,44 @@ We can then conclude that our Antenna has been originally calibrated to have +11
 /usr/bin/radiocontrol -o A 20800 4
 ```
 **yes the 4 at the end seems to be correct**
-**Bear in mind this settings will stay as long as you don't reboot the Radio and default back to the original calibration values once you reboot the unit**
+**Bear in mind these settings will stay as long as you __don't reboot__ the Radio and default back to the original calibration values once you reboot the unit**
+
+4. assess the new status of your radio:
+
+```
+~# radiocontrol -o G a
+
+Benetel radiocontrol Version          : 0.9.0
+Madura API Version                    : 5.1.0.21
+Madura ARM FW version                 : 5.0.0.32
+Madura ARM DPD FW version             : 5.0.0.32
+Madura Stream version                 : 8.0.0.5
+Madura Product ID                     : 0x84
+Madura Device Revision                : 0xb0
+Tx1 Attenuation (mdB)                 : 21100
+Tx2 Attenuation (mdB)                 : 40000
+Tx3 Attenuation (mdB)                 : 20800
+Tx4 Attenuation (mdB)                 : 40000
+PLL1 Frequency (Hz)                   : 0 
+PLL2 Frequency (Hz)                   : 3751680000 
+Front-end Control                     : 0x2aa491
+Madura Deframer 0                     : 0x87
+Madura Framer 0                       : 0xa
+Internal Temperature (degC)           : 47
+External Temperature (degC)           : 42.789063
+RX1 Power Level (dBFS)                : -60.750000
+RX2 Power Level (dBFS)                : -60.750000
+RX3 Power Level (dBFS)                : -60.750000
+RX4 Power Level (dBFS)                : -60.750000
+ORX1 Peak/Mean Power Level (dBFS)     : -10.839418/-22.709361
+ORX2 Peak/Mean Power Level (dBFS)     : -inf/-inf
+ORX3 Peak/Mean Power Level (dBFS)     : -10.748048/-21.656226
+ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
+
+```
+
+
+
 
 ### Generally available checks on the B650 (all releases)
 
@@ -1572,7 +1610,9 @@ phluido_l1  |     maxPuschModOrder = 6
 phluido_l1  |
 ```
 
-trace traffic between RRU and L1. Also the mac can be read from this trace. As said, the first packet goes out from the Radio End to the DU, this is the handshake packet. The second packet is the Handshake response of the DU and we have to make sure that as described the MAC address used in such response from the DU has been set correctly so that the DATA Interface MAC address of the Radio End is used (by default in the Benetel Radio this MAC address is ```02:00:5e:01:01:01```) When data flows the udp packet lengths are 3874. 
+#### Trace traffic between RRU and L1.
+
+As said, the first packet goes out from the Radio End to the DU, this is the handshake packet. The second packet is the Handshake response of the DU and we have to make sure that as described the MAC address used in such response from the DU has been set correctly so that the DATA Interface MAC address of the Radio End is used (by default in the Benetel Radio this MAC address is ```02:00:5e:01:01:01```) When data flows the udp packet lengths are 3874. 
 Remember we increased the MTU size to 9000. Without increasing the L1 would crash on the fragmented udp packets.
 
 ```
@@ -1587,7 +1627,7 @@ listening on enp45s0f0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 ```
 
-Check if the L1 is listening 
+#### Check if the L1 is listening 
 ```
 $ while true ; do sleep 1 ; netstat -ano | grep 44000 ;echo $RANDOM; done
 udp        0 118272 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
@@ -1600,7 +1640,7 @@ udp        0      0 10.10.0.1:44000         0.0.0.0:*                           
 502
 ```
 
-Show the traffic between rru and l1
+#### Show the traffic between rru and l1
 
 ```
 $ ifstat -i enp45s0f0
@@ -1610,7 +1650,7 @@ $ ifstat -i enp45s0f0
 71313.36  105930.1
 ```
 
-### Troubleshooting Fiber Port not showing up
+#### Troubleshooting Fiber Port not showing up
 https://www.serveradminz.com/blog/unsupported-sfp-linux/
 
 ## Starting RRU Benetel 650
