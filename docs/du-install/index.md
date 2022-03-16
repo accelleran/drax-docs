@@ -1275,7 +1275,7 @@ RAN650-2V0.3
 
 ### Prepare the physical Benetel Radio End - Release V0.5
 
-There are several parameters that can be checked and modified by reading writing the EEPROM, for this we recommend to make use of the original Benetel Software User Guide for RANx50-02 CAT-B O-RUs, in case of doubt ask for clarifciation to Accelleran Customer Support . Here we just present three of the most used parameters, that will probably need an adjustment for each deployment
+There are several parameters that can be checked and modified by reading writing the EEPROM, for this we recommend to make use of the original Benetel Software User Guide for RANx50-02 CAT-B O-RUs, in case of doubt ask for clarification to Accelleran Customer Support . Here we just present two of the most used parameters, that will probably need an adjustment for each deployment.
 
 #### MAC Address of the DU
 
@@ -1289,36 +1289,28 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1c:0x01:0x93
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x02
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0xBB
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0xFE
-
+```
 
 Don't forget to write lock the EEPROM again:
 
 ```
 registercontrol -w 0xC036B -x 0x88000488
+```
 
 You can read the EEPROM now and double check what you did:
 
 ```
 eeprog_cp60 -q -f -x -16 /dev/i2c-0 0x57 -x -r 26:6
+```
 
-Finally, reboot your Radio End to make the changes effective
+**Finally, reboot your Radio End to make the changes effective**
 
 
 #### Set the Frequency of the Radio End 
-This file ```/etc/systemd/system/multi-user.target.wants/autoconfig.service``` is called during boot that sets the frequency.
+Create this script to program the Center Frequency in MHz of your B650 RRU. Remember to determine a valid frequency as indicated previously in the document, taking into account all the constraints and the relationship to the Offset Point A. If the Center Frequency you want to is for instance 3751,680 MHz then you can program the EEPROM of your B650 unit as follows:
 
 ```
-[Service]
-ExecStart =/bin/sh /etc/radio_init.sh $(read_default_tx_frequency)
-```
-
-In this version the frequency is read from the eeprom. So we program the eeprom with the correct center frequency.
-Programming the eeprom with the center frequency we do with this script.
-
-```
-root@benetelru:~# cat progFreq
-
-registercontrol -w 0xC036B -x 0x88000088                            # don't touch file
+registercontrol -w 0xC036B -x 0x88000088
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x174:0x01:0x33
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x175:0x01:0x37
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x176:0x01:0x35
@@ -1327,21 +1319,17 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x178:0x01:0x2E
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x36
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x38
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x30
+registercontrol -w 0xC036B -x 0x88000488
 
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17C:0x01:0x33
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17D:0x01:0x37
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17E:0x01:0x35
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17F:0x01:0x31
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x180:0x01:0x2E
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x181:0x01:0x36
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x182:0x01:0x38
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x183:0x01:0x30
 
-eeprog_cp60 -f -16 /dev/i2c-0 0x57 -r 0x174:8
-eeprog_cp60 -f -16 /dev/i2c-0 0x57 -r 0x17C:8
+
+Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680, often the calculation stops at two digits after the comma, consider the last digit always as a zero
+
+You may then want to double check what you did by reading the EEPROM:
+
 ```
+eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 372:8
 
-Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680
 
 Once again, this is the **CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above**
 Example for frequency 3751.68MHz (ARFCN=650112) you have set make sure to edit/check the pointA frequency ARFCN value back in the DU config json file in the server (in this example PointA_ARFCN=648840)
@@ -1350,6 +1338,21 @@ Example for frequency 3751.68MHz (ARFCN=650112) you have set make sure to edit/c
 
 
 #### Set attenuation level
+This operation allows to temporary modify the attenuation of the transmitting channels of your B650 unit. Temporarily means that at the next reboot the Cell will default to the originally calibrated values, by default the transmission power is set to 25 dBm hence the attenuation is 15000 mdB (offset to the max TX Power). 
+
+To adjust this power for the transmitter the user must edit the attenuation setting:
+
+- For increasing the power the attenuation must be reduced
+- For decreasing the power, the attenuation must be increased
+
+
+
+**IMPORTANT NOTE: As of now, channel 2 and 4 are off and are not up for modification please do not try and modify those attenuation paramters**
+
+So if we want, for instance, to REDUCE the Tx Power by 5 dB, we will then INCREASE the attenuation by 5000 mdB. Let's consider that each cell is calibrated individually so the first thing to do is to take note of the default values and offset from there to obtained the desired TX Power per channel
+
+So here are the steps:
+
 1. read current attenuations
 ```
 ~# radiocontrol -o G a
@@ -1361,9 +1364,9 @@ Madura ARM DPD FW version             : 5.0.0.32
 Madura Stream version                 : 8.0.0.5
 Madura Product ID                     : 0x84
 Madura Device Revision                : 0xb0
-Tx1 Attenuation (mdB)                 : 20000
+Tx1 Attenuation (mdB)                 : 16100
 Tx2 Attenuation (mdB)                 : 40000
-Tx3 Attenuation (mdB)                 : 21000
+Tx3 Attenuation (mdB)                 : 15800
 Tx4 Attenuation (mdB)                 : 40000
 PLL1 Frequency (Hz)                   : 0 
 PLL2 Frequency (Hz)                   : 3751680000 
@@ -1380,16 +1383,20 @@ ORX1 Peak/Mean Power Level (dBFS)     : -10.839418/-22.709361
 ORX2 Peak/Mean Power Level (dBFS)     : -inf/-inf
 ORX3 Peak/Mean Power Level (dBFS)     : -10.748048/-21.656226
 ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
+
 ```
+We can then conclude that our Antenna has been originally calibrated to have +1100 mdB on channel 1 and +800 mdB to obtain exactly 25 dBm Tx power on those chanels, so that we will then offset our 5000 dBm of extra attenuation and therefore the new attenuation levels are Tx1=16100+5000=21100 mdB and Tx2=15800+5000=20800mdB
+
 2. set attenuation for antenna 1
 ```
-/usr/bin/radiocontrol -o A 20000 1
+/usr/bin/radiocontrol -o A 21100 1
 ```
 3. set attenuation for antenna 3
 ```
-/usr/bin/radiocontrol -o A 21000 4
+/usr/bin/radiocontrol -o A 20800 4
 ```
 **yes the 4 at the end seems to be correct**
+**Bear in mind this settings will stay as long as you don't reboot the Radio and default back to the original calibration values once you reboot the unit**
 
 ### Generally available checks on the B650 (all releases)
 
@@ -1411,6 +1418,38 @@ CLK5 GPS STICKY: LOS and Frequency Offset
 CLK6 EXT 1PPS LIVE: LOS and Frequency Offset
 CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
 ```
+
+#### Cell Status Report
+
+Veirfy if the boot sequence ended up correctly, by checking the radio status, the ouput shall mention explicitly the up time and the succesful bringup
+```
+root@benetelru:~# cat /tmp/radio_status 
+[INFO] Platform: RAN650_B
+[INFO] Radio bringup begin
+[INFO] Load EEPROM Data
+[INFO] Tx1 Attenuation set to 15000 mdB
+[INFO] Tx3 Attenuation set to 15730 mdB
+[INFO] Operating Frequency set to 3774.720 MHz
+[INFO] Waiting for Sync
+[INFO] Sync completed
+[INFO] Start Radio Configuration
+[INFO] Initialize RF IC
+[INFO] Disabled CFR for Antenna 1
+[INFO] Disabled CFR for Antenna 3
+[INFO] Move platform to TDD mode
+[INFO] Set CP60 as TDD control master
+[INFO] Enable TX on FEM
+[INFO] FEM to full MIMO1_3 mode
+[INFO] DPD Tx1 configuration
+[INFO] DPD Tx3 configuration
+[INFO] Set attn at 3774.720 MHz
+[INFO] Reg 0xC0366 to 0x3FF
+[INFO] Tuning the UE TA to reduce timing_offset
+[INFO] The O-RU is ready for System Integration
+[INFO] Radio bringup complete
+ 15:54:47 up 4 min,  load average: 0.09, 0.19, 0.08
+ ```
+
 #### RRU Status Report
 some important registers must be checked to determine if the boot sequence has completed correctly:
 
@@ -1456,15 +1495,24 @@ RU Status Register description:
 
 #### Handshake
 
-Once the Cell and the server have been configured correctly, open two consoles, login in one of them to the server and in the other one login to the Benetel Radio End.
-Take the following two steps:
+Once the Cell and the server have been configured correctly, open two consoles and login in one of them to the server and in the other one login to the Benetel Radio End. If the cell has been just rebooted take the following two steps:
 
-1)run the handshake command 
-``` bash 
-handshake
+1)run the handshake command
+
 ```
+handshake
+This will trigger the cell to send periodic handshake messages every second to the server
+2) login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):
 
-2)without waiting, bring the components up with docker compose
+```
+tcpdump -i enp45s0f0 -c 5 port 44000 -en
+19:22:47.096453 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
+
+The above shows that 10.10.0.2 (U plane default IP address of the B650 Cell)  is sending a Handshake message from the MAC address 02:00:5e:01:01:01 (default MAC address of the B650 Uplane interface) to 10.10.0.1 (Server Fiber interface IP address) on MAC 6c:b3:11:08:a4:e0 (the MAC address of that fiber interface)
+
+Such initial message may repeat a certain number of times, this is normal.
+
+2)Now bring the components up with docker compose
 
 ``` bash
 docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose-benetel.yml
@@ -1520,11 +1568,11 @@ phluido_l1  |     maxPuschModOrder = 6
 phluido_l1  |
 ```
 
-trace traffic between RRU and L1. Also the mac can be read from this trace. The first packet goes out from the Radio End to the DU, this is the handshake packet, the destination MAC address is that address we configured in the Radio End (file  ```/etc/radio_init.sh```).The second Packet is the Handshake response of the DU and we have to make sure that as described the MAC address used in such response from the DU has been set correctly so that the DATA Interface MAC address of the Radio End is used (by default in the Benetel Radio this MAC address is ```02:00:5e:01:01:01```) When data flows the udp packet lengths are 3874. 
+trace traffic between RRU and L1. Also the mac can be read from this trace. As said, the first packet goes out from the Radio End to the DU, this is the handshake packet. The second packet is the Handshake response of the DU and we have to make sure that as described the MAC address used in such response from the DU has been set correctly so that the DATA Interface MAC address of the Radio End is used (by default in the Benetel Radio this MAC address is ```02:00:5e:01:01:01```) When data flows the udp packet lengths are 3874. 
 Remember we increased the MTU size to 9000. Without increasing the L1 would crash on the fragmented udp packets.
 
 ```
-$ tcpdump -i enp45s0f0 -c 5 port 44000 -en
+$ tcpdump -i enp45s0f0 -c 20 port 44000 -en
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on enp45s0f0, link-type EN10MB (Ethernet), capture size 262144 bytes
 19:22:47.096453 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
@@ -1532,7 +1580,7 @@ listening on enp45s0f0, link-type EN10MB (Ethernet), capture size 262144 bytes
 19:23:14.596247 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 12
 19:23:14.596621 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 3874: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 3832
 19:23:14.596631 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 3874: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 3832
-5 packets captured
+
 ```
 
 Check if the L1 is listening 
@@ -1564,9 +1612,8 @@ https://www.serveradminz.com/blog/unsupported-sfp-linux/
 
 ## Starting RRU Benetel 650
 Perform these steps to get a running active cell.
-1) Start the Handshake on the Radio End ```ssh root@10.10.0.100  handshake```
-2) Start L1 and DU (docker-compose)
-3) Use wireshark to follow the CPlane traffic, at this point following sequence:
+1) Start L1 and DU (docker-compose)
+2) Use wireshark to follow the CPlane traffic, at this point following sequence:
 ```
      DU                                        CU
       |  F1SetupRequest--->                     |
@@ -1585,6 +1632,6 @@ Perform these steps to get a running active cell.
       |                                         |
 ```
 
-4) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. ( If it does not stop use ```ssh_rru "registercontrol -w c0310 -x 0 ``` but be carefull )
+4) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
 
  
