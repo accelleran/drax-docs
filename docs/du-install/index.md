@@ -1501,12 +1501,16 @@ Once the Cell and the server have been configured correctly, open two consoles a
 
 ```
 handshake
+```
+
 This will trigger the cell to send periodic handshake messages every second to the server
+
 2) login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):
 
 ```
 tcpdump -i enp45s0f0 -c 5 port 44000 -en
 19:22:47.096453 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
+```
 
 The above shows that 10.10.0.2 (U plane default IP address of the B650 Cell)  is sending a Handshake message from the MAC address 02:00:5e:01:01:01 (default MAC address of the B650 Uplane interface) to 10.10.0.1 (Server Fiber interface IP address) on MAC 6c:b3:11:08:a4:e0 (the MAC address of that fiber interface)
 
@@ -1609,7 +1613,6 @@ $ ifstat -i enp45s0f0
 ### Troubleshooting Fiber Port not showing up
 https://www.serveradminz.com/blog/unsupported-sfp-linux/
 
-
 ## Starting RRU Benetel 650
 Perform these steps to get a running active cell.
 1) Start L1 and DU (docker-compose)
@@ -1624,7 +1627,7 @@ Perform these steps to get a running active cell.
 ```
    The L1 starts listening on ip:port 10.10.0.1:44000
 
-3) After less than 30 seconds communication between rru and du starts. around 100 Mbytes/second
+3) After less than 30 seconds communication between rru and du starts. The related fiber port will report around 100 Mbytes/second of traffic in both directions
  
 ```
      DU                                        CU
@@ -1634,4 +1637,3 @@ Perform these steps to get a running active cell.
 
 4) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
 
- 
