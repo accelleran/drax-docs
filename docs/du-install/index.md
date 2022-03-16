@@ -1397,7 +1397,7 @@ We can then conclude that our Antenna has been originally calibrated to have +11
 /usr/bin/radiocontrol -o A 20800 4
 ```
 **yes the 4 at the end seems to be correct**
-**Bear in mind these settings will stay as long as you __don't reboot__ the Radio and default back to the original calibration values once you reboot the unit**
+**Bear in mind these settings will stay as long as you don't reboot the Radio and default back to the original calibration values once you reboot the unit**
 
 4. assess the new status of your radio:
 
@@ -1459,7 +1459,7 @@ CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
 
 #### Cell Status Report
 
-Veirfy if the boot sequence ended up correctly, by checking the radio status, the ouput shall mention explicitly the up time and the succesful bringup
+Verify if the boot sequence ended up correctly, by checking the radio status, the ouput shall mention explicitly the up time and the succesful bringup
 ```
 root@benetelru:~# cat /tmp/radio_status 
 [INFO] Platform: RAN650_B
