@@ -770,6 +770,17 @@ udp        0      0 10.10.0.1:44000         0.0.0.0:*                           
 </code></pre></div>
 <h3 id="troubleshooting-fiber-port-not-showing-up">Troubleshooting Fiber Port not showing up<a class="headerlink" href="#troubleshooting-fiber-port-not-showing-up" title="Permanent link">⚓︎</a></h3>
 <p>https://www.serveradminz.com/blog/unsupported-sfp-linux/</p>
+<p>fiber port should always be like this
+<div class="highlight"><pre><span></span><code>enp1s0f1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9000
+enp1s0f1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9000
+enp1s0f1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9000
+enp1s0f1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9000
+enp1s0f1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9000
+</code></pre></div></p>
+<p>There should exist an arp entry like this
+<div class="highlight"><pre><span></span><code>$ arp -an | grep 10.10
+? (10.10.0.2) at 02:00:5e:01:01:01 [ether] PERM on enp1s0f1
+</code></pre></div></p>
 <h2 id="starting-rru-benetel-650">Starting RRU Benetel 650<a class="headerlink" href="#starting-rru-benetel-650" title="Permanent link">⚓︎</a></h2>
 <p>Perform these steps to get a running active cell.</p>
 <p>1) Start L1
