@@ -29,9 +29,10 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 
 1. Linux Ubuntu Server 20.04 LTS
 2. Docker (recommended version 19.03, check the latest compatible version with Kubernetes)
+3. Permanently disabled swap
 4. Kubernetes 1.13 or later till 1.20 (1.21 is currently unsupported)
 5. Helm, version 3
-6. BIOS set to performance. System BIOS.System profile settings.Performance
+6. BIOS set to performance. Check also System BIOS -> System profile -> settings -> Performance
 
 ### Other Requirements
 
@@ -81,7 +82,7 @@ Please determine the following parameters for your setup - these will be used du
 #### Prepare License and Certificate
 
 In order to run Accelleran's dRAX software, a License file is required - please contact Accelleran's customer support to request the appropriate license.
-This license file will be named license.crt and will be used in a later step.
+This license file will be named **license.crt** and will be used in a later step.
 
 If you intend to deploy the 4G aspects of dRAX (together with Accelleran's E1000 4G DUs), you will also need to prepare a certificate to ensure secure communication between the various components.
 Please refer to [the Appendix on creating certificates](#appendix-drax-provisioner-keys-and-certificates-generation).
@@ -97,13 +98,11 @@ As mentioned, extra steps or flags must be used with most of the commands that f
 | Description          | Parameter   | Default Namespace |
 | -------------------- | ----------- | ----------------- |
 | Core dRAX components | `$NS_DRAX`  | default           |
-| dRAX 4G components   | `$NS_4G`    | default           |
-| dRAX 4G CUs          | `$NS_4G_CU` | `$NS_4G`          |
-| dRAX 5G components   | `$NS_5G`    | `$NS_DRAX`        |
+| dRAX 4G CUs          | `$NS_4G_CU` | `$NS_DRAX`        |
 | dRAX 5G CUs          | `$NS_5G_CU` | default           |
 
-The Default Namespace column sometimes contains another Namespace placeholder, e.g. the NS_4G_CU default is $NS_4G - this means that the default behaviour is to run the CUs in the $NS_4G namespace, but it can be overridden.
-If neither $NS_4G or $NS_4G_CU is specified, the CU will run in the "default" namespace.
+The Default Namespace column sometimes contains another Namespace placeholder, e.g. the NS_4G_CU default is $NS_DRAX - this means that the default behaviour is to run the CUs in the $NS_DRAX namespace, but it can be overridden.
+If neither $NS_DRAX nor $NS_4G_CU is specified, the CU will run in the "default" namespace.
 
 ### Updating existing installations
 
@@ -138,7 +137,7 @@ In the above example, the installations are called `acc-5g-cu-cp` , acc-5g-cu-up
 ``` bash
 helm uninstall acc-5g-cu-cp
 helm uninstall acc-5g-cu-up
-helm uninstall drax
+helm uninstall ric
 ```
 
 Please wait until all the pods and resources of the previous dRAX installation are deleted.
@@ -215,7 +214,7 @@ To do so, we first retrieve the default values file from the Helm chart reposito
 We do this with the following command:
 
 ``` bash
-curl https://raw.githubusercontent.com/accelleran/helm-charts/4/ric/values.yaml  > ric-values.yaml
+curl https://raw.githubusercontent.com/accelleran/helm-charts/5/ric/values.yaml  > ric-values.yaml
 ```
 
 Next, edit the newly created `ric-values.yaml` file.
@@ -227,8 +226,6 @@ global:
     kubeIp: $NODE_IP
     # Enable the components that you intend to install
     # Note that these must also be supported by the License you have
-    enable4G: true
-    enable5G: false
 ```
 
 If you'd like to use specific nodes in the Kubernetes cluster, you can adjust the following settings to select the nodes based on labels assigned to them (this needs to have been done separately and is outside the scope of this document):
@@ -250,10 +247,10 @@ dash-front-back-end:
         # The namespace where the 4G CUs will be run
         defaultServiceNamespace: "$NS_4G_CU"
         # The namespace where the other 4G components will be installed
-        defaultOranNamespace: "$NS_4G"
+        defaultOranNamespace: "$NS_DRAX"
 acc-service-monitor:
     # Enter all namespaces used by your dRAX deployment, in a comma-separated-list of namespace names
-    monitoredNamespaces: "$NS_DRAX, $NS_4G, $NS_4G_CU, $NS_5G, $NS_5G_CU"
+    monitoredNamespaces: "$NS_DRAX, $NS_4G_CU, $NS_5G_CU"
 ```
 
 Note: For the monitoredNamespaces list, make sure that each value is unique, i.e. if two of the namespaces are the same, only add them to the list once.
@@ -320,18 +317,9 @@ acc-5g-cu-up-cuup-2-cu-up-gtp-1                  LoadBalancer   10.99.205.127   
     MetalLB works by handling ARP requests for these addresses, so the external components need to be in the same L2 subnet in order to access these interfaces.
     To avoid difficulties, it's recommended that this IP pool is unique in the wider network and in the same subnet of your Kubernetes Node
 
-#### Install the dRAX RIC and Dashboard
+##### Enabling 4G components
 
-Install the RIC and Dashboard with Helm (if installing without dedicated namespaces, leave off the -n option):
-
-``` bash
-helm install ric acc-helm/ric --version 4 --values ric-values.yaml -n $NS_DRAX
-```
-
-!!! info
-    The installation process can take some minutes, please hold on and don't interrupt the installation.
-
-### Install dRAX 4G components
+If you are not planning any 4G deployment you can skip this section and proceed to the **Install the dRAX RIC and Dashboard** section
 
 #### Prepare keys and certificates for the dRAX Provisioner
 
@@ -353,35 +341,14 @@ kubectl create configmap -n $NS_DRAX_4G prov-ca-crt --from-file=ca.crt
     The names of these configmaps are critical - these names are referenced specifically in other parts of Accelleran's software.
 
 #### Prepare the values configuration file
+If you plan to install the 4G components (and you have the license to support this), you need to make a few other adjustments in the ric-values.yaml file 
 
-To install the dRAX 4G components, we first have to prepare the Helm values configuration file for the dRAX 4G components Helm chart.
-To do so, we first retrieve the default values file from the Helm chart repository and save it to a file named `drax-4g-values.yaml`:
-
-``` bash
-curl https://raw.githubusercontent.com/accelleran/helm-charts/4/drax/values.yaml > drax-4g-values.yaml
-```
-
-Next, edit the newly created `drax-4g-values.yaml` file.
-Find the following fields and edit them according to your setup.
-We then use parameters from the planning section, such as `$NODE_IP` and `$NODE_INT` to show what should be filled in:
+we first need to enable the 4G components:
 
 ``` yaml
 global:
-    # The Kubernetes advertise IP, $NODE_IP
-    kubeIp: "$NODE_IP"
+    enable4G: true    
 ```
-
-If you'd like to use specific nodes in the Kubernetes cluster, you can adjust the following settings to select the nodes based on labels assigned to them (this needs to have been done separately and is outside the scope of this document):
-
-``` yaml
-global:
-    # If using a node label, enable the dRAX Node Selector and specify the draxName label value
-    draxNodeSelectorEnabled: "true"
-    draxName: "main"
-```
-
-If you've chosen to use specific namespaces during the [Namespaces](#namespaces) section, additional changes are needed to handle these additional namespaces.
-If you don't have a dedicated `$NS_4G_CU` namespace, but you are using a dedicated `$NS_4G` namespace for all 4G components, use that value to replace `$NS_4G_CU`.
 
 Find and update the following fields with the names of the Namespaces which you've chosen to use:
 
@@ -404,6 +371,17 @@ provisioner-dhcp:
 ```
 
 Here, change `eno1` to the intended interface on your machine.
+
+#### Install the dRAX RIC and Dashboard
+
+Install the RIC and Dashboard with Helm (if installing without dedicated namespaces, leave off the -n option):
+
+``` bash
+helm install ric acc-helm/ric --version 5 --values ric-values.yaml -n $NS_DRAX
+```
+
+!!! info
+    The installation process can take some minutes, please hold on and don't interrupt the installation.
 
 ##### Pre-provisioning the list of E1000 DUs
 
@@ -431,16 +409,6 @@ configurator:
 !!! note
     If your dRAX installation and Accelleran E1000s will not be on the same subnet, after completing the previous step, please also follow [Appendix: dRAX and Accelleran E1000s on different subnets](#appendix-drax-and-accelleran-e1000s-on-different-subnets).
 
-#### Install dRAX 4G components based on the values configuration file
-
-Install the dRAX 4G components with Helm using the above create file:
-
-``` bash
-helm install drax-4g acc-helm/drax  --version 4 --values drax-4g-values.yaml -n $NS_4G
-```
-
-!!! warning
-    **The installation process can take some minutes, please hold on and don't interrupt the installation.**
 
 #### Update E1000 DUs
 

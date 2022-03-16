@@ -56,11 +56,13 @@ In this phase we will need to act in parallel for the DU and the L1/RRU licenses
 
 Verify the following archive files have been delivered and are available to you before taking further actions:
 
-1. accelleran-du-phluido-2021-09-30.zip
+1. accelleran-du-phluido-2022-01-31.zip
 2. Phluido5GL1_v0.8.1.zip
-3. effnet-license-activation-2021-12-16.zip 
+3. effnet-license-activation-yyyy_mm_dd.zip 
 
-**Note:** if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed phisically to a USB port:
+**Note** For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
+
+**Note:** if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed physically to a USB port:
 
 To check if the server can see the key do (in this example Device004 is your key): 
 ``` bash
@@ -93,10 +95,10 @@ Once you have the three archive files mentioned above create the directories to 
 mkdir -p accelleran-du-phluido Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
-Place `accelleran-du-phluido-2021-09-30.zip` in `accelleran-du-phluido` and unzip it:
+Place `accelleran-du-phluido-2022-01-31.zip` in `accelleran-du-phluido` and unzip it:
 
 ``` bash
-unzip accelleran-du-phluido/accelleran-du-phluido-2021-09-30.zip -d accelleran-du-phluido
+unzip accelleran-du-phluido/accelleran-du-phluido-2022-01-31.zip -d accelleran-du-phluido
 ```
 
 Place `Phluido5GL1_v0.8.1.zip` in `Phluido5GL1` and unzip it:
@@ -184,17 +186,17 @@ df4f41eb70c9        pcscd_yubikey       "/usr/sbin/pcscd --f…"   1 minute ago 
 
 ### Effnet License: activate the yubikey 
 
-In order to activate the license dongles unzip the license activation bundle (effnet-license-activation-2021-12-16.zip) and then you need to load the included Docker image into your docker-daemon, i.e.
+In order to activate the license dongles unzip the received license activation bundle effnet-license-activation-yyyy-mm-dd.zip (as mentioned the date may differ on each case so let's use the generic format) and then you need to load the included Docker image into your docker-daemon, i.e.
 
 ``` bash
-bunzip2 --stdout license-activation-2021-12-16.tar.bz2 | docker load
+bunzip2 --stdout license-activation-yyyy-mm-dd.tar.bz2 | docker load
 ```
 
 Then run the image mapping the folder containing the `pcscd` daemon socket into
 the container:
 
 ``` bash
-docker run -it --rm -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-2021-12-16
+docker run -it --rm -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-yyyy-mm-dd
 ```
 
 If you get warnings similar to:
@@ -221,19 +223,19 @@ Which means that a license for the dongle with serial-number 13134288 was loaded
 Load the Effnet DU Docker image:
 
 ``` bash
-bzcat accelleran-du-phluido/accelleran-du-phluido-2021-09-30/gnb_du_main_phluido-2021-09-30.tar.bz2 | docker image load
+bzcat accelleran-du-phluido/accelleran-du-phluido-2022-01-31/gnb_du_main_phluido-2022-01-31.tar.bz2 | docker image load
 ```
 
 Load the Phluido L1 Docker image:
 
 ``` bash
-docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/docker/Dockerfile.l1 -t phluido_l1:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
+docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.l1 -t phluido_l1:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
 **FOR B210 RU ONLY** : Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):
 
 ``` bash
-docker build -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
+docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
 
@@ -379,17 +381,17 @@ Device Address:
 
 Before starting the configuration of the components it is important to avoid confusion so please create a folder file and move in all the configuration files you find for the L1, RRU and the DU configuration and remove the docker-compose as well:
 ``` bash
-mkdir accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/cfg
-mv accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/*.cfg accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/cfg/
-mkdir accelleran-du-phluido/accelleran-du-phluido-2021-09-30/json
-mv accelleran-du-phluido/accelleran-du-phluido-2021-09-30/*.json accelleran-du-phluido/accelleran-du-phluido-2021-09-30/json/
-rm accelleran-du-phluido/accelleran-du-phluido-2021-09-30/docker-compose.yml
+mkdir accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/cfg
+mv accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/*.cfg accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/cfg/
+mkdir accelleran-du-phluido/accelleran-du-phluido-2022-01-31/json
+mv accelleran-du-phluido/accelleran-du-phluido-2022-01-31/*.json accelleran-du-phluido/accelleran-du-phluido-2022-01-31/json/
+rm accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose.yml
 ```
 
 Create a configuration file for the Phluido RRU:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg <<EOF
 /******************************************************************
 *
 * This file is subject to the terms and conditions defined in
@@ -430,7 +432,7 @@ Create a configuration file for the Phluido L1.
 Make sure to set the value `LicenseKey` option to the received Phluido license key:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/PhluidoL1_NR_B210.cfg <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoL1_NR_B210.cfg <<EOF
 /******************************************************************
 *
 * This file is subject to the terms and conditions defined in
@@ -466,7 +468,7 @@ EOF
 Create a configuration file for the Effnet DU:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/b210_config_20mhz.json <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b210_config_20mhz.json <<EOF
 {
     "configuration": {
         "du_address": "du",
@@ -652,7 +654,7 @@ services:
     network_mode: host
 
   du:
-    image: gnb_du_main_phluido:2021-09-30
+    image: gnb_du_main_phluido:2022-01-31
     volumes:
       - "$PWD/b210_config_20mhz.json:/config.json:ro"
       - "$PWD/logs/du:/workdir"
@@ -688,16 +690,16 @@ EOF
 Start the DU by running the following command:
 
 ``` bash
-docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/docker-compose.yml
+docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose.yml
 ```
 
 If all goes well this will produce output similar to:
 
 ```
 Starting phluido_l1 ... done
-Recreating accelleran-du-phluido-2021-09-30_du_1 ... done
-Recreating accelleran-du-phluido-2021-09-30_phluido_rru_1 ... done
-Attaching to phluido_l1, accelleran-du-phluido-2021-09-30_du_1, accelleran-du-phluido-2021-09-30_phluido_rru_1
+Recreating accelleran-du-phluido-2022-01-31_du_1 ... done
+Recreating accelleran-du-phluido-2022-01-31_phluido_rru_1 ... done
+Attaching to phluido_l1, accelleran-du-phluido-2022-01-31_du_1, accelleran-du-phluido-2022-01-31_phluido_rru_1
 phluido_l1  | Reading configuration from config file "/config.cfg"...
 phluido_l1  | *******************************************************************************************************
 phluido_l1  | *                                                                                                     *
@@ -797,7 +799,7 @@ Create the configuration file for the Phluido L1 component the `PhluidoL1_NR_Ben
 Make sure to set the value `LicenseKey` option to the received Phluido license key:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/phluido/PhluidoL1_NR_Benetel.cfg <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoL1_NR_Benetel.cfg <<EOF
 /******************************************************************
  *
  * This file is subject to the terms and conditions defined in
@@ -837,7 +839,7 @@ EOF
 Create a configuration file for the Effnet DU:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/b650_config_40mhz.json <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.json <<EOF
 {
     "configuration": {
         "du_address": "du",
@@ -847,7 +849,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/b650_config_40mhz.jso
         "vphy_port": 13337,
         "vphy_tick_multiplier": 1,
         "gnb_du_id": 38209903575,
-        "gnb_du_name": "This is the setup",
+        "gnb_du_name": "This is the dell two HO setup cell one",
         "phy_control": {
             "crnti_range": {
                 "min": 42000,
@@ -866,7 +868,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/b650_config_40mhz.jso
                         "plmn_identity": "001f01",
                         "nr_cell_identity": "000000000000000000000000000000000001"
                     },
-                    "nr_pci": 501,
+                    "nr_pci": 51,
                     "5gs_tac": "000001",
                     "ran_area_code": 1,
                     "served_plmns": [
@@ -963,7 +965,8 @@ tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/b650_config_40mhz.jso
                             }
                         }
                     ],
-                    "num_tx_antennas": 1,
+                    "maximum_ru_power_dbm": 23.0,
+                    "num_tx_antennas": 2,
                     "trs": {
                         "periodicity_and_offset": {
                             "period": 80,
@@ -972,17 +975,17 @@ tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/b650_config_40mhz.jso
                         "symbol_pair": "four_eight",
                         "subcarrier_location": 1
                     },
+                    "periodic_srs_periodicity": 64,
                     "csi_rs": {
                         "periodicity_and_offset": {
                             "period": 40,
                             "offset": 15
                         }
                     },
-                    "force_dl_mimo_layers": 2,
+                    "force_rlc_buffer_size": 2500000,
                     "harq_processes_for_pdsch": 16,
                     "minimum_k1_delay": 1,
-                    "minimum_k2_delay": 1,
-                    "force_rlc_buffer_size": 1125000
+                    "minimum_k2_delay": 1                
                 }
             }
         ]
@@ -1021,7 +1024,7 @@ We want to set a center frequency of 3750 MHz, this is not devisable by 3.84, th
 <p align="center">
   <img width="600" height="800" src="Freq3747dot84.png">
 </p>
-This Frequency, however does not meet the **GSCN Synchronisation requirements** as in fact the Offset to Point A of the first channel is 2 and the K_ssb is 14, this will cause the UE to listen on the wrong channel so the SIBs will never be seen and therefore the cell is "invisible"
+This Frequency, however does not meet the **GSCN Synchronisation requirements** as in fact the Offset to Point A of the first channel is 2 and the K_ssb is 16, this will cause the UE to listen on the wrong channel so the SIBs will never be seen and therefore the cell is "invisible"
 
 - We then repeat the exercise with the higher center frequency 3751,68 MHz, which yelds a center frequency ARFCN of 650112 and a point A ARFCN of 648840 and giving another run we will see that now the K_ssb and the Offset to Point A are correct:
 <p align="center">
@@ -1045,7 +1048,7 @@ The CUCP F1 SCTP interface external address is the second IP address and should 
 Now, create a docker-compose configuration file:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-06-30/docker-compose-B650.yml <<EOF
+tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose-B650.yml <<EOF
 version: "3"
 
 services:
@@ -1131,7 +1134,7 @@ enp45s0f1        DOWN
 	:
 ```
 
-configure the static ip 10.10.0.1 of for enp45s0f0 on your server netplan (typically `/etc/netplan/50-cloud-init.yaml`) as follows: 
+configure the static ip 10.10.0.1 of port enp45s0f0 on your server netplan (typically `/etc/netplan/50-cloud-init.yaml`) as follows: 
 
 ``` bash
 network:
@@ -1223,7 +1226,7 @@ drwxrwxrwx    2 root     root             0 Feb  7 16:44 adrv9025
 -rwxr-xr-x    1 root     root           182 Feb  7 16:41 trialHandshake
 root@benetelru:~# 
 ```
-However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RRU has always the same MAC on 10.10.0.2 namely ``` 02:00:5e:01:01:01``` and we can put this directly on the Server where the DU runs in the file: /etc/networkd-dispatcher/routable.d/macs.sh
+However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RRU has a different MAC on 10.10.0.2 for instance ``` 02:00:5e:01:01:01``` and we can put this on the Server where the DU runs in the file: /etc/networkd-dispatcher/routable.d/macs.sh
 
 Add mac entry script in routable.d. 
 
@@ -1269,69 +1272,45 @@ root@benetelru:~# cat /etc/benetel-rootfs-version
 RAN650-2V0.3
 ```
 
-### Prepare the physical Benetel Radio End - Release V0.3
 
- #### MAC Address of the DU
- 
-Let's now concentrate on the Radio End, which in all aspect is a separate box, accessible via ssh as discussed above
-The first thing we must edit is the destination mac address where the DU is listening, this is the MAC address of the server port where we connected the fiber and with IP address 10.0.0.1, in our example we talk about the port enp45s0f0 which for the sake of argument has MAC 00:1E:67:FD:F5:51
-We login to the Radio End (ssh root@10.10.0.100) and edit the file ```/etc/radio_init.sh``` we program that mac address (carefully check the first two bytes are the last ones, the next four bytes come first, capitol letters no spaces) :
+### Prepare the physical Benetel Radio End - Release V0.5
 
-    registercontrol -w c0315 -x 0x67FDF551 >> /home/root/radio_boot_response 
-    registercontrol -w c0316 -x 0x001E >> /home/root/radio_boot_response
-    echo "Configure the MAC address of the O-DU: 00:1E:67:FD:F5:51 " >> /home/root/radio_status 
-
-Make sure to edit those as MAC address of the fiber port.
-
-To take effect, reboot the BNTL650
-
- #### Frequency of the Radio End
-
-Edit file ```/etc/systemd/system/multi-user.target.wants/autoconfig.service``` to set the frequency: 
-
-```
-[Service]
-ExecStart =/bin/sh /etc/radio_init.sh 3751.680
-```
-Once again, this is the **CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above**
-Example for frequency 3751.68MHz (ARFCN=650112) you will find in the file make sure to edit/check the pointA frequency ARFCN value in the DU config json file (in this example PointA_ARFCN=648840)
-
-Once again, reboot the BNTL650 to make changes effective
-
-### Prepare the physical Benetel Radio End - Release V0.4
+There are several parameters that can be checked and modified by reading writing the EEPROM, for this we recommend to make use of the original Benetel Software User Guide for RANx50-02 CAT-B O-RUs, in case of doubt ask for clarification to Accelleran Customer Support . Here we just present two of the most used parameters, that will probably need an adjustment for each deployment.
 
 #### MAC Address of the DU
 
-Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that.
+Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that. If the MAC address of the server port you use to connect to the Benetel B650 Radio End (the NIC Card port where the fiber originates from) is 00:7D:93:02:BB:FE then you can program the EEPROM of your B650 unit as follows:
 
 ```
-root@benetelru:~# cat progDuMAC-5GCN-enp45s0f0 
-# 11:22:33:44:55:66  5GCN-itf
-registercontrol -w 0xC036B -x 0x88000088                            # don't touch file
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1A:0x01:0x11             # first byte of mac address is 0x11
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1B:0x01:0x22             # etc ...
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1C:0x01:0x33
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1D:0x01:0x44
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1E:0x01:0x55
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1F:0x01:0x66
+registercontrol -w 0xC036B -x 0x88000088
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x00
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x7D
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1c:0x01:0x93
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x02
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0xBB
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0xFE
 ```
 
-#### Set the Frequency for version v0.4
-
-This file ```/etc/systemd/system/multi-user.target.wants/autoconfig.service``` is called during boot that sets the frequency.
+Don't forget to write lock the EEPROM again:
 
 ```
-[Service]
-ExecStart =/bin/sh /etc/radio_init.sh $(read_default_tx_frequency)
+registercontrol -w 0xC036B -x 0x88000488
 ```
 
-In this version the frequency is read from the eeprom. So we program the eeprom with the correct center frequency.
-Programming the eeprom with the center frequency we do with this script.
+You can read the EEPROM now and double check what you did:
 
 ```
-root@benetelru:~# cat progFreq
+eeprog_cp60 -q -f -x -16 /dev/i2c-0 0x57 -x -r 26:6
+```
 
-registercontrol -w 0xC036B -x 0x88000088                            # don't touch file
+**Finally, reboot your Radio End to make the changes effective**
+
+
+#### Set the Frequency of the Radio End 
+Create this script to program the Center Frequency in MHz of your B650 RRU. Remember to determine a valid frequency as indicated previously in the document, taking into account all the constraints and the relationship to the Offset Point A. If the Center Frequency you want to is for instance 3751,680 MHz then you can program the EEPROM of your B650 unit as follows:
+
+```
+registercontrol -w 0xC036B -x 0x88000088
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x174:0x01:0x33
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x175:0x01:0x37
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x176:0x01:0x35
@@ -1340,29 +1319,41 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x178:0x01:0x2E
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x36
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x38
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x30
-
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17C:0x01:0x33
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17D:0x01:0x37
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17E:0x01:0x35
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17F:0x01:0x31
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x180:0x01:0x2E
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x181:0x01:0x36
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x182:0x01:0x38
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x183:0x01:0x30
-
-eeprog_cp60 -f -16 /dev/i2c-0 0x57 -r 0x174:8
-eeprog_cp60 -f -16 /dev/i2c-0 0x57 -r 0x17C:8
+registercontrol -w 0xC036B -x 0x88000488
 ```
 
-Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680
+Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680, often the calculation stops at two digits after the comma, consider the last digit always as a zero
+
+You may then want to double check what you did by reading the EEPROM:
+
+```
+eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 372:8
+```
+
 
 Once again, this is the **CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above**
+
 Example for frequency 3751.68MHz (ARFCN=650112) you have set make sure to edit/check the pointA frequency ARFCN value back in the DU config json file in the server (in this example PointA_ARFCN=648840)
 
-**Once again, reboot the BNTL650 to make changes effective**
+**Reboot the BNTL650 to make changes effective**
 
 
 #### Set attenuation level
+This operation allows to temporary modify the attenuation of the transmitting channels of your B650 unit. Temporarily means that at the next reboot the Cell will default to the originally calibrated values, by default the transmission power is set to 25 dBm hence the attenuation is 15000 mdB (offset to the max TX Power). 
+
+To adjust this power for the transmitter the user must edit the attenuation setting:
+
+- For increasing the power the attenuation must be reduced
+- For decreasing the power, the attenuation must be increased
+
+
+
+**IMPORTANT NOTE: As of now, channel 2 and 4 are off and are not up for modification please do not try and modify those attenuation parameters**
+
+So if we want, for instance, to REDUCE the Tx Power by 5 dB, we will then INCREASE the attenuation by 5000 mdB. Let's consider that each cell is calibrated individually so the first thing to do is to take note of the default values and offset from there to obtained the desired TX Power per channel
+
+So here are the steps:
+
 1. read current attenuations
 ```
 ~# radiocontrol -o G a
@@ -1374,9 +1365,9 @@ Madura ARM DPD FW version             : 5.0.0.32
 Madura Stream version                 : 8.0.0.5
 Madura Product ID                     : 0x84
 Madura Device Revision                : 0xb0
-Tx1 Attenuation (mdB)                 : 20000
+Tx1 Attenuation (mdB)                 : 16100
 Tx2 Attenuation (mdB)                 : 40000
-Tx3 Attenuation (mdB)                 : 21000
+Tx3 Attenuation (mdB)                 : 15800
 Tx4 Attenuation (mdB)                 : 40000
 PLL1 Frequency (Hz)                   : 0 
 PLL2 Frequency (Hz)                   : 3751680000 
@@ -1393,16 +1384,57 @@ ORX1 Peak/Mean Power Level (dBFS)     : -10.839418/-22.709361
 ORX2 Peak/Mean Power Level (dBFS)     : -inf/-inf
 ORX3 Peak/Mean Power Level (dBFS)     : -10.748048/-21.656226
 ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
+
 ```
+We can then conclude that our Antenna has been originally calibrated to have +1100 mdB on channel 1 and +800 mdB to obtain exactly 25 dBm Tx power on those chanels, so that we will then offset our 5000 dBm of extra attenuation and therefore the new attenuation levels are Tx1=16100+5000=21100 mdB and Tx2=15800+5000=20800mdB
+
 2. set attenuation for antenna 1
 ```
-/usr/bin/radiocontrol -o A 20000 1
+/usr/bin/radiocontrol -o A 21100 1
 ```
 3. set attenuation for antenna 3
 ```
-/usr/bin/radiocontrol -o A 21000 4
+/usr/bin/radiocontrol -o A 20800 4
 ```
 **yes the 4 at the end seems to be correct**
+**Bear in mind these settings will stay as long as you don't reboot the Radio and default back to the original calibration values once you reboot the unit**
+
+4. assess the new status of your radio:
+
+```
+~# radiocontrol -o G a
+
+Benetel radiocontrol Version          : 0.9.0
+Madura API Version                    : 5.1.0.21
+Madura ARM FW version                 : 5.0.0.32
+Madura ARM DPD FW version             : 5.0.0.32
+Madura Stream version                 : 8.0.0.5
+Madura Product ID                     : 0x84
+Madura Device Revision                : 0xb0
+Tx1 Attenuation (mdB)                 : 21100
+Tx2 Attenuation (mdB)                 : 40000
+Tx3 Attenuation (mdB)                 : 20800
+Tx4 Attenuation (mdB)                 : 40000
+PLL1 Frequency (Hz)                   : 0 
+PLL2 Frequency (Hz)                   : 3751680000 
+Front-end Control                     : 0x2aa491
+Madura Deframer 0                     : 0x87
+Madura Framer 0                       : 0xa
+Internal Temperature (degC)           : 47
+External Temperature (degC)           : 42.789063
+RX1 Power Level (dBFS)                : -60.750000
+RX2 Power Level (dBFS)                : -60.750000
+RX3 Power Level (dBFS)                : -60.750000
+RX4 Power Level (dBFS)                : -60.750000
+ORX1 Peak/Mean Power Level (dBFS)     : -10.839418/-22.709361
+ORX2 Peak/Mean Power Level (dBFS)     : -inf/-inf
+ORX3 Peak/Mean Power Level (dBFS)     : -10.748048/-21.656226
+ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
+
+```
+
+
+
 
 ### Generally available checks on the B650 (all releases)
 
@@ -1424,6 +1456,38 @@ CLK5 GPS STICKY: LOS and Frequency Offset
 CLK6 EXT 1PPS LIVE: LOS and Frequency Offset
 CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
 ```
+
+#### Cell Status Report
+
+Verify if the boot sequence ended up correctly, by checking the radio status, the ouput shall mention explicitly the up time and the succesful bringup
+```
+root@benetelru:~# cat /tmp/radio_status 
+[INFO] Platform: RAN650_B
+[INFO] Radio bringup begin
+[INFO] Load EEPROM Data
+[INFO] Tx1 Attenuation set to 15000 mdB
+[INFO] Tx3 Attenuation set to 15730 mdB
+[INFO] Operating Frequency set to 3774.720 MHz
+[INFO] Waiting for Sync
+[INFO] Sync completed
+[INFO] Start Radio Configuration
+[INFO] Initialize RF IC
+[INFO] Disabled CFR for Antenna 1
+[INFO] Disabled CFR for Antenna 3
+[INFO] Move platform to TDD mode
+[INFO] Set CP60 as TDD control master
+[INFO] Enable TX on FEM
+[INFO] FEM to full MIMO1_3 mode
+[INFO] DPD Tx1 configuration
+[INFO] DPD Tx3 configuration
+[INFO] Set attn at 3774.720 MHz
+[INFO] Reg 0xC0366 to 0x3FF
+[INFO] Tuning the UE TA to reduce timing_offset
+[INFO] The O-RU is ready for System Integration
+[INFO] Radio bringup complete
+ 15:54:47 up 4 min,  load average: 0.09, 0.19, 0.08
+ ```
+
 #### RRU Status Report
 some important registers must be checked to determine if the boot sequence has completed correctly:
 
@@ -1469,26 +1533,39 @@ RU Status Register description:
 
 #### Handshake
 
-Once the Cell and the server have been configured correctly, open two consoles, login in one of them to the server and in the other one login to the Benetel Radio End.
-Take the following two steps:
+Once the Cell and the server have been configured correctly, open two consoles and login in one of them to the server and in the other one login to the Benetel Radio End. If the cell has been just rebooted take the following two steps:
 
-1)run the handshake command 
-``` bash 
+1)run the handshake command
+
+```
 handshake
 ```
 
-2)without waiting, bring the components up with docker compose
+This will trigger the cell to send periodic handshake messages every second to the server
+
+2) login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):
+
+```
+tcpdump -i enp45s0f0 -c 5 port 44000 -en
+19:22:47.096453 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
+```
+
+The above shows that 10.10.0.2 (U plane default IP address of the B650 Cell)  is sending a Handshake message from the MAC address 02:00:5e:01:01:01 (default MAC address of the B650 Uplane interface) to 10.10.0.1 (Server Fiber interface IP address) on MAC 6c:b3:11:08:a4:e0 (the MAC address of that fiber interface)
+
+Such initial message may repeat a certain number of times, this is normal.
+
+2)Now bring the components up with docker compose
 
 ``` bash
-docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2021-09-30/docker-compose-benetel.yml
+docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose-benetel.yml
 ```
 
 If all goes well this will produce output similar to:
 
 ```
 Starting phluido_l1 ... done
-Recreating accelleran-du-phluido-2021-09-30_du_1 ... done
-Attaching to phluido_l1, accelleran-du-phluido-2021-09-30_du_1
+Recreating accelleran-du-phluido-2022-01-31_du_1 ... done
+Attaching to phluido_l1, accelleran-du-phluido-2022-01-31_du_1
 phluido_l1  | Reading configuration from config file "/config.cfg"...
 phluido_l1  | *******************************************************************************************************
 phluido_l1  | *                                                                                                     *
@@ -1533,11 +1610,13 @@ phluido_l1  |     maxPuschModOrder = 6
 phluido_l1  |
 ```
 
-trace traffic between RRU and L1. Also the mac can be read from this trace. The first packet goes out from the Radio End to the DU, this is the handshake packet, the destination MAC address is that address we configured in the Radio End (file  ```/etc/radio_init.sh```).The second Packet is the Handshake response of the DU and we have to make sure that as described the MAC address used in such response from the DU has been set correctly so that the DATA Interface MAC address of the Radio End is used (by default in the Benetel Radio this MAC address is ```02:00:5e:01:01:01```) When data flows the udp packet lengths are 3874. 
+#### Trace traffic between RRU and L1.
+
+As said, the first packet goes out from the Radio End to the DU, this is the handshake packet. The second packet is the Handshake response of the DU and we have to make sure that as described the MAC address used in such response from the DU has been set correctly so that the DATA Interface MAC address of the Radio End is used (by default in the Benetel Radio this MAC address is ```02:00:5e:01:01:01```) When data flows the udp packet lengths are 3874. 
 Remember we increased the MTU size to 9000. Without increasing the L1 would crash on the fragmented udp packets.
 
 ```
-$ tcpdump -i enp45s0f0 -c 5 port 44000 -en
+$ tcpdump -i enp45s0f0 -c 20 port 44000 -en
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on enp45s0f0, link-type EN10MB (Ethernet), capture size 262144 bytes
 19:22:47.096453 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
@@ -1545,10 +1624,10 @@ listening on enp45s0f0, link-type EN10MB (Ethernet), capture size 262144 bytes
 19:23:14.596247 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 12
 19:23:14.596621 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 3874: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 3832
 19:23:14.596631 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 3874: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 3832
-5 packets captured
+
 ```
 
-Check if the L1 is listening 
+#### Check if the L1 is listening 
 ```
 $ while true ; do sleep 1 ; netstat -ano | grep 44000 ;echo $RANDOM; done
 udp        0 118272 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
@@ -1561,7 +1640,7 @@ udp        0      0 10.10.0.1:44000         0.0.0.0:*                           
 502
 ```
 
-Show the traffic between rru and l1
+#### Show the traffic between rru and l1
 
 ```
 $ ifstat -i enp45s0f0
@@ -1571,15 +1650,13 @@ $ ifstat -i enp45s0f0
 71313.36  105930.1
 ```
 
-### Troubleshooting Fiber Port not showing up
+#### Troubleshooting Fiber Port not showing up
 https://www.serveradminz.com/blog/unsupported-sfp-linux/
-
 
 ## Starting RRU Benetel 650
 Perform these steps to get a running active cell.
-1) Start the Handshake on the Radio End ```ssh root@10.10.0.100  handshake```
-2) Start L1 and DU (docker-compose)
-3) Use wireshark to follow the CPlane traffic, at this point following sequence:
+1) Start L1 and DU (docker-compose)
+2) Use wireshark to follow the CPlane traffic, at this point following sequence:
 ```
      DU                                        CU
       |  F1SetupRequest--->                     |
@@ -1590,7 +1667,7 @@ Perform these steps to get a running active cell.
 ```
    The L1 starts listening on ip:port 10.10.0.1:44000
 
-3) After less than 30 seconds communication between rru and du starts. around 100 Mbytes/second
+3) After less than 30 seconds communication between rru and du starts. The related fiber port will report around 100 Mbytes/second of traffic in both directions
  
 ```
      DU                                        CU
@@ -1598,6 +1675,5 @@ Perform these steps to get a running active cell.
       |                                         |
 ```
 
-4) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. ( If it does not stop use ```ssh_rru "registercontrol -w c0310 -x 0 ``` but be carefull )
+4) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
 
- 
