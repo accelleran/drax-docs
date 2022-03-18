@@ -11,8 +11,8 @@ This installation guide assumes that that the following things are available:
 * Hardware:
 	* Server with at least the following specifications:
 		* Intel Xeon D-1541 or stronger 64-bit processor
-		* 32 GB DDR4 RAM
-		* 250 GB Hard Disk
+		* 64 GB DDR4 RAM
+		* 800 GB Hard Disk
 	* B210 USRP
 * Licenses:
 	* A dRAX license file: license.crt
