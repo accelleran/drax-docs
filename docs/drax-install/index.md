@@ -164,19 +164,23 @@ helm repo add acc-helm https://accelleran.github.io/helm-charts/
 If you choose to use dedicated namespaces for dRAX, please create them before the installation process.
 So for example if you choose $NS_DRAX=drax, then create it using the following command:
 
+```
+export NS_DRAX=drax
+``` 
+
 ``` bash
-kubectl create namespace drax
+kubectl create namespace $NS_DRAX
 ```
 
 This needs to be repeated for each namespace that you wish to use for dRAX, either for the RIC, 4G or 5G components, as per the table in [the Namespaces section](#namespaces).
 
 !!! warning
-    If you choose to use specific namespaces, special care must be used throughout the remaining steps when executing the kubectl commands.
-    For each one, it is important to specify the appropriate namespace using the -n option, example:
+If you choose to use specific namespaces, special care must be used throughout the remaining steps when executing the kubectl commands.
+For each one, it is important to specify the appropriate namespace using the -n option, example:
 
-    ``` bash
-    kubectl get pods -n $NS_DRAX
-    ```
+``` bash
+kubectl get pods -n $NS_DRAX
+```
 
 #### Configure DockerHub credentials in Kubernetes
 
