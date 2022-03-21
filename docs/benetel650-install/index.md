@@ -77,7 +77,7 @@ services:
     image: gnb_du_main_phluido
     volumes:
       - "$PWD/b210_config_20mhz.json:/config.json:ro"
-      - "/run/logs-du/l1:/workdir"
+      - "/run/logs-du/du:/workdir"
       - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm
     ipc: container:phluido_l1_cn
     tty: true
