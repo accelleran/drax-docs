@@ -648,7 +648,7 @@ services:
     command: /config.cfg
     volumes:
       - "$PWD/phluido/PhluidoL1_NR_B210.cfg:/config.cfg:ro"
-      - "$PWD/logs/l1:/workdir"
+      - "/run/logs-du/l1:/workdir"
       - "/etc/machine-id:/etc/machine-id:ro"
     working_dir: "/workdir"
     network_mode: host
@@ -657,7 +657,7 @@ services:
     image: gnb_du_main_phluido:2022-01-31
     volumes:
       - "$PWD/b210_config_20mhz.json:/config.json:ro"
-      - "$PWD/logs/du:/workdir"
+      - "/run/logs-du/du:/workdir"
       - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm
     ipc: container:phluido_l1
     tty: true
