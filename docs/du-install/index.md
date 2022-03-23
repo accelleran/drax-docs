@@ -39,7 +39,11 @@ In order to avoid possible system performance degradation, CPU scaling must be d
 
 ``` bash
 sudo apt install cpufrequtils
+```
+```
 echo 'GOVERNOR="performance"' | sudo tee /etc/default/cpufrequtils
+```
+```
 sudo systemctl disable ondemand
 ```
 
@@ -168,6 +172,8 @@ The Docker image can now be built and started with:
 
 ``` bash
 docker build --rm -t pcscd_yubikey - <pcscd/Dockerfile.pcscd
+```
+```
 docker run --restart always -id --privileged --name pcscd_yubikey_c -v /run/pcscd:/run/pcscd pcscd_yubikey
 ```
 
