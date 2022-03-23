@@ -43,7 +43,7 @@ sudo usermod -aG docker $USER
 To check if your installation is working you can try to run a test image in a container:
 
 ``` bash
-docker run hello-world
+sudo docker run hello-world
 ```
 
 ## Configure Docker Daemon
