@@ -131,7 +131,7 @@ Run the `sysTest` utility:
 ``` bash
 (cd Phluido_sysTest; ./sysTest)
 ```
-
+( The test takes around 90 seconds) 
 This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components
 Once it is finsihed it produces a file `sysTest.bin` in the same directory
 Send this file to Accelleran, to obtain the Phluido license key
