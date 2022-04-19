@@ -202,7 +202,7 @@ Then run the image mapping the folder containing the `pcscd` daemon socket into
 the container:
 
 ``` bash
-docker run -it --rm -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-yyyy-mm-dd
+docker run -it -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-yyyy-mm-dd
 ```
 
 If you get warnings similar to:
