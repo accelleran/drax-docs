@@ -189,8 +189,8 @@ If all went well a new POD was created, you can verify this with the following c
 
 ``` bash 
 kubectl --kubeconfig <CONFIG_PATH> get pods
-NAME      READY STATUS    RESTARTS AGE
-busybox   1/1 Running   21 21h
+#NAME      READY STATUS    RESTARTS AGE
+#busybox   1/1 Running   21 21h
 ```
 
 In order to verify if your Kubernetes is working correctly you could try some simple commands using the busybox POD. 
@@ -198,11 +198,11 @@ For instance to verify your name resolution works do:
 
 ``` bash 
 kubectl exec -ti busybox -- nslookup mirrors.ubuntu.com 
-Server:    10.96.0.10
-Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+#Server:    10.96.0.10
+#Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
  
-Name:      mirrors.ubuntu.com
-Address 1: 91.189.89.32 bilimbi.canonical.com
+#Name:      mirrors.ubuntu.com
+#Address 1: 91.189.89.32 bilimbi.canonical.com
 ```
  
 ## Remove in full a Kubernetes installation
