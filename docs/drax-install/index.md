@@ -195,7 +195,7 @@ kubectl get pods -n $NS_DRAX
 Create a secret named `accelleran-secret` with your DockerHub credentials, specifically using the kubectl command (do not forget the `-n <namespace>` option if you selected different namespaces previously):
 
 ``` bash
-kubectl create secret docker-registry accelleran-secret --docker-server=docker.io --docker-username=<username> --docker-password=<password> --docker-email=<email>
+kubectl create secret docker-registry accelleran-secret --docker-server=docker.io --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASS --docker-email=$DOCKER_EMAIL
 ```
 
 This needs to be repeated for each namespace that you created previously, specifying each namespace one time using the -n flag.
