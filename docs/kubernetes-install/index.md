@@ -161,7 +161,7 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 It is very convenient (however optional) to test the Kubernetes installation with a simple busybox pod for instance to test your DNS resolution inside a pod. To do so create the following yaml file (/tmp/busybox.yaml):
 
 ``` bash
-
+cat << EOF > /tmp/busybox.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -176,6 +176,7 @@ spec:
      - "3600"
    imagePullPolicy: IfNotPresent
  restartPolicy: Always
+EOF
 ```
 
 Then you can create the pod:
