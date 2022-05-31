@@ -180,15 +180,16 @@ EOF
 ```
 
 Then you can create the pod:
+NOTE : --kubeconfig is optional here because ```$HOME/.kube/config``` is the default config file
 
 ``` bash
-kubectl --kubeconfig <CONFIG_PATH> create -f /tmp/busybox.yaml
+kubectl --kubeconfig $HOME/.kube/config create -f /tmp/busybox.yaml
 ```
 
 If all went well a new POD was created, you can verify this with the following command
 
 ``` bash 
-kubectl --kubeconfig <CONFIG_PATH> get pods
+kubectl --kubeconfig $HOME/.kube/config get pods
 #NAME      READY STATUS    RESTARTS AGE
 #busybox   1/1 Running   21 21h
 ```
