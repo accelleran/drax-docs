@@ -23,7 +23,7 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 
 1. Intel Xeon D-1541 or stronger 64-bit processor
 2. 64GB DDR4 RAM
-3. 800GB Hard Disk ( inludes space for logging/monitor the system )
+3. 800GB Hard Disk ( includes space for logging/monitor/debugging the system )
 
 ### Software Requirements to be pre installed
 
