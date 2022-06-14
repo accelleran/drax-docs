@@ -1,6 +1,15 @@
 
 
+## Prerequisites
+The RU needs at least version 2V0.6.0
+
+```
+oot@benetelru:~# cat /etc/benetel-rootfs-version 
+RAN550-2V0.6.0
+```
+
 ## Configuration
+
 ### Dawing
 created in  https://asciiflow.com/
 
