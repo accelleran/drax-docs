@@ -59,7 +59,7 @@ announceReceiptTimeout 3
 logAnnounceInterval 1
 logSyncInterval -4
 logMinDelayReqInterval -4
-network_transport	L2
+network_transport L2
 hybrid_e2e 1
 EOF
 
