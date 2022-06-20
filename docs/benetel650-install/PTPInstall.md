@@ -112,8 +112,12 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 	0x0030:  f8fe ffff 80ec f4bb fffe e3b4 6800 00a0  ............h...
 ```
 
-### restart sync
+### restart sync or reboot
+without rebooting we can restart the sync by this command
+
 ``` systemctl restart ru_sync ```
+
+when rebooting the unit the previous command is not necessary
 
 ### logs
 
@@ -158,8 +162,14 @@ root@benetelru:~# cat /tmp/logs/radio_status
 [INFO] Sync completed
 [INFO] Kick off Synchronization of Linux system time to PTP time
 [INFO] Start Radio Configuration
+		:
+		:
+[INFO] Radio bringup complete
+ 15:54:47 up 4 min,  load average: 0.08, 0.23, 0.11
 ```
+
 another file indicates the success aswell.
+
 ```
 root@benetelru:~# cat /tmp/logs/radio_sync_status 
 Configuring CP60 for PTP Sync Mode
