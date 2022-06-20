@@ -88,7 +88,6 @@ listening on eno1, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 ## RU side
 ### Commands to configure PTP
-using : https://drive.google.com/drive/u/0/folders/17uyl3vpKXAO_9IMyiEKNQw0VpvLJvVxe
 
 Below the command to execute to use PTP to sync
 
@@ -175,3 +174,9 @@ Syncmon started
 Waiting for initial PTP sync...
 PTP locked, enabling holdover functionality.
 ```
+
+## Source References
+
+Software User Guide for RANx50-02 CAT-B O-RUs [June 2022]
+
+	https://drive.google.com/drive/u/0/folders/17uyl3vpKXAO_9IMyiEKNQw0VpvLJvVxe
