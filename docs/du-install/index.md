@@ -6,6 +6,12 @@ The DU will be installed in several Docker containers that run on the host machi
 
 See, if you didn't do it already, [the chapter on Kubernetes Installation](../kubernetes-install/index.md) for information on how to do this.
 
+## information needed before install
+Accelleran needs some information to be able to prepare the RU before shipping it.
+
+* How long needs the RU 48V powercable need to be ? 
+* The center frequencey for the radio
+
 ## Install a Low Latency Kernel
 
 The PHY layer has very stringent latency requirements, therefore we install a low latency kernel:
