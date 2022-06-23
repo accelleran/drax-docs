@@ -67,7 +67,7 @@ EOF
 ### the interface to the RU
 the interface to the should have an ip starting with 10.10.
 ```
-ITF_RU=$(ip -br a | grep 10.10.0 | awk '{print $1}'
+ITF_RU=$(ip -br a | grep 10.10.0 | awk '{print $1}')
 ```
 
 ### run the server 
