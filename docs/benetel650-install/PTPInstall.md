@@ -64,10 +64,15 @@ hybrid_e2e 1
 EOF
 
 ```
+### the interface to the RU
+the interface to the should have an ip starting with 10.10.
+```
+ITF_RU=$(ip -br a | grep 10.10.0 | awk '{print $1}'
+```
 
 ### run the server 
 ```
-sudo ptp4l -2 -E -f benetel550_ptp.cfg -i eno1 -m
+sudo ptp4l -2 -E -f benetel550_ptp.cfg -i $ITF_RU -m
 ```
 
 -2 means that it is ethernet multicast packets that are being sent.
