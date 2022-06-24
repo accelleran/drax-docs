@@ -83,3 +83,8 @@ Restart the AMF and UPF:
 sudo systemctl restart open5gs-amfd
 sudo systemctl restart open5gs-upfd
 ```
+### per UE
+
+* use static ip address which you can map to the imsi. This makes debugging traffic much easier when using multiple UE's. 
+    ``` eg: imsi 235880000009834 gets ip address 10.0.0.34```
+
