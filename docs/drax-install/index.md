@@ -40,6 +40,8 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 2. The Customer Network allows access to internet services
 3. a DockerHub account, and have shared the username with the Accelleran team to provide access to the needed images
 4. EPC/5GC must be routable without NAT from dRAX (and E1000 DUs in case of 4G)
+5. From Accelleran you will need 
+** user, password and email from docker
 
 ### 4G Specific requirements:
 
