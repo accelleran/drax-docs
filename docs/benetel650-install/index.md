@@ -631,4 +631,28 @@ Perform these steps to get a running active cell.
 
 5) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. ( If it does not stop use ```ssh_rru "registercontrol -w c0310 -x 0 ``` but be carefull )
 
- 
+## Fiber port not coming up.
+It has been seen on a rare occasion that the B650 is not pingable although the interface is UP.
+pinging the server has this result
+
+```
+$ ping 10.10.0.100
+PING 10.10.0.100 (10.10.0.100) 56(84) bytes of data.                   
+From 10.10.0.1 icmp_seq=1 Destination Host Unreachable                 
+From 10.10.0.1 icmp_seq=2 Destination Host Unreachable                 
+From 10.10.0.1 icmp_seq=5 Destination Host Unreachable                            
+```
+
+```
+$ ip -br a
+enp43s0f0        UP             10.10.0.1/24 fe80::21b:21ff:fec1:38a8/64  
+```
+
+in that case check the arp table
+
+```
+$ arp -an
+? (10.10.0.100) at <incomplete> on enp43s0f0   
+``` 
+
+powercycling the B650 a few times fixes this issue. Also I connect and reconnect the fiber SFP+ at the server side.
