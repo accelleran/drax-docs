@@ -92,10 +92,11 @@ Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 
 ```
 
-Then you can find the serial number :
+Then you can find the serial number (yubikey-manager needed, install if it's not already):
 
 ``` bash
-~$ ykman list --serials
+sudo apt install yubikey-manager
+ykman list --serials
 13134288
 ```
 
