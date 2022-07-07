@@ -896,7 +896,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
                     ],
                     "nr_mode_info": {
                         "nr_freq_info": {
-                            "nr_arfcn": 650376,
+                            "nr_arfcn": 648840,
                             "frequency_band_list": [
                                 {
                                     "nr_frequency_band": 78
