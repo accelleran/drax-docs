@@ -31,7 +31,7 @@ Make sure Ubuntu (Server) 20.04 is installed on the machine and that it has acce
 The IP address assigned to it should be fixed.
 This IP could either be statically configured, or provided by a fixed DHCP lease - how exactly this is achieved is outside the scope of this document.
 This guide will refer to this IP address as `$NODE_IP` and the interface it belongs to as `$NODE_INT`.
-Furthermore this guide will refer to the IP address of the gateway as `$GATEWAY_IP`, the IP address of the core (see the section on [Core Installation](/drax-docs/du-install/)) as `$CORE_IP` and the IP address of the CU (see the section on [DU Installation](/drax-docs/du-install/)) as `$CU_IP`.
+Furthermore this guide will refer to the IP address of the gateway as `$GATEWAY_IP`, the IP address of the core (see the section on [Core Installation](/drax-docs/core-install/)) as `$CORE_IP` and the IP address of the CU (see the section on [DU Installation](/drax-docs/du-install/)) as `$CU_IP`.
 In order to be able to execute the commands in this guide as-is you should add these variables to the environment as soon as they are known.
 Alternatively you can edit the configurations to set the correct IP addresses.
 
