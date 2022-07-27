@@ -56,6 +56,8 @@ Note that if you SSH into the virtual machine the `$CORE_IP` and related variabl
 
 Please refer to [the Open5GS website](https://open5gs.org/open5gs/docs/guide/01-quickstart/) for information on how to install and configure the Open5GS core network on the virtual machine.
 
+> NOTE : don't forget the ip forwarding section. If forgotten the UE connects with an exclemation mark in the triangle and has no internet connectivity.
+
 ## Configure Open5GS
 
 The default configuration of Open5GS can mostly be used as-is.
