@@ -10,14 +10,27 @@ Add the Docker APT repository:
 
 ``` bash
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+```
+```
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+```
 sudo apt update
 ```
 
 Install the required packages:
 
 ``` bash
-sudo apt install docker-ce docker-ce-cli containerd.io docker-compose
+sudo apt install docker-ce 
+```
+```
+sudo apt install docker-ce-cli 
+```
+```
+sudo apt install containerd.io 
+```
+```
+sudo apt install docker-compose
 ```
 
 Add your user to the docker group to be able to run docker commands without sudo access.
@@ -30,7 +43,7 @@ sudo usermod -aG docker $USER
 To check if your installation is working you can try to run a test image in a container:
 
 ``` bash
-docker run hello-world
+sudo docker run hello-world
 ```
 
 ## Configure Docker Daemon
@@ -66,7 +79,7 @@ Kubernetes refuses to run if swap is enabled on the node, so we disable swap imm
 ``` bash
 sudo swapoff -a
 sudo sed -i '/\sswap\s/ s/^\(.*\)$/#\1/g' /etc/fstab
-``` bash
+```
 
 ## Install Kubernetes
 
@@ -96,7 +109,7 @@ export NODE_IP=1.2.3.4   # replace 1.2.3.4 with the correct IP
 ```
 
 This guide assumes we will use Flannel as the CNI-based Pod network for this Kubernetes instance, which uses the `10.244.0.0/16` subnet by default.
-If you wish to use a different subnet, change it in the following command where we store it again as an environment variable for later use:
+We store it again as an environment variable for later use, and of course if you wish to use a different subnet, change the command accordingly:
 
 ``` bash
 export POD_NETWORK=10.244.0.0/16
@@ -119,13 +132,6 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown "$(id -u):$(id -g)" "$HOME/.kube/config"
 ```
 
-By default, Kubernetes will not schedule Pods on the control-plane node for security reasons.
-As we're running with a single Node, we need to remove the node-role.kubernetes.io/master taint, meaning that the scheduler will then be able to schedule Pods on it.
-
-``` bash
-kubectl taint nodes --all node-role.kubernetes.io/master-
-```
-
 ## Install Flannel
 
 Prepare the Manifest file:
@@ -140,3 +146,79 @@ Apply the Manifest file:
 ``` bash
 kubectl apply -f kube-flannel.yml
 ```
+
+## Enable Pod Scheduling
+
+By default, Kubernetes will not schedule Pods on the control-plane node for security reasons.
+As we're running with a single Node, we need to remove the node-role.kubernetes.io/master taint, meaning that the scheduler will then be able to schedule Pods on it.
+
+``` bash
+kubectl taint nodes --all node-role.kubernetes.io/master-
+```
+
+## A small busybox pod for testing
+
+It is very convenient (however optional) to test the Kubernetes installation with a simple busybox pod for instance to test your DNS resolution inside a pod. To do so create the following yaml file (/tmp/busybox.yaml):
+
+``` bash
+cat << EOF > /tmp/busybox.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+ name: busybox
+ namespace: default
+spec:
+ containers:
+ - name: busybox
+   image: busybox:1.28
+   command:
+     - sleep
+     - "3600"
+   imagePullPolicy: IfNotPresent
+ restartPolicy: Always
+EOF
+```
+
+Then you can create the pod:
+NOTE : --kubeconfig is optional here because ```$HOME/.kube/config``` is the default config file
+
+``` bash
+kubectl --kubeconfig $HOME/.kube/config create -f /tmp/busybox.yaml
+```
+
+If all went well a new POD was created, you can verify this with the following command
+
+``` bash 
+kubectl --kubeconfig $HOME/.kube/config get pods
+#NAME      READY STATUS    RESTARTS AGE
+#busybox   1/1 Running   21 21h
+```
+
+In order to verify if your Kubernetes is working correctly you could try some simple commands using the busybox POD. 
+For instance to verify your name resolution works do:
+
+``` bash 
+kubectl exec -ti busybox -- nslookup mirrors.ubuntu.com 
+#Server:    10.96.0.10
+#Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+ 
+#Name:      mirrors.ubuntu.com
+#Address 1: 91.189.89.32 bilimbi.canonical.com
+```
+ 
+## Remove in full a Kubernetes installation
+
+On occasion, it may be deemed necessary to fully remove Kubernetes, for instance if for any reason your server IP address will change, then the advertised Kubernetes IP address will have to follow. THe following command help making sure the previous installation is cleared up: 
+
+
+``` bash 
+sudo kubeadm reset
+sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*
+sudo rm -rf ~/.kube
+sudo rm -rf /etc/cni/net.d
+sudo ip link delete cni0
+sudo ip link delete flannel.1
+```
+
+
+
