@@ -85,7 +85,28 @@ Restart the AMF and UPF:
 sudo systemctl restart open5gs-amfd
 sudo systemctl restart open5gs-upfd
 ```
-### per UE
+
+### GUI
+To be able to reach the GUI from any IP address add these lines to the file ```/etc/systemd/system/multi-user.target.wants/open5gs-webui.service```
+
+```
+Environment=HOSTNAME=0.0.0.0
+Environment=PORT=3000
+```
+and restart the service 
+
+``````
+systemctl daemon-reload
+systemctl restart open5gs-webui.service
+```
+now you will find that this service is listening on port 3000 on any ip
+
+```
+$ netstat -ano | grep 3000
+tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      off (0.00/0/0)
+````
+
+### Per UE
 
 * use static ip address which you can map to the imsi. This makes debugging traffic much easier when using multiple UE's. 
     ``` eg: imsi 235880000009834 gets ip address 10.0.0.34```
