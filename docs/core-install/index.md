@@ -52,13 +52,13 @@ The installation process is outside the scope of this document.
 Make sure to create a bridged network for the virtual machine and assign a fixed IP address (`$CORE_IP`) in the same subnet as `$NODE_IP` to it.
 Note that if you SSH into the virtual machine the `$CORE_IP` and related variables might not be set.
 
-## Install Open5GS
+# Install Open5GS
 
 Please refer to [the Open5GS website](https://open5gs.org/open5gs/docs/guide/01-quickstart/) for information on how to install and configure the Open5GS core network on the virtual machine.
 
 > NOTE : don't forget the ip forwarding section. If forgotten the UE connects with an exclemation mark in the triangle and has no internet connectivity.
 
-## Configure Open5GS
+### Configure Open5GS
 
 The default configuration of Open5GS can mostly be used as-is.
 There are a couple of modifications that have to be made to its configuration:
@@ -86,7 +86,7 @@ sudo systemctl restart open5gs-amfd
 sudo systemctl restart open5gs-upfd
 ```
 
-### GUI
+### open5gs GUI
 To be able to reach the GUI from any IP address add these lines 
 
 ```
