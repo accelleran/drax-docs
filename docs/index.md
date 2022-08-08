@@ -33,7 +33,7 @@ The IP address assigned to it should be fixed.
 This guide will refer to this IP address as `$NODE_IP` and the interface it belongs to as `$NODE_INT`.
 Furthermore this guide will refer to the IP address of the gateway as `$GATEWAY_IP`, the IP address of the core (see the section on [Core Installation](/drax-docs/core-install/)) as `$CORE_IP` and the IP address of the CU (see the section on [DU Installation](/drax-docs/du-install/)) as `$CU_IP`.
 In order to be able to execute the commands in this guide as-is you should add these variables to the environment as soon as they are known.
-Alternatively you can edit the configurations to set the correct IP addresses.
+Alternatively you can edit the configurations to set the correct IP addresses. 
 
 ``` bash
 export NODE_IP=192.168.88.4       # replace 1.2.3.4 by the IP address of the node
@@ -47,6 +47,7 @@ In order to perform many of the commands in this installation manual you need ro
 Whenever a command has to be executed with root privileges it will be prefixed with `sudo`.
 
 ## network components
+Here a simplification of all network components and the belonging ip addressen. 
 ```
 
 
