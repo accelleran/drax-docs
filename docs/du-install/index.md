@@ -1476,6 +1476,9 @@ CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
 
 Verify if the boot sequence ended up correctly, by checking the radio status, the ouput shall mention explicitly the up time and the succesful bringup
 ```
+
+> NOTE : this file is not present the first minute after reboot.
+
 root@benetelru:~# cat /tmp/radio_status 
 [INFO] Platform: RAN650_B
 [INFO] Radio bringup begin
