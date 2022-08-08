@@ -19,15 +19,18 @@ This installation guide assumes that that the following things are available:
 	* A server certificate: server.crt (see the chapter on [installing dRax](/drax-docs/drax-install/) on how to get one)
 	* A CA certificate: ca.crt (see the chapter on [installing dRax](/drax-docs/drax-install/) on how to get one)
 	* A Phluido license key (see the chapter on [installing the DU](/drax-docs/du-install/) on how to get one)
-	* A YubiKey with an activated Effnet license
+	* Effnet YubiKey 
+	* Effnet yubikey license activation file: effnet-license-activation-2022-07-01.zip
+	
 * Software:
 	* Ubuntu (Server) 20.04
 	* Effnet DU: accelleran-du-phluido-2022-07-01-q2-pre-release
-	* Phluido L1: phluido_docker_0842
-
+	* Phluido L1: phluido_docker_0842.tar
+	* sysTest executable 
 
 ## Preparation
 
+### know the ip addresses
 Make sure Ubuntu (Server) 20.04 is installed on the machine and that it has access to the internet.
 The IP address assigned to it should be fixed.
 This guide will refer to this IP address as `$NODE_IP` and the interface it belongs to as `$NODE_INT`.
@@ -45,6 +48,20 @@ export CU_IP=192.168.88.171       # F1 ip address the CU listens on.
 
 In order to perform many of the commands in this installation manual you need root privileges.
 Whenever a command has to be executed with root privileges it will be prefixed with `sudo`.
+
+### Phluido License: Run the sysTest utility from Phluido
+go to the directory where the Phluido sysTest utility is :
+
+```
+$ ./sysTest 
+Running system test...
+01234567890123456789012345678901
+System test completed, output written to file "sysTest.bin".
+```
+
+( The test takes around 90 seconds) This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components Once it is finsihed it produces a file sysTest.bin in the same directory Send this file to Accelleran, 
+to obtain the Phluido license key. Send this .bin file to phluido to receive a proper license.
+
 
 ## network components
 Here a simplification of all network components and the belonging ip addressen. 
@@ -118,6 +135,7 @@ Here a simplification of all network components and the belonging ip addressen.
 
 
 ```
+
 ## Steps
 
 The installation process is divided in a number of steps.
