@@ -571,7 +571,7 @@ The optional parameters are:
 When deploying the 5G CU-UP component, there is only one required parameter in the **Deploy a new CU component** form.
 The form with the deployment parameters is shown below:
 
-![Deploy CU-UP form](images/dashboard-cu-up-deployment.png)
+![Deploy CU-UP form](images/dashboard-cu-up-deployment-2.png)
 
 ##### Required Parameters
 
