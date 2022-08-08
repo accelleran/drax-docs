@@ -1455,7 +1455,7 @@ ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
 
 ### Generally available checks on the B650 (all releases)
 
-#### GPS
+### GPS
 See if GPS is locked
 ```
 root@benetelru:~# syncmon
@@ -1474,7 +1474,7 @@ CLK6 EXT 1PPS LIVE: LOS and Frequency Offset
 CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
 ```
 
-#### Cell Status Report
+### Cell Status Report
 
 Verify if the boot sequence ended up correctly, by checking the radio status, the ouput shall mention explicitly the up time and the succesful bringup
 ```
@@ -1508,7 +1508,7 @@ root@benetelru:~# cat /tmp/radio_status
  15:54:47 up 4 min,  load average: 0.09, 0.19, 0.08
  ```
 
-#### RRU Status Report
+### RRU Status Report
 some important registers must be checked to determine if the boot sequence has completed correctly:
 
 ```bash
@@ -1551,7 +1551,7 @@ RU Status Register description:
 ===========================================================
 ```
 
-#### Handshake
+### Handshake
 
 
 The handshake command on the RU does only need to be performed in 1 situation. When at startup of the DU ( docker-compose up ) the traffic between the RU and the server is still going. You can find out by this ( or the custatus.sh tmux ) 
@@ -1647,7 +1647,7 @@ phluido_l1  |     maxPuschModOrder = 6
 phluido_l1  |
 ```
 
-#### Trace traffic between RRU and L1.
+### Trace traffic between RRU and L1.
 
 As said, the first packet goes out from the Radio End to the DU, this is the handshake packet. The second packet is the Handshake response of the DU and we have to make sure that as described the MAC address used in such response from the DU has been set correctly so that the DATA Interface MAC address of the Radio End is used (by default in the Benetel Radio this MAC address is ```02:00:5e:01:01:01```) When data flows the udp packet lengths are 3874. 
 Remember we increased the MTU size to 9000. Without increasing the L1 would crash on the fragmented udp packets.
@@ -1664,7 +1664,7 @@ listening on enp45s0f0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 ```
 
-#### Check if the L1 is listening 
+### Check if the L1 is listening 
 ```
 $ while true ; do sleep 1 ; netstat -ano | grep 44000 ;echo $RANDOM; done
 udp        0 118272 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
@@ -1677,7 +1677,7 @@ udp        0      0 10.10.0.1:44000         0.0.0.0:*                           
 502
 ```
 
-#### Show the traffic between rru and l1
+### Show the traffic between rru and l1
 
 ```
 $ ifstat -i enp45s0f0
@@ -1686,9 +1686,6 @@ $ ifstat -i enp45s0f0
 71320.01  105959.7
 71313.36  105930.1
 ```
-
-#### Troubleshooting Fiber Port not showing up
-https://www.serveradminz.com/blog/unsupported-sfp-linux/
 
 ## Starting RRU Benetel 650
 Perform these steps to get a running active cell.
@@ -1713,6 +1710,37 @@ Perform these steps to get a running active cell.
 ```
 
 4) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
+
+## Troubleshooting
+### Fiber Port not showing up
+https://www.serveradminz.com/blog/unsupported-sfp-linux/
+
+### L1 is not listening
+Check if L1 is listening on port 44000 by typing
+
+```
+$ netstat -ano | grep 44000
+```
+
+If nothing is shown L1 is not listening. In this case do a trace on the F1 port like this.
+
+```
+tcpdump -i any port 38472
+18:26:30.940491 IP 10.244.0.208.38472 > bare-metal-node-cab-3.59910: sctp (1) [HB REQ] 
+18:26:30.940491 IP 10.244.0.208.38472 > bare-metal-node-cab-3.maas.56153: sctp (1) [HB REQ] 
+18:26:30.940530 IP bare-metal-node-cab-3.59910 > 10.244.0.208.38472: sctp (1) [HB ACK] 
+18:26:30.940532 IP bare-metal-node-cab-3.59910 > 10.244.0.208.38472: sctp (1) [HB ACK] 
+````
+you should see the HB REQ and ACK messages. If not Check 
+ * the docker-compose.yml file if the cu ip address matches the following bullet
+ * check ```kubectl get services ``` if the F1 service is running with the that maches previous bullet 
+
+### check SCTP connections
+There are 3 UDP ports you can check. When the system starts up it will setup 3 SCTP connections on following ports in the order mentioned here :
+
+* 38462 - E1 SCTP connection - SCTP between DU and CU
+* 38472 - F1 SCTP connection - SCTP between CU UP and CU CP
+* 38412 - NGAP SCTP connection - SCTP between CU CP and CORE
 
 ## Appendix: Engineering tips and tricks
 ### custatus
