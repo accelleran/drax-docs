@@ -521,6 +521,7 @@ Therefore, you first have to pick one from the drop-down menu:
 When installing the 5G CU-CP component, there are a number of configuration parameters that should be filled in the **Deploy a new CU component** form once the CU-CP is chosen from the drop-down menu.
 
 The form with the deployment parameters is shown below:
+> NOTE : fill in the E1 and F1 address manually according to what's set in the Preperation section in the start of this installation document.
 
 ![Deploy CU-CP form](images/dashboard-cu-cp-deployment-2.png)
 
