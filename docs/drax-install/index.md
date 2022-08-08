@@ -522,7 +522,7 @@ When installing the 5G CU-CP component, there are a number of configuration para
 
 The form with the deployment parameters is shown below:
 
-![Deploy CU-CP form](images/dashboard-cu-cp-deployment.png)
+![Deploy CU-CP form](images/dashboard-cu-cp-deployment-2.png)
 
 ##### Required Parameters
 
