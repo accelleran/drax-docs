@@ -52,11 +52,13 @@ The installation process is outside the scope of this document.
 Make sure to create a bridged network for the virtual machine and assign a fixed IP address (`$CORE_IP`) in the same subnet as `$NODE_IP` to it.
 Note that if you SSH into the virtual machine the `$CORE_IP` and related variables might not be set.
 
-## Install Open5GS
+# Install Open5GS
 
 Please refer to [the Open5GS website](https://open5gs.org/open5gs/docs/guide/01-quickstart/) for information on how to install and configure the Open5GS core network on the virtual machine.
 
-## Configure Open5GS
+> NOTE : don't forget the ip forwarding section. If forgotten the UE connects with an exclemation mark in the triangle and has no internet connectivity.
+
+### Configure Open5GS
 
 The default configuration of Open5GS can mostly be used as-is.
 There are a couple of modifications that have to be made to its configuration:
@@ -83,3 +85,32 @@ Restart the AMF and UPF:
 sudo systemctl restart open5gs-amfd
 sudo systemctl restart open5gs-upfd
 ```
+
+### open5gs GUI
+To be able to reach the GUI from any IP address add these lines 
+
+```
+Environment=HOSTNAME=0.0.0.0
+Environment=PORT=3000
+```
+
+to the file ```/etc/systemd/system/multi-user.target.wants/open5gs-webui.service```
+
+and restart the service 
+
+```
+systemctl daemon-reload
+systemctl restart open5gs-webui.service
+```
+now you will find that this service is listening on port 3000 on any ip
+
+```
+$ netstat -ano | grep 3000
+tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      off (0.00/0/0)
+````
+
+### Per UE
+
+* use static ip address which you can map to the imsi. This makes debugging traffic much easier when using multiple UE's. 
+    ``` eg: imsi 235880000009834 gets ip address 10.0.0.34```
+

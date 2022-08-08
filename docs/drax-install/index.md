@@ -22,8 +22,8 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 ### Hardware Minimum Requirements
 
 1. Intel Xeon D-1541 or stronger 64-bit processor
-2. 32GB DDR4 RAM
-3. 800GB Hard Disk ( inludes space for logging/monitor the system )
+2. 64GB DDR4 RAM
+3. 800GB Hard Disk ( includes space for logging/monitor/debugging the system )
 
 ### Software Requirements to be pre installed
 
@@ -40,6 +40,8 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 2. The Customer Network allows access to internet services
 3. a DockerHub account, and have shared the username with the Accelleran team to provide access to the needed images
 4. EPC/5GC must be routable without NAT from dRAX (and E1000 DUs in case of 4G)
+5. From Accelleran you will need 
+    * user, password and email from docker
 
 ### 4G Specific requirements:
 
@@ -150,6 +152,14 @@ watch kubectl get pods -A
 You can now continue with the remaining steps.
 
 ### Pre-Requirements
+#### install helm
+if helm is not yet installed install it this way
+
+```
+$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+$ chmod 700 get_helm.sh
+$ ./get_helm.sh
+```
 
 #### Add Accelleran Helm Chart Repo
 
@@ -164,26 +174,30 @@ helm repo add acc-helm https://accelleran.github.io/helm-charts/
 If you choose to use dedicated namespaces for dRAX, please create them before the installation process.
 So for example if you choose $NS_DRAX=drax, then create it using the following command:
 
+```
+export NS_DRAX=drax
+``` 
+
 ``` bash
-kubectl create namespace drax
+kubectl create namespace $NS_DRAX
 ```
 
 This needs to be repeated for each namespace that you wish to use for dRAX, either for the RIC, 4G or 5G components, as per the table in [the Namespaces section](#namespaces).
 
 !!! warning
-    If you choose to use specific namespaces, special care must be used throughout the remaining steps when executing the kubectl commands.
-    For each one, it is important to specify the appropriate namespace using the -n option, example:
+If you choose to use specific namespaces, special care must be used throughout the remaining steps when executing the kubectl commands.
+For each one, it is important to specify the appropriate namespace using the -n option, example:
 
-    ``` bash
-    kubectl get pods -n $NS_DRAX
-    ```
+``` bash
+kubectl get pods -n $NS_DRAX
+```
 
 #### Configure DockerHub credentials in Kubernetes
 
 Create a secret named `accelleran-secret` with your DockerHub credentials, specifically using the kubectl command (do not forget the `-n <namespace>` option if you selected different namespaces previously):
 
 ``` bash
-kubectl create secret docker-registry accelleran-secret --docker-server=docker.io --docker-username=<username> --docker-password=<password> --docker-email=<email>
+kubectl create secret docker-registry accelleran-secret --docker-server=docker.io --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASS --docker-email=$DOCKER_EMAIL
 ```
 
 This needs to be repeated for each namespace that you created previously, specifying each namespace one time using the -n flag.
@@ -1228,36 +1242,4 @@ Sometimes you might run into issues when trying to launch dRAX due to a licensin
 |E013|EWriteDecrypted|Cannot write to file descriptor
 |E014|EMemFd|Cannot open memory file descriptor
 |E015|ECypher|Cannot create cypher|
-
-## Appendix: Engineering tips and tricks
-### custatus
-#### install
-* unzip custatus.zip so you get create a directory ```$HOME/5g-engineering/utilities/custatus```
-* ```sudo apt install tmux```
-* create the ```.tmux.conf``` file with following content.
-```
-cat $HOME/.tmux.conf 
-set -g mouse on
-bind q killw
-```
-add this line in $HOME/.profile
-```
-export PATH=$HOME/5g-engineering/utilities/custatus:$PATH
-```
-
-#### use
-to start 
-```
-custatus.sh tmux
-```
-
-to quit 
-* type "CTRL-b" followed by "q"
-
-> NOTE : you might need to quit the first time you have started. 
-> Start a second time and see the difference.
-
-### example
-
-![image](https://user-images.githubusercontent.com/21971027/148368394-44fd92b2-d803-44ce-b20f-08475fb382cc.png)
 

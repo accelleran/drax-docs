@@ -6,6 +6,12 @@ The DU will be installed in several Docker containers that run on the host machi
 
 See, if you didn't do it already, [the chapter on Kubernetes Installation](../kubernetes-install/index.md) for information on how to do this.
 
+## information needed before install
+Accelleran needs some information to be able to prepare the RU before shipping it.
+
+* How long needs the RU 48V powercable need to be ? 
+* The center frequencey for the radio
+
 ## Install a Low Latency Kernel
 
 The PHY layer has very stringent latency requirements, therefore we install a low latency kernel:
@@ -39,7 +45,11 @@ In order to avoid possible system performance degradation, CPU scaling must be d
 
 ``` bash
 sudo apt install cpufrequtils
+```
+```
 echo 'GOVERNOR="performance"' | sudo tee /etc/default/cpufrequtils
+```
+```
 sudo systemctl disable ondemand
 ```
 
@@ -82,10 +92,11 @@ Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 
 ```
 
-Then you can find the serial number :
+Then you can find the serial number (yubikey-manager needed, install if it's not already):
 
 ``` bash
-~$ ykman list --serials
+sudo apt install yubikey-manager
+ykman list --serials
 13134288
 ```
 
@@ -127,7 +138,7 @@ Run the `sysTest` utility:
 ``` bash
 (cd Phluido_sysTest; ./sysTest)
 ```
-
+( The test takes around 90 seconds) 
 This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components
 Once it is finsihed it produces a file `sysTest.bin` in the same directory
 Send this file to Accelleran, to obtain the Phluido license key
@@ -168,6 +179,8 @@ The Docker image can now be built and started with:
 
 ``` bash
 docker build --rm -t pcscd_yubikey - <pcscd/Dockerfile.pcscd
+```
+```
 docker run --restart always -id --privileged --name pcscd_yubikey_c -v /run/pcscd:/run/pcscd pcscd_yubikey
 ```
 
@@ -196,7 +209,7 @@ Then run the image mapping the folder containing the `pcscd` daemon socket into
 the container:
 
 ``` bash
-docker run -it --rm -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-yyyy-mm-dd
+docker run -it -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-yyyy-mm-dd
 ```
 
 If you get warnings similar to:
@@ -648,7 +661,7 @@ services:
     command: /config.cfg
     volumes:
       - "$PWD/phluido/PhluidoL1_NR_B210.cfg:/config.cfg:ro"
-      - "$PWD/logs/l1:/workdir"
+      - "/run/logs-du/l1:/workdir"
       - "/etc/machine-id:/etc/machine-id:ro"
     working_dir: "/workdir"
     network_mode: host
@@ -657,7 +670,7 @@ services:
     image: gnb_du_main_phluido:2022-01-31
     volumes:
       - "$PWD/b210_config_20mhz.json:/config.json:ro"
-      - "$PWD/logs/du:/workdir"
+      - "/run/logs-du/du:/workdir"
       - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm
     ipc: container:phluido_l1
     tty: true
@@ -883,7 +896,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
                     ],
                     "nr_mode_info": {
                         "nr_freq_info": {
-                            "nr_arfcn": 650376,
+                            "nr_arfcn": 648840,
                             "frequency_band_list": [
                                 {
                                     "nr_frequency_band": 78
@@ -1676,4 +1689,37 @@ Perform these steps to get a running active cell.
 ```
 
 4) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
+
+## Appendix: Engineering tips and tricks
+### custatus
+#### install
+* unzip custatus.zip so you get create a directory ```$HOME/5g-engineering/utilities/custatus```
+* ```sudo apt install tmux```
+* create the ```.tmux.conf``` file with following content.
+```
+cat $HOME/.tmux.conf 
+set -g mouse on
+bind q killw
+```
+add this line in $HOME/.profile
+```
+export PATH=$HOME/5g-engineering/utilities/custatus:$PATH
+```
+
+#### use
+to start 
+```
+custatus.sh tmux
+```
+
+to quit 
+* type "CTRL-b" followed by "q"
+
+> NOTE : you might need to quit the first time you have started. 
+> Start a second time and see the difference.
+
+### example
+
+![image](https://user-images.githubusercontent.com/21971027/148368394-44fd92b2-d803-44ce-b20f-08475fb382cc.png)
+
 

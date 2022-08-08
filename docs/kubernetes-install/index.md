@@ -10,14 +10,27 @@ Add the Docker APT repository:
 
 ``` bash
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+```
+```
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+```
 sudo apt update
 ```
 
 Install the required packages:
 
 ``` bash
-sudo apt install docker-ce docker-ce-cli containerd.io docker-compose
+sudo apt install docker-ce 
+```
+```
+sudo apt install docker-ce-cli 
+```
+```
+sudo apt install containerd.io 
+```
+```
+sudo apt install docker-compose
 ```
 
 Add your user to the docker group to be able to run docker commands without sudo access.
@@ -30,7 +43,7 @@ sudo usermod -aG docker $USER
 To check if your installation is working you can try to run a test image in a container:
 
 ``` bash
-docker run hello-world
+sudo docker run hello-world
 ```
 
 ## Configure Docker Daemon
@@ -148,7 +161,7 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 It is very convenient (however optional) to test the Kubernetes installation with a simple busybox pod for instance to test your DNS resolution inside a pod. To do so create the following yaml file (/tmp/busybox.yaml):
 
 ``` bash
-
+cat << EOF > /tmp/busybox.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -163,20 +176,22 @@ spec:
      - "3600"
    imagePullPolicy: IfNotPresent
  restartPolicy: Always
+EOF
 ```
 
 Then you can create the pod:
+NOTE : --kubeconfig is optional here because ```$HOME/.kube/config``` is the default config file
 
 ``` bash
-kubectl --kubeconfig <CONFIG_PATH> create -f /tmp/busybox.yaml
+kubectl --kubeconfig $HOME/.kube/config create -f /tmp/busybox.yaml
 ```
 
 If all went well a new POD was created, you can verify this with the following command
 
 ``` bash 
-kubectl --kubeconfig <CONFIG_PATH> get pods
-NAME      READY STATUS    RESTARTS AGE
-busybox   1/1 Running   21 21h
+kubectl --kubeconfig $HOME/.kube/config get pods
+#NAME      READY STATUS    RESTARTS AGE
+#busybox   1/1 Running   21 21h
 ```
 
 In order to verify if your Kubernetes is working correctly you could try some simple commands using the busybox POD. 
@@ -184,11 +199,11 @@ For instance to verify your name resolution works do:
 
 ``` bash 
 kubectl exec -ti busybox -- nslookup mirrors.ubuntu.com 
-Server:    10.96.0.10
-Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+#Server:    10.96.0.10
+#Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
  
-Name:      mirrors.ubuntu.com
-Address 1: 91.189.89.32 bilimbi.canonical.com
+#Name:      mirrors.ubuntu.com
+#Address 1: 91.189.89.32 bilimbi.canonical.com
 ```
  
 ## Remove in full a Kubernetes installation
