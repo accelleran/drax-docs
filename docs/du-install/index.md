@@ -682,7 +682,7 @@ version: "3"
 services:
 
   phluido_l1:
-    image: phluido_l1:v0.8.4.2
+    image: ```phluido_l1:v0.8.4.2```
     container_name: phluido_l1
     tty: true
     privileged: true
@@ -697,7 +697,7 @@ services:
     network_mode: host
 
   du:
-    image: gnb_du_main_phluido:2022-07-01-q2-pre-release
+    image: ```gnb_du_main_phluido:2022-07-01-q2-pre-release```
     volumes:
       - "$PWD/b210_config_20mhz.json:/config.json:ro"
       - "/run/logs-du/du:/workdir"
