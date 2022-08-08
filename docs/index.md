@@ -22,30 +22,101 @@ This installation guide assumes that that the following things are available:
 	* A YubiKey with an activated Effnet license
 * Software:
 	* Ubuntu (Server) 20.04
-	* Effnet DU: accelleran-du-phluido-2022-01-31.zip
-	* Phluido L1: Phluido5GL1_v0.8.1.zip
+	* Effnet DU: accelleran-du-phluido-2022-07-01-q2-pre-release
+	* Phluido L1: phluido_docker_0842
+
 
 ## Preparation
 
 Make sure Ubuntu (Server) 20.04 is installed on the machine and that it has access to the internet.
 The IP address assigned to it should be fixed.
-This IP could either be statically configured, or provided by a fixed DHCP lease - how exactly this is achieved is outside the scope of this document.
 This guide will refer to this IP address as `$NODE_IP` and the interface it belongs to as `$NODE_INT`.
 Furthermore this guide will refer to the IP address of the gateway as `$GATEWAY_IP`, the IP address of the core (see the section on [Core Installation](/drax-docs/core-install/)) as `$CORE_IP` and the IP address of the CU (see the section on [DU Installation](/drax-docs/du-install/)) as `$CU_IP`.
 In order to be able to execute the commands in this guide as-is you should add these variables to the environment as soon as they are known.
 Alternatively you can edit the configurations to set the correct IP addresses.
 
 ``` bash
-export NODE_IP=1.2.3.4      # replace 1.2.3.4 by the IP address of the node
-export NODE_INT=enp0s3      # replace enp0s3 by the name of the network interface that has IP $NODE_IP
-export GATEWAY_IP=1.2.3.1   # replace 1.2.3.1 by the IP address of the gateway
-export CORE_IP=1.2.3.5      # replace 1.2.3.5 by the IP address of the core
-export CU_IP=1.2.3.6        # replace 1.2.3.6 by the IP address of the CU
+export NODE_IP=192.168.88.4       # replace 1.2.3.4 by the IP address of the node
+export NODE_INT=eno1              # replace enp0s3 by the name of the network interface that has IP $NODE_IP
+export GATEWAY_IP=192.168.88.1    # replace 1.2.3.1 by the IP address of the gateway
+export CORE_IP=192.168.88.5       # replace 1.2.3.5 by the IP address of the core
+export CU_IP=192.168.88.171       # F1 ip address the CU listens on. 
 ```
 
 In order to perform many of the commands in this installation manual you need root privileges.
 Whenever a command has to be executed with root privileges it will be prefixed with `sudo`.
 
+## network components
+```
+
+
+                                  ┌──────────────────────────────────────────────────────────────────────────┐
+                                  │                                                                          │
+                                  │ server                                                                   │
+                                  │                                                                          │
+                                  │ ┌──────────────────────────────────┐                                     │
+                                  │ │ VM CORE                          │                                     │
+                                  │ │ CORE_IP 192.168.88.5             │                                     │
+                                  │ │                                  │                                     │
+                                  │ │                                  │                                     │
+                                  │ │                                  │                                     │
+                                  │ │                                  │                                     │
+                                  │ │          enp1s0                  │                                     │
+                                  │ └─────────────────────────────┬────┘                                     │
+                                  │                               │                                          │
+                                  │                               │                                          │
+                                  │                               │                                          │
+                                  │                               │                                          │
+                                  │                               │                                          │
+       internet access            │                               │                                          │
+                                  │                               │                                          │
+    GATEWAY_IP 192.168.88.1       │                               ▼                                          │
+     ◄────────────────────────────┤ eno1  ───────────────► ( linux bridge br0 192.168.88.3 )                 │
+                                  │                               ▲                                          │
+                                  │                               │                                          │
+                                  │                               │                                          │
+                                  │                               │                                          │
+                                  │ ┌─────────────────────────────┴────────────────────────────────────────┐ │
+                                  │ │ VM CU                                                                │ │
+                                  │ │ NODE_IP=192.168.88.4                                                 │ │
+                                  │ │                                                                      │ │
+                                  │ │                                                                      │ │
+                                  │ │                                                                      │ │
+                                  │ │                                                                      │ │
+                                  │ │                                                                      │ │
+                                  │ │      E1                 F1               GTP-0             GTP-1     │ │
+                                  │ │                       CU_IP                                          │ │
+                                  │ │192.168.88.170     192.168.88.171    192.168.88.172    192.168.88.173 │ │
+                                  │ └──────────────────────────────────────────────────────────────────────┘ │
+                                  │                                                                          │
+                                  │                 ┌────────────────────┐                                   │
+                                  │                 │DU effnet docker    │                                   │
+                                  │                 │                    │                                   │
+                                  │                 │                    │                                   │
+                                  │                 │                    │                                   │
+                                  │                 └────────────────────┘                                   │
+                                  │                                                                          │
+                                  │                 ┌────────────────────┐                                   │
+                                  │                 │L1 phluido docker   │                                   │
+                                  │                 │                    │                                   │
+                                  │                 │                    │                                   │
+                                  │                 │                    │                                   │
+                                  │                 └────────────────────┘                                   │
+                                  │                             enp1s0f0 10.10.0.1                           │
+                                  └────────────────────────────┬─────────────────────────────────────────────┘
+                                                               │
+                                                               │ fiber
+                                                    ┌──────────┴────────────────────────┐
+                                                    │ RU        eth0 10.10.0.100 mgmt   │
+                                                    │                10.10.0.2   traffic│
+                                                    │                                   │
+                                                    │                                   │
+                                                    │                                   │
+                                                    │                                   │
+                                                    └───────────────────────────────────┘
+
+
+```
 ## Steps
 
 The installation process is divided in a number of steps.
