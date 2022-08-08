@@ -43,7 +43,8 @@ export NODE_IP=192.168.88.4       # replace 1.2.3.4 by the IP address of the nod
 export NODE_INT=eno1              # replace enp0s3 by the name of the network interface that has IP $NODE_IP
 export GATEWAY_IP=192.168.88.1    # replace 1.2.3.1 by the IP address of the gateway
 export CORE_IP=192.168.88.5       # replace 1.2.3.5 by the IP address of the core
-export CU_IP=192.168.88.171       # F1 ip address the CU listens on. 
+export F1_CU_IP=192.168.88.171       # F1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
+export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
 ```
 
 In order to perform many of the commands in this installation manual you need root privileges.
@@ -107,8 +108,8 @@ Here a simplification of all network components and the belonging ip addressen.
                                   │ │                                                                      │ │
                                   │ │                                                                      │ │
                                   │ │                                                                      │ │
-                                  │ │      E1                 F1               GTP-0             GTP-1     │ │
-                                  │ │                       CU_IP                                          │ │
+                                  │ │       E1                 F1              GTP-0             GTP-1     │ │
+                                  │ │    E1_CU_IP           F1_CU_IP                                       │ │
                                   │ │192.168.88.170     192.168.88.171    192.168.88.172    192.168.88.173 │ │
                                   │ └──────────────────────────────────────────────────────────────────────┘ │
                                   │                                                                          │
