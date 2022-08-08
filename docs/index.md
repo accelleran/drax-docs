@@ -65,6 +65,11 @@ to obtain the Phluido license key. Send this .bin file to phluido to receive a p
 
 ## network components
 Here a simplification of all network components and the belonging ip addressen. 
+
+> NOTE : the CORE needs to be able to reach the GTP-0  and GTP-1 ips. In this example they are in the same subnet.
+
+> NOTE : subnet in below example is 255.255.255.0
+
 ```
 
 
@@ -120,18 +125,18 @@ Here a simplification of all network components and the belonging ip addressen.
                                   │                 │                    │                                   │
                                   │                 │                    │                                   │
                                   │                 └────────────────────┘                                   │
-                                  │                             enp1s0f0 10.10.0.1                           │
+                                  │                             enp1s0f0 10.10.0.1/24                        │
                                   └────────────────────────────┬─────────────────────────────────────────────┘
                                                                │
                                                                │ fiber
-                                                    ┌──────────┴────────────────────────┐
-                                                    │ RU        eth0 10.10.0.100 mgmt   │
-                                                    │                10.10.0.2   traffic│
-                                                    │                                   │
-                                                    │                                   │
-                                                    │                                   │
-                                                    │                                   │
-                                                    └───────────────────────────────────┘
+                                                    ┌──────────┴───────────────────────────┐
+                                                    │ RU        eth0 10.10.0.100/24 mgmt   │
+                                                    │                10.10.0.2/24   traffic│
+                                                    │                                      │
+                                                    │                                      │
+                                                    │                                      │
+                                                    │                                      │
+                                                    └──────────────────────────────────────┘
 
 
 ```
