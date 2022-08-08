@@ -1,16 +1,50 @@
 # DU Installation 
 
+## Introduction
 The DU will be installed in several Docker containers that run on the host machine.
 
 **Before proceding further make sure Docker and docker-compose have been installed and that docker can be run without superuser privileges, this is a prerequisite.**
 
 See, if you didn't do it already, [the chapter on Kubernetes Installation](../kubernetes-install/index.md) for information on how to do this.
 
-## information needed before install
-Accelleran needs some information to be able to prepare the RU before shipping it.
+### Diagram
+```
+  10.10.0.100:ssh
+  +-------------+
+  |             |
+  |             |             +-----------+         +-----------+
+  |             |             |           |         |           |
+  |     RRU     +----fiber----+   L1      |         |    DU     |
+  |             |             |           |         |           |
+  |             |             +-----------+         +-----------+
+  |             |
+  +-------------+
+aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
+
+  10.10.0.2:44000              10.10.0.1:44000
+
+             eth0              enp45s0f0
+
+      port FIBER1
+```
+
+### Variables needed before install
+Before proceeding you may want to crosscheck and modify some paramters that caracterise each deployment and depends on the desired provisioning of the components. The parameters that should be considered for this purpose and can be safely modified are:
 
 * How long needs the RU 48V powercable need to be ? 
-* The center frequencey for the radio
+
+* plmn_identity      ( eg 235 88 )
+* nr_cell_identity   ( eg 1  any number )
+* nr_pci             ( eg 1  not any number. Ask Accelleran to do the PCI planning) 
+* 5gs_tac            ( eg 1 ) 
+
+* center_frequency_band   ( eg  3751.680 )
+* point_a_arfcn           ( 648840 consistent with center freq ) 
+* band               	  ( 77  consistent with center frequency )     
+* scs                     ( 30khz ) 
+
+For any other modification it is advisable to make contact with the Accelleran service desk as of course, if in principle every paramter in the confuguration file is up for modification, it is certainly not recommendable to proceed in that declaration as each front end may or may not work as a consequence and the analysis and recovery from error scenario will be less than intuitive
+
 
 ## Install a Low Latency Kernel
 
@@ -769,25 +803,7 @@ phluido_rru_1  | -- Performing timer loopback test... pass
 This section is exclusively applicable to the user/customer that intends to use the Benetel B650 Radio End with our Accellleran 5G end to end solution, if you do not have such radio end the informations included in this section may be misleading and bring to undefined error scenarios. Please contact Accelleran if your Radio End is not included in any section of this user guide
 
 
-```
-  10.10.0.100:ssh
-  +-------------+
-  |             |
-  |             |             +-----------+         +-----------+
-  |             |             |           |         |           |
-  |     RRU     +----fiber----+   L1      |         |    DU     |
-  |             |             |           |         |           |
-  |             |             +-----------+         +-----------+
-  |             |
-  +-------------+
-aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
 
-  10.10.0.2:44000              10.10.0.1:44000
-
-             eth0              enp45s0f0
-
-      port FIBER1
-```
 
              
 ### DU/L1 Configuration and docker compose
@@ -993,16 +1009,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
 
 EOF
 ```
-Before proceeding you may want to crosscheck and modify some paramters that caracterise each deployment and depends on the desired provisioning of the components. The parameters that should be considered for this purpose and can be safely modified are:
 
-- plmn_identity
-- nr_cell_identity
-- nr_pci
-- 5gs_tac
-- nr_arfcn
-- nr_frequency_band
-
-For any other modification it is advisable to make contact with the Accelleran service desk as of course, if in principle every paramter in the confuguration file is up for modification, it is certainly not recommendable to proceed in that declaration as each front end may or may not work as a consequence and the analysis and recovery from error scenario will be less than intuitive
 
 
 ### Frequency, Offsets, Point A Calculation
