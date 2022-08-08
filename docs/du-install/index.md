@@ -1553,17 +1553,34 @@ RU Status Register description:
 
 #### Handshake
 
-Once the Cell and the server have been configured correctly, open two consoles and login in one of them to the server and in the other one login to the Benetel Radio End. If the cell has been just rebooted take the following two steps:
 
-1)run the handshake command
+The handshake command on the RU does only need to be performed in 1 situation. When at startup of the DU ( docker-compose up ) the traffic between the RU and the server is still going. You can find out by this ( or the custatus.sh tmux ) 
+
+```ifstat -i enp1s0f0
+     enp1s0f0     
+ KB/s in  KB/s out
+71308.34  0.0
+71318.21  0.0
+```
+
+In this case execute
 
 ```
-handshake
+$ Handshake
 ```
 
-This will trigger the cell to send periodic handshake messages every second to the server
+After execution you will have 
 
-2) login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):
+```ifstat -i enp1s0f0
+     enp1s0f0     
+ KB/s in  KB/s out
+0.0  0.0
+0.0  0.0
+```
+
+Handshake messages are sent by the RU every 1 second. When phluido L1 is starting or running it will Listen on port 44000 and reply to these messages.
+
+Login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):
 
 ```
 tcpdump -i enp45s0f0 -c 5 port 44000 -en
