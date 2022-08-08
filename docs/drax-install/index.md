@@ -1243,35 +1243,3 @@ Sometimes you might run into issues when trying to launch dRAX due to a licensin
 |E014|EMemFd|Cannot open memory file descriptor
 |E015|ECypher|Cannot create cypher|
 
-## Appendix: Engineering tips and tricks
-### custatus
-#### install
-* unzip custatus.zip so you get create a directory ```$HOME/5g-engineering/utilities/custatus```
-* ```sudo apt install tmux```
-* create the ```.tmux.conf``` file with following content.
-```
-cat $HOME/.tmux.conf 
-set -g mouse on
-bind q killw
-```
-add this line in $HOME/.profile
-```
-export PATH=$HOME/5g-engineering/utilities/custatus:$PATH
-```
-
-#### use
-to start 
-```
-custatus.sh tmux
-```
-
-to quit 
-* type "CTRL-b" followed by "q"
-
-> NOTE : you might need to quit the first time you have started. 
-> Start a second time and see the difference.
-
-### example
-
-![image](https://user-images.githubusercontent.com/21971027/148368394-44fd92b2-d803-44ce-b20f-08475fb382cc.png)
-
