@@ -128,21 +128,7 @@ date '+%Y-%m-%d, %H:%M:%S' >Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright
 
 ### Phluido License: Run the sysTest utility from Phluido 
 
-go to the directory where the Phluido sysTest utility is :
-
-``` bash
-cd  Phluido5GL1/Phluido5GL1_v0.8.1/tools
-```
-Run the `sysTest` utility:
-
-``` bash
-(cd Phluido_sysTest; ./sysTest)
-```
-( The test takes around 90 seconds) 
-This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components
-Once it is finsihed it produces a file `sysTest.bin` in the same directory
-Send this file to Accelleran, to obtain the Phluido license key
-
+This has been moved to the start of this installation in the section Preperation.
 
 ### Effnet License: Create a PCSCD Docker Image 
 
