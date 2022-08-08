@@ -45,6 +45,7 @@ export GATEWAY_IP=192.168.88.1    # replace 1.2.3.1 by the IP address of the gat
 export CORE_IP=192.168.88.5       # replace 1.2.3.5 by the IP address of the core
 export F1_CU_IP=192.168.88.171       # F1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
 export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
+export SERVER_IP=192.168.88.3     # The IP address of the linux bridge ( br0 )
 ```
 
 In order to perform many of the commands in this installation manual you need root privileges.
