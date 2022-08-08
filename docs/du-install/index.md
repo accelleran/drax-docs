@@ -100,8 +100,8 @@ In this phase we will need to act in parallel for the DU and the L1/RRU licenses
 
 Verify the following archive files have been delivered and are available to you before taking further actions:
 
-1. accelleran-du-phluido-2022-01-31.zip
-2. Phluido5GL1_v0.8.1.zip
+1. accelleran-du-phluido-xxxx.zip
+2. Phluido5GL1_vx.x.x.zip   ( or a .tar file )
 3. effnet-license-activation-yyyy_mm_dd.zip 
 
 **Note** For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
@@ -159,10 +159,6 @@ This file contains the date and time on which you agreed to the Phluido copyrigh
 date '+%Y-%m-%d, %H:%M:%S' >Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright
 ```
 
-
-### Phluido License: Run the sysTest utility from Phluido 
-
-This has been moved to the start of this installation in the section Preperation.
 
 ### Effnet License: Create a PCSCD Docker Image 
 
@@ -263,6 +259,12 @@ Load the Phluido L1 Docker image:
 
 ``` bash
 docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.l1 -t phluido_l1:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
+```
+
+or in case the delivered file is a .tar file
+
+```
+docker image load phluido_docker_0842.tar
 ```
 
 **FOR B210 RU ONLY** : Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):
