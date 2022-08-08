@@ -677,12 +677,12 @@ Now, create a docker-compose configuration file:
 
 ``` bash
 tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/docker-compose.yml <<EOF
-version: "3"
+version: "2"
 
 services:
 
   phluido_l1:
-    image: ```phluido_l1:v0.8.4.2```
+    image: phluido_l1:v0.8.4.2
     container_name: phluido_l1
     tty: true
     privileged: true
@@ -695,9 +695,10 @@ services:
       - "/etc/machine-id:/etc/machine-id:ro"
     working_dir: "/workdir"
     network_mode: host
-
+    cpuset: "0,1,2,3"
+    
   du:
-    image: ```gnb_du_main_phluido:2022-07-01-q2-pre-release```
+    image: gnb_du_main_phluido:2022-07-01-q2-pre-release
     volumes:
       - "$PWD/b210_config_20mhz.json:/config.json:ro"
       - "/run/logs-du/du:/workdir"
@@ -712,6 +713,7 @@ services:
     extra_hosts:
       - "cu:$F1_CU_IP"
       - "du:$SERVER_IP"
+    cpuset: "4,5,6,7"
 
   phluido_rru:
     image: phluido_rru:v0.8.4.2
