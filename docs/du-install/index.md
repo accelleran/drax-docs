@@ -1690,3 +1690,36 @@ Perform these steps to get a running active cell.
 
 4) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
 
+## Appendix: Engineering tips and tricks
+### custatus
+#### install
+* unzip custatus.zip so you get create a directory ```$HOME/5g-engineering/utilities/custatus```
+* ```sudo apt install tmux```
+* create the ```.tmux.conf``` file with following content.
+```
+cat $HOME/.tmux.conf 
+set -g mouse on
+bind q killw
+```
+add this line in $HOME/.profile
+```
+export PATH=$HOME/5g-engineering/utilities/custatus:$PATH
+```
+
+#### use
+to start 
+```
+custatus.sh tmux
+```
+
+to quit 
+* type "CTRL-b" followed by "q"
+
+> NOTE : you might need to quit the first time you have started. 
+> Start a second time and see the difference.
+
+### example
+
+![image](https://user-images.githubusercontent.com/21971027/148368394-44fd92b2-d803-44ce-b20f-08475fb382cc.png)
+
+
