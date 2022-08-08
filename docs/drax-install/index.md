@@ -298,6 +298,7 @@ dash-front-back-end:
 ##### Enabling 5G components
 
 If you plan to install the 5G components (and you have the license to support this), you need to make a few other adjustments to the `ric-values.yaml` file:
+Set the let the $E1_CU_IP and $F1_CU_IP be the last in the range of ip addresses in the file below.
 
 ``` yaml
 global:
@@ -310,7 +311,7 @@ acc-5g-infrastructure:
                   protocol: layer2
                   # IP pool used for E1, F1 and GTP interfaces when exposed outside of Kubernetes
                   addresses:
-                      - 10.55.1.20-10.55.1.60
+                      - 192.168.88.160 - 192.168.88.171
 ```
 
 !!! Note
@@ -318,13 +319,11 @@ acc-5g-infrastructure:
     
 ``` bash
 ad@drax03:~$ kubectl get services
-NAME                                             TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                                                     AGE
-acc-5g-cu-cp-cucp-1-sctp-e1                      LoadBalancer   10.107.230.196   10.55.1.23    38462:31859/SCTP                                                                            3h35m
-acc-5g-cu-cp-cucp-1-sctp-f1                      LoadBalancer   10.99.246.255    10.55.1.22    38472:30306/SCTP                                                                            3h35m
-acc-5g-cu-up-cuup-1-cu-up-gtp-0                  LoadBalancer   10.104.129.111   10.55.1.24    2152:30176/UDP                                                                              3h34m
-acc-5g-cu-up-cuup-1-cu-up-gtp-1                  LoadBalancer   10.110.90.45     10.55.1.25    2152:30816/UDP                                                                              3h34m
-acc-5g-cu-up-cuup-2-cu-up-gtp-0                  LoadBalancer   10.108.122.206   10.55.1.27    2152:32351/UDP                                                                              3h34m
-acc-5g-cu-up-cuup-2-cu-up-gtp-1                  LoadBalancer   10.99.205.127    10.55.1.26    2152:32262/UDP                                                                              3h34m
+NAME                                             TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                                                                     AGE
+acc-5g-cu-cp-cucp-1-sctp-e1                      LoadBalancer   10.107.230.196   192.168.88.170  38462:31859/SCTP                                                                            3h35m
+acc-5g-cu-cp-cucp-1-sctp-f1                      LoadBalancer   10.99.246.255    192.168.88.171  38472:30306/SCTP                                                                            3h35m
+acc-5g-cu-up-cuup-1-cu-up-gtp-0                  LoadBalancer   10.104.129.111   192.168.88.160  2152:30176/UDP                                                                              3h34m
+acc-5g-cu-up-cuup-1-cu-up-gtp-1                  LoadBalancer   10.110.90.45     192.168.88.161  2152:30816/UDP                                                                              3h34m
 ```
     
     
