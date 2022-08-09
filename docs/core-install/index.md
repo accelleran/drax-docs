@@ -113,7 +113,7 @@ tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      
 
 This can be done through command line
 ```
-open5gs-dbctl add 235880000009818 C53865AB77948F4A0253E85CD174D6CA 19AC03DAB9BE9111A61AE93E43A9BBEF 3gnet
+open5gs-dbctl add 235880000009818 00112233445566778899aabbccddeeff 84d4c9c08b4f482861e3a9c6c35bc4d8 3gnet
 ```
 
 or webgui
