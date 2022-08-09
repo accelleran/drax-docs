@@ -119,9 +119,9 @@ open5gs-dbctl add 235880000009818 C53865AB77948F4A0253E85CD174D6CA 19AC03DAB9BE9
 or webgui
 
 <p align="center">
-  <img width="600" height="800" src="2022-08-09_135057.png">
-  <img width="600" height="800" src="2022-08-09_135124.png">
-  <img width="600" height="800" src="2022-08-09_135146.png">
+  <img width="1025" height="531" src="2022-08-09_135057.png">
+  <img width="1024" height="542" src="2022-08-09_135124.png">
+  <img width="1026" height="544" src="2022-08-09_135146.png">
 </p>
 
 
