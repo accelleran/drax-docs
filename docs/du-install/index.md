@@ -31,21 +31,36 @@ aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
 ### Variables needed for this install
 Before proceeding you may want to crosscheck and modify some paramters that caracterise each deployment and depends on the desired provisioning of the components. The parameters that should be considered for this purpose and can be safely modified are:
 
+
+#### 5G variables
+* plmn_identity      
+	* eg 235 88 
+* nr_cell_identity   
+	* eg 1  any number
+* nr_pci             
+	* eg 1  not any number. Ask Accelleran to do the PCI planning
+* 5gs_tac            
+	* eg 1 
+
+#### Frequency variables
+* center_frequency_band   
+	* eg  3751.680 
+* point_a_arfcn           
+	* 648840 consistent with center freq, scs 30khz
+* band               	  
+	* 77  consistent with center frequency
+
+#### other
 * How long needs the RU 48V powercable need to be ? 
-* license key delivered by phluido ( eg 2B2A-962F-783F-40B9-7064-2DE3-3906-9D2E )
+* license key delivered by phluido (
+	*  eg 2B2A-962F-783F-40B9-7064-2DE3-3906-9D2E )
 
-* plmn_identity      ( eg 235 88 )
-* nr_cell_identity   ( eg 1  any number )
-* nr_pci             ( eg 1  not any number. Ask Accelleran to do the PCI planning) 
-* 5gs_tac            ( eg 1 ) 
-
-* center_frequency_band   ( eg  3751.680 )
-* point_a_arfcn           ( 648840 consistent with center freq ) 
-* band               	  ( 77  consistent with center frequency )     
-* scs                     ( 30khz ) 
+#### files needed
+* accelleran-du-phluido-2022-07-01-q2-pre-release.zip
+* phluido_docker_0842.tar
+* effnet-license-activation-yyyy_mm_dd.zip 
 
 For any other modification it is advisable to make contact with the Accelleran service desk as of course, if in principle every paramter in the confuguration file is up for modification, it is certainly not recommendable to proceed in that declaration as each front end may or may not work as a consequence and the analysis and recovery from error scenario will be less than intuitive
-
 
 ## Install a Low Latency Kernel
 
@@ -99,12 +114,6 @@ sudo reboot
 ### Preparation steps
 In this phase we will need to act in parallel for the DU and the L1/RRU licenses, which depend on our partner company so it is essential to give priority and possibly anticipate these two steps as there is no specific effort involved from the user/customer perspective and they may require longer than one working day before we can proceed further.
 
-Verify the following archive files have been delivered and are available to you before taking further actions:
-
-1. accelleran-du-phluido-xxxx.zip
-2. Phluido5GL1_vx.x.x.zip   ( or a .tar file )
-3. effnet-license-activation-yyyy_mm_dd.zip 
-
 **Note** For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
 
 **Note:** if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed physically to a USB port:
@@ -124,9 +133,7 @@ Bus 003 Device 029: ID 2a70:9024 OnePlus AC2003
 Bus 003 Device 006: ID 413c:a001 Dell Computer Corp. Hub
 Bus 003 Device 016: ID 20ce:0023 Minicircuits Mini-Circuits
 Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-
 ```
-
 Then you can find the serial number (yubikey-manager needed, install if it's not already):
 
 ``` bash
@@ -134,32 +141,6 @@ sudo apt install yubikey-manager
 ykman list --serials
 13134288
 ```
-
-Once you have the three archive files mentioned above create the directories to store the Effnet and Phluido software:
-
-``` bash
-mkdir -p accelleran-du-phluido Phluido5GL1/Phluido5GL1_v0.8.1
-```
-
-Place `accelleran-du-phluido-2022-01-31.zip` in `accelleran-du-phluido` and unzip it:
-
-``` bash
-unzip accelleran-du-phluido/accelleran-du-phluido-2022-01-31.zip -d accelleran-du-phluido
-```
-
-Place `Phluido5GL1_v0.8.1.zip` in `Phluido5GL1` and unzip it:
-
-``` bash
-unzip Phluido5GL1/Phluido5GL1_v0.8.1.zip -d Phluido5GL1/Phluido5GL1_v0.8.1
-```
-
-Create `Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright`.
-This file contains the date and time on which you agreed to the Phluido copyright notice and is required to build the Phluido L1 Docker image:
-
-``` bash
-date '+%Y-%m-%d, %H:%M:%S' >Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright
-```
-
 
 ### Effnet License: Create a PCSCD Docker Image 
 
@@ -247,35 +228,27 @@ Loading certificate to Yubico YubiKey CCID 00 00 (serial: 13134288)
 Which means that a license for the dongle with serial-number 13134288 was loaded to the dongle (i.e., it was bundled in the license-activation image).
 
 
-## Install the Phluido and Effnet Docker Images
+## Install the Phluido L1 ( docker )
+ 
+ ```
+ docker image load phluido_docker_0842.tar
+```
 
 
-Load the Effnet DU Docker image:
+### Install Effnet DU ( docker )
 
 ``` bash
+unzip accelleran-du-phluido-2022-07-01-q2-pre-release.zip
 bzcat accelleran-du-phluido/accelleran-du-phluido-2022-01-31/gnb_du_main_phluido-2022-01-31.tar.bz2 | docker image load
 ```
-
-Load the Phluido L1 Docker image:
-
-``` bash
-docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.l1 -t phluido_l1:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
-```
-
-or in case the delivered file is a .tar file
-
-```
-docker image load phluido_docker_0842.tar
-```
+ 
+### Install Phluido RRU ( docker )
 
 **FOR B210 RU ONLY** : Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):
 
 ``` bash
 docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
-
-
-
 
 ## Prepare and bring on air the USRP B210 Radio
 
@@ -506,7 +479,7 @@ Create a configuration file for the Effnet DU:
 * nr_cell_identity  ( in binary format eg 3 fill in ...00011 )
 * nr_pci            ( decimal format eg 51 fill in 51 )
 * plmn_identity     ( eg 235 88 fill in 235f88. fill in 2 times in this file)
-* arfcn             ( decimal format calculated from the center frequency  ) 
+* arfcn             ( decimal format calculated from the center frequency, see chapter ) 
 * nr_frequency_band ( 77 or 78 )
 * 5gs_tac           ( 3 byte array. eg 1 fill in 000001 ) 
 
@@ -1320,7 +1293,7 @@ You can read the EEPROM now and double check what you did:
 eeprog_cp60 -q -f -x -16 /dev/i2c-0 0x57 -x -r 26:6
 ```
 
-**Finally, reboot your Radio End to make the changes effective**
+!! Finally, **reboot**  your Radio End to make the changes effective
 
 
 #### Set the Frequency of the Radio End 
@@ -1574,8 +1547,8 @@ After execution you will have
 ```ifstat -i enp1s0f0
      enp1s0f0     
  KB/s in  KB/s out
-0.0  0.0
-0.0  0.0
+ 0.0      0.0
+ 0.0      0.0
 ```
 
 Handshake messages are sent by the RU every 1 second. When phluido L1 is starting or running it will Listen on port 44000 and reply to these messages.
@@ -1695,7 +1668,7 @@ Perform these steps to get a running active cell.
      DU                                        CU
       |  F1SetupRequest--->                     |
       |                    <---F1SetupResponse  |
-      |			                        |
+      |			                                |
       |	          <---GNBCUConfigurationUpdate  |
       |                                         |
 ```
