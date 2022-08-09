@@ -26,7 +26,9 @@ This installation guide assumes that that the following things are available:
 	* Ubuntu (Server) 20.04
 	* Effnet DU: accelleran-du-phluido-2022-07-01-q2-pre-release
 	* Phluido L1: phluido_docker_0842.tar
+	* effnet-license-activation-yyyy_mm_dd.zip
 	* sysTest executable 
+
 
 ## Preparation
 
