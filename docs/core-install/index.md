@@ -109,8 +109,17 @@ $ netstat -ano | grep 3000
 tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      off (0.00/0/0)
 ````
 
-### Per UE
+### Provision a UE
+
+This can be done through command line
+```
+open5gs-dbctl add 235880000009818 C53865AB77948F4A0253E85CD174D6CA 19AC03DAB9BE9111A61AE93E43A9BBEF 3gnet
+```
+
+or webgui
+
+
+
 
 * use static ip address which you can map to the imsi. This makes debugging traffic much easier when using multiple UE's. 
     ``` eg: imsi 235880000009834 gets ip address 10.0.0.34```
-
