@@ -5,7 +5,7 @@ The DU will be installed in several Docker containers that run on the host machi
 
 **Before proceding further make sure Docker and docker-compose have been installed and that docker can be run without superuser privileges, this is a prerequisite.**
 
-See, if you didn't do it already, [the chapter on Kubernetes Installation](../kubernetes-install/index.md) for information on how to do this.
+See, if you didn't do it already, [the chapter on Kubernetes Installation](../kubernetes-install/index.md) for information on how to do this but do not install Kubernetes on the server, only Docker and docker-compose
 
 ### Diagram
 ```
@@ -62,7 +62,14 @@ Before proceeding you may want to crosscheck and modify some paramters that cara
 
 For any other modification it is advisable to make contact with the Accelleran service desk as of course, if in principle every paramter in the confuguration file is up for modification, it is certainly not recommendable to proceed in that declaration as each front end may or may not work as a consequence and the analysis and recovery from error scenario will be less than intuitive
 
-## Install a Low Latency Kernel
+
+## Obtain the Effnet and Phluido licenses
+
+### Preparation steps
+In this phase we will need to act in parallel for the DU and the L1/RRU licenses, which depend on our partner company so it is essential to give priority and possibly anticipate these two steps as there is no specific effort involved from the user/customer perspective and they may require longer than one working day before we can proceed further.
+
+
+### Phluido License: Install a Low Latency Kernel
 
 The PHY layer has very stringent latency requirements, therefore we install a low latency kernel:
 
@@ -108,15 +115,25 @@ Restart the machine to make the changes take effect:
 ``` bash
 sudo reboot
 ```
+### Phluido License: Run the sysTest utility from Phluido
+to go to the directory where the Phluido sysTest utility is :
 
-## Obtain the Effnet and Phluido licenses
+```
+$ ./sysTest 
+Running system test...
+01234567890123456789012345678901
+System test completed, output written to file "sysTest.bin".
+```
 
-### Preparation steps
-In this phase we will need to act in parallel for the DU and the L1/RRU licenses, which depend on our partner company so it is essential to give priority and possibly anticipate these two steps as there is no specific effort involved from the user/customer perspective and they may require longer than one working day before we can proceed further.
+( The test takes around 90 seconds) This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components Once it is finsihed it produces a file sysTest.bin in the same directory Send this file to Accelleran, 
+to obtain the Phluido license key. Send this .bin file to phluido to receive a proper license.
 
-**Note** For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
+### Effnet License: Install and check your Yubikey 
 
-**Note:** if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed physically to a USB port:
+
+For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
+
+if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed physically to a USB port:
 
 To check if the server can see the key do (in this example Device004 is your key): 
 ``` bash
