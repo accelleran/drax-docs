@@ -1,11 +1,61 @@
 # DU Installation 
 
 ## Introduction
-The DU will be installed in several Docker containers that run on the host machine.
+The DU will be installed in several Docker containers that run on metal on the host machine. As mentioned in the introduction section , a separate Virtual Machine will host the RIC and the CU and their relative pods will be handled by Kubernetes inside that VM. Here we focus on the steps to get DU and L1 up and running.
 
-**Before proceding further make sure Docker and docker-compose have been installed and that docker can be run without superuser privileges, this is a prerequisite.**
+**Before proceding further make sure Docker and docker-compose have been installed and that docker can be run without superuser privileges, this is a prerequisite. DO NOT install Kubernetes where DU and L1 will run**
 
-See, if you didn't do it already, [the chapter on Kubernetes Installation](../kubernetes-install/index.md) for information on how to do this but do not install Kubernetes on the server, only Docker and docker-compose
+
+
+### Docker installation on the Server
+
+Add the Docker APT repository:
+
+``` bash
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+```
+```
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+```
+sudo apt update
+```
+
+Install the required packages:
+
+``` bash
+sudo apt install docker-ce 
+```
+```
+sudo apt install docker-ce-cli 
+```
+```
+sudo apt install containerd.io 
+```
+```
+sudo apt install docker-compose
+```
+
+Add your user to the docker group to be able to run docker commands without sudo access.
+You might have to reboot or log out and in again for this change to take effect.
+
+``` bash
+sudo usermod -aG docker $USER
+```
+
+To check if your installation is working you can try to run a test image in a container:
+
+``` bash
+sudo docker run hello-world
+```
+Restart Docker and enable on boot:
+
+``` bash
+sudo systemctl enable docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
 
 ### Diagram
 ```
@@ -259,9 +309,9 @@ unzip accelleran-du-phluido-2022-07-01-q2-pre-release.zip
 bzcat accelleran-du-phluido/accelleran-du-phluido-2022-01-31/gnb_du_main_phluido-2022-01-31.tar.bz2 | docker image load
 ```
  
-### Install Phluido RRU ( docker )
+### **FOR B210 RU ONLY** Install Phluido RRU ( docker )
 
-**FOR B210 RU ONLY** : Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):
+ Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):
 
 ``` bash
 docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
