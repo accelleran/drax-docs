@@ -309,6 +309,10 @@ unzip accelleran-du-phluido-2022-07-01-q2-pre-release.zip
 bzcat accelleran-du-phluido/accelleran-du-phluido-2022-01-31/gnb_du_main_phluido-2022-01-31.tar.bz2 | docker image load
 ```
  
+ #CPU PINNING
+ 
+ 
+ 
 ### **FOR B210 RU ONLY** Install Phluido RRU ( docker )
 
  Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):
