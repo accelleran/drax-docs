@@ -1,4 +1,4 @@
-# DU Installation 
+# Server Installation
 
 ## Introduction
 The DU will be installed in several Docker containers that run on metal on the host machine. As mentioned in the introduction section , a separate Virtual Machine will host the RIC and the CU and their relative pods will be handled by Kubernetes inside that VM. Here we focus on the steps to get DU and L1 up and running.
