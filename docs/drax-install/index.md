@@ -1,4 +1,4 @@
-# dRAX Installation
+# VM Installation (RIC/CU)
 
 ## Introduction
 
@@ -19,11 +19,14 @@ We advise customers who wish to know more about dRAX's architecture to request t
 
 The assumption made in this User Guide is that the typical Customer who doesn't want a full turn key dRAX kit is familiar with Server installations, VMs and VNFs so here we limit to describe what are the minimum requirements, OS used, and software packages that allow the dRAX to run correctly.
 
-### Hardware Minimum Requirements
+Also, as mentioned in the [Overview](../index.md) section of this document, it is assumed that the Customer has already created a VM with a *$NODE_IP* address in the same subnet of the Server (*$SERVER_IP*) and a linux bridge *br0*.
 
-1. Intel Xeon D-1541 or stronger 64-bit processor
-2. 64GB DDR4 RAM
-3. 800GB Hard Disk ( includes space for logging/monitor/debugging the system )
+
+### VM Minimum Requirements
+
+1. 8 dedicated Cores
+2. 32GB DDR4 RAM
+3. 200GB Hard Disk ( includes space for logging/monitor/debugging the system )
 
 ### Software Requirements to be pre installed
 
@@ -32,7 +35,6 @@ The assumption made in this User Guide is that the typical Customer who doesn't 
 3. Permanently disabled swap
 4. Kubernetes 1.13 or later till 1.20 (1.21 is currently unsupported)
 5. Helm, version 3
-6. BIOS set to performance. Check also System BIOS -> System profile -> settings -> Performance
 
 ### Other Requirements
 
