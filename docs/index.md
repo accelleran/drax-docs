@@ -144,7 +144,7 @@ The installation process is divided in a number of steps.
 Each of these steps is described in its own chapter.
 It is recommended to execute these steps in the following order as there are dependencies from one chapter to another.
 
-* [Optional: Open5GS Installation](/drax-docs/docs/core-install/)
+* [Optional: Open5GS Installation](/docs/core-install/)
 * [Kubernetes Installation](/drax-docs/docs/kubernetes-install/)
 * [dRax Installation](/drax-docs/drax-install/)
 * [DU Installation](/drax-docs/du-install/)
