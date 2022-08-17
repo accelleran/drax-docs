@@ -402,7 +402,7 @@ or other application using the libvirt API.
 The only thing remaining is now **prioritise the softirq processes**. One can use **htop** and work out the options to show priority and CPU ID (Setup → Columns) ,  and kernel threads (Setup → Display Options):
 
 <p align="center">
-  <img width="500" height="600" src="htopPinning">
+  <img width="500" height="300" src="htopPinning.png">
 </p>
 
 In a normal setup, the softirq processes will run at priority 20, equal to all user processes. Here they run at -2, which corresponds to real time priority. They are scheduled on all cores but will get strict priority over any other user processes. To adapt the priority of the ksoft, you can use spcific commands:
