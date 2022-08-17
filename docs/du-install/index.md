@@ -56,28 +56,6 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
-
-### Diagram
-```
-  10.10.0.100:ssh
-  +-------------+
-  |             |
-  |             |             +-----------+         +-----------+
-  |             |             |           |         |           |
-  |     RRU     +----fiber----+   L1      |         |    DU     |
-  |             |             |           |         |           |
-  |             |             +-----------+         +-----------+
-  |             |
-  +-------------+
-aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
-
-  10.10.0.2:44000              10.10.0.1:44000
-
-             eth0              enp45s0f0
-
-      port FIBER1
-```
-
 ### Variables needed for this install
 Before proceeding you may want to crosscheck and modify some paramters that caracterise each deployment and depends on the desired provisioning of the components. The parameters that should be considered for this purpose and can be safely modified are:
 
@@ -868,7 +846,29 @@ phluido_rru_1  | -- Performing timer loopback test... pass
 
 This section is exclusively applicable to the user/customer that intends to use the Benetel B650 Radio End with our Accellleran 5G end to end solution, if you do not have such radio end the informations included in this section may be misleading and bring to undefined error scenarios. Please contact Accelleran if your Radio End is not included in any section of this user guide
 
+### Diagram
 
+In the picture below we schematically show what will be run on the server by Docker and how the RRU is linked to the server itself: as mentioned early in this case the two components run by Docker are the L1 and the DU, while the RRU is supposedly served by a dedicated NIC Card capable of handling a 10 Gbps fiber link. If this is not your case please consult the section dedicted to Ettus B210 bring up or contact Accelleran for further information 
+
+```
+  10.10.0.100:ssh
+  +-------------+
+  |             |
+  |             |             +-----------+         +-----------+
+  |             |             |           |         |           |
+  |     RRU     +----fiber----+   L1      |         |    DU     |
+  |             |             |           |         |           |
+  |             |             +-----------+         +-----------+
+  |             |
+  +-------------+
+aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
+
+  10.10.0.2:44000              10.10.0.1:44000
+
+             eth0              enp45s0f0
+
+      port FIBER1
+```
 
 
              
