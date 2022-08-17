@@ -273,7 +273,7 @@ Loading certificate to Yubico YubiKey CCID 00 00 (serial: 13134288)
 Which means that a license for the dongle with serial-number 13134288 was loaded to the dongle (i.e., it was bundled in the license-activation image).
 
 
-## Install the Phluido L1 ( docker )
+### Install the Phluido L1 ( docker )
  
  ```
  docker image load phluido_docker_0842.tar
@@ -287,10 +287,145 @@ unzip accelleran-du-phluido-2022-07-01-q2-pre-release.zip
 bzcat accelleran-du-phluido/accelleran-du-phluido-2022-01-31/gnb_du_main_phluido-2022-01-31.tar.bz2 | docker image load
 ```
  
- #CPU PINNING
+ ### CPU PINNING and Soft IRQd priorities
  
+ To achieve maximum stability and performance it is necessary to maximise the CPU usage and this can be done by distributing the available CPUs among the components and assign different priorities to the most demanding processes> We split therefore the CPUs in two groups, one group of CPUs for the VM where the RIC/CU run and one group of CPUs for the containers that run L1 and DU. The CPU pinning allows for ceertain components to run only on certain CPUs, however it doesn't impede other processes to use the same CPUs, so the optimisation of the CPU usage and the exclusive alloction of the CPUs are beyond the scope of this document, here we illustrate one possible split as an example.
  
+ First thing to find out is what resources are available on our system:
  
+ ``` bash
+ubuntu@bbu3:~$ numactl --hardware
+available: 2 nodes (0-1)
+node 0 cpus: 0 2 4 6 8 10 12 14
+node 0 size: 64037 MB
+node 0 free: 593 MB
+node 1 cpus: 1 3 5 7 9 11 13 15
+node 1 size: 64509 MB
+node 1 free: 138 MB
+node distances:
+node   0   1 
+  0:  10  21 
+  1:  21  10 
+ubuntu@bbu3:~$
+ ```
+In this specific case, there are two banks of 4 cores, each capable of hyperthreading, so in total we can count on 16 CPUs, let's then set 8 CPUs aside to run the VM for kubernetes and CU, and the other 8 CPUs to run L1/L2 so that they never compete for the same CPU. The assumption is that the rest of the processes on the system (very light load) is equally spread over all cores. If a large number of cores is available, probably the core with a higher number will be mostly free and can be then dedicated to L1 and DU, as mentioned there is no specific rule. For the sake of argument let's assign the even cores to the L1 and DU equally, so the Docker compose looks as follows:
+
+``` bash
+
+version: "2"
+services:
+
+  phluido_l1:
+    image: phluido_l1:v0.8.4.2
+    container_name: phluido_l1
+    tty: true
+    privileged: true
+    ipc: shareable
+    shm_size: 2gb
+    command: /config.cfg
+    volumes:
+      - "$PWD/l1-config-0.cfg:/config.cfg:ro"
+      - "$PWD/logs-0/l1:/workdir"
+      - "/etc/machine-id:/etc/machine-id:ro"
+    working_dir: "/workdir"
+    network_mode: host
+    cpuset: "0,2,4,6,8,10,12,14"
+
+  du:
+    image: gnb_du_main_phluido:2022-04-28-q1-release
+    volumes:
+      - "$PWD/du-config-0.json:/config.json:ro"
+      - "$PWD/logs-0/du:/workdir"
+      - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm
+    ipc: container:phluido_l1
+    tty: true
+    privileged: true
+    depends_on:
+      - phluido_l1
+    entrypoint: ["/bin/sh", "-c", "sleep 2 && exec /gnb_du_main_phluido /config.json"]
+    working_dir: "/workdir"
+    extra_hosts:
+      - "cu:192.168.3.7"
+      - "du:192.168.3.2"
+    network_mode: host
+    cpuset: "0,2,4,6,8,10,12,14"
+ ```
+
+
+**Notes: **
+1) the version has to be changed to '2' as version 3 does not support cpuset option
+2) the ip address for the cu is the one of the f1 external ip interface of the relative cucp service
+3) the DU ip address is the one of the server where the DU runs
+
+We then need to take care of the CPUs that the VM is intended to use(as discussed, we assume a VM named Ubuntu123 was created using Virsh):
+``` bash
+virsh edit Ubuntu123
+```
+Other ways of creating a VM may not produce a configuration file in xml format, making things more difficult. We also recommend to identify the xml configuratio file by searching the directory:
+
+``` bash
+/etc/libvirt/qemu/
+```
+
+But we definitely discourage the direct editing of such file as it will reset todefault at the first reboot
+
+Once done, you can check the content of the xml configuration file, that in this case will show we decided to assign the odd CPUs to the VM:
+
+``` bash
+ubuntu@bbu3:~$ sudo cat /etc/libvirt/qemu/Ubuntu123.xml
+<!--
+WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
+OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+  virsh edit Ubuntu123
+or other application using the libvirt API.
+-->
+
+<domain type='kvm'>
+  <name>Ubuntu123</name>
+  <uuid>f18a2a01-7b67-4f00-ad11-5920ec2b6f16</uuid>
+  <metadata>
+    <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
+      <libosinfo:os id="http://ubuntu.com/ubuntu/20.04"/>
+    </libosinfo:libosinfo>
+  </metadata>
+  <memory unit='KiB'>33554432</memory>
+  <currentMemory unit='KiB'>33554432</currentMemory>
+  <vcpu placement='static' cpuset='1,3,5,7,9,11,13,15'>8</vcpu>
+  <os>
+    <type arch='x86_64' machine='pc-q35-4.2'>hvm</type>
+    <bootmenu enable='yes'/>
+  </os>
+  <features>
+
+```
+
+The only thing remaining is now **prioritise the softirq processes**. One can use **htop** and work out the options to show priority and CPU ID (Setup → Columns) ,  and kernel threads (Setup → Display Options):
+
+<p align="center">
+  <img width="500" height="600" src="htopPinning">
+</p>
+
+In a normal setup, the softirq processes will run at priority 20, equal to all user processes. Here they run at -2, which corresponds to real time priority. They are scheduled on all cores but will get strict priority over any other user processes. To adapt the priority of the ksoft, you can use spcific commands:
+
+to set to realtime priority 1 (lowest prio, but still "run to completion" before other default processes are executed):
+
+``` bash
+ps -A | grep ksoftirq | awk '{print $1}' | xargs -L1 sudo chrt -p 1
+```
+to revert the priority to "other policy":
+
+``` bash
+ps -A | grep ksoftirq | awk '{print $1}' | xargs -L1 sudo chrt --other -p 0
+```
+
+finally to check all the priorities set:
+
+``` bash
+ps -A | grep ksoftirq | awk '{print $1}' | xargs -L1 chrt -p
+```
+
+
+
 ### **FOR B210 RU ONLY** Install Phluido RRU ( docker )
 
  Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):
@@ -298,6 +433,7 @@ bzcat accelleran-du-phluido/accelleran-du-phluido-2022-01-31/gnb_du_main_phluido
 ``` bash
 docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
+
 
 ## Prepare and bring on air the USRP B210 Radio
 
