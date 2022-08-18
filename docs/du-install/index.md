@@ -1,13 +1,14 @@
 # Server Installation
 
 ## Introduction
-The DU will be installed in several Docker containers that run on metal on the host machine. As mentioned in the introduction section , a separate Virtual Machine will host the RIC and the CU and their relative pods will be handled by Kubernetes inside that VM. Here we focus on the steps to get DU and L1 up and running.
+The DU will be installed in several Docker containers that run on metal on the host machine. As mentioned in the introduction, a separate Virtual Machine will host the RIC and the CU and their relative pods will be handled by Kubernetes inside that VM. Here we focus on the steps to get DU and L1 up and running.
 
-**Before proceding further make sure Docker and docker-compose have been installed and that docker can be run without superuser privileges, this is a prerequisite. DO NOT install Kubernetes where DU and L1 will run**
 
 
 
 ### Docker installation on the Server
+
+**Make sure Docker and docker-compose have been installed and that docker can be run without superuser privileges, this is a prerequisite. DO NOT install Kubernetes where DU and L1 will run**
 
 Add the Docker APT repository:
 
@@ -78,15 +79,11 @@ Before proceeding you may want to crosscheck and modify some paramters that cara
 * band               	  
 	* 77  consistent with center frequency
 
-#### other
-* How long needs the RU 48V powercable need to be ? 
-* license key delivered by phluido (
-	*  eg 2B2A-962F-783F-40B9-7064-2DE3-3906-9D2E )
-
-#### files needed
+#### licenses and files needed (see intro)
 * accelleran-du-phluido-2022-07-01-q2-pre-release.zip
 * phluido_docker_0842.tar
 * effnet-license-activation-yyyy_mm_dd.zip 
+* 32 digit phluido license key, ex 2B2A-962F-783F-40B9-7064-2DE3-3906-9D2E 
 
 For any other modification it is advisable to make contact with the Accelleran service desk as of course, if in principle every paramter in the confuguration file is up for modification, it is certainly not recommendable to proceed in that declaration as each front end may or may not work as a consequence and the analysis and recovery from error scenario will be less than intuitive
 
@@ -289,7 +286,7 @@ bzcat accelleran-du-phluido/accelleran-du-phluido-2022-01-31/gnb_du_main_phluido
  
  ### CPU PINNING and Soft IRQd priorities
  
- To achieve maximum stability and performance it is necessary to maximise the CPU usage and this can be done by distributing the available CPUs among the components and assign different priorities to the most demanding processes> We split therefore the CPUs in two groups, one group of CPUs for the VM where the RIC/CU run and one group of CPUs for the containers that run L1 and DU. The CPU pinning allows for ceertain components to run only on certain CPUs, however it doesn't impede other processes to use the same CPUs, so the optimisation of the CPU usage and the exclusive alloction of the CPUs are beyond the scope of this document, here we illustrate one possible split as an example.
+ To achieve maximum stability and performance it is necessary to optimise the CPU load and this can be done by distributing the available CPUs among the components and assign different priorities to the most demanding processes. We split therefore the CPUs in two groups, one group of CPUs for the VM where the RIC/CU run and one group of CPUs for the containers that run L1 and DU. The CPU pinning allows for ceertain components to run only on certain CPUs, however it doesn't impede other processes to use the same CPUs, so the full optimisation of the CPU usage and the exclusive allocation of the CPUs are beyond the scope of this document, here we illustrate one possible split as an example.
  
  First thing to find out is what resources are available on our system:
  
@@ -308,7 +305,7 @@ node   0   1
   1:  21  10 
 ubuntu@bbu3:~$
  ```
-In this specific case, there are two banks of 4 cores, each capable of hyperthreading, so in total we can count on 16 CPUs, let's then set 8 CPUs aside to run the VM for kubernetes and CU, and the other 8 CPUs to run L1/L2 so that they never compete for the same CPU. The assumption is that the rest of the processes on the system (very light load) is equally spread over all cores. If a large number of cores is available, probably the core with a higher number will be mostly free and can be then dedicated to L1 and DU, as mentioned there is no specific rule. For the sake of argument let's assign the even cores to the L1 and DU equally, so the Docker compose looks as follows:
+In this specific example, there are two banks of 4 cores, each capable of hyperthreading, so in total we can count on 16 CPUs, let's then set 8 CPUs aside to run the VM for kubernetes and CU, and the other 8 CPUs to run L1/L2 so that they never compete for the same CPU. The assumption is that the rest of the processes on the system (very light load) is equally spread over all cores. If a large number of cores is available, probably the core with a higher number will be mostly free and can be then dedicated to L1 and DU, as mentioned there is no specific rule. For the sake of argument let's assign the even cores to the L1 and DU equally, so the Docker compose looks as follows:
 
 ``` bash
 
@@ -345,8 +342,8 @@ services:
     entrypoint: ["/bin/sh", "-c", "sleep 2 && exec /gnb_du_main_phluido /config.json"]
     working_dir: "/workdir"
     extra_hosts:
-      - "cu:192.168.3.7"
-      - "du:192.168.3.2"
+      - "cu:$F1_CU_IP"
+      - "du:$SERVER_IP"
     network_mode: host
     cpuset: "0,2,4,6,8,10,12,14"
  ```
@@ -367,7 +364,7 @@ Other ways of creating a VM may not produce a configuration file in xml format, 
 /etc/libvirt/qemu/
 ```
 
-But we definitely discourage the direct editing of such file as it will reset todefault at the first reboot
+But we definitely discourage the direct editing of such file as it will reset to default at the first reboot
 
 Once done, you can check the content of the xml configuration file, that in this case will show we decided to assign the odd CPUs to the VM:
 
@@ -862,7 +859,7 @@ services:
       - "/etc/machine-id:/etc/machine-id:ro"
     working_dir: "/workdir"
     network_mode: host
-    cpuset: "0,1,2,3"
+    cpuset: "0,2,4,6,8,10,12,14"
     
   du:
     image: gnb_du_main_phluido:2022-07-01-q2-pre-release
@@ -880,7 +877,7 @@ services:
     extra_hosts:
       - "cu:$F1_CU_IP"
       - "du:$SERVER_IP"
-    cpuset: "4,5,6,7"
+    cpuset: "0,2,4,6,8,10,12,14"
 
   phluido_rru:
     image: phluido_rru:v0.8.4.2
@@ -1025,15 +1022,15 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoL1_NR_
  ******************************************************************/
 //Enables verbose binary logging. WARNING: very CPU intensive and creates potentially huge output files. Use with caution.
 //
-// DEVEL: 		1.2G/67 
-// DEBUG: 		953M/67 
-// INFORMATIVE:	29K/67 
-// default: 	26K/67 
-// CRITICAL: 	0/393 
-// WARNING: 	0/393        (x/y x=log size in L1.encr.log file, y=log size in L1.open.log file. In a time of 1 minute )
+// DEVEL:       1.2G/67 
+// DEBUG:       953M/67 
+// INFORMATIVE: 29K/67 
+// default:     26K/67 
+// CRITICAL:    0/393 
+// WARNING:     0/393        (x/y x=log size in L1.encr.log file, y=log size in L1.open.log file. In a time of 1 minute )
 
 //logLevel_verbose    = "WARNING";     
-bbuFronthaulServerMode = 1;
+//bbuFronthaulServerMode = 1;
 bbuFronthaulServerAddr = "10.10.0.1";
 
 // Enable 64-QAM support for PUSCH (license-specific).
@@ -1041,11 +1038,15 @@ maxPuschModOrder = 6;
 maxNumPdschLayers = 2;
 maxNumPuschLayers = 1;
 
-targetRecvSymbolDelay = 70; // setting for old SW version
-targetRecvSymbolDelay_us = 2500; //settings for new SW version
+cccServerPort = 44444;
+cccInterfaceMode = 1;
+kpiOutputFormat = 2;
 
-numWorkers = 6;
+targetRecvDelay_us = 2500;
+
+numWorkers = 6; // shall be less or equal to the number of cores assigned to L1 with the CPU pinning
 //License key put here please the effective 32 digits sequence you received for this deployment
+
 LicenseKey = "XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX";
 EOF
 
@@ -1061,6 +1062,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
     "configuration": {
         "du_address": "du",
         "cu_address": "cu",
+        "f1c_bind_address": "du",
         "gtp_listen_address": "du",
         "vphy_listen_address": "127.0.0.1",
         "vphy_port": 13337,
@@ -1124,7 +1126,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
                             }
                         }
                     },
-                    "measurement_timing_configuration": [
+                   "measurement_timing_configuration": [
                         222,
                         173,
                         190,
@@ -1182,7 +1184,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
                             }
                         }
                     ],
-                    "maximum_ru_power_dbm": 23.0,
+                    "maximum_ru_power_dbm": 35.0,
                     "num_tx_antennas": 2,
                     "trs": {
                         "periodicity_and_offset": {
@@ -1199,10 +1201,10 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
                             "offset": 15
                         }
                     },
-                    "force_rlc_buffer_size": 2500000,
+                    "force_rlc_buffer_size": 8388608,
                     "harq_processes_for_pdsch": 16,
                     "minimum_k1_delay": 1,
-                    "minimum_k2_delay": 1                
+                    "minimum_k2_delay": 1
                 }
             }
         ]
@@ -1255,12 +1257,11 @@ Now, create a docker-compose configuration file:
 
 ``` bash
 tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose-B650.yml <<EOF
-version: "3"
-
+version: "2"
 services:
 
   phluido_l1:
-    image: phluido_l1
+    image: phluido_l1:v0.8.4.2
     container_name: phluido_l1
     tty: true
     privileged: true
@@ -1268,29 +1269,33 @@ services:
     shm_size: 2gb
     command: /config.cfg
     volumes:
-      - "$PWD/phluido/PhluidoL1_NR_Benetel.cfg:/config.cfg:ro"
-      - "$PWD/logs/l1:/workdir"
+      - "$PWD/PhluidoL1_NR_Benetel.cfg:/config.cfg:ro"
+      - "/run/logs-du/l1:/workdir"
       - "/etc/machine-id:/etc/machine-id:ro"
     working_dir: "/workdir"
     network_mode: host
+    cpuset: "0,2,4,6,8,10,12,14"
 
   du:
-    image: gnb_du_main_phluido
+    image: gnb_du_main_phluido:2022-07-01-q2-pre-release
     volumes:
       - "$PWD/b650_config_40mhz.json:/config.json:ro"
-      - "$PWD/logs/du:/workdir"
+      - "/run/logs-du/du:/workdir"
       - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm
     ipc: container:phluido_l1
     tty: true
     privileged: true
     depends_on:
       - phluido_l1
-    entrypoint: ["/bin/sh", "-c", "sleep 4 && exec /gnb_du_main_phluido /config.json"]
+    entrypoint: ["/bin/sh", "-c", "sleep 2 && exec /gnb_du_main_phluido /config.json"]
     working_dir: "/workdir"
     extra_hosts:
-      - "cu:$CU_IP"
-
-EOF
+      - "cu:$F1_CU_IP"
+      - "du:$SERVER_IP"
+    network_mode: host
+    cpuset: "0,2,4,6,8,10,12,14"
+    
+EOF    
 ```
 
 ### Prepare the server for the Benetel 650
