@@ -22,12 +22,12 @@ NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access t
 
 * Licenses:
 	* A dRAX license file: license.crt
-	* 4G Only:  A server certificate: server.crt (see the chapter on [installing dRax](/drax-docs/drax-install/) on how to get one)
-	* 4 G Only: A CA certificate: ca.crt (see the chapter on [installing dRax](/drax-docs/drax-install/) on how to get one)
 	* A Phluido license key (see the chapter on [installing the DU](/drax-docs/du-install/) on how to get one)
 	* Effnet YubiKey 
 	* Effnet yubikey license activation file: effnet-license-activation-2022-07-01.zip
 	* an active github account that has been enabled to access the necessary software images on accelleran github repository
+	* 4G Only:  A server certificate: server.crt (see the chapter on [installing dRax](/drax-docs/drax-install/) on how to get one)
+	* 4G Only: A CA certificate: ca.crt (see the chapter on [installing dRax](/drax-docs/drax-install/) on how to get one)
 	
 * Software:
 	* Ubuntu Server 20.04 OS both on the VM and on the Server 
