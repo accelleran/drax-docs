@@ -17,6 +17,9 @@ This installation guide assumes that that the following are to be taken as prere
 		* 8 assigned cores
 		* 32 GB assigned RAM
 		* 200 GB assigned Disk space  
+NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access to its libvirt XML configuration when needed, ex. to perform the CPU pinning. The User can alternately choose other VM management tools, however without further support from Accelleran. 
+
+
 * Licenses:
 	* A dRAX license file: license.crt
 	* 4G Only:  A server certificate: server.crt (see the chapter on [installing dRax](/drax-docs/drax-install/) on how to get one)
