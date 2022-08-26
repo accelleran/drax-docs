@@ -1,10 +1,37 @@
-# Kubernetes Installation
+# CU installation ( kubernetes )
 
-This chapter will install Kubernetes, using Flannel for the CNI.
+## Summary
+This chapter will install the CU, using Flannel for the CNI.
 This guide defaults to using Docker as the container runtime.
 For more information on installing Kubernetes, see the [official Kubernetes documentation](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/).
 
-## Install Docker
+This chapter will guide you through following steps : 
+* install VM ( with cpu pinning )
+* install docker in the CU VM
+* install kubernetes in the CU VM
+* install ric in the CU VM ( still called drax in this version )
+
+## Install VM
+Below a command line 
+```
+virt-install  --name cu-ubuntu-20.04.4  --memory 16384 --vcpus "$CORE_SET_CU"  --os-type linux  --os-variant rhel7 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
+```
+
+Continue in the console the complete the VM installation.
+Take all default values except these points :
+* set to static ip $NODE_IP ( see preperation chapter )
+* Select [ x ] install openSSH
+* set hostname, username and password
+
+Installation will begin. Wait about 5 minutes for it to install.
+reboot the VM 
+ssh into to it
+``` bash
+ssh $USER@$NODE_IP
+```
+
+
+## Install Docker in the CU VM
 
 Add the Docker APT repository:
 
@@ -43,7 +70,7 @@ sudo usermod -aG docker $USER
 To check if your installation is working you can try to run a test image in a container:
 
 ``` bash
-sudo docker run hello-world
+docker run hello-world
 ```
 
 ## Configure Docker Daemon
@@ -105,7 +132,7 @@ This is generally the (primary) IP address of the network interface associated w
 From here on, this IP is referred to as `$NODE_IP` - we store it as an environment variable for later use:
 
 ``` bash
-export NODE_IP=1.2.3.4   # replace 1.2.3.4 with the correct IP
+export NODE_IP=x.x.x.x         # See Preperation paragraph for correct ip
 ```
 
 This guide assumes we will use Flannel as the CNI-based Pod network for this Kubernetes instance, which uses the `10.244.0.0/16` subnet by default.
@@ -206,7 +233,7 @@ kubectl exec -ti busybox -- nslookup mirrors.ubuntu.com
 #Address 1: 91.189.89.32 bilimbi.canonical.com
 ```
  
-## Remove in full a Kubernetes installation
+## APENDIX : Remove a full Kubernetes installation
 
 On occasion, it may be deemed necessary to fully remove Kubernetes, for instance if for any reason your server IP address will change, then the advertised Kubernetes IP address will have to follow. THe following command help making sure the previous installation is cleared up: 
 
