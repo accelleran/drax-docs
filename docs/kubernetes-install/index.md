@@ -14,7 +14,7 @@ This chapter will guide you through following steps :
 ## Install VM
 Below a command line 
 ```
-virt-install  --name cu-ubuntu-20.04.4  --memory 16384 --vcpus "$CORE_SET_CU"  --os-type linux  --os-variant rhel7 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
+virt-install  --name cu-ubuntu-20.04.4  --memory 16384 --vcpus ""cpuset=$CORE_SET_CU"  --os-type linux  --os-variant rhel7 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
 ```
 
 Continue in the console the complete the VM installation.
