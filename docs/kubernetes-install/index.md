@@ -1,6 +1,6 @@
 # CU installation inside a VM ( kubernetes )
 
-## Summary
+## Overview
 This chapter will install the CU, using Flannel for the CNI.
 This guide defaults to using Docker as the container runtime.
 For more information on installing Kubernetes, see the [official Kubernetes documentation](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/).
@@ -11,10 +11,15 @@ This chapter will guide you through following steps :
 * install kubernetes in the CU VM
 * install ric in the CU VM ( still called drax in this version )
 
+### VM Minimum Requirements
+1. 8 dedicated Cores    ( cpuset planned in the preperation chapter ) 
+2. 32GB DDR4 RAM
+3. 200GB Hard Disk      ( includes space for logging/monitor/debugging the system )
+
 ## Install VM
 Below a command line 
 ```
-virt-install  --name cu-ubuntu-20.04.4  --memory 16384 --vcpus ""cpuset=$CORE_SET_CU"  --os-type linux  --os-variant rhel7 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
+virt-install  --name cu-ubuntu-20.04.4  --memory 32768 --vcpus ""cpuset=$CORE_SET_CU"  --os-type linux  --os-variant rhel7 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=200,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
 ```
 
 Continue in the console the complete the VM installation.
