@@ -67,6 +67,7 @@ You might have to reboot or log out and in again for this change to take effect.
 
 ``` bash
 sudo usermod -aG docker $USER
+sudo reboot
 ```
 
 To check if your installation is working you can try to run a test image in a container:
