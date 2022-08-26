@@ -1,4 +1,4 @@
-# CU installation ( kubernetes )
+# CU installation inside a VM ( kubernetes )
 
 ## Summary
 This chapter will install the CU, using Flannel for the CNI.
@@ -26,10 +26,12 @@ Take all default values except these points :
 Installation will begin. Wait about 5 minutes for it to install.
 reboot the VM 
 ssh into to it
+
 ``` bash
 ssh $USER@$NODE_IP
 ```
 
+Every heading that follows has to be done inside this VM.
 
 ## Install Docker in the CU VM
 
@@ -108,7 +110,7 @@ sudo swapoff -a
 sudo sed -i '/\sswap\s/ s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 
-## Install Kubernetes
+## Install Kubernetes inside the VM
 
 Add the Kubernetes APT repository:
 
