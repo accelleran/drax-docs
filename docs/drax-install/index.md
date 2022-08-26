@@ -1,4 +1,4 @@
-# VM Installation (RIC/CU)
+# RIC & CU Installation
 
 ## Introduction
 
