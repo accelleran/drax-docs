@@ -52,14 +52,17 @@ Furthermore this guide will refer to the IP address of the gateway as `$GATEWAY_
 In order to be able to execute the commands in this guide as-is you should add these variables to the environment as soon as they are known.
 Alternatively you can edit the configurations to set the correct IP addresses. 
 
+> NOTE: All IP's need to be in the same subnet.
+
 ``` bash
 export NODE_IP=192.168.88.4       # replace 192.168.88.4 by the IP address of the node. ( The IP of the eth0 in the CU VM )
+export SERVER_IP=192.168.88.3     # The IP address of the linux bridge ( br0 )
 export NODE_INT=eno1              # replace enp0s3 by the name of the network interface that has IP $NODE_IP
 export GATEWAY_IP=192.168.88.1    # replace 192.168.88.1 by the IP address of the gateway
 export CORE_IP=192.168.88.5       # replace 192.168.88.5 by the IP address of the core
 export F1_CU_IP=192.168.88.171    # F1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
 export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
-export SERVER_IP=192.168.88.3     # The IP address of the linux bridge ( br0 )
+
 export USER=sj5g                  # username to log into linux
 ```
 
