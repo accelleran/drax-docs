@@ -3,9 +3,6 @@
 ## Introduction
 The DU will be installed in several Docker containers that run on metal on the host machine. As mentioned in the introduction, a separate Virtual Machine will host the RIC and the CU and their relative pods will be handled by Kubernetes inside that VM. Here we focus on the steps to get DU and L1 up and running.
 
-
-
-
 ### Docker installation on the Server
 
 **Make sure Docker and docker-compose have been installed and that docker can be run without superuser privileges, this is a prerequisite. DO NOT install Kubernetes where DU and L1 will run**
@@ -94,7 +91,7 @@ For any other modification it is advisable to make contact with the Accelleran s
 In this phase we will need to act in parallel for the DU and the L1/RRU licenses, which depend on our partner company so it is essential to give priority and possibly anticipate these two steps as there is no specific effort involved from the user/customer perspective and they may require longer than one working day before we can proceed further.
 
 
-### Phluido License: Install a Low Latency Kernel
+### Phluido : Install a Low Latency Kernel
 
 The PHY layer has very stringent latency requirements, therefore we install a low latency kernel:
 
@@ -288,23 +285,9 @@ bzcat accelleran-du-phluido/accelleran-du-phluido-2022-01-31/gnb_du_main_phluido
  
  To achieve maximum stability and performance it is necessary to optimise the CPU load and this can be done by distributing the available CPUs among the components and assign different priorities to the most demanding processes. We split therefore the CPUs in two groups, one group of CPUs for the VM where the RIC/CU run and one group of CPUs for the containers that run L1 and DU. The CPU pinning allows for ceertain components to run only on certain CPUs, however it doesn't impede other processes to use the same CPUs, so the full optimisation of the CPU usage and the exclusive allocation of the CPUs are beyond the scope of this document, here we illustrate one possible split as an example.
  
- First thing to find out is what resources are available on our system:
- 
- ``` bash
-ubuntu@bbu3:~$ numactl --hardware
-available: 2 nodes (0-1)
-node 0 cpus: 0 2 4 6 8 10 12 14
-node 0 size: 64037 MB
-node 0 free: 593 MB
-node 1 cpus: 1 3 5 7 9 11 13 15
-node 1 size: 64509 MB
-node 1 free: 138 MB
-node distances:
-node   0   1 
-  0:  10  21 
-  1:  21  10 
-ubuntu@bbu3:~$
- ```
+First thing to find out is what resources are available on our system:
+These have been found during the preperation fase and shared over DU and CU. In this chapter the DU core are assigned.
+
 In this specific example, there are two banks of 4 cores, each capable of hyperthreading, so in total we can count on 16 CPUs, let's then set 8 CPUs aside to run the VM for kubernetes and CU, and the other 8 CPUs to run L1/L2 so that they never compete for the same CPU. The assumption is that the rest of the processes on the system (very light load) is equally spread over all cores. If a large number of cores is available, probably the core with a higher number will be mostly free and can be then dedicated to L1 and DU, as mentioned there is no specific rule. For the sake of argument let's assign the even cores to the L1 and DU equally, so the Docker compose looks as follows:
 
 ``` bash
@@ -326,7 +309,7 @@ services:
       - "/etc/machine-id:/etc/machine-id:ro"
     working_dir: "/workdir"
     network_mode: host
-    cpuset: "0,2,4,6,8,10,12,14"
+    cpuset: "$CORE_SET_DU"
 
   du:
     image: gnb_du_main_phluido:2022-04-28-q1-release
@@ -345,7 +328,7 @@ services:
       - "cu:$F1_CU_IP"
       - "du:$SERVER_IP"
     network_mode: host
-    cpuset: "0,2,4,6,8,10,12,14"
+    cpuset: "$CORE_SET_DU"
  ```
 
 
