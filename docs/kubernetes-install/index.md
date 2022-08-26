@@ -25,10 +25,25 @@ Take all default values except these points :
 
 Installation will begin. Wait about 5 minutes for it to install.
 reboot the VM 
-ssh into to it
+
+on the host uncomment the line in ```/etc/sysctl.conf``` so you get this.
+
+``` bash
+net.ipv4.ip_forward=1
+```
+
+reboot the host.
+
+ssh into the VM.
 
 ``` bash
 ssh $USER@$NODE_IP
+```
+
+from inside this VM you should be able to ping the internet's ip address 8.8.8.8
+
+``` bash
+ping 8.8.8.8
 ```
 
 Every heading that follows has to be done inside this VM.
