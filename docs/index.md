@@ -64,6 +64,7 @@ export F1_CU_IP=192.168.88.171    # F1 ip address the CU listens on. ( used in p
 export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
 
 export USER=sj5g                  # username to log into linux
+export CU_HOSTNAME=cu-cab3        # the hostname the CU VM will get.
 ```
 
 In case the RU is connected to the server with a fiber
