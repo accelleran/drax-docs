@@ -19,7 +19,6 @@ This installation guide assumes that that the following are to be taken as prere
 		* 200 GB assigned Disk space  
 NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access to its libvirt XML configuration when needed, ex. to perform the CPU pinning. The User can alternately choose other VM management tools, however without further support from Accelleran. 
 
-
 * Licenses:
 	* A dRAX license file: license.crt
 	* A Phluido license key (see the chapter on [installing the DU](/drax-docs/du-install/) on how to get one)
@@ -36,12 +35,16 @@ NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access t
 	* effnet-license-activation-yyyy_mm_dd.zip
 	* sysTest executable 
 
+* Configuration:
+    * Linux bridge br0
+    * virsh installed
+    
 NOTE: while taking almost no active time to obtain the Phluido license code and the Effnet activation bundle, in order to do so we need to contact our technical partners and this may require up to a couple of working days so it is recommended to take the necessary actions to complete these steps first of all. Similarly, we must enable your dockerhub account to access and download the Accelleran software images, this also takes some time and can be done upfront
 
 
 ## Preparation
 
-### know the ip addresses
+### Know the ip addresses, interfaces, user account
 Make sure Ubuntu (Server) 20.04 is installed as said both on the physical server and on the virtual machine and that both have access to the internet.
 They both must have a static IP address on a fixed port, in the same subnet
 This guide will refer to the VM static IP address as `$NODE_IP` and the interface it belongs to as `$NODE_INT`, and to $SERVER_IP for the server static IP address.
@@ -50,21 +53,67 @@ In order to be able to execute the commands in this guide as-is you should add t
 Alternatively you can edit the configurations to set the correct IP addresses. 
 
 ``` bash
-export NODE_IP=192.168.88.4       # replace 192.168.88.4 by the IP address of the node
+export NODE_IP=192.168.88.4       # replace 192.168.88.4 by the IP address of the node. ( The IP of the eth0 in the CU VM )
 export NODE_INT=eno1              # replace enp0s3 by the name of the network interface that has IP $NODE_IP
 export GATEWAY_IP=192.168.88.1    # replace 192.168.88.1 by the IP address of the gateway
 export CORE_IP=192.168.88.5       # replace 192.168.88.5 by the IP address of the core
 export F1_CU_IP=192.168.88.171    # F1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
 export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
 export SERVER_IP=192.168.88.3     # The IP address of the linux bridge ( br0 )
+export USER=sj5g                  # username to log into linux
+```
+
+In case the RU is connected to the server with a fiber
+``` bash
 export RU_INT=enp1s0f0            # interface of the server to the RU. Fiber interface.
 ```
 
 In order to perform many of the commands in this installation manual you need root privileges.
 Whenever a command has to be executed with root privileges it will be prefixed with `sudo`.
+## know which cores and cpu you will be using.
+Depending on the server you will be using assign the cores to the DU and CU.
 
+#### In case of dual CPU
+``` bash
+ubuntu@bbu3:~$ numactl --hardware
+available: 2 nodes (0-1)
+node 0 cpus: 0 2 4 6 8 10 12 14
+node 0 size: 64037 MB
+node 0 free: 593 MB
+node 1 cpus: 1 3 5 7 9 11 13 15
+node 1 size: 64509 MB
+node 1 free: 138 MB
+node distances:
+node   0   1 
+ 0:  10  21 
+ 1:  21  10 
+```
+assign all cores of 1 CPU to DU. The cores of the other CPU to CU VM). 
+
+``` bash
+export CORE_SET_DU=0,2,4,6,8,10,12,14
+export CORE_SET_CU=1,3,5,7,9,11,13,15
+```
+
+#### In case of 1 CPU server
+``` bash
+$ numactl --hardware
+available: 1 nodes (0)
+node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+node 0 size: 31952 MB
+node 0 free: 4294 MB
+node distances:
+node   0 
+  0:  10 
+``` 
+Assign first half to DU and last half to CU
+``` bash
+export CORE_SET_DU=0,1,2,3,4,5,6,7,8,9
+export CORE_SET_CU=10,11,12,13,14,15,16,17,18,19
+```
 ## network components
-Here a simplification of all network components and the related ip addresses. 
+Here a simplified diagram of all network components and the related ip addresses. 
+Before you continue installing fill in this simplified drawing with the ip address that apply for the configuration.
 
 > NOTE : the CORE needs to be able to reach the GTP-0  and GTP-1 ips. In this example they are in the same subnet.
 
@@ -100,11 +149,9 @@ Here a simplification of all network components and the related ip addresses.
                                   │                               │                                          │
                                   │                               │                                          │
                                   │ ┌─────────────────────────────┴────────────────────────────────────────┐ │
+                                  │ │                           eth0                                       │ │
                                   │ │ VM CU                                                                │ │
                                   │ │ NODE_IP=192.168.88.4                                                 │ │
-                                  │ │                                                                      │ │
-                                  │ │                                                                      │ │
-                                  │ │                                                                      │ │
                                   │ │                                                                      │ │
                                   │ │                                                                      │ │
                                   │ │       E1                 F1              GTP-0             GTP-1     │ │
