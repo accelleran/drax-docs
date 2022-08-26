@@ -17,18 +17,12 @@ We advise customers who wish to know more about dRAX's architecture to request t
 
 ## Software and Hardware Prerequisites
 
-The assumption made in this User Guide is that the typical Customer who doesn't want a full turn key dRAX kit is familiar with Server installations, VMs and VNFs so here we limit to describe what are the minimum requirements, OS used, and software packages that allow the dRAX to run correctly.
+The assumption made in this User Guide is that the typical Customer who doesn't want a full turn key dRAX kit is familiar with Server installations, VMs and VNFs
 
 Also, as mentioned in the [Overview](../index.md) section of this document, it is assumed that the Customer has already created a VM with a *$NODE_IP* address in the same subnet of the Server (*$SERVER_IP*) and a linux bridge *br0*.
 
 
-### VM Minimum Requirements
-
-1. 8 dedicated Cores
-2. 32GB DDR4 RAM
-3. 200GB Hard Disk ( includes space for logging/monitor/debugging the system )
-
-### Software Requirements to be pre installed
+### Software Requirements have been installed in previous chapter.
 
 1. Linux Ubuntu Server 20.04 LTS
 2. Docker (recommended version 19.03, check the latest compatible version with Kubernetes)
