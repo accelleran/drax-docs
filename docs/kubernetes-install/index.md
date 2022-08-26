@@ -26,7 +26,7 @@ Continue in the console the complete the VM installation.
 Take all default values except these points :
 * set to static ip $NODE_IP ( see preperation chapter )
 * Select [ x ] install openSSH
-* set hostname, username and password
+* set hostname=$CU_HOSTNAME, username=$USER and password
 
 Installation will begin. Wait about 5 minutes for it to install.
 reboot the VM 
