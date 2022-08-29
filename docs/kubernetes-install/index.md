@@ -1,4 +1,4 @@
-# CU installation inside a VM ( kubernetes )
+# CU installation ( VM & kubernetes )
 
 ## Overview
 This chapter will install the CU, using Flannel for the CNI.
@@ -9,7 +9,7 @@ This chapter will guide you through following steps :
 * install VM ( with cpu pinning )
 * install docker in the CU VM
 * install kubernetes in the CU VM
-* install ric in the CU VM ( still called drax in this version )
+
 
 ### VM Minimum Requirements
 1. 8 dedicated Cores    ( cpuset planned in the preperation chapter ) 
