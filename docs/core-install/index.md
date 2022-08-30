@@ -80,6 +80,8 @@ amf:
       - addr: $CORE_IP
 ```
 
+Change the ```plmn_id:``` everywhere in the amf.yaml file to the one of your setup.
+
 Edit `/etc/open5gs/upf.yaml` and set the GTP-U listen address to the public address of the virtual machine:
 
 ``` yaml
