@@ -42,7 +42,7 @@ NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access t
 * 5G configuration :
 	* plmn_identity eg 235 88
 	* nr_cell_identity eg 1 any number
-	* nr_pci eg 1 not any number. Ask Accelleran to do the PCI planning
+	* nr_pci eg 1 not any number. Make sure to do the correct PCI planning in case of multiple cells.
 	* 5gs_tac eg 1
 	* center_frequency_band eg 3751.680
 	* point_a_arfcn eg 648840 consistent with center freq, scs 30khz
