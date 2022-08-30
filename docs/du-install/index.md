@@ -383,7 +383,9 @@ EOF
 > 
 > ```
 
-The only thing remaining is now **prioritise the softirq processes**. One can use **htop** and work out the options to show priority and CPU ID (Setup → Columns) ,  and kernel threads (Setup → Display Options):
+The only thing remaining is now **prioritise the softirq processes**. One can use **htop** and work out the options to show priority and CPU ID 
+	* Press F2 for ```Setup```, navigate to ```Columns```,  add ```PRIORITY```
+	* Press F2 for ```Setup```, navigate to ```Display Options```, unselect ```Hide kernel threads```
 
 <p align="center">
   <img width="500" height="300" src="htopPinning.png">
