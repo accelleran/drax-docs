@@ -102,6 +102,26 @@ As mentioned, extra steps or flags must be used with most of the commands that f
 The Default Namespace column sometimes contains another Namespace placeholder, e.g. the NS_4G_CU default is $NS_DRAX - this means that the default behaviour is to run the CUs in the $NS_DRAX namespace, but it can be overridden.
 If neither $NS_DRAX nor $NS_4G_CU is specified, the CU will run in the "default" namespace.
 
+### Install a new installation
+When you are not dealing with a new installation you can skip this chapter and move to chapter "Updating existing installation" 
+
+#### install helm
+if helm is not yet installed install it this way
+
+```
+$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+$ chmod 700 get_helm.sh
+$ ./get_helm.sh
+```
+
+#### Add Accelleran Helm Chart Repo
+
+Use the helm command:
+
+``` bash
+helm repo add acc-helm https://accelleran.github.io/helm-charts/
+```
+
 ### Updating existing installations
 
 If you already have an existing Helm charts based dRAX installation, please follow these instructions first, otherwise skip to the next section.
@@ -147,23 +167,6 @@ watch kubectl get pods -A
 
 You can now continue with the remaining steps.
 
-### Pre-Requirements
-#### install helm
-if helm is not yet installed install it this way
-
-```
-$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-$ chmod 700 get_helm.sh
-$ ./get_helm.sh
-```
-
-#### Add Accelleran Helm Chart Repo
-
-Use the helm command:
-
-``` bash
-helm repo add acc-helm https://accelleran.github.io/helm-charts/
-```
 
 #### Create namespace(s) for dRAX (optional)
 
