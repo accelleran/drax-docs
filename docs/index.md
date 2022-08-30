@@ -29,7 +29,7 @@ NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access t
 	* 4G Only: A CA certificate: ca.crt (see the chapter on [installing dRax](/drax-docs/drax-install/) on how to get one)
 	
 * Software:
-	* Ubuntu Server 20.04 OS both on the VM and on the Server 
+	* Ubuntu Server 20.04 OS both on the VM and on the Server ( ubuntu-20.04.4-live-server-amd64.iso )
 	* Effnet DU: accelleran-du-phluido-2022-07-01-q2-pre-release.zip
 	* Phluido L1: phluido_docker_0842.tar
 	* effnet-license-activation-yyyy_mm_dd.zip
