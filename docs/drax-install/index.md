@@ -791,6 +791,9 @@ Configuration of the xApp is now managed in the Configuration Parameters section
 You can also expand the Services, by clicking the Show button in the Services column.
 This will show all the services used and exposed by the xApp, including the port information.
 
+### 4G Configuration
+When you don't use 4G you can skip this and go to [5G Configuration](#5G Configuration)
+
 ### E1000 Provisioning
 
 The certificates and keys referenced in this section are those mentioned in the [Prepare keys and certificates for the dRAX Provisioner section](#prepare-keys-and-certificates-for-the-drax-provisioner).
@@ -867,7 +870,7 @@ Use the following command, replacing `$KUBE_IP` with the correct IP for your ins
 curl --cacert ca.crt --cert admin.crt --key admin.key https://_$NODE_IP:31610_/set/E0123-GC01-ACC0123456978901/instance/filter -d du-1
 ```
 
-### 4G RAN Configuration
+#### 4G RAN Configuration
 
 Configuration of the 4G RAN is made simple, intuitive and efficient when using the dRAX Dashboard.
 
