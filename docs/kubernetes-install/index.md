@@ -145,6 +145,8 @@ Accelleran dRAX currently supports Kubernetes up to version 1.20. The following 
 
 ``` bash
 sudo apt install -y kubelet=1.20.0-00 kubeadm=1.20.0-00 kubectl=1.20.0-00
+```
+``` bash
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
