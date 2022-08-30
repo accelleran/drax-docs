@@ -177,8 +177,10 @@ Then you can find the serial number (yubikey-manager needed, install if it's not
 
 ``` bash
 sudo apt install yubikey-manager
+```
+``` bash
 ykman list --serials
-13134288
+#13134288
 ```
 
 ### Effnet License: Create a PCSCD Docker Image 
