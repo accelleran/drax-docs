@@ -618,125 +618,7 @@ The optional parameters are:
 | Version                 | This is the version of the 5G CU component. By default, the latest stable version compatible with the dRAX version is installed. Other versions can be specified, but compatibility is not guaranteed |
 
 Now the installation of CU is done. To see the pods and services execute following steps. Here is what to expect.
-``` bash
-kubectl get pod
-```
 
-you get extra pods for the cu-cp and cu-up
-```
-NAME                                                     READY   STATUS             RESTARTS   AGE
-acc-5g-cu-cp-cucp-01-amf-controller-5cb5d654fd-p75n9     1/1     Running            0          7m15s
-acc-5g-cu-cp-cucp-01-cu-up-controller-75859656cd-t9shf   1/1     Running            0          7m14s
-acc-5g-cu-cp-cucp-01-ds-ctrl-0                           1/1     Running            0          7m15s
-acc-5g-cu-cp-cucp-01-ds-ctrl-1                           1/1     Running            0          6m39s
-acc-5g-cu-cp-cucp-01-ds-ctrl-10                          1/1     Running            0          6m18s
-acc-5g-cu-cp-cucp-01-ds-ctrl-11                          1/1     Running            0          6m16s
-acc-5g-cu-cp-cucp-01-ds-ctrl-12                          1/1     Running            0          6m15s
-acc-5g-cu-cp-cucp-01-ds-ctrl-13                          1/1     Running            0          6m14s
-acc-5g-cu-cp-cucp-01-ds-ctrl-14                          1/1     Running            0          6m13s
-acc-5g-cu-cp-cucp-01-ds-ctrl-15                          1/1     Running            0          6m11s
-acc-5g-cu-cp-cucp-01-ds-ctrl-2                           1/1     Running            0          6m36s
-acc-5g-cu-cp-cucp-01-ds-ctrl-3                           1/1     Running            0          6m34s
-acc-5g-cu-cp-cucp-01-ds-ctrl-4                           1/1     Running            0          6m31s
-acc-5g-cu-cp-cucp-01-ds-ctrl-5                           1/1     Running            0          6m29s
-acc-5g-cu-cp-cucp-01-ds-ctrl-6                           1/1     Running            0          6m27s
-acc-5g-cu-cp-cucp-01-ds-ctrl-7                           1/1     Running            0          6m25s
-acc-5g-cu-cp-cucp-01-ds-ctrl-8                           1/1     Running            0          6m23s
-acc-5g-cu-cp-cucp-01-ds-ctrl-9                           1/1     Running            0          6m20s
-acc-5g-cu-cp-cucp-01-du-controller-8477b5f5c8-69j26      1/1     Running            0          7m15s
-acc-5g-cu-cp-cucp-01-e1-cp-0                             1/1     Running            0          7m15s
-acc-5g-cu-cp-cucp-01-f1-ap-0                             1/1     Running            0          7m15s
-acc-5g-cu-cp-cucp-01-f1-ap-1                             1/1     Running            0          6m48s
-acc-5g-cu-cp-cucp-01-f1-ap-2                             1/1     Running            0          6m43s
-acc-5g-cu-cp-cucp-01-gnb-controller-7d666fdfdd-lps9c     1/1     Running            0          7m14s
-acc-5g-cu-cp-cucp-01-netconf-8974d4495-f5mln             1/1     Running            0          7m15s
-acc-5g-cu-cp-cucp-01-ng-ap-0                             1/1     Running            0          7m15s
-acc-5g-cu-cp-cucp-01-pm-controller-7869f89778-hf228      1/1     Running            0          7m15s
-acc-5g-cu-cp-cucp-01-res-mgr-cd6c87484-2v8s4             1/1     Running            0          7m15s
-acc-5g-cu-cp-cucp-01-rr-ctrl-0                           1/1     Running            0          7m15s
-acc-5g-cu-cp-cucp-01-rr-ctrl-1                           1/1     Running            0          6m43s
-acc-5g-cu-cp-cucp-01-rr-ctrl-2                           1/1     Running            0          6m41s
-acc-5g-cu-cp-cucp-01-sctp-f46df5cfb-4kzxh                1/1     Running            0          7m15s
-acc-5g-cu-up-cuup-01-cu-up-0                             1/1     Running            0          6m54s
-acc-5g-cu-up-cuup-01-cu-up-1                             1/1     Running            0          6m54s
-acc-5g-cu-up-cuup-01-e1-sctp-up-868897844f-xh4rx         1/1     Running            0          6m54s
-acc-5g-cu-up-cuup-01-netconf-6746749b49-kdqbq            1/1     Running            0          6m54s
-acc-5g-cu-up-cuup-01-pm-controller-up-57f874bbdb-ttg5k   1/1     Running            0          6m54s
-acc-5g-cu-up-cuup-01-res-mgr-up-589689966c-9txd8         1/1     Running            0          6m54s
-busybox                                                  1/1     Running            2          160m
-ric-acc-fiveg-pmcounters-6d47899ccc-k2w66                1/1     Running            0          71m
-ric-acc-kafka-955b96786-lvkns                            2/2     Running            2          71m
-ric-acc-kminion-57648f8c49-g89cj                         1/1     Running            1          71m
-ric-acc-service-monitor-8766845b8-fv9md                  1/1     Running            1          71m
-ric-acc-service-orchestrator-869996756d-kfdfp            1/1     Running            1          71m
-ric-cassandra-0                                          1/1     Running            1          71m
-ric-cassandra-1                                          1/1     Running            5          69m
-ric-dash-front-back-end-85db9b456c-r2l6v                 1/1     Running            1          71m
-ric-fluent-bit-loki-jpzfc                                1/1     Running            1          71m
-ric-grafana-7488865b58-nwqvx                             1/1     Running            2          71m
-ric-influxdb-0                                           1/1     Running            1          71m
-ric-jaeger-agent-qn6xv                                   1/1     Running            1          71m
-ric-jaeger-collector-55597cfbbc-r9mdh                    0/1     CrashLoopBackOff   19         71m
-ric-jaeger-query-774f759bb6-jz7jc                        1/2     CrashLoopBackOff   19         71m
-ric-kube-eagle-776bf55547-55f5m                          1/1     Running            1          71m
-ric-loki-0                                               1/1     Running            1          71m
-ric-metallb-controller-7dc7845dbc-zlmvv                  1/1     Running            1          71m
-ric-metallb-speaker-vsvln                                1/1     Running            1          71m
-ric-metrics-server-b4dd76cbc-hwf6d                       1/1     Running            1          71m
-ric-nats-5g-0                                            3/3     Running            3          70m
-ric-nkafka-5g-76b6558c5f-zs4np                           1/1     Running            1          71m
-ric-prometheus-alertmanager-7d78866cc6-svxc5             2/2     Running            2          71m
-ric-prometheus-kube-state-metrics-585d88b6bb-6kx5l       1/1     Running            1          71m
-ric-prometheus-node-exporter-pxh6w                       1/1     Running            1          71m
-ric-prometheus-pushgateway-55b97997bf-xb2m2              1/1     Running            1          71m
-ric-prometheus-server-846c4bf867-ff4s5                   2/2     Running            2          71m
-ric-redis-5g-6f9fbdbcf-j447s                             1/1     Running            1          71m
-ric-vector-84c8b58dbc-cdtmb                              1/1     Running            0          71m
-ric-vectorfiveg-6b8bf8fb4c-79vl7                         1/1     Running            0          71m
-ric-zookeeper-0                                          1/1     Running            1          71m
-```
-when executing 
-``` 
-kubectl get services
-```
-you can see 4 External IP addresses. Those ip addresses are the ones of the range we filled in in the ric-values.yaml file. The 2 last in the range are of the E1 and F1 service. The first two are selected the handle the GTP traffic.
-```
-NAME                                TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                                                     AGE   
-acc-5g-cu-cp-cucp-01-sctp-e1        LoadBalancer   10.104.225.53    10.55.7.130   38462:32063/SCTP                                                                            6m10s 
-acc-5g-cu-cp-cucp-01-sctp-f1        LoadBalancer   10.103.34.228    10.55.7.131   38472:31066/SCTP                                                                            6m10s 
-acc-5g-cu-up-cuup-01-cu-up-gtp-0    LoadBalancer   10.96.213.103    10.55.7.120   2152:32081/UDP                                                                              5m49s 
-acc-5g-cu-up-cuup-01-cu-up-gtp-1    LoadBalancer   10.99.208.214    10.55.7.121   2152:30575/UDP                                                                              5m49s 
-acc-service-monitor                 NodePort       10.104.125.9     <none>        80:30500/TCP                                                                                70m   
-acc-service-orchestrator            NodePort       10.111.157.49    <none>        80:30502/TCP                                                                                70m   
-kubernetes                          ClusterIP      10.96.0.1        <none>        443/TCP                                                                                     160m  
-netconf-cucp-01                     NodePort       10.110.18.130    <none>        830:32285/TCP                                                                               6m10s 
-netconf-cuup-01                     NodePort       10.103.120.206   <none>        830:31705/TCP                                                                               5m49s 
-ric-acc-fiveg-pmcounters            NodePort       10.98.3.182      <none>        8000:30515/TCP                                                                              70m   
-ric-acc-kafka                       NodePort       10.98.24.152     <none>        9092:31090/TCP,9010:32537/TCP,5556:32155/TCP                                                70m   
-ric-acc-kminion                     ClusterIP      10.107.221.30    <none>        8080/TCP                                                                                    70m   
-ric-cassandra                       ClusterIP      None             <none>        7000/TCP,7001/TCP,7199/TCP,9042/TCP,9160/TCP                                                70m   
-ric-dash-front-back-end             NodePort       10.106.72.78     <none>        5000:31315/TCP                                                                              70m   
-ric-dash-front-back-end-websocket   NodePort       10.102.245.64    <none>        5001:31316/TCP                                                                              70m   
-ric-grafana                         NodePort       10.96.41.39      <none>        80:30300/TCP                                                                                70m   
-ric-influxdb                        ClusterIP      10.108.225.110   <none>        8088/TCP                                                                                    70m   
-ric-influxdb-api                    NodePort       10.105.161.178   <none>        8086:30303/TCP                                                                              70m   
-ric-jaeger-agent                    ClusterIP      10.103.0.234     <none>        5775/UDP,6831/UDP,6832/UDP,5778/TCP,14271/TCP                                               70m   
-ric-jaeger-collector                ClusterIP      10.100.187.234   <none>        14250/TCP,14268/TCP,14269/TCP                                                               70m   
-ric-jaeger-query                    NodePort       10.97.254.197    <none>        80:31445/TCP,16687:31025/TCP                                                                70m   
-ric-kube-eagle                      ClusterIP      10.102.90.103    <none>        8080/TCP                                                                                    70m   
-ric-loki                            NodePort       10.108.39.131    <none>        3100:30302/TCP                                                                              70m   
-ric-loki-headless                   ClusterIP      None             <none>        3100/TCP                                                                                    70m   
-ric-metrics-server                  ClusterIP      10.105.180.254   <none>        443/TCP                                                                                     70m   
-ric-nats-5g                         NodePort       10.107.246.192   <none>        4222:31100/TCP,6222:32053/TCP,8222:30606/TCP,7777:30168/TCP,7422:30680/TCP,7522:31616/TCP   70m   
-ric-prometheus-alertmanager         ClusterIP      10.106.127.91    <none>        80/TCP                                                                                      70m   
-ric-prometheus-kube-state-metrics   ClusterIP      None             <none>        80/TCP,81/TCP                                                                               70m   
-ric-prometheus-node-exporter        ClusterIP      None             <none>        9100/TCP                                                                                    70m   
-ric-prometheus-pushgateway          ClusterIP      10.105.167.58    <none>        9091/TCP                                                                                    70m   
-ric-prometheus-server               NodePort       10.97.205.182    <none>        80:30304/TCP                                                                                70m   
-ric-redis-5g                        NodePort       10.96.155.105    <none>        6379:32200/TCP                                                                              70m   
-ric-zookeeper                       NodePort       10.109.78.254    <none>        2181:30305/TCP                                                                              70m   
-ric-zookeeper-headless              ClusterIP      None             <none>        2181/TCP,3888/TCP,2888/TCP                                                                  70m   
-```
 
 ### Optional : Install xApps 
 For a basic installation you can skip this chapter.
@@ -955,6 +837,122 @@ To verify this, we can use the following command:
 
 ``` bash
 watch "kubectl get pods -A | grep -e ric- -e drax-4g- -e acc-5g- -e l3-"
+```
+This is what to expect
+
+```
+NAME                                                     READY   STATUS             RESTARTS   AGE
+acc-5g-cu-cp-cucp-01-amf-controller-5cb5d654fd-p75n9     1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-cu-up-controller-75859656cd-t9shf   1/1     Running            0          7m14s
+acc-5g-cu-cp-cucp-01-ds-ctrl-0                           1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-ds-ctrl-1                           1/1     Running            0          6m39s
+acc-5g-cu-cp-cucp-01-ds-ctrl-10                          1/1     Running            0          6m18s
+acc-5g-cu-cp-cucp-01-ds-ctrl-11                          1/1     Running            0          6m16s
+acc-5g-cu-cp-cucp-01-ds-ctrl-12                          1/1     Running            0          6m15s
+acc-5g-cu-cp-cucp-01-ds-ctrl-13                          1/1     Running            0          6m14s
+acc-5g-cu-cp-cucp-01-ds-ctrl-14                          1/1     Running            0          6m13s
+acc-5g-cu-cp-cucp-01-ds-ctrl-15                          1/1     Running            0          6m11s
+acc-5g-cu-cp-cucp-01-ds-ctrl-2                           1/1     Running            0          6m36s
+acc-5g-cu-cp-cucp-01-ds-ctrl-3                           1/1     Running            0          6m34s
+acc-5g-cu-cp-cucp-01-ds-ctrl-4                           1/1     Running            0          6m31s
+acc-5g-cu-cp-cucp-01-ds-ctrl-5                           1/1     Running            0          6m29s
+acc-5g-cu-cp-cucp-01-ds-ctrl-6                           1/1     Running            0          6m27s
+acc-5g-cu-cp-cucp-01-ds-ctrl-7                           1/1     Running            0          6m25s
+acc-5g-cu-cp-cucp-01-ds-ctrl-8                           1/1     Running            0          6m23s
+acc-5g-cu-cp-cucp-01-ds-ctrl-9                           1/1     Running            0          6m20s
+acc-5g-cu-cp-cucp-01-du-controller-8477b5f5c8-69j26      1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-e1-cp-0                             1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-f1-ap-0                             1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-f1-ap-1                             1/1     Running            0          6m48s
+acc-5g-cu-cp-cucp-01-f1-ap-2                             1/1     Running            0          6m43s
+acc-5g-cu-cp-cucp-01-gnb-controller-7d666fdfdd-lps9c     1/1     Running            0          7m14s
+acc-5g-cu-cp-cucp-01-netconf-8974d4495-f5mln             1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-ng-ap-0                             1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-pm-controller-7869f89778-hf228      1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-res-mgr-cd6c87484-2v8s4             1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-rr-ctrl-0                           1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-rr-ctrl-1                           1/1     Running            0          6m43s
+acc-5g-cu-cp-cucp-01-rr-ctrl-2                           1/1     Running            0          6m41s
+acc-5g-cu-cp-cucp-01-sctp-f46df5cfb-4kzxh                1/1     Running            0          7m15s
+acc-5g-cu-up-cuup-01-cu-up-0                             1/1     Running            0          6m54s
+acc-5g-cu-up-cuup-01-cu-up-1                             1/1     Running            0          6m54s
+acc-5g-cu-up-cuup-01-e1-sctp-up-868897844f-xh4rx         1/1     Running            0          6m54s
+acc-5g-cu-up-cuup-01-netconf-6746749b49-kdqbq            1/1     Running            0          6m54s
+acc-5g-cu-up-cuup-01-pm-controller-up-57f874bbdb-ttg5k   1/1     Running            0          6m54s
+acc-5g-cu-up-cuup-01-res-mgr-up-589689966c-9txd8         1/1     Running            0          6m54s
+busybox                                                  1/1     Running            2          160m
+ric-acc-fiveg-pmcounters-6d47899ccc-k2w66                1/1     Running            0          71m
+ric-acc-kafka-955b96786-lvkns                            2/2     Running            2          71m
+ric-acc-kminion-57648f8c49-g89cj                         1/1     Running            1          71m
+ric-acc-service-monitor-8766845b8-fv9md                  1/1     Running            1          71m
+ric-acc-service-orchestrator-869996756d-kfdfp            1/1     Running            1          71m
+ric-cassandra-0                                          1/1     Running            1          71m
+ric-cassandra-1                                          1/1     Running            5          69m
+ric-dash-front-back-end-85db9b456c-r2l6v                 1/1     Running            1          71m
+ric-fluent-bit-loki-jpzfc                                1/1     Running            1          71m
+ric-grafana-7488865b58-nwqvx                             1/1     Running            2          71m
+ric-influxdb-0                                           1/1     Running            1          71m
+ric-jaeger-agent-qn6xv                                   1/1     Running            1          71m
+ric-jaeger-collector-55597cfbbc-r9mdh                    0/1     CrashLoopBackOff   19         71m
+ric-jaeger-query-774f759bb6-jz7jc                        1/2     CrashLoopBackOff   19         71m
+ric-kube-eagle-776bf55547-55f5m                          1/1     Running            1          71m
+ric-loki-0                                               1/1     Running            1          71m
+ric-metallb-controller-7dc7845dbc-zlmvv                  1/1     Running            1          71m
+ric-metallb-speaker-vsvln                                1/1     Running            1          71m
+ric-metrics-server-b4dd76cbc-hwf6d                       1/1     Running            1          71m
+ric-nats-5g-0                                            3/3     Running            3          70m
+ric-nkafka-5g-76b6558c5f-zs4np                           1/1     Running            1          71m
+ric-prometheus-alertmanager-7d78866cc6-svxc5             2/2     Running            2          71m
+ric-prometheus-kube-state-metrics-585d88b6bb-6kx5l       1/1     Running            1          71m
+ric-prometheus-node-exporter-pxh6w                       1/1     Running            1          71m
+ric-prometheus-pushgateway-55b97997bf-xb2m2              1/1     Running            1          71m
+ric-prometheus-server-846c4bf867-ff4s5                   2/2     Running            2          71m
+ric-redis-5g-6f9fbdbcf-j447s                             1/1     Running            1          71m
+ric-vector-84c8b58dbc-cdtmb                              1/1     Running            0          71m
+ric-vectorfiveg-6b8bf8fb4c-79vl7                         1/1     Running            0          71m
+ric-zookeeper-0                                          1/1     Running            1          71m
+```
+Another check you need to do is this one. 
+``` 
+kubectl get services
+```
+you can see 4 External IP addresses. Those ip addresses are the ones of the range we filled in in the ric-values.yaml file. The 2 last in the range are of the E1 and F1 service. The first two are selected the handle the GTP traffic.
+```
+NAME                                TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                                                     AGE   
+acc-5g-cu-cp-cucp-01-sctp-e1        LoadBalancer   10.104.225.53    10.55.7.130   38462:32063/SCTP                                                                            6m10s 
+acc-5g-cu-cp-cucp-01-sctp-f1        LoadBalancer   10.103.34.228    10.55.7.131   38472:31066/SCTP                                                                            6m10s 
+acc-5g-cu-up-cuup-01-cu-up-gtp-0    LoadBalancer   10.96.213.103    10.55.7.120   2152:32081/UDP                                                                              5m49s 
+acc-5g-cu-up-cuup-01-cu-up-gtp-1    LoadBalancer   10.99.208.214    10.55.7.121   2152:30575/UDP                                                                              5m49s 
+acc-service-monitor                 NodePort       10.104.125.9     <none>        80:30500/TCP                                                                                70m   
+acc-service-orchestrator            NodePort       10.111.157.49    <none>        80:30502/TCP                                                                                70m   
+kubernetes                          ClusterIP      10.96.0.1        <none>        443/TCP                                                                                     160m  
+netconf-cucp-01                     NodePort       10.110.18.130    <none>        830:32285/TCP                                                                               6m10s 
+netconf-cuup-01                     NodePort       10.103.120.206   <none>        830:31705/TCP                                                                               5m49s 
+ric-acc-fiveg-pmcounters            NodePort       10.98.3.182      <none>        8000:30515/TCP                                                                              70m   
+ric-acc-kafka                       NodePort       10.98.24.152     <none>        9092:31090/TCP,9010:32537/TCP,5556:32155/TCP                                                70m   
+ric-acc-kminion                     ClusterIP      10.107.221.30    <none>        8080/TCP                                                                                    70m   
+ric-cassandra                       ClusterIP      None             <none>        7000/TCP,7001/TCP,7199/TCP,9042/TCP,9160/TCP                                                70m   
+ric-dash-front-back-end             NodePort       10.106.72.78     <none>        5000:31315/TCP                                                                              70m   
+ric-dash-front-back-end-websocket   NodePort       10.102.245.64    <none>        5001:31316/TCP                                                                              70m   
+ric-grafana                         NodePort       10.96.41.39      <none>        80:30300/TCP                                                                                70m   
+ric-influxdb                        ClusterIP      10.108.225.110   <none>        8088/TCP                                                                                    70m   
+ric-influxdb-api                    NodePort       10.105.161.178   <none>        8086:30303/TCP                                                                              70m   
+ric-jaeger-agent                    ClusterIP      10.103.0.234     <none>        5775/UDP,6831/UDP,6832/UDP,5778/TCP,14271/TCP                                               70m   
+ric-jaeger-collector                ClusterIP      10.100.187.234   <none>        14250/TCP,14268/TCP,14269/TCP                                                               70m   
+ric-jaeger-query                    NodePort       10.97.254.197    <none>        80:31445/TCP,16687:31025/TCP                                                                70m   
+ric-kube-eagle                      ClusterIP      10.102.90.103    <none>        8080/TCP                                                                                    70m   
+ric-loki                            NodePort       10.108.39.131    <none>        3100:30302/TCP                                                                              70m   
+ric-loki-headless                   ClusterIP      None             <none>        3100/TCP                                                                                    70m   
+ric-metrics-server                  ClusterIP      10.105.180.254   <none>        443/TCP                                                                                     70m   
+ric-nats-5g                         NodePort       10.107.246.192   <none>        4222:31100/TCP,6222:32053/TCP,8222:30606/TCP,7777:30168/TCP,7422:30680/TCP,7522:31616/TCP   70m   
+ric-prometheus-alertmanager         ClusterIP      10.106.127.91    <none>        80/TCP                                                                                      70m   
+ric-prometheus-kube-state-metrics   ClusterIP      None             <none>        80/TCP,81/TCP                                                                               70m   
+ric-prometheus-node-exporter        ClusterIP      None             <none>        9100/TCP                                                                                    70m   
+ric-prometheus-pushgateway          ClusterIP      10.105.167.58    <none>        9091/TCP                                                                                    70m   
+ric-prometheus-server               NodePort       10.97.205.182    <none>        80:30304/TCP                                                                                70m   
+ric-redis-5g                        NodePort       10.96.155.105    <none>        6379:32200/TCP                                                                              70m   
+ric-zookeeper                       NodePort       10.109.78.254    <none>        2181:30305/TCP                                                                              70m   
+ric-zookeeper-headless              ClusterIP      None             <none>        2181/TCP,3888/TCP,2888/TCP                                                                  70m   
 ```
 
 The listed Pods should either all be Running and fully Ready (i.e. all expected instances are running - 1/1, 2/2, etc.), or Completed - it may take a few minutes to reach this state.
