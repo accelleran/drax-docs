@@ -272,6 +272,7 @@ global:
 > NOTE: For the monitoredNamespaces list, make sure that each value is unique, i.e. if two of the namespaces are the same, only add them to the list once.
 
 ##### Dashboard specific configuration
+If you are browsing the dRAX Dashboard from a machine that can reach the `$NODE_IP`, this chapter can be ignored.
 
 When opening the dRAX Dashboard in a browser, the frontend needs to be able to connect to the backend.
 For this to work properly, the following fields in the RIC values.yaml need to be edited:
