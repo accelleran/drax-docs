@@ -303,7 +303,7 @@ dash-front-back-end:
 If you plan to install the 5G components (and you have the license to support this), you need to make a few other adjustments to the `ric-values.yaml` file:
 Set the let the $E1_CU_IP and $F1_CU_IP be the last in the range of ip addresses in the file below.
 
-``` json
+``` yml
 global:
     enable5G: true
 acc-5g-infrastructure:
