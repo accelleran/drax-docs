@@ -47,8 +47,17 @@ export NODE_INT=br0
 
 ## Create a Virtual Machine
 
-Next you can install the virtual machine that hosts the core.
-The installation process is outside the scope of this document.
+Next you can install the virtual machine that hosts the core. The installation process is outside the scope of this document. Still we share the commandline you can use
+``` bash
+virt-install  --name open5gs-ubuntu-20.04.4  --memory 8192 --vcpus "cpuset=9-15"  --os-type linux  --os-variant rhel7 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20~.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio" --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
+```
+Continue with ```virt-manager``` console
+Choose all default except for
+  * Fill in the static ip of $CORE_IP
+  * select [ x ] openSsh
+  
+VM installation takes 5 minutes
+
 Make sure to create a bridged network for the virtual machine and assign a fixed IP address (`$CORE_IP`) in the same subnet as `$NODE_IP` to it.
 Note that if you SSH into the virtual machine the `$CORE_IP` and related variables might not be set.
 
