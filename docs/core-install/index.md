@@ -100,6 +100,8 @@ and restart the service
 
 ```
 systemctl daemon-reload
+```
+```
 systemctl restart open5gs-webui.service
 ```
 now you will find that this service is listening on port 3000 on any ip
