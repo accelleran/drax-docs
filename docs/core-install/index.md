@@ -138,3 +138,64 @@ or webgui
 
 * use static ip address which you can map to the imsi. This makes debugging traffic much easier when using multiple UE's. 
     ``` eg: imsi 235880000009834 gets ip address 10.0.0.34```
+### Verify if open5gs is functional
+open5gs listens on ngap interface
+``` bash
+netstat -ano | grep 38412
+# sctp                10.55.7.104:38412                               LISTEN      
+```
+
+5g configuration
+``` bash
+grep -e 10.55.7 -e m[cn]c  /etc/open5gs/* | egrep -v :\s*#
+#/etc/open5gs/amf.yaml:      - addr: 10.55.7.104
+#/etc/open5gs/amf.yaml:          mcc: 001
+#/etc/open5gs/amf.yaml:          mnc: 01
+#/etc/open5gs/amf.yaml:          mcc: 001
+#/etc/open5gs/amf.yaml:          mnc: 01
+#/etc/open5gs/amf.yaml:          mcc: 001
+#/etc/open5gs/amf.yaml:          mnc: 01
+#/etc/open5gs/upf.yaml:      - addr: 10.55.7.104
+```
+
+### Some scripts one often uses
+#### restart
+``` bash
+at > restartcore.sh << EOF
+sudo systemctl restart open5gs-mmed
+sudo systemctl restart open5gs-sgwcd
+sudo systemctl restart open5gs-smfd
+sudo systemctl restart open5gs-amfd
+sudo systemctl restart open5gs-sgwud
+sudo systemctl restart open5gs-upfd
+sudo systemctl restart open5gs-hssd
+sudo systemctl restart open5gs-pcrfd
+sudo systemctl restart open5gs-nrfd
+sudo systemctl restart open5gs-ausfd
+sudo systemctl restart open5gs-udmd
+sudo systemctl restart open5gs-pcfd
+sudo systemctl restart open5gs-udrd
+sudo systemctl restart open5gs-webui
+EOF
+```
+#### version 
+``` bash
+cat > versioncore.sh << EOF
+set -x
+open5gs-mmed -v 
+open5gs-sgwcd -v 
+open5gs-smfd -v 
+open5gs-amfd -v 
+open5gs-sgwud -v 
+open5gs-upfd -v 
+open5gs-hssd -v 
+open5gs-pcrfd -v 
+open5gs-nrfd -v 
+open5gs-ausfd -v 
+open5gs-udmd -v 
+open5gs-pcfd -v 
+open5gs-udrd -v 
+open5gs-webui -v 
+set +x
+EOF
+```
