@@ -270,7 +270,6 @@ Set the let the $E1_CU_IP and $F1_CU_IP be the last in the range of ip addresses
 
 ``` yml
 global:
-    enable4G: true
     enable5G: true
 acc-5g-infrastructure:
     metallb:
