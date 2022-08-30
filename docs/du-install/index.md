@@ -340,47 +340,48 @@ EOF
 2) the ip address for the cu is the one of the f1 external ip interface of the relative cucp service
 3) the DU ip address is the one of the server where the DU runs
 
-We then need to take care of the CPUs that the VM is intended to use(as discussed, we assume a VM named Ubuntu123 was created using Virsh):
-``` bash
-virsh edit Ubuntu123
-```
-Other ways of creating a VM may not produce a configuration file in xml format, making things more difficult. We also recommend to identify the xml configuratio file by searching the directory:
-
-``` bash
-/etc/libvirt/qemu/
-```
-
-But we definitely discourage the direct editing of such file as it will reset to default at the first reboot
-
-Once done, you can check the content of the xml configuration file, that in this case will show we decided to assign the odd CPUs to the VM:
-
-``` bash
-ubuntu@bbu3:~$ sudo cat /etc/libvirt/qemu/Ubuntu123.xml
-<!--
-WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
-OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
-  virsh edit Ubuntu123
-or other application using the libvirt API.
--->
-
-<domain type='kvm'>
-  <name>Ubuntu123</name>
-  <uuid>f18a2a01-7b67-4f00-ad11-5920ec2b6f16</uuid>
-  <metadata>
-    <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
-      <libosinfo:os id="http://ubuntu.com/ubuntu/20.04"/>
-    </libosinfo:libosinfo>
-  </metadata>
-  <memory unit='KiB'>33554432</memory>
-  <currentMemory unit='KiB'>33554432</currentMemory>
-  <vcpu placement='static' cpuset='1,3,5,7,9,11,13,15'>8</vcpu>
-  <os>
-    <type arch='x86_64' machine='pc-q35-4.2'>hvm</type>
-    <bootmenu enable='yes'/>
-  </os>
-  <features>
-
-```
+> NOTE : verify the cpu pinning of the VM's are different then those we used in above compose file.
+> We then need to take care of the CPUs that the VM is intended to use(as discussed, we assume a VM named Ubuntu123 was created using Virsh):
+> ``` bash
+> virsh edit Ubuntu123
+> ```
+> Other ways of creating a VM may not produce a configuration file in xml format, making things more difficult. We also recommend to identify the xml configuratio file by searching the directory:
+> 
+> ``` bash
+> /etc/libvirt/qemu/
+> ```
+> 
+> But we definitely discourage the direct editing of such file as it will reset to default at the first reboot
+> 
+> Once done, you can check the content of the xml configuration file, that in this case will show we decided to assign the odd CPUs to the VM:
+> 
+> ``` bash
+> ubuntu@bbu3:~$ sudo cat /etc/libvirt/qemu/Ubuntu123.xml
+> <!--
+> WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
+> OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+>   virsh edit Ubuntu123
+> or other application using the libvirt API.
+> -->
+> 
+> <domain type='kvm'>
+>   <name>Ubuntu123</name>
+>   <uuid>f18a2a01-7b67-4f00-ad11-5920ec2b6f16</uuid>
+>   <metadata>
+>     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
+>       <libosinfo:os id="http://ubuntu.com/ubuntu/20.04"/>
+>     </libosinfo:libosinfo>
+>   </metadata>
+>   <memory unit='KiB'>33554432</memory>
+>   <currentMemory unit='KiB'>33554432</currentMemory>
+>   <vcpu placement='static' cpuset='1,3,5,7,9,11,13,15'>8</vcpu>
+>   <os>
+>     <type arch='x86_64' machine='pc-q35-4.2'>hvm</type>
+>     <bootmenu enable='yes'/>
+>   </os>
+>   <features>
+> 
+> ```
 
 The only thing remaining is now **prioritise the softirq processes**. One can use **htop** and work out the options to show priority and CPU ID (Setup → Columns) ,  and kernel threads (Setup → Display Options):
 
