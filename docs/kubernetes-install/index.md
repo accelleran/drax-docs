@@ -263,10 +263,20 @@ On occasion, it may be deemed necessary to fully remove Kubernetes, for instance
 
 ``` bash 
 sudo kubeadm reset
+```
+``` bash
 sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*
+```
+``` bash
 sudo rm -rf ~/.kube
+```
+``` bash
 sudo rm -rf /etc/cni/net.d
+```
+``` bash
 sudo ip link delete cni0
+```
+``` bash
 sudo ip link delete flannel.1
 ```
 
