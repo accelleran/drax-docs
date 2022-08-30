@@ -1469,7 +1469,16 @@ RAN650-2V0.3
 
 ### Prepare the physical Benetel Radio End - Release V0.5
 
-There are several parameters that can be checked and modified by reading writing the EEPROM, for this we recommend to make use of the original Benetel Software User Guide for RANx50-02 CAT-B O-RUs, in case of doubt ask for clarification to Accelleran Customer Support . Here we just present two of the most used parameters, that will probably need an adjustment for each deployment.
+There are several parameters that can be checked and modified by reading writing the EEPROM, for this we recommend to make use of the original Benetel Software User Guide for RANx50-02 CAT-B O-RUs, in case of doubt ask for clarification to Accelleran Customer Support . Here we just present two of the most used parameters, that will need an adjustment for each deployment.
+
+#### CFR enabled 
+By default the RU ships with CFR enabled. What still needs to be done is set register ```0366``` to value ```0xFFF```. 
+Do this by altering file ```/usr/sbin/radio_setup_ran650_b.sh``` with following line.
+
+``` bash
+    registercontrol -w c0366 -x 0xFFF >> ${LOG_RAD_STAT_FP}
+```
+
 
 #### MAC Address of the DU
 
