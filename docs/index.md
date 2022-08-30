@@ -63,6 +63,10 @@ export CORE_IP=192.168.88.5       # replace 192.168.88.5 by the IP address of th
 export F1_CU_IP=192.168.88.171    # F1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
 export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
 
+export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.
+export F1_CU_IP=192.168.88.171    # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.
+export LOADBALANCER_IP_RANGE=192.168.88.160-192.168.88.171
+
 export USER=sj5g                  # username to log into linux
 export CU_HOSTNAME=cu-cab3        # the hostname the CU VM will get.
 ```
@@ -73,14 +77,14 @@ export RU_INT=enp1s0f0            # interface of the server to the RU. Fiber int
 ```
 
 Kubernetes namespaces, listed here for completeness. We will use default.
-```
+``` bash
 export NS_DRAX=default
 export NS_4G_CU=default
 export NS_5G_CU=default
 ```
 
 Docker hub account. Request these 3 values to Accelleran.
-```
+``` bash
 export DOCKER_USER=
 export DOCKER_PASS=
 export DOCKER_EMAIL=
