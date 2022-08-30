@@ -82,7 +82,7 @@ Please determine the following parameters for your setup - these will be used du
 In order to run Accelleran's dRAX software, a License file is required - please contact Accelleran's customer support to request the appropriate license.
 This license file will be named **license.crt** and will be used in a later step.
 
-If you intend to deploy the 4G aspects of dRAX (together with Accelleran's E1000 4G DUs), you will also need to prepare a certificate to ensure secure communication between the various components.
+4G Only : If you intend to deploy the 4G aspects of dRAX (together with Accelleran's E1000 4G DUs), you will also need to prepare a certificate to ensure secure communication between the various components.
 Please refer to [the Appendix on creating certificates](#appendix-drax-provisioner-keys-and-certificates-generation).
 This will also need to be validated by Accelleran's customer support team, so please do this in advance of attempting the installation.
 
