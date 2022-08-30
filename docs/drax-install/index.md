@@ -338,11 +338,11 @@ kubectl get services
 
 If you are not planning any 4G deployment you can skip this section and proceed to the **Install the dRAX RIC and Dashboard** section
 
-##### Prepare keys and certificates for the dRAX Provisioner
+##### 4G : Prepare keys and certificates for the dRAX Provisioner
 
 The working assumption is that keys and certificates for the dRAX Provisioner have been created by the Accelleran Support Team, however, for a more detailed guide, please check the [Appendix: dRAX Provisioner - Keys and Certificates Generation](#appendix-drax-provisioner-keys-and-certificates-generation) of this document.
 
-##### Create configMaps for the dRAX Provisioner
+##### 4G : Create configMaps for the dRAX Provisioner
 
 We now need to store the previously created keys and certificates as configMaps in Kubernetes, so that they can be used by the dRAX Provisioner:
 
@@ -357,7 +357,7 @@ kubectl create configmap -n $NS_DRAX_4G prov-ca-crt --from-file=ca.crt
 !!! warning
     The names of these configmaps are critical - these names are referenced specifically in other parts of Accelleran's software.
 
-##### Prepare the values configuration file
+##### 4G : Prepare the values configuration file
 If you plan to install the 4G components (and you have the license to support this), you need to make a few other adjustments in the ric-values.yaml file 
 
 we first need to enable the 4G components:
@@ -389,18 +389,8 @@ provisioner-dhcp:
 
 Here, change `eno1` to the intended interface on your machine.
 
-#### Install the dRAX RIC and Dashboard
 
-Install the RIC and Dashboard with Helm (if installing without dedicated namespaces, leave off the -n option):
-
-``` bash
-helm install ric acc-helm/ric --version 5 --values ric-values.yaml -n $NS_DRAX
-```
-
-!!! info
-    The installation process can take some minutes, please hold on and don't interrupt the installation.
-
-#### Pre-provisioning the list of E1000 DUs
+#### 4G : Pre-provisioning the list of E1000 DUs
 
 If you already have access to the Accelleran E1000 DUs that you wish to use with this dRAX installation, we can pre-provision the information regarding these during installation.
 This can also be done later, or if new E1000 DUs are added.
@@ -427,14 +417,14 @@ configurator:
     If your dRAX installation and Accelleran E1000s will not be on the same subnet, after completing the previous step, please also follow [Appendix: dRAX and Accelleran E1000s on different subnets](#appendix-drax-and-accelleran-e1000s-on-different-subnets).
 
 
-##### Update E1000 DUs
+##### 4G : Update E1000 DUs
 
 The Accelleran E1000 DUs need to be updated to match the new version of dRAX.
 The following steps will guide you through this update process.
 As a prerequisite, the E1000s must be powered on, and you must be able to connect to them via SSH.
 If you do not have an SSH key to access the E1000s, contact Accelleran's support team.
 
-##### Download the E1000 update files
+##### 4G : Download the E1000 update files
 
 There is a server included with the dRAX installation that hosts the E1000 update files.
 Depending on the E1000 type (FDD or TDD), you can grab those files using the following command:
@@ -447,7 +437,7 @@ curl http://$NODE_IP:30603/tdd --output tdd-update.tar.gz
 !!! note
     Please replace the $NODE_IP with the advertised address of your Kubernetes
 
-##### Update software of E1000
+##### 4G : Update software of E1000
 
 Copy the TDD or FDD image to the E1000 in /tmp/.
 For example:
@@ -468,7 +458,7 @@ Now execute:
 do_update.sh
 ```
 
-##### Verify the update of E1000 on the unit and the alignment with dRAX version
+##### 4G : Verify the update of E1000 on the unit and the alignment with dRAX version
 
 To validate that the newly updated software matches with the installed version of dRAX, we can run the following steps:
 
@@ -518,6 +508,30 @@ Therefore, you first have to pick one from the drop-down menu:
   <img width="400" height="300" src="images/dashboard-deploy-a-new-cu-component.png">
 </p>
 
+#### Install the dRAX RIC and Dashboard
+
+Install the RIC and Dashboard with Helm (if installing without dedicated namespaces, leave off the -n option):
+
+``` bash
+helm install ric acc-helm/ric --version 5 --values ric-values.yaml -n $NS_DRAX
+```
+
+After installation which may take 5 minutes check if if it is installed
+First use helm.
+
+``` bash
+helm list
+#NAME	NAMESPACE	REVISION	UPDATED                                	STATUS	CHART    	APP VERSION
+#ric 	default  	1       	2022-08-30 12:23:24.894432912 +0000 UTC	failed	ric-5.1.0	5.1.0      
+```
+
+Than view the pods that have been created.
+``` bash
+kubectl get pod
+```
+
+!!! info
+    The installation process can take some minutes, please hold on and don't interrupt the installation.
 
 #### 5G CU-CP Installation
 
