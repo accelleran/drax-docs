@@ -299,7 +299,7 @@ kubectl get services
     To avoid difficulties, it's recommended that this IP pool is unique in the wider network and in the same subnet of your Kubernetes Node
 
 #### Enabling 4G components
-4G Only : when you don't need 4G you can skip and move on to chapter [Install the dRAX RIC and Dashboard](#Install the dRAX RIC and Dashboard) where the RIC is actually being installed.
+4G Only : when you don't need 4G you can skip and move on to chapter [Install the dRAX RIC and Dashboard](#install-the-drax-ricand-dashboard) where the RIC is actually being installed.
 
 If you are not planning any 4G deployment you can skip this section and proceed to the **Install the dRAX RIC and Dashboard** section
 
@@ -673,10 +673,9 @@ Configuration of the xApp is now managed in the Configuration Parameters section
 You can also expand the Services, by clicking the Show button in the Services column.
 This will show all the services used and exposed by the xApp, including the port information.
 
-### 4G Configuration
-When you don't use 4G you can skip this and go to [5G Configuration](#5g-configuration)
+### 4G E1000 Provisioning
 
-### E1000 Provisioning
+When you don't use 4G you can skip this and go to [5G Configuration](#5g-configuration)
 
 The certificates and keys referenced in this section are those mentioned in the [Prepare keys and certificates for the dRAX Provisioner section](#prepare-keys-and-certificates-for-the-drax-provisioner).
 These are required so that the onboarding of new E1000s is a secure process.
