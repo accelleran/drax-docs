@@ -1227,7 +1227,7 @@ Sometimes you might run into issues when trying to launch dRAX due to a licensin
 |E014|EMemFd|Cannot open memory file descriptor
 |E015|ECypher|Cannot create cypher|
 
-## Appendis : Remove existing deployments
+## Appendix : Remove existing deployments
 
 In order to continue with the remaining steps, we remove the existing deployments of our charts.
 Note that this will not remove the data, so any configured components should remain once the installation is completed.
@@ -1259,3 +1259,4 @@ watch kubectl get pods -A
 ```
 
 You can now continue with the remaining steps.
+
