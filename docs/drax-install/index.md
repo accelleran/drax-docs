@@ -271,7 +271,7 @@ global:
 
 > NOTE: For the monitoredNamespaces list, make sure that each value is unique, i.e. if two of the namespaces are the same, only add them to the list once.
 
-##### Dashboard specific configuration
+#### Dashboard specific configuration
 If you are browsing the dRAX Dashboard from a machine that can reach the `$NODE_IP`, this chapter can be ignored.
 
 When opening the dRAX Dashboard in a browser, the frontend needs to be able to connect to the backend.
@@ -298,7 +298,7 @@ dash-front-back-end:
         apiUrl: "publicIP"
 ```
 
-##### Enabling 5G components
+#### Enabling 5G components
 
 If you plan to install the 5G components (and you have the license to support this), you need to make a few other adjustments to the `ric-values.yaml` file:
 Set the let the $E1_CU_IP and $F1_CU_IP be the last in the range of ip addresses in the file below.
@@ -333,15 +333,16 @@ kubectl get services
     MetalLB works by handling ARP requests for these addresses, so the external components need to be in the same L2 subnet in order to access these interfaces.
     To avoid difficulties, it's recommended that this IP pool is unique in the wider network and in the same subnet of your Kubernetes Node
 
-##### Enabling 4G components
+#### Enabling 4G components
+4G Only : when you don't need 4G you can skip and move on to chapter [Install the dRAX RIC and Dashboard].
 
 If you are not planning any 4G deployment you can skip this section and proceed to the **Install the dRAX RIC and Dashboard** section
 
-#### Prepare keys and certificates for the dRAX Provisioner
+##### Prepare keys and certificates for the dRAX Provisioner
 
 The working assumption is that keys and certificates for the dRAX Provisioner have been created by the Accelleran Support Team, however, for a more detailed guide, please check the [Appendix: dRAX Provisioner - Keys and Certificates Generation](#appendix-drax-provisioner-keys-and-certificates-generation) of this document.
 
-#### Create configMaps for the dRAX Provisioner
+##### Create configMaps for the dRAX Provisioner
 
 We now need to store the previously created keys and certificates as configMaps in Kubernetes, so that they can be used by the dRAX Provisioner:
 
@@ -356,7 +357,7 @@ kubectl create configmap -n $NS_DRAX_4G prov-ca-crt --from-file=ca.crt
 !!! warning
     The names of these configmaps are critical - these names are referenced specifically in other parts of Accelleran's software.
 
-#### Prepare the values configuration file
+##### Prepare the values configuration file
 If you plan to install the 4G components (and you have the license to support this), you need to make a few other adjustments in the ric-values.yaml file 
 
 we first need to enable the 4G components:
