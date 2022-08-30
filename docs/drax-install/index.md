@@ -478,6 +478,7 @@ kubectl get pod
 ```
 
 You should see something like this
+> ```
 > NAME                                                 READY   STATUS             RESTARTS   AGE
 > busybox                                              1/1     Running            2          145m
 > ric-acc-fiveg-pmcounters-6d47899ccc-k2w66            1/1     Running            0          56m
@@ -510,7 +511,7 @@ You should see something like this
 > ric-vector-84c8b58dbc-cdtmb                          1/1     Running            0          56m
 > ric-vectorfiveg-6b8bf8fb4c-79vl7                     1/1     Running            0          56m
 > ric-zookeeper-0                                      1/1     Running            1          56m
-
+> ```
 
 !!! info
     The installation process can take some minutes, please hold on and don't interrupt the installation.
