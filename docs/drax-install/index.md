@@ -674,7 +674,7 @@ You can also expand the Services, by clicking the Show button in the Services co
 This will show all the services used and exposed by the xApp, including the port information.
 
 ### 4G Configuration
-When you don't use 4G you can skip this and go to [5G Configuration](#5G Configuration)
+When you don't use 4G you can skip this and go to [5G Configuration](#5g-configuration)
 
 ### E1000 Provisioning
 
