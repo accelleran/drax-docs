@@ -408,6 +408,7 @@ Use htop to verify the priorities of the softirq processes.
 The only thing remaining is now **prioritise the softirq processes**. One can use **htop** and work out the options to show priority and CPU ID 
 	
 	* Press F2 for ```Setup```, navigate to ```Columns```,  add ```PRIORITY```
+	
 	* Press F2 for ```Setup```, navigate to ```Display Options```, unselect ```Hide kernel threads```
 
 <p align="center">
