@@ -90,6 +90,11 @@ export DOCKER_PASS=
 export DOCKER_EMAIL=
 ```
 
+RIC version. Accelleran will tell you which RIC version needs to be installed in this setup.
+``` bash
+export RIC_VERSION=5
+```
+
 In order to perform many of the commands in this installation manual you need root privileges.
 Whenever a command has to be executed with root privileges it will be prefixed with `sudo`.
 ## know which cores and cpu you will be using.
