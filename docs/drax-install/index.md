@@ -617,7 +617,7 @@ The optional parameters are:
 | NETCONF Server Port     | The NETCONF server used for configuring the 5G CU-UP component is exposed on the host machine on a random port. You can override this and set a predefined port. NOTE: The exposed port has to be in the Kubernetes NodePort range. |
 | Version                 | This is the version of the 5G CU component. By default, the latest stable version compatible with the dRAX version is installed. Other versions can be specified, but compatibility is not guaranteed |
 
-executing
+Now the installation of CU is done. To see the pods and services execute following steps. Here is what to expect.
 ``` bash
 kubectl get pod
 ```
