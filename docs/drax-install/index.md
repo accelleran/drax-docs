@@ -244,32 +244,32 @@ global:
     # Note that these must also be supported by the License you have
 ```
 
-If you'd like to use specific nodes in the Kubernetes cluster, you can adjust the following settings to select the nodes based on labels assigned to them (this needs to have been done separately and is outside the scope of this document):
+> NOTE : If you'd like to use specific nodes in the Kubernetes cluster, you can adjust the following settings to select the nodes based on labels assigned to them > (this needs to have been done separately and is outside the scope of this document):
+>
+> ``` yaml
+> global:
+>     # If using a node label, enable the dRAX Node Selector and specify the draxName label value
+>     draxNodeSelectorEnabled: "true"
+>     draxName: "main"
+> ```
 
-``` yaml
-global:
-    # If using a node label, enable the dRAX Node Selector and specify the draxName label value
-    draxNodeSelectorEnabled: "true"
-    draxName: "main"
-```
+> NOTE : If you've chosen to use specific namespaces during the [Plan your deployment](#namespaces) section, additional changes are needed to handle these additional namespaces.
+> If you've chosen not to use one of these dedicated namespaces, use the default value as described in the [Plan your deployment](#namespaces) section, e.g. if you > don't have a dedicated `$NS_4G_CU` namespace, but you are using a dedicated `$NS_4G` namespace for all 4G components, use that value to replace both `$NS_4G` and `$NS_4G_CU`.
+> Find and update the following fields with the names of the Namespaces which you've chosen to use:
+> 
+> ``` yaml
+> dash-front-back-end:
+>     config:
+>         # The namespace where the 4G CUs will be run
+>         defaultServiceNamespace: "$NS_4G_CU"
+>         # The namespace where the other 4G components will be installed
+>         defaultOranNamespace: "$NS_DRAX"
+> acc-service-monitor:
+>     # Enter all namespaces used by your dRAX deployment, in a comma-separated-list of namespace names
+>     monitoredNamespaces: "$NS_DRAX, $NS_4G_CU, $NS_5G_CU"
+> ```
 
-If you've chosen to use specific namespaces during the [Plan your deployment](#namespaces) section, additional changes are needed to handle these additional namespaces.
-If you've chosen not to use one of these dedicated namespaces, use the default value as described in the [Plan your deployment](#namespaces) section, e.g. if you don't have a dedicated `$NS_4G_CU` namespace, but you are using a dedicated `$NS_4G` namespace for all 4G components, use that value to replace both `$NS_4G` and `$NS_4G_CU`.
-Find and update the following fields with the names of the Namespaces which you've chosen to use:
-
-``` yaml
-dash-front-back-end:
-    config:
-        # The namespace where the 4G CUs will be run
-        defaultServiceNamespace: "$NS_4G_CU"
-        # The namespace where the other 4G components will be installed
-        defaultOranNamespace: "$NS_DRAX"
-acc-service-monitor:
-    # Enter all namespaces used by your dRAX deployment, in a comma-separated-list of namespace names
-    monitoredNamespaces: "$NS_DRAX, $NS_4G_CU, $NS_5G_CU"
-```
-
-Note: For the monitoredNamespaces list, make sure that each value is unique, i.e. if two of the namespaces are the same, only add them to the list once.
+> NOTE: For the monitoredNamespaces list, make sure that each value is unique, i.e. if two of the namespaces are the same, only add them to the list once.
 
 ##### Dashboard specific configuration
 
