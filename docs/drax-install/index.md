@@ -334,7 +334,7 @@ kubectl get services
     To avoid difficulties, it's recommended that this IP pool is unique in the wider network and in the same subnet of your Kubernetes Node
 
 #### Enabling 4G components
-4G Only : when you don't need 4G you can skip and move on to chapter [Install the dRAX RIC and Dashboard](#Install the dRAX RIC and Dashboard).
+4G Only : when you don't need 4G you can skip and move on to chapter [Install the dRAX RIC and Dashboard](#Install the dRAX RIC and Dashboard) where the RIC is actually being installed.
 
 If you are not planning any 4G deployment you can skip this section and proceed to the **Install the dRAX RIC and Dashboard** section
 
@@ -400,7 +400,7 @@ helm install ric acc-helm/ric --version 5 --values ric-values.yaml -n $NS_DRAX
 !!! info
     The installation process can take some minutes, please hold on and don't interrupt the installation.
 
-##### Pre-provisioning the list of E1000 DUs
+#### Pre-provisioning the list of E1000 DUs
 
 If you already have access to the Accelleran E1000 DUs that you wish to use with this dRAX installation, we can pre-provision the information regarding these during installation.
 This can also be done later, or if new E1000 DUs are added.
@@ -427,7 +427,7 @@ configurator:
     If your dRAX installation and Accelleran E1000s will not be on the same subnet, after completing the previous step, please also follow [Appendix: dRAX and Accelleran E1000s on different subnets](#appendix-drax-and-accelleran-e1000s-on-different-subnets).
 
 
-#### Update E1000 DUs
+##### Update E1000 DUs
 
 The Accelleran E1000 DUs need to be updated to match the new version of dRAX.
 The following steps will guide you through this update process.
