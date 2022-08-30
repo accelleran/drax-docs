@@ -72,6 +72,20 @@ In case the RU is connected to the server with a fiber
 export RU_INT=enp1s0f0            # interface of the server to the RU. Fiber interface.
 ```
 
+Kubernetes namespaces, listed here for completeness. We will use default.
+```
+export NS_DRAX=default
+export NS_4G_CU=default
+export NS_5G_CU=default
+```
+
+Docker hub account. Request these 3 values to Accelleran.
+```
+export DOCKER_USER=
+export DOCKER_PASS=
+export DOCKER_EMAIL=
+```
+
 In order to perform many of the commands in this installation manual you need root privileges.
 Whenever a command has to be executed with root privileges it will be prefixed with `sudo`.
 ## know which cores and cpu you will be using.
