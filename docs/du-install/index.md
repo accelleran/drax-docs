@@ -270,7 +270,7 @@ Which means that a license for the dongle with serial-number 13134288 was loaded
 ### Install the Phluido L1 ( docker )
  
  ```
- docker image load phluido_docker_0842.tar
+ docker image load -i phluido_docker_0842.tar
 ```
 
 
