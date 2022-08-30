@@ -213,11 +213,11 @@ Please refer to [the previous section on the License file](#prepare-license-and-
 ``` bash
 kubectl create secret generic accelleran-license --from-file=license.crt
 ```
-Note: if you need for any reason to use a license file with a different (ex. myfile) name the command is a bit more cumbersome:
-
-``` bash
-kubectl create secret generic accelleran-license --from-file=license.crt=myfile
-```
+> Note: if you need for any reason to use a license file with a different (ex. myfile) name the command is a bit more cumbersome:
+>
+> ``` bash
+> kubectl create secret generic accelleran-license --from-file=license.crt=myfile
+> ```
 
 This needs to be repeated for each namespace that you created previously, specifying each namespace one time using the -n flag.
 
