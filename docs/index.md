@@ -35,9 +35,18 @@ NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access t
 	* effnet-license-activation-yyyy_mm_dd.zip
 	* sysTest executable 
 
-* Configuration:
+* Linux Configuration:
     * Linux bridge br0
     * virsh installed
+    
+* 5G configuration :
+	* plmn_identity eg 235 88
+	* nr_cell_identity eg 1 any number
+	* nr_pci eg 1 not any number. Ask Accelleran to do the PCI planning
+	* 5gs_tac eg 1
+	* center_frequency_band eg 3751.680
+	* point_a_arfcn eg 648840 consistent with center freq, scs 30khz
+	* band eg 77 consistent with center frequency
     
 NOTE: while taking almost no active time to obtain the Phluido license code and the Effnet activation bundle, in order to do so we need to contact our technical partners and this may require up to a couple of working days so it is recommended to take the necessary actions to complete these steps first of all. Similarly, we must enable your dockerhub account to access and download the Accelleran software images, this also takes some time and can be done upfront
 
