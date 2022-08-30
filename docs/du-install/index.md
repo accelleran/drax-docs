@@ -293,7 +293,7 @@ These have been found during the preperation fase and shared over DU and CU. In 
 In this specific example, there are two banks of 4 cores, each capable of hyperthreading, so in total we can count on 16 CPUs, let's then set 8 CPUs aside to run the VM for kubernetes and CU, and the other 8 CPUs to run L1/L2 so that they never compete for the same CPU. The assumption is that the rest of the processes on the system (very light load) is equally spread over all cores. If a large number of cores is available, probably the core with a higher number will be mostly free and can be then dedicated to L1 and DU, as mentioned there is no specific rule. For the sake of argument let's assign the even cores to the L1 and DU equally, so the Docker compose looks as follows:
 
 ``` bash
-
+cat > docker-compose.yaml << EOF
 version: "2"
 services:
 
@@ -331,6 +331,7 @@ services:
       - "du:$SERVER_IP"
     network_mode: host
     cpuset: "$CORE_SET_DU"
+ EOF
  ```
 
 
