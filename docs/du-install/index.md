@@ -383,14 +383,7 @@ EOF
 > 
 > ```
 
-The only thing remaining is now **prioritise the softirq processes**. One can use **htop** and work out the options to show priority and CPU ID 
-	* Press F2 for ```Setup```, navigate to ```Columns```,  add ```PRIORITY```
-	* Press F2 for ```Setup```, navigate to ```Display Options```, unselect ```Hide kernel threads```
-
-<p align="center">
-  <img width="500" height="300" src="htopPinning.png">
-</p>
-
+### set softirq priorities to realtime	
 In a normal setup, the softirq processes will run at priority 20, equal to all user processes. Here they need to run at -2, which corresponds to real time priority. They are scheduled on all cores but will get strict priority over any other user processes. To adapt the priority of the ksoft, you can use spcific commands:
 
 to set to realtime priority 1 (lowest prio, but still "run to completion" before other default processes are executed):
@@ -410,6 +403,17 @@ finally to check all the priorities set:
 ``` bash
 ps -A | grep ksoftirq | awk '{print $1}' | xargs -L1 chrt -p
 ```
+	
+Use htop to verify the priorities of the softirq processes.	
+The only thing remaining is now **prioritise the softirq processes**. One can use **htop** and work out the options to show priority and CPU ID 
+	* Press F2 for ```Setup```, navigate to ```Columns```,  add ```PRIORITY```
+	* Press F2 for ```Setup```, navigate to ```Display Options```, unselect ```Hide kernel threads```
+
+<p align="center">
+  <img width="500" height="300" src="htopPinning.png">
+</p>
+
+
 
 
 
