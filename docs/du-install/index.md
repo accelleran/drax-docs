@@ -279,8 +279,8 @@ Which means that a license for the dongle with serial-number 13134288 was loaded
 ### Install Effnet DU ( docker )
 
 ``` bash
-unzip accelleran-du-phluido-2022-07-01-q2-pre-release.zip
-bzcat accelleran-du-phluido/accelleran-du-phluido-2022-01-31/gnb_du_main_phluido-2022-01-31.tar.bz2 | docker image load
+unzip accelleran-du-phluido-$DU_VERSION.zip
+bzcat accelleran-du-phluido/accelleran-du-phluido-yyyy-mm-dd/gnb_du_main_phluido-yyy-mm-dd.tar.bz2 | docker image load
 ```
  
  ### CPU PINNING and Soft IRQd priorities
@@ -298,7 +298,7 @@ version: "2"
 services:
 
   phluido_l1:
-    image: phluido_l1:v0.8.4.2
+    image: phluido_l1:$L1_VERSION
     container_name: phluido_l1
     tty: true
     privileged: true
@@ -314,7 +314,7 @@ services:
     cpuset: "$CORE_SET_DU"
 
   du:
-    image: gnb_du_main_phluido:2022-04-28-q1-release
+    image: gnb_du_main_phluido:$DU_VERSION
     volumes:
       - "$PWD/du-config-0.json:/config.json:ro"
       - "$PWD/logs-0/du:/workdir"
