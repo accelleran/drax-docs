@@ -62,6 +62,7 @@ export GATEWAY_IP=192.168.88.1    # replace 192.168.88.1 by the IP address of th
 export CORE_IP=192.168.88.5       # replace 192.168.88.5 by the IP address of the core
 export F1_CU_IP=192.168.88.171    # F1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
 export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
+export CORE_IP=192.168.88.5       # The IP address of the CORE. The core should listen to NGAP port $CORE_IP:38412
 
 export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.
 export F1_CU_IP=192.168.88.171    # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.
