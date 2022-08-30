@@ -477,6 +477,41 @@ Than view the pods that have been created.
 kubectl get pod
 ```
 
+You should see something like this
+> NAME                                                 READY   STATUS             RESTARTS   AGE
+> busybox                                              1/1     Running            2          145m
+> ric-acc-fiveg-pmcounters-6d47899ccc-k2w66            1/1     Running            0          56m
+> ric-acc-kafka-955b96786-lvkns                        2/2     Running            2          56m
+> ric-acc-kminion-57648f8c49-g89cj                     1/1     Running            1          56m
+> ric-acc-service-monitor-8766845b8-fv9md              1/1     Running            1          56m
+> ric-acc-service-orchestrator-869996756d-kfdfp        1/1     Running            1          56m
+> ric-cassandra-0                                      1/1     Running            1          56m
+> ric-cassandra-1                                      1/1     Running            5          54m
+> ric-dash-front-back-end-85db9b456c-r2l6v             1/1     Running            1          56m
+> ric-fluent-bit-loki-jpzfc                            1/1     Running            1          56m
+> ric-grafana-7488865b58-nwqvx                         1/1     Running            2          56m
+> ric-influxdb-0                                       1/1     Running            1          56m
+> ric-jaeger-agent-qn6xv                               1/1     Running            1          56m
+> ric-jaeger-collector-55597cfbbc-r9mdh                0/1     CrashLoopBackOff   16         56m
+> ric-jaeger-query-774f759bb6-jz7jc                    1/2     CrashLoopBackOff   16         56m
+> ric-kube-eagle-776bf55547-55f5m                      1/1     Running            1          56m
+> ric-loki-0                                           1/1     Running            1          56m
+> ric-metallb-controller-7dc7845dbc-zlmvv              1/1     Running            1          56m
+> ric-metallb-speaker-vsvln                            1/1     Running            1          56m
+> ric-metrics-server-b4dd76cbc-hwf6d                   1/1     Running            1          56m
+> ric-nats-5g-0                                        3/3     Running            3          55m
+> ric-nkafka-5g-76b6558c5f-zs4np                       1/1     Running            1          56m
+> ric-prometheus-alertmanager-7d78866cc6-svxc5         2/2     Running            2          56m
+> ric-prometheus-kube-state-metrics-585d88b6bb-6kx5l   1/1     Running            1          56m
+> ric-prometheus-node-exporter-pxh6w                   1/1     Running            1          56m
+> ric-prometheus-pushgateway-55b97997bf-xb2m2          1/1     Running            1          56m
+> ric-prometheus-server-846c4bf867-ff4s5               2/2     Running            2          56m
+> ric-redis-5g-6f9fbdbcf-j447s                         1/1     Running            1          56m
+> ric-vector-84c8b58dbc-cdtmb                          1/1     Running            0          56m
+> ric-vectorfiveg-6b8bf8fb4c-79vl7                     1/1     Running            0          56m
+> ric-zookeeper-0                                      1/1     Running            1          56m
+
+
 !!! info
     The installation process can take some minutes, please hold on and don't interrupt the installation.
 ### Install dRAX 5G Components
