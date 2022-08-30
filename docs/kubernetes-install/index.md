@@ -265,7 +265,16 @@ On occasion, it may be deemed necessary to fully remove Kubernetes, for instance
 sudo kubeadm reset
 ```
 ``` bash
-sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*
+sudo apt-get purge kubeadm 
+```
+``` bash
+sudo apt-get purge kubectl 
+```
+``` bash
+sudo apt-get purge kubelet
+```
+``` bash
+sudo apt-get purge kubernetes-cni
 ```
 ``` bash
 sudo rm -rf ~/.kube
