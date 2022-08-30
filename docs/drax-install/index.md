@@ -455,25 +455,7 @@ kubectl exec -it drax-4g-4g-radio-controller-xxxx -- cat /data/oranC | strings |
 
 The two commits must match, if not please verify the installation and contact Accelleran for support.
 
-### Install dRAX 5G Components
-
-Accelleran's 5G Components are managed and installed via the Dashboard.
-From the dRAX Dashboard sidebar, select **New deployment** and then click **5G CU deployment**:
-
-<p align="center">
-  <img width="200" height="300" src="images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png">
-</p>
-
-
-You will reach the **Deploy a new CU component** page.
-Here, you have the ability to deploy either a CU-CP or a CU-UP component.
-Therefore, you first have to pick one from the drop-down menu:
-
-<p align="center">
-  <img width="400" height="300" src="images/dashboard-deploy-a-new-cu-component.png">
-</p>
-
-#### Install the dRAX RIC and Dashboard
+### Install the dRAX RIC and Dashboard
 
 Install the RIC and Dashboard with Helm (if installing without dedicated namespaces, leave off the -n option):
 
@@ -497,6 +479,24 @@ kubectl get pod
 
 !!! info
     The installation process can take some minutes, please hold on and don't interrupt the installation.
+### Install dRAX 5G Components
+
+Accelleran's 5G Components are managed and installed via the Dashboard.
+From the dRAX Dashboard sidebar, select **New deployment** and then click **5G CU deployment**:
+
+<p align="center">
+  <img width="200" height="300" src="images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png">
+</p>
+
+
+You will reach the **Deploy a new CU component** page.
+Here, you have the ability to deploy either a CU-CP or a CU-UP component.
+Therefore, you first have to pick one from the drop-down menu:
+
+<p align="center">
+  <img width="400" height="300" src="images/dashboard-deploy-a-new-cu-component.png">
+</p>
+
 
 #### 5G CU-CP Installation
 
