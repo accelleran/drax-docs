@@ -92,7 +92,7 @@ export DOCKER_EMAIL=
 
 RIC version. Accelleran will tell you which RIC version needs to be installed in this setup.
 ``` bash
-export RIC_VERSION=5
+export RIC_VERSION=5.0.0
 ```
 
 In order to perform many of the commands in this installation manual you need root privileges.
