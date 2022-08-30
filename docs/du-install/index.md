@@ -389,18 +389,19 @@ The only thing remaining is now **prioritise the softirq processes**. One can us
   <img width="500" height="300" src="htopPinning.png">
 </p>
 
-In a normal setup, the softirq processes will run at priority 20, equal to all user processes. Here they run at -2, which corresponds to real time priority. They are scheduled on all cores but will get strict priority over any other user processes. To adapt the priority of the ksoft, you can use spcific commands:
+In a normal setup, the softirq processes will run at priority 20, equal to all user processes. Here they need to run at -2, which corresponds to real time priority. They are scheduled on all cores but will get strict priority over any other user processes. To adapt the priority of the ksoft, you can use spcific commands:
 
 to set to realtime priority 1 (lowest prio, but still "run to completion" before other default processes are executed):
-
 ``` bash
 ps -A | grep ksoftirq | awk '{print $1}' | xargs -L1 sudo chrt -p 1
 ```
-to revert the priority to "other policy":
 
-``` bash
-ps -A | grep ksoftirq | awk '{print $1}' | xargs -L1 sudo chrt --other -p 0
-```
+> NOTE: to revert the priority to "other policy":
+> 
+> 	
+> ``` bash
+> ps -A | grep ksoftirq | awk '{print $1}' | xargs -L1 sudo chrt --other -p 0
+> ```
 
 finally to check all the priorities set:
 
