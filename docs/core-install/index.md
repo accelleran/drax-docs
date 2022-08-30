@@ -105,8 +105,8 @@ systemctl restart open5gs-webui.service
 now you will find that this service is listening on port 3000 on any ip
 
 ```
-$ netstat -ano | grep 3000
-tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      off (0.00/0/0)
+netstat -ano | grep 3000
+#tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      off (0.00/0/0)
 ````
 
 ### Per UE
