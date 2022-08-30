@@ -477,7 +477,7 @@ Than view the pods that have been created.
 kubectl get pod
 ```
 
-You should see something like this
+You should see something like this. You can ignore the status of Jaeger in this release. It is not used at the moment.
 > ```
 > NAME                                                 READY   STATUS             RESTARTS   AGE
 > busybox                                              1/1     Running            2          145m
