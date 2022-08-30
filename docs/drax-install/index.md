@@ -175,10 +175,9 @@ You can now continue with the remaining steps.
 #### Create namespace(s) for dRAX (optional)
 
 If you choose to use dedicated namespaces for dRAX, please create them before the installation process.
-So for example if you choose $NS_DRAX=drax, then create it using the following command:
 
 ```
-export NS_DRAX=drax
+export NS_DRAX=$NS_DRAX
 ``` 
 
 ``` bash
