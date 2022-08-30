@@ -331,8 +331,8 @@ services:
       - "du:$SERVER_IP"
     network_mode: host
     cpuset: "$CORE_SET_DU"
- EOF
- ```
+EOF
+```
 
 
 **Notes: **
