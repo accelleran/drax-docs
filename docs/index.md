@@ -69,21 +69,23 @@ export SERVER_IP=192.168.88.3     # The IP address of the linux bridge ( br0 )
 export NODE_INT=br0               # replace enp0s3 by the name of the network interface that has IP $NODE_IP
 export GATEWAY_IP=192.168.88.1    # replace 192.168.88.1 by the IP address of the gateway
 export CORE_IP=192.168.88.5       # replace 192.168.88.5 by the IP address of the core
-export F1_CU_IP=192.168.88.171    # F1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
-export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. ( used in port range of the loadbalancer and creation of the CUCP)
-export CORE_IP=192.168.88.5       # The IP address of the CORE. The core should listen to NGAP port $CORE_IP:38412
-
 export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.
 export F1_CU_IP=192.168.88.171    # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.
 export LOADBALANCER_IP_RANGE=192.168.88.160-192.168.88.171
 
 export USER=sj5g                  # username to log into linux
 export CU_HOSTNAME=cu-cab3        # the hostname the CU VM will get.
+export CU_VM_NAME=cu-cab3        # the hostname the CU VM will get.
+export OPEN5GS_HOSTNAME=open5gs-cab3        # the hostname the CU VM will get.
+export OPEN5GS_VM_NAME=open5gs-cab3        # the hostname the oCU VM will get.
+export L1_PHLUIDO_KEY="xxxx.xxxx.xxxx.xxxx.xxxx"
 ```
 
-In case the RU is connected to the server with a fiber
+In case a Benetel650 RU connected to the server with a fiber
 ``` bash
-export RU_INT=enp1s0f0            # interface of the server to the RU. Fiber interface.
+export SERVER_RU_INT=enp1s0f0            # interface of the server to the RU. Fiber interface.
+export MAC_DU=11:22:33:44:55:66          # mac of the server interface to RU.
+export MAC_RU=aa:bb:cc:dd:ee:ff      # mac of the RU for ip 10.0.0.2. Use tcpdump to find.
 ```
 
 Kubernetes namespaces, listed here for completeness. We will use default.

@@ -1,6 +1,19 @@
 # CU installation ( VM & kubernetes )
+- [CU installation ( VM & kubernetes )](#cu-installation--vm--kubernetes-)
+  - [Overview](#overview)
+    - [VM Minimum Requirements](#vm-minimum-requirements)
+  - [Install VM](#install-vm)
+  - [Install Docker in the CU VM](#install-docker-in-the-cu-vm)
+  - [Configure Docker Daemon](#configure-docker-daemon)
+  - [Disable Swap](#disable-swap)
+  - [Install Kubernetes inside the VM](#install-kubernetes-inside-the-vm)
+  - [Configure Kubernetes](#configure-kubernetes)
+  - [Install Flannel](#install-flannel)
+  - [Enable Pod Scheduling](#enable-pod-scheduling)
+  - [A small busybox pod for testing](#a-small-busybox-pod-for-testing)
+  - [APENDIX : Remove a full Kubernetes installation](#apendix--remove-a-full-kubernetes-installation)
 
-## Overview
+## Introduction
 This chapter will install the CU, using Flannel for the CNI.
 This guide defaults to using Docker as the container runtime.
 For more information on installing Kubernetes, see the [official Kubernetes documentation](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/).
@@ -16,21 +29,35 @@ This chapter will guide you through following steps :
 2. 32GB DDR4 RAM
 3. 200GB Hard Disk      ( includes space for logging/monitor/debugging the system )
 
-## Install VM
-Below a command line 
+## Configure HOST server
+
+
+### set a linux bridge
+create a linux bridge using netplan
+
+adapt your netplan file assuming that $SERVER_INT holds the physical interface name of your server
+that connects to the network.
+
+
+``` bash
+network:
+  ethernets:
+    $SERVER_INT:
+      dhcp4: false
+  :
+  :
+  bridges:
+    br0:
+      interfaces: [$SERVER_INT]
+      addresses:
+            - $SERVER_IP/24
+      gateway4: $GATEWAY_IP
+      nameservers:
+        addresses: [8.8.8.8]
+
+  version: 2
+
 ```
-virt-install  --name cu-ubuntu-20.04.4  --memory 32768 --vcpus ""cpuset=$CORE_SET_CU"  --os-type linux  --os-variant rhel7 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=200,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
-```
-
-Continue in the console the complete the VM installation.
-Take all default values except these points :
-* set to static ip $NODE_IP ( see preperation chapter )
-* Select [ x ] install openSSH
-* set hostname=$CU_HOSTNAME, username=$USER and password
-
-Installation will begin. Wait about 5 minutes for it to install.
-reboot the VM 
-
 on the host uncomment the line in ```/etc/sysctl.conf``` so you get this.
 
 ``` bash
@@ -38,6 +65,37 @@ net.ipv4.ip_forward=1
 ```
 
 reboot the host.
+
+## Install VM
+
+If not yet installed install
+
+```bash
+sudo apt install virtinst
+sudo apt install libvirt-clients
+sudo apt install qemu
+sudo apt install qemu-kvm
+sudo apt install libvirt_daemon
+sudo apt install bridge-utils
+sudo apt install virt-manager
+```
+
+** reboot server **
+
+Below a command line that creates a VM with the correct settings.
+```bash
+sudo virt-install  --name "$CU_VM_NAME"  --memory 16768 --vcpus "cpuset=$CORE_SET_CU"  --os-type linux  --os-variant rhel7.0 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
+```
+
+Continue in the console the complete the VM installation.
+Take all default values except these points :
+
+* set to static ip $NODE_IP ( see preperation chapter )
+* Select [ x ] install openSSH
+* set hostname=\$CU_HOSTNAME, username=\$USER and password
+
+Installation will begin. Wait about 5 minutes for it to install.
+reboot the VM 
 
 ssh into the VM.
 
