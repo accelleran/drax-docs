@@ -551,7 +551,7 @@ First use helm.
 
 ``` bash
 helm list
-#NAME	NAMESPACE	REVISION	UPDATED                                	STATUS	  CHART    	 APP VERSION
+#NAME	NAMESPACE	REVISION	UPDATED                                	STATUS	        CHART    	 APP VERSION
 #ric 	default  	1       	2022-08-30 12:23:24.894432912 +0000 UTC	deployed	ric-5.0.0	 5.0.0      
 ```
 
