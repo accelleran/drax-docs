@@ -362,7 +362,7 @@ acc-5g-infrastructure:
                   protocol: layer2
                   # IP pool used for E1, F1 and GTP interfaces when exposed outside of Kubernetes
                   addresses:
-                      - 192.168.88.160 - 192.168.88.171
+                      - $LOADBALANCER_IP_RANGE
 ```
 
 !!! Note
