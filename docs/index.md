@@ -1,7 +1,7 @@
-# Accelleran Install Guide 
+# Accelleran CU Install Guide 
 ## Table of Content
 
-- [Accelleran Install Guide](#accelleran-install-guide)
+- [Accelleran CU Install Guide](#accelleran-cu-install-guide)
   - [Table of Content](#table-of-content)
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
@@ -10,8 +10,8 @@
   - [know which cores and cpu you will be using.](#know-which-cores-and-cpu-you-will-be-using)
       - [In case of dual CPU](#in-case-of-dual-cpu)
       - [In case of 1 CPU server](#in-case-of-1-cpu-server)
-  - [network components](#network-components)
-  - [Steps](#steps)
+- [network components overview](#network-components-overview)
+- [Steps to take](#steps-to-take)
 
 # Introduction
 
@@ -166,7 +166,7 @@ Assign first half to DU and last half to CU
 export CORE_SET_DU=0,1,2,3,4,5,6,7,8,9
 export CORE_SET_CU=10,11,12,13,14,15,16,17,18,19
 ```
-## network components
+# network components overview
 Here a simplified diagram of all network components and the related ip addresses. 
 Before you continue installing fill in this simplified drawing with the ip address that apply for the configuration.
 
@@ -243,7 +243,7 @@ Before you continue installing fill in this simplified drawing with the ip addre
 
 ```
 
-## Steps
+# Steps to take
 
 The installation process is divided in a number of steps.
 Each of these steps is described in its own chapter.
