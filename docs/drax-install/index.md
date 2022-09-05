@@ -33,7 +33,7 @@
         - [4G : Update E1000 DUs](#4g--update-e1000-dus)
         - [4G : Download the E1000 update files](#4g--download-the-e1000-update-files)
         - [4G : Update software of E1000](#4g--update-software-of-e1000)
-        - [4G : Verify the update of E1000 on the unit and the alignment with dRAX version](#4g--verify-the-update-of-e1000-on-the-unit-and-the-alignment-with-drax-version)
+        - [4G : Verify the update of E1000 on the unit and the alignment with dRAX /](#4g--verify-the-update-of-e1000-on-the-unit-and-the-alignment-with-drax-version)
   - [Install the dRAX RIC and Dashboard](#install-the-drax-ric-and-dashboard)
   - [Install dRAX 5G Components](#install-drax-5g-components)
     - [5G CU-CP Installation](#5g-cu-cp-installation)
@@ -362,11 +362,11 @@ acc-5g-infrastructure:
                   protocol: layer2
                   # IP pool used for E1, F1 and GTP interfaces when exposed outside of Kubernetes
                   addresses:
-                      - 192.168.88.160 - 192.168.88.171
+                      - $LOADBALANCER_IP_RANGE
 ```
 
-!!! Note
-    The IP pool which is selected here will be used by [MetalLB](https://metallb.universe.tf/), which we use to expose the E1, F1, and GTP interfaces to the external O-RAN components, such as the DU, and the 5GC. In other words, the CUCP E1, CUCP F1 and the CUUP GTP IP addresses will be taken from the specifed pool:
+> NOTE : The IP pool which is selected here will be used by [MetalLB](https://metallb.universe.tf/), which we use to expose the E1, F1, and GTP interfaces to the
+> external O-RAN components, such as the DU, and the 5GC. In other words, the CUCP E1, CUCP F1 and the CUUP GTP IP addresses will be taken from the specifed pool:
     
 ``` bash
 kubectl get services
@@ -378,8 +378,8 @@ kubectl get services
 ```
     
     
-    MetalLB works by handling ARP requests for these addresses, so the external components need to be in the same L2 subnet in order to access these interfaces.
-    To avoid difficulties, it's recommended that this IP pool is unique in the wider network and in the same subnet of your Kubernetes Node
+> NOTE : MetalLB works by handling ARP requests for these addresses, so the external components need to be in the same L2 subnet in order to access these interfaces.
+> To avoid difficulties, it's recommended that this IP pool is unique in the wider network and in the same subnet of your Kubernetes Node
 
 ### Enabling 4G components
 4G Only : when you don't need 4G you can skip and move on to chapter [Install the dRAX RIC and Dashboard](#install-the-drax-ricand-dashboard) where the RIC is actually being installed.
@@ -543,7 +543,7 @@ The two commits must match, if not please verify the installation and contact Ac
 Install the RIC and Dashboard with Helm (if installing without dedicated namespaces, leave off the -n option):
 
 ``` bash
-helm install ric acc-helm/ric --version 5 --values ric-values.yaml -n $NS_DRAX
+helm install ric acc-helm/ric --version $RIC_VERSION --values ric-values.yaml -n $NS_DRAX
 ```
 
 After installation which may take 5 minutes check if if it is installed
@@ -551,8 +551,8 @@ First use helm.
 
 ``` bash
 helm list
-#NAME	NAMESPACE	REVISION	UPDATED                                	STATUS	CHART    	APP VERSION
-#ric 	default  	1       	2022-08-30 12:23:24.894432912 +0000 UTC	failed	ric-5.1.0	5.1.0      
+#NAME	NAMESPACE	REVISION	UPDATED                                	STATUS	        CHART    	 APP VERSION
+#ric 	default  	1       	2022-08-30 12:23:24.894432912 +0000 UTC	deployed	ric-5.0.0	 5.0.0      
 ```
 
 Than view the pods that have been created.

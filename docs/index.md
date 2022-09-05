@@ -163,6 +163,10 @@ Assign first half to DU and last half to CU
 export CORE_SET_DU=0,1,2,3,4,5,6,7,8,9
 export CORE_SET_CU=10,11,12,13,14,15,16,17,18,19
 ```
+
+# Directory
+Every command that needs execution is to be expected to execute inside an install directory. This directory will get created when extracting the ```install.xxx.zip``` which will get delivered by Accelleran.
+
 # network components overview
 Here a simplified diagram of all network components and the related ip addresses. 
 Before you continue installing fill in this simplified drawing with the ip address that apply for the configuration.
