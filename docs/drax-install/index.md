@@ -33,7 +33,7 @@
         - [4G : Update E1000 DUs](#4g--update-e1000-dus)
         - [4G : Download the E1000 update files](#4g--download-the-e1000-update-files)
         - [4G : Update software of E1000](#4g--update-software-of-e1000)
-        - [4G : Verify the update of E1000 on the unit and the alignment with dRAX version](#4g--verify-the-update-of-e1000-on-the-unit-and-the-alignment-with-drax-version)
+        - [4G : Verify the update of E1000 on the unit and the alignment with dRAX /](#4g--verify-the-update-of-e1000-on-the-unit-and-the-alignment-with-drax-version)
   - [Install the dRAX RIC and Dashboard](#install-the-drax-ric-and-dashboard)
   - [Install dRAX 5G Components](#install-drax-5g-components)
     - [5G CU-CP Installation](#5g-cu-cp-installation)
@@ -543,7 +543,7 @@ The two commits must match, if not please verify the installation and contact Ac
 Install the RIC and Dashboard with Helm (if installing without dedicated namespaces, leave off the -n option):
 
 ``` bash
-helm install ric acc-helm/ric --version 5 --values ric-values.yaml -n $NS_DRAX
+helm install ric acc-helm/ric --version $RIC_VERSION --values ric-values.yaml -n $NS_DRAX
 ```
 
 After installation which may take 5 minutes check if if it is installed
