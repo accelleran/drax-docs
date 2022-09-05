@@ -551,8 +551,8 @@ First use helm.
 
 ``` bash
 helm list
-#NAME	NAMESPACE	REVISION	UPDATED                                	STATUS	CHART    	APP VERSION
-#ric 	default  	1       	2022-08-30 12:23:24.894432912 +0000 UTC	failed	ric-5.1.0	5.1.0      
+#NAME	NAMESPACE	REVISION	UPDATED                                	STATUS	  CHART    	 APP VERSION
+#ric 	default  	1       	2022-08-30 12:23:24.894432912 +0000 UTC	deployed	ric-5.0.0	 5.0.0      
 ```
 
 Than view the pods that have been created.
