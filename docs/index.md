@@ -1,10 +1,24 @@
-# Overview
+# Accelleran Install Guide 
+## Table of Content
 
-## Introduction
+- [Accelleran Install Guide](#accelleran-install-guide)
+  - [Table of Content](#table-of-content)
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+  - [Preparation](#preparation)
+    - [Know the ip addresses, interfaces, user account](#know-the-ip-addresses-interfaces-user-account)
+  - [know which cores and cpu you will be using.](#know-which-cores-and-cpu-you-will-be-using)
+      - [In case of dual CPU](#in-case-of-dual-cpu)
+      - [In case of 1 CPU server](#in-case-of-1-cpu-server)
+  - [network components](#network-components)
+  - [Steps](#steps)
+
+# Introduction
 
 This guide describes the installation of the Accelleran dRAX base, 4G and 5G components, the Effnet DU, Phluido L1 and optionally a core network on a single server machine, however separating the RIC/CU (on a VM) and the DU/L1 (on the server) to increase stability and performances
 
-## Prerequisites
+
+# Prerequisites
 
 This installation guide assumes that that the following are to be taken as prerequisites and made available before proceding further:
 

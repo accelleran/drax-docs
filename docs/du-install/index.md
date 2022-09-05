@@ -1,4 +1,7 @@
-
+# DU Installation
+## Table of content
+- [DU Installation](#du-installation)
+  - [Table of content](#table-of-content)
 - [Introduction](#introduction)
   - [Variables needed for this install](#variables-needed-for-this-install)
     - [5G variables](#5g-variables)
