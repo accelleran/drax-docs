@@ -1,8 +1,12 @@
 # CU installation ( VM & kubernetes )
+## Table of Content
 - [CU installation ( VM & kubernetes )](#cu-installation--vm--kubernetes-)
-  - [Overview](#overview)
-    - [VM Minimum Requirements](#vm-minimum-requirements)
-  - [Install VM](#install-vm)
+  - [Table of Content](#table-of-content)
+- [Introduction](#introduction)
+  - [VM Minimum Requirements](#vm-minimum-requirements)
+- [Configure HOST server](#configure-host-server)
+  - [set a linux bridge](#set-a-linux-bridge)
+- [Install VM](#install-vm)
   - [Install Docker in the CU VM](#install-docker-in-the-cu-vm)
   - [Configure Docker Daemon](#configure-docker-daemon)
   - [Disable Swap](#disable-swap)
@@ -11,9 +15,9 @@
   - [Install Flannel](#install-flannel)
   - [Enable Pod Scheduling](#enable-pod-scheduling)
   - [A small busybox pod for testing](#a-small-busybox-pod-for-testing)
-  - [APENDIX : Remove a full Kubernetes installation](#apendix--remove-a-full-kubernetes-installation)
+- [APENDIX : Remove a full Kubernetes installation](#apendix--remove-a-full-kubernetes-installation)
 
-## Introduction
+# Introduction
 This chapter will install the CU, using Flannel for the CNI.
 This guide defaults to using Docker as the container runtime.
 For more information on installing Kubernetes, see the [official Kubernetes documentation](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/).
@@ -24,15 +28,15 @@ This chapter will guide you through following steps :
 * install kubernetes in the CU VM
 
 
-### VM Minimum Requirements
+## VM Minimum Requirements
 1. 8 dedicated Cores    ( cpuset planned in the preperation chapter ) 
 2. 32GB DDR4 RAM
 3. 200GB Hard Disk      ( includes space for logging/monitor/debugging the system )
 
-## Configure HOST server
+# Configure HOST server
 
 
-### set a linux bridge
+## set a linux bridge
 create a linux bridge using netplan
 
 adapt your netplan file assuming that $SERVER_INT holds the physical interface name of your server
@@ -66,7 +70,7 @@ net.ipv4.ip_forward=1
 
 reboot the host.
 
-## Install VM
+# Install VM
 
 If not yet installed install
 
@@ -316,7 +320,7 @@ kubectl exec -ti busybox -- nslookup mirrors.ubuntu.com
 #Address 1: 91.189.89.32 bilimbi.canonical.com
 ```
  
-## APENDIX : Remove a full Kubernetes installation
+# APENDIX : Remove a full Kubernetes installation
 
 On occasion, it may be deemed necessary to fully remove Kubernetes, for instance if for any reason your server IP address will change, then the advertised Kubernetes IP address will have to follow. THe following command help making sure the previous installation is cleared up: 
 
