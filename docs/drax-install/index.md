@@ -33,7 +33,7 @@
         - [4G : Update E1000 DUs](#4g--update-e1000-dus)
         - [4G : Download the E1000 update files](#4g--download-the-e1000-update-files)
         - [4G : Update software of E1000](#4g--update-software-of-e1000)
-        - [4G : Verify the update of E1000 on the unit and the alignment with dRAX /](#4g--verify-the-update-of-e1000-on-the-unit-and-the-alignment-with-drax-version)
+        - [4G : Verify the update of E1000 on the unit and the alignment with dRAX version](#4g--verify-the-update-of-e1000-on-the-unit-and-the-alignment-with-drax-version)
   - [Install the dRAX RIC and Dashboard](#install-the-drax-ric-and-dashboard)
   - [Install dRAX 5G Components](#install-drax-5g-components)
     - [5G CU-CP Installation](#5g-cu-cp-installation)
@@ -557,7 +557,7 @@ helm list
 
 Than view the pods that have been created.
 ``` bash
-kubectl get pod
+watch kubectl get pod
 ```
 
 You should see something like this. You can ignore the status of Jaeger in this release. It is not used at the moment.
