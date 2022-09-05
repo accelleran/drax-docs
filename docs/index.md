@@ -9,6 +9,7 @@
   - [know which cores and cpu you will be using.](#know-which-cores-and-cpu-you-will-be-using)
     - [In case of dual CPU](#in-case-of-dual-cpu)
     - [In case of 1 CPU server](#in-case-of-1-cpu-server)
+- [Directory](#directory)
 - [network components overview](#network-components-overview)
 - [Steps to take](#steps-to-take)
 
@@ -124,6 +125,8 @@ In order to perform many of the commands in this installation manual you need ro
 Whenever a command has to be executed with root privileges it will be prefixed with `sudo`.
 ## know which cores and cpu you will be using.
 Depending on the server you will be using assign the cores to the DU and CU.
+
+> IMPORTANT : only comma seperated list is allowed. ( virt-install will be using it )
 
 ### In case of dual CPU
 ``` bash
