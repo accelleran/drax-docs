@@ -365,8 +365,8 @@ acc-5g-infrastructure:
                       - $LOADBALANCER_IP_RANGE
 ```
 
-!!! Note
-    The IP pool which is selected here will be used by [MetalLB](https://metallb.universe.tf/), which we use to expose the E1, F1, and GTP interfaces to the external O-RAN components, such as the DU, and the 5GC. In other words, the CUCP E1, CUCP F1 and the CUUP GTP IP addresses will be taken from the specifed pool:
+> NOTE : The IP pool which is selected here will be used by [MetalLB](https://metallb.universe.tf/), which we use to expose the E1, F1, and GTP interfaces to the
+> external O-RAN components, such as the DU, and the 5GC. In other words, the CUCP E1, CUCP F1 and the CUUP GTP IP addresses will be taken from the specifed pool:
     
 ``` bash
 kubectl get services
