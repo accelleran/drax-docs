@@ -113,6 +113,13 @@ from inside this VM you should be able to ping the internet's ip address 8.8.8.8
 ping 8.8.8.8
 ```
 
+make sure all available disk space is being used inside the VM.
+```
+lsblk
+sudo lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+lsblk
+```
+
 Every heading that follows has to be done inside this VM.
 
 ## Install Docker in the CU VM
