@@ -1691,6 +1691,27 @@ Perform these steps to get a running active cell.
 4) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
 
 ## Appendix: Engineering tips and tricks
+### pcscd debug
+It occurs rarely that the du software throws
+```
+DU license check failed
+```
+when this happens you have to recreate the docker container and try again.
+If this does not help increase the pcscd logging.
+
+change 
+```
+ENTRYPOINT ["/usr/sbin/pcscd", "--foreground"]
+```
+
+into
+
+```
+ENTRYPOINT ["/usr/sbin/pcscd", "-d --foreground"]
+```
+
+and  use ``` docker logs ``` on the container to see more logging about what pcscd is doing
+
 ### custatus
 #### install
 * unzip custatus.zip so you get create a directory ```$HOME/5g-engineering/utilities/custatus```
