@@ -1500,13 +1500,11 @@ a trace like this appears
 ```bash
 21:19:20.285848 aa:bb:cc:dd:ee:ff > 00:1e:67:fd:f5:51, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
 ```
-
-
+	
 ``` bash
 $ cat /etc/networkd-dispatcher/routable.d/macs.sh 
 #!/bin/sh
 sudo arp -s 10.10.0.2 $MAC_RU -i $SERVER_RU_INT
-chmod 777 /etc/networkd-dispatcher/routable.d/macs.sh
 ```
 > Benetel650 does not answer arp requests. With this arp entry in the arp table the server knows to which mac address the ip packets with destination ip 10.10.0.2 
  should go
@@ -1518,7 +1516,26 @@ $ arp -a | grep 10.10.0.2
 ? (10.10.0.2) at $MAC_RU [ether] PERM on $SERVER_RU_INT
 ```
 
+When the fiber port comes up at the server side
+```
+eno2             UP             10.10.0.1/24 fe80::266e:96ff:fe43:64e2/64 
+```
 
+the ```macs.sh``` script is executes automatically if it has the correct permissions. Set the correct permissions.
+
+```
+sudo chown root /etc/networkd-dispatcher/routable.d/macs.sh
+sudo chgrp root /etc/networkd-dispatcher/routable.d/macs.sh
+sudo chmod 755 /etc/networkd-dispatcher/routable.d/macs.sh
+```
+
+test the automatic execution of ```macs.sh``` by running
+```
+journalctl -f
+```
+
+and plugging in the fiber. Each time it is plugged in you will see the the execution of the ```arp``` which has been put in the macs.sh script above.
+	
 ### Version Check
 finding out the version and commit hash of the benetel650
 
