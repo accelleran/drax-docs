@@ -24,7 +24,7 @@ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https:/
 sudo apt update
 ```
 
-Accelleran dRAX currently supports Kubernetes up to version 1.24. The following command installs specifically this version of k8s together with containerd:
+Accelleran dRAX currently supports Kubernetes up to version 1.24. The following command installs specifically this version of k8s together with containerd end suplemental libraries:
 
 ``` bash
 sudo apt-get install -y runc libc6 containerd kubelet=1.24.0-00 kubeadm=1.24.0-00 kubectl=1.24.0-00
@@ -38,6 +38,16 @@ sudo rm -rf /etc/containerd/config.toml
 sudo systemctl restart containerd.service
 sudo systemctl enable containerd.service
 sudo sysctl -p
+```
+
+
+## NetBridge 
+
+``` bash
+echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.all.forwarding=1" | sudo tee -a /etc/sysctl.conf
+sudo modprobe br_netfilter
 ```
 
 ## Configure Kubernetes
