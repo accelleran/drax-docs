@@ -24,7 +24,7 @@ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https:/
 sudo apt update
 ```
 
-Accelleran dRAX currently supports Kubernetes up to version 1.24. The following command installs specifically this version of k8s together with containerd end suplemental libraries:
+Accelleran dRAX currently supports Kubernetes up to version 1.24. The following command installs specifically this (1.24) version of k8s together with containerd end suplemental libraries:
 
 ``` bash
 sudo apt-get install -y runc libc6 containerd kubelet=1.24.0-00 kubeadm=1.24.0-00 kubectl=1.24.0-00
@@ -41,7 +41,9 @@ sudo sysctl -p
 ```
 
 
-## NetBridge 
+## Letting IPTables See Bridged Traffic and IP Forwarding Enabling 
+
+In order k8s nodes can see bringed traffic properly, iptables should be configured to allow bringed traffic together with enabled ip-forwarding.  
 
 ``` bash
 echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
@@ -102,10 +104,10 @@ kubectl apply -f kube-flannel.yml
 ## Enable Pod Scheduling
 
 By default, Kubernetes will not schedule Pods on the control-plane node for security reasons.
-As we're running with a single Node, we need to remove the node-role.kubernetes.io/master taint, meaning that the scheduler will then be able to schedule Pods on it.
+As we're running with a single Node, we need to remove the node-role.kubernetes.io/control-plane- taint, meaning that the scheduler will then be able to schedule Pods on it.
 
 ``` bash
-kubectl taint nodes --all node-role.kubernetes.io/master-
+kubectl taint node --all node-role.kubernetes.io/control-plane-
 ```
 
 ## A small busybox pod for testing
