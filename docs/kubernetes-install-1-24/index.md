@@ -14,7 +14,7 @@ sudo swapoff -a
 sudo sed -i '/\sswap\s/ s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 
-## Install Kubernetes
+## Install Kubernetes and suplemental libraries 
 
 Add the Kubernetes APT repository:
 
