@@ -347,7 +347,7 @@ dash-front-back-end:
 ### Enabling 5G components
 
 If you plan to install the 5G components (and you have the license to support this), you need to make a few other adjustments to the `ric-values.yaml` file:
-Set the let the $E1_CU_IP and $F1_CU_IP be the last in the range of ip addresses in the file below.
+Let the $E1_CU_IP and $F1_CU_IP be the last in the range of ip addresses in the file below. Of which the $F1_CU_IP is the last one in the range and is the odd number in the LSB of the ipv4. eg: RANGE=10.10.10.110-10.10.10.121 , E1=10.10.10.120, F1=10.10.10.121
 
 > NOTE : enable4G needs to be set to true aswell !
 
