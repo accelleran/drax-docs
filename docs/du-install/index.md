@@ -1,18 +1,147 @@
-# DU Installation 
+# DU Installation
+## Table of content
+- [DU Installation](#du-installation)
+  - [Table of content](#table-of-content)
+- [Introduction](#introduction)
+  - [Variables needed for this install](#variables-needed-for-this-install)
+    - [5G variables](#5g-variables)
+    - [Frequency variables](#frequency-variables)
+    - [licenses and files needed (see intro)](#licenses-and-files-needed-see-intro)
+- [Docker installation on the Server](#docker-installation-on-the-server)
+  - [Obtain the Effnet and Phluido licenses](#obtain-the-effnet-and-phluido-licenses)
+    - [Preparation steps](#preparation-steps)
+    - [Phluido : Install a Low Latency Kernel](#phluido--install-a-low-latency-kernel)
+    - [Phluido License: Run the sysTest utility from Phluido](#phluido-license-run-the-systest-utility-from-phluido)
+    - [Effnet License: Install and check your Yubikey](#effnet-license-install-and-check-your-yubikey)
+    - [Effnet License: Create a PCSCD Docker Image](#effnet-license-create-a-pcscd-docker-image)
+    - [Effnet License: activate the yubikey](#effnet-license-activate-the-yubikey)
+    - [Install the Phluido L1 ( docker )](#install-the-phluido-l1--docker-)
+    - [Install Effnet DU ( docker )](#install-effnet-du--docker-)
+    - [docker compose file ( with CPU PINNING )](#docker-compose-file--with-cpu-pinning-)
+    - [set softirq priorities to realtime](#set-softirq-priorities-to-realtime)
+    - [**FOR B210 RU ONLY** Install Phluido RRU ( docker )](#for-b210-ru-only-install-phluido-rru--docker-)
+- [Prepare and bring on air the USRP B210 Radio](#prepare-and-bring-on-air-the-usrp-b210-radio)
+  - [DU/L1/RRU Configuration and docker compose](#dul1rru-configuration-and-docker-compose)
+    - [Start the DU](#start-the-du)
+- [Prepare and bring on air the Benetel 650 Radio](#prepare-and-bring-on-air-the-benetel-650-radio)
+    - [Diagram](#diagram)
+  - [Server installtion](#server-installtion)
+    - [DU/L1 Configuration and docker compose](#dul1-configuration-and-docker-compose)
+    - [Frequency, Offsets, Point A Calculation](#frequency-offsets-point-a-calculation)
+    - [Create docker compose](#create-docker-compose)
+  - [Prepare to configure the Benetel 650](#prepare-to-configure-the-benetel-650)
+    - [Version Check](#version-check)
+  - [Configure the physical Benetel Radio End - Release V0.5.x](#configure-the-physical-benetel-radio-end---release-v05x)
+    - [CFR enabled](#cfr-enabled)
+    - [MAC Address of the DU](#mac-address-of-the-du)
+    - [Set the Frequency of the Radio End](#set-the-frequency-of-the-radio-end)
+    - [Set attenuation level](#set-attenuation-level)
+  - [verify good operation of the B650 (all releases)](#verify-good-operation-of-the-b650-all-releases)
+    - [GPS](#gps)
+    - [Cell Status Report](#cell-status-report)
+    - [RRU Status Report](#rru-status-report)
+    - [Handshake](#handshake)
+    - [Trace traffic between RRU and L1.](#trace-traffic-between-rru-and-l1)
+    - [Check if the L1 is listening](#check-if-the-l1-is-listening)
+    - [Show the traffic between rru and l1](#show-the-traffic-between-rru-and-l1)
+  - [Starting RRU Benetel 650](#starting-rru-benetel-650)
+  - [Troubleshooting](#troubleshooting)
+    - [Fiber Port not showing up](#fiber-port-not-showing-up)
+    - [L1 is not listening](#l1-is-not-listening)
+    - [example](#example)
+    
+# Introduction
+The DU will be installed in several Docker containers that run on metal on the host machine. As mentioned in the introduction, a separate Virtual Machine will host the RIC and the CU and their relative pods will be handled by Kubernetes inside that VM. Here we focus on the steps to get DU and L1 up and running.
 
-The DU will be installed in several Docker containers that run on the host machine.
+## Variables needed for this install
+Before proceeding you may want to crosscheck and modify some paramters that caracterise each deployment and depends on the desired provisioning of the components. The parameters that should be considered for this purpose and can be safely modified are:
 
-**Before proceding further make sure Docker and docker-compose have been installed and that docker can be run without superuser privileges, this is a prerequisite.**
 
-See, if you didn't do it already, [the chapter on Kubernetes Installation](../kubernetes-install/index.md) for information on how to do this.
+### 5G variables
+* plmn_identity      
+	* eg 235 88 
+* nr_cell_identity   
+	* eg 1  any number
+* nr_pci             
+	* eg 1  not any number. Ask Accelleran to do the PCI planning
+* 5gs_tac            
+	* eg 1 
 
-## information needed before install
-Accelleran needs some information to be able to prepare the RU before shipping it.
+### Frequency variables
+* center_frequency_band   
+	* eg  3751.680 
+* point_a_arfcn           
+	* 648840 consistent with center freq, scs 30khz
+* band               	  
+	* 77  consistent with center frequency
 
-* How long needs the RU 48V powercable need to be ? 
-* The center frequencey for the radio
+### licenses and files needed (see intro)
+* accelleran-du-phluido-2022-07-01-q2-pre-release.zip
+* phluido_docker_0842.tar
+* effnet-license-activation-yyyy_mm_dd.zip 
+* 32 digit phluido license key, ex 2B2A-962F-783F-40B9-7064-2DE3-3906-9D2E 
 
-## Install a Low Latency Kernel
+For any other modification it is advisable to make contact with the Accelleran service desk as of course, if in principle every paramter in the confuguration file is up for modification, it is certainly not recommendable to proceed in that declaration as each front end may or may not work as a consequence and the analysis and recovery from error scenario will be less than intuitive
+
+# Docker installation on the Server
+
+**Make sure Docker and docker-compose have been installed and that docker can be run without superuser privileges, this is a prerequisite. DO NOT install Kubernetes where DU and L1 will run**
+
+Add the Docker APT repository:
+
+``` bash
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+```
+```
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+```
+sudo apt update
+```
+
+Install the required packages:
+
+``` bash
+sudo apt install docker-ce 
+```
+```
+sudo apt install docker-ce-cli 
+```
+```
+sudo apt install containerd.io 
+```
+```
+sudo apt install docker-compose
+```
+
+Add your user to the docker group to be able to run docker commands without sudo access.
+You might have to reboot or log out and in again for this change to take effect.
+
+``` bash
+sudo usermod -aG docker $USER
+```
+
+To check if your installation is working you can try to run a test image in a container:
+
+``` bash
+sudo docker run hello-world
+```
+Restart Docker and enable on boot:
+
+``` bash
+sudo systemctl enable docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+
+## Obtain the Effnet and Phluido licenses
+
+### Preparation steps
+In this phase we will need to act in parallel for the DU and the L1/RRU licenses, which depend on our partner company so it is essential to give priority and possibly anticipate these two steps as there is no specific effort involved from the user/customer perspective and they may require longer than one working day before we can proceed further.
+
+
+### Phluido : Install a Low Latency Kernel
 
 The PHY layer has very stringent latency requirements, therefore we install a low latency kernel:
 
@@ -58,21 +187,25 @@ Restart the machine to make the changes take effect:
 ``` bash
 sudo reboot
 ```
+### Phluido License: Run the sysTest utility from Phluido
+to go to the directory where the Phluido sysTest utility is :
 
-## Obtain the Effnet and Phluido licenses
+```
+$ ./sysTest 
+Running system test...
+01234567890123456789012345678901
+System test completed, output written to file "sysTest.bin".
+```
 
-### Preparation steps
-In this phase we will need to act in parallel for the DU and the L1/RRU licenses, which depend on our partner company so it is essential to give priority and possibly anticipate these two steps as there is no specific effort involved from the user/customer perspective and they may require longer than one working day before we can proceed further.
+( The test takes around 90 seconds) This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components Once it is finsihed it produces a file sysTest.bin in the same directory Send this file to Accelleran, 
+to obtain the Phluido license key. Send this .bin file to phluido to receive a proper license.
 
-Verify the following archive files have been delivered and are available to you before taking further actions:
+### Effnet License: Install and check your Yubikey 
 
-1. accelleran-du-phluido-2022-01-31.zip
-2. Phluido5GL1_v0.8.1.zip
-3. effnet-license-activation-yyyy_mm_dd.zip 
 
-**Note** For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
+For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
 
-**Note:** if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed physically to a USB port:
+if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed physically to a USB port:
 
 To check if the server can see the key do (in this example Device004 is your key): 
 ``` bash
@@ -89,60 +222,16 @@ Bus 003 Device 029: ID 2a70:9024 OnePlus AC2003
 Bus 003 Device 006: ID 413c:a001 Dell Computer Corp. Hub
 Bus 003 Device 016: ID 20ce:0023 Minicircuits Mini-Circuits
 Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-
 ```
-
 Then you can find the serial number (yubikey-manager needed, install if it's not already):
 
 ``` bash
 sudo apt install yubikey-manager
+```
+``` bash
 ykman list --serials
-13134288
+#13134288
 ```
-
-Once you have the three archive files mentioned above create the directories to store the Effnet and Phluido software:
-
-``` bash
-mkdir -p accelleran-du-phluido Phluido5GL1/Phluido5GL1_v0.8.1
-```
-
-Place `accelleran-du-phluido-2022-01-31.zip` in `accelleran-du-phluido` and unzip it:
-
-``` bash
-unzip accelleran-du-phluido/accelleran-du-phluido-2022-01-31.zip -d accelleran-du-phluido
-```
-
-Place `Phluido5GL1_v0.8.1.zip` in `Phluido5GL1` and unzip it:
-
-``` bash
-unzip Phluido5GL1/Phluido5GL1_v0.8.1.zip -d Phluido5GL1/Phluido5GL1_v0.8.1
-```
-
-Create `Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright`.
-This file contains the date and time on which you agreed to the Phluido copyright notice and is required to build the Phluido L1 Docker image:
-
-``` bash
-date '+%Y-%m-%d, %H:%M:%S' >Phluido5GL1/Phluido5GL1_v0.8.1/L1_NR_copyright
-```
-
-
-### Phluido License: Run the sysTest utility from Phluido 
-
-go to the directory where the Phluido sysTest utility is :
-
-``` bash
-cd  Phluido5GL1/Phluido5GL1_v0.8.1/tools
-```
-Run the `sysTest` utility:
-
-``` bash
-(cd Phluido_sysTest; ./sysTest)
-```
-( The test takes around 90 seconds) 
-This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components
-Once it is finsihed it produces a file `sysTest.bin` in the same directory
-Send this file to Accelleran, to obtain the Phluido license key
-
 
 ### Effnet License: Create a PCSCD Docker Image 
 
@@ -230,31 +319,167 @@ Loading certificate to Yubico YubiKey CCID 00 00 (serial: 13134288)
 Which means that a license for the dongle with serial-number 13134288 was loaded to the dongle (i.e., it was bundled in the license-activation image).
 
 
-## Install the Phluido and Effnet Docker Images
-
-
-Load the Effnet DU Docker image:
-
-``` bash
-bzcat accelleran-du-phluido/accelleran-du-phluido-2022-01-31/gnb_du_main_phluido-2022-01-31.tar.bz2 | docker image load
+### Install the Phluido L1 ( docker )
+ 
+ ``` bash
+ docker image load -i phluido_docker_$L1_VERSION.tar
 ```
 
-Load the Phluido L1 Docker image:
+
+### Install Effnet DU ( docker )
 
 ``` bash
-docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.l1 -t phluido_l1:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
+unzip accelleran-du-phluido-$DU_VERSION.zip
+bzcat accelleran-du-phluido/accelleran-du-phluido-yyyy-mm-dd/gnb_du_main_phluido-yyy-mm-dd.tar.bz2 | docker image load
+```
+ 
+ ### docker compose file ( with CPU PINNING )
+ 
+ To achieve maximum stability and performance it is necessary to optimise the CPU load and this can be done by distributing the available CPUs among the components and assign different priorities to the most demanding processes. We split therefore the CPUs in two groups, one group of CPUs for the VM where the RIC/CU run and one group of CPUs for the containers that run L1 and DU. The CPU pinning allows for ceertain components to run only on certain CPUs, however it doesn't impede other processes to use the same CPUs, so the full optimisation of the CPU usage and the exclusive allocation of the CPUs are beyond the scope of this document, here we illustrate one possible split as an example.
+ 
+First thing to find out is what resources are available on our system:
+These have been found during the preperation fase and shared over DU and CU. In this chapter the DU core are assigned.
+
+In this specific example, there are two banks of 4 cores, each capable of hyperthreading, so in total we can count on 16 CPUs, let's then set 8 CPUs aside to run the VM for kubernetes and CU, and the other 8 CPUs to run L1/L2 so that they never compete for the same CPU. The assumption is that the rest of the processes on the system (very light load) is equally spread over all cores. If a large number of cores is available, probably the core with a higher number will be mostly free and can be then dedicated to L1 and DU, as mentioned there is no specific rule. For the sake of argument let's assign the even cores to the L1 and DU equally, so the Docker compose looks as follows:
+
+``` bash
+cat > docker-compose.yaml << EOF
+version: "2"
+services:
+
+  phluido_l1:
+    image: phluido_l1:$L1_VERSION
+    container_name: phluido_l1
+    tty: true
+    privileged: true
+    ipc: shareable
+    shm_size: 2gb
+    command: /config.cfg
+    volumes:
+      - "$PWD/l1-config-0.cfg:/config.cfg:ro"
+      - "$PWD/logs-0/l1:/workdir"
+      - "/etc/machine-id:/etc/machine-id:ro"
+    working_dir: "/workdir"
+    network_mode: host
+    cpuset: "$CORE_SET_DU"
+
+  du:
+    image: gnb_du_main_phluido:$DU_VERSION
+    volumes:
+      - "$PWD/du-config-0.json:/config.json:ro"
+      - "$PWD/logs-0/du:/workdir"
+      - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm
+    ipc: container:phluido_l1
+    tty: true
+    privileged: true
+    depends_on:
+      - phluido_l1
+    entrypoint: ["/bin/sh", "-c", "sleep 2 && exec /gnb_du_main_phluido /config.json"]
+    working_dir: "/workdir"
+    extra_hosts:
+      - "cu:$F1_CU_IP"
+      - "du:$SERVER_IP"
+    network_mode: host
+    cpuset: "$CORE_SET_DU"
+EOF
 ```
 
-**FOR B210 RU ONLY** : Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):
+
+**Notes: **
+1) the version has to be changed to '2' as version 3 does not support cpuset option
+2) the ip address for the cu is the one of the f1 external ip interface of the relative cucp service
+3) the DU ip address is the one of the server where the DU runs
+
+> NOTE : verify the cpu pinning of the VM's are different then those we used in above compose file.
+> We then need to take care of the CPUs that the VMs hosted on this server are intended to use. Earlier in the installation the CPU pinning has been done during creation. :
+> ``` bash
+> virsh edit $CU_VM_NAME
+> virsh edit $OPEN5GS_VM_NAME
+> ```
+> Other ways of creating a VM may not produce a configuration file in xml format, making things more difficult. We also recommend to identify the xml configuration file by searching the directory:
+> 
+> ``` bash
+> /etc/libvirt/qemu/
+> ```
+> 
+> But we definitely discourage the direct editing of such file as it will reset to default at the first reboot
+> 
+> Once done, you can check the content of the xml configuration file, that in this case will show we decided to assign the odd CPUs to the VM:
+> 
+> ``` bash
+> ubuntu@bbu3:~$ sudo cat /etc/libvirt/qemu/Ubuntu123.xml
+> <!--
+> WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
+> OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+>   virsh edit Ubuntu123
+> or other application using the libvirt API.
+> -->
+> 
+> <domain type='kvm'>
+>   <name>Ubuntu123</name>
+>   <uuid>f18a2a01-7b67-4f00-ad11-5920ec2b6f16</uuid>
+>   <metadata>
+>     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
+>       <libosinfo:os id="http://ubuntu.com/ubuntu/20.04"/>
+>     </libosinfo:libosinfo>
+>   </metadata>
+>   <memory unit='KiB'>33554432</memory>
+>   <currentMemory unit='KiB'>33554432</currentMemory>
+>   <vcpu placement='static' cpuset='1,3,5,7,9,11,13,15'>8</vcpu>
+>   <os>
+>     <type arch='x86_64' machine='pc-q35-4.2'>hvm</type>
+>     <bootmenu enable='yes'/>
+>   </os>
+>   <features>
+> 
+> ```
+
+### set softirq priorities to realtime	
+In a normal setup, the softirq processes will run at priority 20, equal to all user processes. Here they need to run at -2, which corresponds to real time priority. They are scheduled on all cores but will get strict priority over any other user processes. To adapt the priority of the ksoft, you can use spcific commands:
+
+to set to realtime priority 1 (lowest prio, but still "run to completion" before other default processes are executed):
+``` bash
+ps -A | grep ksoftirq | awk '{print $1}' | xargs -L1 sudo chrt -p 1
+```
+
+> NOTE: to revert the priority to "other policy":
+> 
+> 	
+> ``` bash
+> ps -A | grep ksoftirq | awk '{print $1}' | xargs -L1 sudo chrt --other -p 0
+> ```
+
+finally to check all the priorities set:
+
+``` bash
+ps -A | grep ksoftirq | awk '{print $1}' | xargs -L1 chrt -p
+```
+	
+Use htop to verify the priorities of the softirq processes.	
+The only thing remaining is now **prioritise the softirq processes**. One can use **htop** and work out the options to show priority and CPU ID 
+	
+	* Press F2 for ```Setup```, navigate to ```Columns```,  add ```PRIORITY```
+	
+	* Press F2 for ```Setup```, navigate to ```Display Options```, unselect ```Hide kernel threads```
+
+<p align="center">
+  <img width="500" height="300" src="htopPinning.png">
+</p>
+
+
+
+
+
+### **FOR B210 RU ONLY** Install Phluido RRU ( docker )
+
+ Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):
 
 ``` bash
 docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 ```
 
 
-
-
-## Prepare and bring on air the USRP B210 Radio
+# Prepare and bring on air the USRP B210 Radio
 
 This section is exclusively applicable to the user/customer that intends to use the Ettus USRP B210 Radio End with our Accellleran 5G end to end solution, if you do not have such radio end the informations included in this section may be misleading and bring to undefined error scenarios. Please contact Accelleran if your Radio End is not included in any section of this user guide
 
@@ -390,7 +615,7 @@ Device Address:
     product: B210
     type: b200
 ```
-### DU/L1/RRU Configuration and docker compose
+## DU/L1/RRU Configuration and docker compose
 
 Before starting the configuration of the components it is important to avoid confusion so please create a folder file and move in all the configuration files you find for the L1, RRU and the DU configuration and remove the docker-compose as well:
 ``` bash
@@ -402,6 +627,7 @@ rm accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose.yml
 ```
 
 Create a configuration file for the Phluido RRU:
+** only for B210 **
 
 ``` bash
 tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg <<EOF
@@ -442,37 +668,42 @@ EOF
 ```
 
 Create a configuration file for the Phluido L1.
-Make sure to set the value `LicenseKey` option to the received Phluido license key:
+Make sure to set the value `LicenseKey` option to the received Phluido license key. This key has been delivered by Phluido upon receipt of the .bin file generated by the sysTest you have performed at start of this installation.
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoL1_NR_B210.cfg <<EOF
+tee l1-config.cfg <<EOF
 /******************************************************************
-*
-* This file is subject to the terms and conditions defined in
-* file 'LICENSE'.
-*
-******************************************************************/
+ *
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE'.
+ *
+ ******************************************************************/
 
-//Enables verbose binary logging. WARNING: very CPU intensive and creates potentially huge output files. Use with caution.
+// Enables verbose binary logging. WARNING: very CPU intensive and creates potentially huge output files. Use with caution.
 //logLevel_verbose    = "DEBUG";
 
-//Enable 64-QAM support for PUSCH (license-specific)
-//maxPuschModOrder = 6;
+bbuFronthaulServerMode = 1;
+bbuFronthaulServerAddr = "10.10.0.1"
+bbuFronthaulServerPort = 44000;
+/// BBU fronthaul server "busy poll" for the receive socket, in microseconds, used as value for the relevant (SOL_SOCKET,SO_BUSY_POLL) socket option.
 
-//Enable radio unit emulation mode and define corresponding number of (emulated) antennas
-//backEndMode = 0;
-//numEmulTxAntennas = 2;
-//numEmulRxAntennas = 1;
+numWorkers = 4;
 
-//Enable 64-QAM support for PUSCH (license-specific)
+
+
+// Enable 64-QAM support for PUSCH (license-specific)
 maxPuschModOrder = 6;
 
 maxNumPdschLayers = 2;
 maxNumPuschLayers = 1;
 maxNumPrachDetectionSymbols = 1;
 
-//License key put here please the effective 32 digits sequence you received for this deployment
-LicenseKey = "XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX";
+targetRecvDelay_us = 2500;
+//targetCirPosition = 0.0078125;
+
+// License key
+//LicenseKey = "2B2A-962F-783F-40B9-7064-2DE3-3906-9D2E"
+
 EOF
 ```
 **IMPORTANT: After this replace the LicenseKey value with the effective license sequence you obtained from Accelleran 
@@ -480,18 +711,26 @@ EOF
 
 Create a configuration file for the Effnet DU:
 
+* nr_cell_identity  ( in binary format eg 3 fill in ...00011 )
+* nr_pci            ( decimal format eg 51 fill in 51 )
+* plmn_identity     ( eg 235 88 fill in 235f88. fill in 2 times in this file)
+* arfcn             ( decimal format calculated from the center frequency, see chapter ) 
+* nr_frequency_band ( 77 or 78 )
+* 5gs_tac           ( 3 byte array. eg 1 fill in 000001 ) 
+
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b210_config_20mhz.json <<EOF
+tee du-config.json <<EOF
 {
     "configuration": {
         "du_address": "du",
         "cu_address": "cu",
         "gtp_listen_address": "du",
+        "f1c_bind_address": "du",
         "vphy_listen_address": "127.0.0.1",
         "vphy_port": 13337,
         "vphy_tick_multiplier": 1,
         "gnb_du_id": 38209903575,
-        "gnb_du_name": "The quick brown fox jumps over a lazy dog",
+        "gnb_du_name": "cab-03-cell",
         "phy_control": {
             "crnti_range": {
                 "min": 42000,
@@ -507,15 +746,15 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b210_config_20mhz.jso
             {
                 "served_cell_information": {
                     "nr_cgi": {
-                        "plmn_identity": "001f01",
-                        "nr_cell_identity": "000000000000000000000000000000000001"
+                        "plmn_identity": "235f88",
+                        "nr_cell_identity": "000000000000000000000000000000000011"
                     },
-                    "nr_pci": 42,
+                    "nr_pci": 2,
                     "5gs_tac": "000001",
                     "ran_area_code": 1,
                     "served_plmns": [
                         {
-                            "plmn_identity": "001f01",
+                            "plmn_identity": "235f88",
                             "tai_slice_support_list": [
                                 {
                                     "sst": 1
@@ -525,26 +764,26 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b210_config_20mhz.jso
                     ],
                     "nr_mode_info": {
                         "nr_freq_info": {
-                            "nr_arfcn": 620112,
+                            "nr_arfcn": 662664,
                             "frequency_band_list": [
                                 {
-                                    "nr_frequency_band": 78
+                                    "nr_frequency_band": 77
                                 }
                             ]
                         },
                         "transmission_bandwidth": {
-                            "bandwidth_mhz": 20,
+                            "bandwidth_mhz": 40,
                             "scs_khz": 30,
-                            "nrb": 51
+                            "nrb": 106
                         },
                         "pattern": {
-                            "periodicity_in_slots": 5,
+                            "periodicity_in_slots": 10,
                             "downlink": {
-                                "slots": 3,
-                                "symbols": 7
+                                "slots": 7,
+                                "symbols": 6
                             },
                             "uplink": {
-                                "slots": 1,
+                                "slots": 2,
                                 "symbols": 4
                             }
                         }
@@ -555,19 +794,19 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b210_config_20mhz.jso
                         190,
                         239
                     ],
-                    "dmrs_type_a_position": "pos3",
+                    "dmrs_type_a_position": "pos2",
                     "intra_freq_reselection": "allowed",
                     "ssb_pattern": "1000000000000000000000000000000000000000000000000000000000000000",
                     "ssb_periodicity_serving_cell_ms": 20,
                     "prach_configuration_index": 202,
                     "ssb_pbch_scs": 30,
-                    "offset_point_a": 0,
+                    "offset_point_a": 6,
                     "k_ssb": 0,
-                    "coreset_zero_index": 5,
+                    "coreset_zero_index": 3,
                     "search_space_zero_index": 2,
                     "ra_response_window_slots": 20,
                     "sr_slot_periodicity": 40,
-                    "sr_slot_offset": 3,
+                    "sr_slot_offset": 7,
                     "search_space_other_si": 1,
                     "paging_search_space": 1,
                     "ra_search_space": 1,
@@ -575,7 +814,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b210_config_20mhz.jso
                         {
                             "id": 0,
                             "start_crb": 0,
-                            "num_rb": 51,
+                            "num_rb": 106,
                             "scs": 30,
                             "cyclic_prefix": "normal"
                         }
@@ -585,7 +824,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b210_config_20mhz.jso
                             "id": 1,
                             "bwp_id": 0,
                             "fd_resources": "111100000000000000000000000000000000000000000",
-                            "duration": 3,
+                            "duration": 2,
                             "interleaved": {
                                 "reg_bundle_size": 6,
                                 "interleaver_size": 2
@@ -607,7 +846,8 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b210_config_20mhz.jso
                             }
                         }
                     ],
-                    "num_tx_antennas": 1,
+                    "maximum_ru_power_dbm": 53.0,
+                    "num_tx_antennas": 2,
                     "trs": {
                         "periodicity_and_offset": {
                             "period": 80,
@@ -622,16 +862,16 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b210_config_20mhz.jso
                             "offset": 15
                         }
                     },
-                    "force_dl_mimo_layers": 1,
                     "harq_processes_for_pdsch": 16,
-                    "minimum_k1_delay": 3,
+                    "minimum_k1_delay": 1,
                     "minimum_k2_delay": 3,
-                    "force_rlc_buffer_size": 112500
+                    "force_rlc_buffer_size": 2500000
                 }
             }
         ]
     }
 }
+
 EOF
 ```
 
@@ -645,14 +885,15 @@ The CUCP F1 SCTP interface external address is the second IP address and should 
 
 Now, create a docker-compose configuration file:
 
+** remove the rru: when NOT using a b210. eg when using a b650 **
+
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2021-09-30/docker-compose.yml <<EOF
-version: "3"
+tee docker-compose.yml <<EOF
+version: "2"
 
 services:
-
   phluido_l1:
-    image: phluido_l1:v0.8.1
+    image: phluido_l1:v0.8.4.2
     container_name: phluido_l1
     tty: true
     privileged: true
@@ -660,16 +901,17 @@ services:
     shm_size: 2gb
     command: /config.cfg
     volumes:
-      - "$PWD/phluido/PhluidoL1_NR_B210.cfg:/config.cfg:ro"
+      - "$PWD/l1-config.cfg:/config.cfg:ro"
       - "/run/logs-du/l1:/workdir"
       - "/etc/machine-id:/etc/machine-id:ro"
     working_dir: "/workdir"
     network_mode: host
-
+    cpuset: "0,2,4,6,8,10,12,14"
+    
   du:
-    image: gnb_du_main_phluido:2022-01-31
+    image: gnb_du_main_phluido:2022-07-01-q2-pre-release
     volumes:
-      - "$PWD/b210_config_20mhz.json:/config.json:ro"
+      - "$PWD/du-config.json:/config.json:ro"
       - "/run/logs-du/du:/workdir"
       - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm
     ipc: container:phluido_l1
@@ -680,10 +922,12 @@ services:
     entrypoint: ["/bin/sh", "-c", "sleep 4 && exec /gnb_du_main_phluido /config.json"]
     working_dir: "/workdir"
     extra_hosts:
-      - "cu:$CU_IP"
+      - "cu:$F1_CU_IP"
+      - "du:$SERVER_IP"
+    cpuset: "0,2,4,6,8,10,12,14"
 
   phluido_rru:
-    image: phluido_rru:v0.8.1
+    image: phluido_rru:v0.8.4.2
     tty: true
     privileged: true
     depends_on:
@@ -778,10 +1022,13 @@ phluido_rru_1  | -- Performing timer loopback test... pass
 phluido_rru_1  | -- Performing timer loopback test... pass
 ```
 
-## Prepare and bring on air the Benetel 650 Radio
+# Prepare and bring on air the Benetel 650 Radio
 
 This section is exclusively applicable to the user/customer that intends to use the Benetel B650 Radio End with our Accellleran 5G end to end solution, if you do not have such radio end the informations included in this section may be misleading and bring to undefined error scenarios. Please contact Accelleran if your Radio End is not included in any section of this user guide
 
+### Diagram
+
+In the picture below we schematically show what will be run on the server by Docker and how the RRU is linked to the server itself: as mentioned early in this case the two components run by Docker are the L1 and the DU, while the RRU is supposedly served by a dedicated NIC Card capable of handling a 10 Gbps fiber link. If this is not your case please consult the section dedicted to Ettus B210 bring up or contact Accelleran for further information 
 
 ```
   10.10.0.100:ssh
@@ -789,7 +1036,7 @@ This section is exclusively applicable to the user/customer that intends to use 
   |             |
   |             |             +-----------+         +-----------+
   |             |             |           |         |           |
-  |     RRU     +----fiber----+   L1      |         |    DU     |
+  |     RU      +----fiber----+   L1      |         |    DU     |
   |             |             |           |         |           |
   |             |             +-----------+         +-----------+
   |             |
@@ -803,6 +1050,7 @@ aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
       port FIBER1
 ```
 
+## Server installtion
              
 ### DU/L1 Configuration and docker compose
 
@@ -812,7 +1060,9 @@ Create the configuration file for the Phluido L1 component the `PhluidoL1_NR_Ben
 Make sure to set the value `LicenseKey` option to the received Phluido license key:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoL1_NR_Benetel.cfg <<EOF
+mkdir ~/install-$DU_VERSION/
+cd !$
+tee PhluidoL1_NR_Benetel.cfg <<EOF
 /******************************************************************
  *
  * This file is subject to the terms and conditions defined in
@@ -821,15 +1071,15 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoL1_NR_
  ******************************************************************/
 //Enables verbose binary logging. WARNING: very CPU intensive and creates potentially huge output files. Use with caution.
 //
-// DEVEL: 		1.2G/67 
-// DEBUG: 		953M/67 
-// INFORMATIVE:	29K/67 
-// default: 	26K/67 
-// CRITICAL: 	0/393 
-// WARNING: 	0/393        (x/y x=log size in L1.encr.log file, y=log size in L1.open.log file. In a time of 1 minute )
+// DEVEL:       1.2G/67 
+// DEBUG:       953M/67 
+// INFORMATIVE: 29K/67 
+// default:     26K/67 
+// CRITICAL:    0/393 
+// WARNING:     0/393        (x/y x=log size in L1.encr.log file, y=log size in L1.open.log file. In a time of 1 minute )
 
 //logLevel_verbose    = "WARNING";     
-bbuFronthaulServerMode = 1;
+//bbuFronthaulServerMode = 1;
 bbuFronthaulServerAddr = "10.10.0.1";
 
 // Enable 64-QAM support for PUSCH (license-specific).
@@ -837,12 +1087,16 @@ maxPuschModOrder = 6;
 maxNumPdschLayers = 2;
 maxNumPuschLayers = 1;
 
-targetRecvSymbolDelay = 70; // setting for old SW version
-targetRecvSymbolDelay_us = 2500; //settings for new SW version
+cccServerPort = 44444;
+cccInterfaceMode = 1;
+kpiOutputFormat = 2;
 
-numWorkers = 6;
+targetRecvDelay_us = 2500;
+
+numWorkers = 6; // shall be less or equal to the number of cores assigned to L1 with the CPU pinning
 //License key put here please the effective 32 digits sequence you received for this deployment
-LicenseKey = "XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX";
+
+LicenseKey = "$L1_PHLUIDO_KEY";
 EOF
 
 ```
@@ -852,11 +1106,13 @@ EOF
 Create a configuration file for the Effnet DU:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.json <<EOF
+cd ~/$DU_VERSION
+tee b650_config_40mhz.json <<EOF
 {
     "configuration": {
         "du_address": "du",
         "cu_address": "cu",
+        "f1c_bind_address": "du",
         "gtp_listen_address": "du",
         "vphy_listen_address": "127.0.0.1",
         "vphy_port": 13337,
@@ -920,7 +1176,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
                             }
                         }
                     },
-                    "measurement_timing_configuration": [
+                   "measurement_timing_configuration": [
                         222,
                         173,
                         190,
@@ -978,7 +1234,7 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
                             }
                         }
                     ],
-                    "maximum_ru_power_dbm": 23.0,
+                    "maximum_ru_power_dbm": 35.0,
                     "num_tx_antennas": 2,
                     "trs": {
                         "periodicity_and_offset": {
@@ -995,10 +1251,10 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
                             "offset": 15
                         }
                     },
-                    "force_rlc_buffer_size": 2500000,
+                    "force_rlc_buffer_size": 8388608,
                     "harq_processes_for_pdsch": 16,
                     "minimum_k1_delay": 1,
-                    "minimum_k2_delay": 1                
+                    "minimum_k2_delay": 3
                 }
             }
         ]
@@ -1007,17 +1263,6 @@ tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/b650_config_40mhz.jso
 
 EOF
 ```
-Before proceeding you may want to crosscheck and modify some paramters that caracterise each deployment and depends on the desired provisioning of the components. The parameters that should be considered for this purpose and can be safely modified are:
-
-- plmn_identity
-- nr_cell_identity
-- nr_pci
-- 5gs_tac
-- nr_arfcn
-- nr_frequency_band
-
-For any other modification it is advisable to make contact with the Accelleran service desk as of course, if in principle every paramter in the confuguration file is up for modification, it is certainly not recommendable to proceed in that declaration as each front end may or may not work as a consequence and the analysis and recovery from error scenario will be less than intuitive
-
 
 ### Frequency, Offsets, Point A Calculation
 This section is essential to proceed correctly and determine the exact parameters that will allow the Benetel Radio to go on air correctly and the UEs to be able to see the cell and attempt an attach so it is particularly important to proceed carefully on this point. there are currently several limitations on the Frequencies that go beyond the simple definition of 5G NR Band:
@@ -1046,7 +1291,7 @@ This Frequency, however does not meet the **GSCN Synchronisation requirements** 
 With these information at hand we are going to determine:
 
 * point A frequency : 3732.60  ( arfcn : 648840 ) - edit du configuration in the appropriate json file
-* center Frequency  : 3751.68  ( arfcn : 650112 ) - edit rru configuration directly on the Benetel Radio End (see next sections)
+* center Frequency  : 3751.68  ( arfcn : 650112 ) - edit RU configuration directly on the Benetel Radio End (see next sections)
 
 ### Create docker compose
 
@@ -1061,13 +1306,13 @@ The CUCP F1 SCTP interface external address is the second IP address and should 
 Now, create a docker-compose configuration file:
 
 ``` bash
-tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose-B650.yml <<EOF
-version: "3"
-
+cd ~/$DU_VERSION
+tee docker-compose-B650.yml <<EOF
+version: "2"
 services:
 
   phluido_l1:
-    image: phluido_l1
+    image: phluido_l1:v0.8.4.2
     container_name: phluido_l1
     tty: true
     privileged: true
@@ -1075,32 +1320,36 @@ services:
     shm_size: 2gb
     command: /config.cfg
     volumes:
-      - "$PWD/phluido/PhluidoL1_NR_Benetel.cfg:/config.cfg:ro"
-      - "$PWD/logs/l1:/workdir"
+      - "$PWD/PhluidoL1_NR_Benetel.cfg:/config.cfg:ro"
+      - "/run/logs-du/l1:/workdir"
       - "/etc/machine-id:/etc/machine-id:ro"
     working_dir: "/workdir"
     network_mode: host
+    cpuset: "$CORE_SET_DU"
 
   du:
-    image: gnb_du_main_phluido
+    image: gnb_du_main_phluido:2022-07-01-q2-pre-release
     volumes:
       - "$PWD/b650_config_40mhz.json:/config.json:ro"
-      - "$PWD/logs/du:/workdir"
+      - "/run/logs-du/du:/workdir"
       - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm
     ipc: container:phluido_l1
     tty: true
     privileged: true
     depends_on:
       - phluido_l1
-    entrypoint: ["/bin/sh", "-c", "sleep 4 && exec /gnb_du_main_phluido /config.json"]
+    entrypoint: ["/bin/sh", "-c", "sleep 2 && exec /gnb_du_main_phluido /config.json"]
     working_dir: "/workdir"
     extra_hosts:
-      - "cu:$CU_IP"
-
-EOF
+      - "cu:$F1_CU_IP"
+      - "du:$SERVER_IP"
+    network_mode: host
+    cpuset: "$CORE_SET_DU"
+    
+EOF    
 ```
 
-### Prepare the server for the Benetel 650
+## Prepare to configure the Benetel 650
 
 The benetel is connected with a fiber to the server. 
 1. The port on the physical B650 RRU is labeled ```port FIBER1```
@@ -1239,28 +1488,55 @@ drwxrwxrwx    2 root     root             0 Feb  7 16:44 adrv9025
 -rwxr-xr-x    1 root     root           182 Feb  7 16:41 trialHandshake
 root@benetelru:~# 
 ```
-However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RRU has a different MAC on 10.10.0.2 for instance ``` 02:00:5e:01:01:01``` and we can put this on the Server where the DU runs in the file: /etc/networkd-dispatcher/routable.d/macs.sh
+However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RU has a different MAC on 10.10.0.2 for instance ```aa:bb:cc:dd:ee:ff ``` and we can put this on the Server where the DU runs in the file: /etc/networkd-dispatcher/routable.d/macs.sh
 
 Add mac entry script in routable.d. 
 
+To find out the $MAC_RU ( the mac address of the RU interface ) use 
+```bash
+sudo tcpdump -i $SERVER_RU_INT port 44000 -en
 ```
+a trace like this appears 
+```bash
+21:19:20.285848 aa:bb:cc:dd:ee:ff > 00:1e:67:fd:f5:51, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
+```
+	
+``` bash
 $ cat /etc/networkd-dispatcher/routable.d/macs.sh 
 #!/bin/sh
-sudo arp -s 10.10.0.2 02:00:5e:01:01:01 -i enp45s0f0
-chmod 777 /etc/networkd-dispatcher/routable.d/macs.sh
+sudo arp -s 10.10.0.2 $MAC_RU -i $SERVER_RU_INT
 ```
 > Benetel650 does not answer arp requests. With this arp entry in the arp table the server knows to which mac address the ip packets with destination ip 10.10.0.2 
  should go
 
 run the script and check now the arp table like this
 
-```
+``` bash
 $ arp -a | grep 10.10.0.2
-? (10.10.0.2) at 02:00:5e:01:01:01 [ether] PERM on enp45s0f0
+? (10.10.0.2) at $MAC_RU [ether] PERM on $SERVER_RU_INT
 ```
 
+When the fiber port comes up at the server side
+```
+eno2             UP             10.10.0.1/24 fe80::266e:96ff:fe43:64e2/64 
+```
 
-## Version Check
+the ```macs.sh``` script is executes automatically if it has the correct permissions. Set the correct permissions.
+
+```
+sudo chown root /etc/networkd-dispatcher/routable.d/macs.sh
+sudo chgrp root /etc/networkd-dispatcher/routable.d/macs.sh
+sudo chmod 755 /etc/networkd-dispatcher/routable.d/macs.sh
+```
+
+test the automatic execution of ```macs.sh``` by running
+```
+journalctl -f
+```
+
+and plugging in the fiber. Each time it is plugged in you will see the the execution of the ```arp``` which has been put in the macs.sh script above.
+	
+### Version Check
 finding out the version and commit hash of the benetel650
 
 commit hash
@@ -1286,27 +1562,45 @@ RAN650-2V0.3
 ```
 
 
-### Prepare the physical Benetel Radio End - Release V0.5
+## Configure the physical Benetel Radio End - Release V0.5.x
 
-There are several parameters that can be checked and modified by reading writing the EEPROM, for this we recommend to make use of the original Benetel Software User Guide for RANx50-02 CAT-B O-RUs, in case of doubt ask for clarification to Accelleran Customer Support . Here we just present two of the most used parameters, that will probably need an adjustment for each deployment.
+There are several parameters that can be checked and modified by reading writing the EEPROM, for this we recommend to make use of the original Benetel Software User Guide for RANx50-02 CAT-B O-RUs, in case of doubt ask for clarification to Accelleran Customer Support . Here we just present two of the most used parameters, that will need an adjustment for each deployment.
 
-#### MAC Address of the DU
+### CFR enabled 
+By default the RU ships with CFR enabled. What still needs to be done is set register ```0366``` to value ```0xFFF```. 
+Do this by altering file ```/usr/sbin/radio_setup_ran650_b.sh``` with following line.
 
-Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that. If the MAC address of the server port you use to connect to the Benetel B650 Radio End (the NIC Card port where the fiber originates from) is 00:7D:93:02:BB:FE then you can program the EEPROM of your B650 unit as follows:
-
+``` bash
+    registercontrol -w c0366 -x 0xFFF >> ${LOG_RAD_STAT_FP}
 ```
+
+
+### MAC Address of the DU
+
+Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that. If the MAC address of the server port you use to connect to the Benetel B650 Radio End (the NIC Card port where the fiber originates from) is $MAC_DU 11:22:33:44:55:66 then you can program the EEPROM of your B650 unit as follows:
+
+Here the value of ```$MAC_DU ``` need to be used.
+
+when the ```$MAC_DU``` contains the value of the mac address this script
+``` bash
 registercontrol -w 0xC036B -x 0x88000088
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x00
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x7D
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1c:0x01:0x93
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x02
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0xBB
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0xFE
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x$(echo $MAC_DU | cut -c1-2)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x$(echo $MAC_DU | cut -c4-5)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1c:0x01:0x$(echo $MAC_DU | cut -c7-8)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x$(echo $MAC_DU | cut -c10-11)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0x$(echo $MAC_DU | cut -c13-14)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0x$(echo $MAC_DU | cut -c16-17)
+registercontrol -w 0xC036B -x 0x88000488
 ```
-
-Don't forget to write lock the EEPROM again:
-
-```
+translates into this 
+``` bash
+registercontrol -w 0xC036B -x 0x88000088
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x11
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x22
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1c:0x01:0x33
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x44
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0x55
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0x66
 registercontrol -w 0xC036B -x 0x88000488
 ```
 
@@ -1316,10 +1610,10 @@ You can read the EEPROM now and double check what you did:
 eeprog_cp60 -q -f -x -16 /dev/i2c-0 0x57 -x -r 26:6
 ```
 
-**Finally, reboot your Radio End to make the changes effective**
+!! Finally, **reboot**  your Radio End to make the changes effective
 
 
-#### Set the Frequency of the Radio End 
+### Set the Frequency of the Radio End 
 Create this script to program the Center Frequency in MHz of your B650 RRU. Remember to determine a valid frequency as indicated previously in the document, taking into account all the constraints and the relationship to the Offset Point A. If the Center Frequency you want to is for instance 3751,680 MHz then you can program the EEPROM of your B650 unit as follows:
 
 ```
@@ -1344,14 +1638,16 @@ eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 372:8
 ```
 
 
-Once again, this is the **CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above**
+Once again, this is the 
+
+**CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above**
 
 Example for frequency 3751.68MHz (ARFCN=650112) you have set make sure to edit/check the pointA frequency ARFCN value back in the DU config json file in the server (in this example PointA_ARFCN=648840)
 
 **Reboot the BNTL650 to make changes effective**
 
 
-#### Set attenuation level
+### Set attenuation level
 This operation allows to temporary modify the attenuation of the transmitting channels of your B650 unit. Temporarily means that at the next reboot the Cell will default to the originally calibrated values, by default the transmission power is set to 25 dBm hence the attenuation is 15000 mdB (offset to the max TX Power). 
 
 To adjust this power for the transmitter the user must edit the attenuation setting:
@@ -1449,9 +1745,9 @@ ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
 
 
 
-### Generally available checks on the B650 (all releases)
+## verify good operation of the B650 (all releases)
 
-#### GPS
+### GPS
 See if GPS is locked
 ```
 root@benetelru:~# syncmon
@@ -1470,10 +1766,13 @@ CLK6 EXT 1PPS LIVE: LOS and Frequency Offset
 CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
 ```
 
-#### Cell Status Report
+### Cell Status Report
 
 Verify if the boot sequence ended up correctly, by checking the radio status, the ouput shall mention explicitly the up time and the succesful bringup
 ```
+
+> NOTE : this file is not present the first minute after reboot.
+
 root@benetelru:~# cat /tmp/radio_status 
 [INFO] Platform: RAN650_B
 [INFO] Radio bringup begin
@@ -1501,7 +1800,7 @@ root@benetelru:~# cat /tmp/radio_status
  15:54:47 up 4 min,  load average: 0.09, 0.19, 0.08
  ```
 
-#### RRU Status Report
+### RRU Status Report
 some important registers must be checked to determine if the boot sequence has completed correctly:
 
 ```bash
@@ -1544,19 +1843,36 @@ RU Status Register description:
 ===========================================================
 ```
 
-#### Handshake
+### Handshake
 
-Once the Cell and the server have been configured correctly, open two consoles and login in one of them to the server and in the other one login to the Benetel Radio End. If the cell has been just rebooted take the following two steps:
 
-1)run the handshake command
+The handshake command on the RU does only need to be performed in 1 situation. When at startup of the DU ( docker-compose up ) the traffic between the RU and the server is still going. You can find out by this:
+
+```ifstat -i enp1s0f0
+     enp1s0f0     
+ KB/s in  KB/s out
+71308.34  0.0
+71318.21  0.0
+```
+
+In this case execute
 
 ```
-handshake
+$ handshake
 ```
 
-This will trigger the cell to send periodic handshake messages every second to the server
+After execution you will have 
 
-2) login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):
+```ifstat -i enp1s0f0
+     enp1s0f0     
+ KB/s in  KB/s out
+ 0.0      0.0
+ 0.0      0.0
+```
+
+Handshake messages are sent by the RU every second. When phluido L1 is starting or running it will Listen on port 44000 and reply to these messages.
+
+Login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):
 
 ```
 tcpdump -i enp45s0f0 -c 5 port 44000 -en
@@ -1570,7 +1886,7 @@ Such initial message may repeat a certain number of times, this is normal.
 2)Now bring the components up with docker compose
 
 ``` bash
-docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose-benetel.yml
+docker-compose up -f docker-compose-benetel.yml
 ```
 
 If all goes well this will produce output similar to:
@@ -1623,7 +1939,7 @@ phluido_l1  |     maxPuschModOrder = 6
 phluido_l1  |
 ```
 
-#### Trace traffic between RRU and L1.
+### Trace traffic between RRU and L1.
 
 As said, the first packet goes out from the Radio End to the DU, this is the handshake packet. The second packet is the Handshake response of the DU and we have to make sure that as described the MAC address used in such response from the DU has been set correctly so that the DATA Interface MAC address of the Radio End is used (by default in the Benetel Radio this MAC address is ```02:00:5e:01:01:01```) When data flows the udp packet lengths are 3874. 
 Remember we increased the MTU size to 9000. Without increasing the L1 would crash on the fragmented udp packets.
@@ -1640,7 +1956,7 @@ listening on enp45s0f0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 ```
 
-#### Check if the L1 is listening 
+### Check if the L1 is listening 
 ```
 $ while true ; do sleep 1 ; netstat -ano | grep 44000 ;echo $RANDOM; done
 udp        0 118272 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
@@ -1653,7 +1969,7 @@ udp        0      0 10.10.0.1:44000         0.0.0.0:*                           
 502
 ```
 
-#### Show the traffic between rru and l1
+### Show the traffic between rru and l1
 
 ```
 $ ifstat -i enp45s0f0
@@ -1663,13 +1979,11 @@ $ ifstat -i enp45s0f0
 71313.36  105930.1
 ```
 
-#### Troubleshooting Fiber Port not showing up
-https://www.serveradminz.com/blog/unsupported-sfp-linux/
-
 ## Starting RRU Benetel 650
 Perform these steps to get a running active cell.
-1) Start L1 and DU (docker-compose)
-2) Use wireshark to follow the CPlane traffic, at this point following sequence:
+1) When the RU is still sending traffic use  ```ssh root@10.10.0.100 handshake``` to stop this traffic. 
+2) Start L1 and DU (docker-compose).
+3) Use wireshark to follow the CPlane traffic, at this point following sequence:
 ```
      DU                                        CU
       |  F1SetupRequest--->                     |
@@ -1688,7 +2002,38 @@ Perform these steps to get a running active cell.
       |                                         |
 ```
 
-4) type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
+> NOTE : type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
+
+## Troubleshooting
+### Fiber Port not showing up
+https://www.serveradminz.com/blog/unsupported-sfp-linux/
+
+### L1 is not listening
+Check if L1 is listening on port 44000 by typing
+
+```
+$ netstat -ano | grep 44000
+```
+
+If nothing is shown L1 is not listening. In this case do a trace on the F1 port like this.
+
+```
+tcpdump -i any port 38472
+18:26:30.940491 IP 10.244.0.208.38472 > bare-metal-node-cab-3.59910: sctp (1) [HB REQ] 
+18:26:30.940491 IP 10.244.0.208.38472 > bare-metal-node-cab-3.maas.56153: sctp (1) [HB REQ] 
+18:26:30.940530 IP bare-metal-node-cab-3.59910 > 10.244.0.208.38472: sctp (1) [HB ACK] 
+18:26:30.940532 IP bare-metal-node-cab-3.59910 > 10.244.0.208.38472: sctp (1) [HB ACK] 
+````
+you should see the HB REQ and ACK messages. If not Check 
+ * the docker-compose.yml file if the cu ip address matches the following bullet
+ * check ```kubectl get services ``` if the F1 service is running with the that maches previous bullet 
+
+### check SCTP connections
+There are 3 UDP ports you can check. When the system starts up it will setup 3 SCTP connections on following ports in the order mentioned here :
+
+* 38462 - E1 SCTP connection - SCTP between DU and CU
+* 38472 - F1 SCTP connection - SCTP between CU UP and CU CP
+* 38412 - NGAP SCTP connection - SCTP between CU CP and CORE
 
 ## Appendix: Engineering tips and tricks
 ### pcscd debug

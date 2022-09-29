@@ -1,10 +1,131 @@
-# Kubernetes Installation
+# CU installation ( VM & kubernetes )
+## Table of Content
+- [CU installation ( VM & kubernetes )](#cu-installation--vm--kubernetes-)
+  - [Table of Content](#table-of-content)
+- [Introduction](#introduction)
+  - [VM Minimum Requirements](#vm-minimum-requirements)
+- [Configure HOST server](#configure-host-server)
+  - [set a linux bridge](#set-a-linux-bridge)
+- [Install VM](#install-vm)
+  - [Install Docker in the CU VM](#install-docker-in-the-cu-vm)
+  - [Configure Docker Daemon](#configure-docker-daemon)
+  - [Disable Swap](#disable-swap)
+  - [Install Kubernetes inside the VM](#install-kubernetes-inside-the-vm)
+  - [Configure Kubernetes](#configure-kubernetes)
+  - [Install Flannel](#install-flannel)
+  - [Enable Pod Scheduling](#enable-pod-scheduling)
+  - [A small busybox pod for testing](#a-small-busybox-pod-for-testing)
+- [APENDIX : Remove a full Kubernetes installation](#apendix--remove-a-full-kubernetes-installation)
 
-This chapter will install Kubernetes, using Flannel for the CNI.
+# Introduction
+This chapter will install the CU, using Flannel for the CNI.
 This guide defaults to using Docker as the container runtime.
 For more information on installing Kubernetes, see the [official Kubernetes documentation](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/).
 
-## Install Docker
+This chapter will guide you through following steps : 
+* install VM ( with cpu pinning )
+* install docker in the CU VM
+* install kubernetes in the CU VM
+
+
+## VM Minimum Requirements
+1. 8 dedicated Cores    ( cpuset planned in the preperation chapter ) 
+2. 32GB DDR4 RAM
+3. 200GB Hard Disk      ( includes space for logging/monitor/debugging the system )
+
+# Configure HOST server
+
+
+## set a linux bridge
+create a linux bridge using netplan
+
+adapt your netplan file assuming that $SERVER_INT holds the physical interface name of your server
+that connects to the network.
+
+
+``` bash
+network:
+  ethernets:
+    $SERVER_INT:
+      dhcp4: false
+  :
+  :
+  bridges:
+    br0:
+      interfaces: [$SERVER_INT]
+      addresses:
+            - $SERVER_IP/24
+      gateway4: $GATEWAY_IP
+      nameservers:
+        addresses: [8.8.8.8]
+
+  version: 2
+
+```
+on the host uncomment the line in ```/etc/sysctl.conf``` so you get this.
+
+``` bash
+net.ipv4.ip_forward=1
+```
+
+reboot the host.
+
+# Install VM
+
+If not yet installed install
+
+```bash
+sudo apt install virtinst
+sudo apt install libvirt-clients
+sudo apt install qemu
+sudo apt install qemu-kvm
+sudo apt install libvirt_daemon
+sudo apt install bridge-utils
+sudo apt install virt-manager
+```
+
+** reboot server **
+
+Below a command line that creates a VM with the correct settings.
+
+> IMPORTANT ! the $CORE_SET_CU can only be a comma seperated list. 
+
+```bash
+sudo virt-install  --name "$CU_VM_NAME"  --memory 16768 --vcpus "sockets=1,cores=$CORE_AMOUNT_CU,cpuset=$CORE_SET_CU"  --os-type linux  --os-variant rhel7.0 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
+```
+
+Continue in the console the complete the VM installation.
+Take all default values except these points :
+
+* set to static ip $NODE_IP ( see preperation chapter )
+* Select [ x ] install openSSH
+* set hostname=\$CU_HOSTNAME, username=\$USER and password
+
+Installation will begin. Wait about 5 minutes for it to install.
+reboot the VM 
+
+ssh into the VM.
+
+``` bash
+ssh $USER@$NODE_IP
+```
+
+from inside this VM you should be able to ping the internet's ip address 8.8.8.8
+
+``` bash
+ping 8.8.8.8
+```
+
+make sure all available disk space is being used inside the VM.
+```
+lsblk
+sudo lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+lsblk
+```
+
+Every heading that follows has to be done inside this VM.
+
+## Install Docker in the CU VM
 
 Add the Docker APT repository:
 
@@ -38,12 +159,13 @@ You might have to reboot or log out and in again for this change to take effect.
 
 ``` bash
 sudo usermod -aG docker $USER
+sudo reboot
 ```
 
 To check if your installation is working you can try to run a test image in a container:
 
 ``` bash
-sudo docker run hello-world
+docker run hello-world
 ```
 
 ## Configure Docker Daemon
@@ -81,7 +203,7 @@ sudo swapoff -a
 sudo sed -i '/\sswap\s/ s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 
-## Install Kubernetes
+## Install Kubernetes inside the VM
 
 Add the Kubernetes APT repository:
 
@@ -95,6 +217,8 @@ Accelleran dRAX currently supports Kubernetes up to version 1.20. The following 
 
 ``` bash
 sudo apt install -y kubelet=1.20.0-00 kubeadm=1.20.0-00 kubectl=1.20.0-00
+```
+``` bash
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
@@ -105,7 +229,7 @@ This is generally the (primary) IP address of the network interface associated w
 From here on, this IP is referred to as `$NODE_IP` - we store it as an environment variable for later use:
 
 ``` bash
-export NODE_IP=1.2.3.4   # replace 1.2.3.4 with the correct IP
+export NODE_IP=x.x.x.x         # See Preperation paragraph for correct ip
 ```
 
 This guide assumes we will use Flannel as the CNI-based Pod network for this Kubernetes instance, which uses the `10.244.0.0/16` subnet by default.
@@ -206,17 +330,36 @@ kubectl exec -ti busybox -- nslookup mirrors.ubuntu.com
 #Address 1: 91.189.89.32 bilimbi.canonical.com
 ```
  
-## Remove in full a Kubernetes installation
+# APENDIX : Remove a full Kubernetes installation
 
 On occasion, it may be deemed necessary to fully remove Kubernetes, for instance if for any reason your server IP address will change, then the advertised Kubernetes IP address will have to follow. THe following command help making sure the previous installation is cleared up: 
 
 
 ``` bash 
 sudo kubeadm reset
-sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*
+```
+``` bash
+sudo apt-get purge kubeadm 
+```
+``` bash
+sudo apt-get purge kubectl 
+```
+``` bash
+sudo apt-get purge kubelet
+```
+``` bash
+sudo apt-get purge kubernetes-cni
+```
+``` bash
 sudo rm -rf ~/.kube
+```
+``` bash
 sudo rm -rf /etc/cni/net.d
+```
+``` bash
 sudo ip link delete cni0
+```
+``` bash
 sudo ip link delete flannel.1
 ```
 

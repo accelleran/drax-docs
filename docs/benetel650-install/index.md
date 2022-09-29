@@ -89,7 +89,7 @@ services:
     entrypoint: ["/bin/sh", "-c", "sleep 4 && exec /gnb_du_main_phluido /config.json"]
     working_dir: "/workdir"
     extra_hosts:
-      - "cu:$CU_IP"
+      - "cu:$F1_CU_IP"
 
 EOF
 ```

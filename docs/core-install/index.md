@@ -47,8 +47,17 @@ export NODE_INT=br0
 
 ## Create a Virtual Machine
 
-Next you can install the virtual machine that hosts the core.
-The installation process is outside the scope of this document.
+Next you can install the virtual machine that hosts the core. The installation process is outside the scope of this document. Still we share the commandline you can use
+``` bash
+virt-install  --name open5gs-ubuntu-20.04.4  --memory 8192 --vcpus "cpuset=9-15"  --os-type linux  --os-variant rhel7 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20~.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio" --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
+```
+Continue with ```virt-manager``` console
+Choose all default except for
+  * Fill in the static ip of $CORE_IP
+  * select [ x ] openSsh
+  
+VM installation takes 5 minutes
+
 Make sure to create a bridged network for the virtual machine and assign a fixed IP address (`$CORE_IP`) in the same subnet as `$NODE_IP` to it.
 Note that if you SSH into the virtual machine the `$CORE_IP` and related variables might not be set.
 
@@ -70,6 +79,8 @@ amf:
     ngap:
       - addr: $CORE_IP
 ```
+
+Change the ```plmn_id:``` everywhere in the amf.yaml file to the one of your setup.
 
 Edit `/etc/open5gs/upf.yaml` and set the GTP-U listen address to the public address of the virtual machine:
 
@@ -111,8 +122,82 @@ netstat -ano | grep 3000
 #tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      off (0.00/0/0)
 ````
 
-### Per UE
+### Provision a UE
+
+This can be done through command line
+```
+open5gs-dbctl add 001010000006309 00112233445566778899aabbccddeeff 84d4c9c08b4f482861e3a9c6c35bc4d8 internet
+```
+
+or webgui
+
+<p align="center">
+  <img width="1025" height="531" src="2022-08-09_135057.png">
+  <img width="1024" height="542" src="2022-08-09_135124.png">
+  <img width="1026" height="544" src="2022-08-09_135146.png">
+</p>
+
 
 * use static ip address which you can map to the imsi. This makes debugging traffic much easier when using multiple UE's. 
     ``` eg: imsi 235880000009834 gets ip address 10.0.0.34```
+### Verify if open5gs is functional
+open5gs listens on ngap interface
+``` bash
+netstat -ano | grep 38412
+# sctp                10.55.7.104:38412                               LISTEN      
+```
 
+5g configuration
+``` bash
+grep -e 10.55.7 -e m[cn]c  /etc/open5gs/* | egrep -v :\s*#
+#/etc/open5gs/amf.yaml:      - addr: 10.55.7.104
+#/etc/open5gs/amf.yaml:          mcc: 001
+#/etc/open5gs/amf.yaml:          mnc: 01
+#/etc/open5gs/amf.yaml:          mcc: 001
+#/etc/open5gs/amf.yaml:          mnc: 01
+#/etc/open5gs/amf.yaml:          mcc: 001
+#/etc/open5gs/amf.yaml:          mnc: 01
+#/etc/open5gs/upf.yaml:      - addr: 10.55.7.104
+```
+
+### Some scripts one often uses
+#### restart
+``` bash
+at > restartcore.sh << EOF
+sudo systemctl restart open5gs-mmed
+sudo systemctl restart open5gs-sgwcd
+sudo systemctl restart open5gs-smfd
+sudo systemctl restart open5gs-amfd
+sudo systemctl restart open5gs-sgwud
+sudo systemctl restart open5gs-upfd
+sudo systemctl restart open5gs-hssd
+sudo systemctl restart open5gs-pcrfd
+sudo systemctl restart open5gs-nrfd
+sudo systemctl restart open5gs-ausfd
+sudo systemctl restart open5gs-udmd
+sudo systemctl restart open5gs-pcfd
+sudo systemctl restart open5gs-udrd
+sudo systemctl restart open5gs-webui
+EOF
+```
+#### version 
+``` bash
+cat > versioncore.sh << EOF
+set -x
+open5gs-mmed -v 
+open5gs-sgwcd -v 
+open5gs-smfd -v 
+open5gs-amfd -v 
+open5gs-sgwud -v 
+open5gs-upfd -v 
+open5gs-hssd -v 
+open5gs-pcrfd -v 
+open5gs-nrfd -v 
+open5gs-ausfd -v 
+open5gs-udmd -v 
+open5gs-pcfd -v 
+open5gs-udrd -v 
+open5gs-webui -v 
+set +x
+EOF
+```
