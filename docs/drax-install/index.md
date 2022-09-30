@@ -119,8 +119,8 @@ Also, as mentioned in the [Overview](../index.md) section of this document, it i
 2. The Customer Network allows access to internet services
 3. a DockerHub account, and have shared the username with the Accelleran team to provide access to the needed images
 4. EPC/5GC must be routable without NAT from dRAX (and E1000 DUs in case of 4G)
-5. From Accelleran you will need 
-    * user, password and email from docker
+5. From Accelleran you will need access to the Dockerhub repository
+    * please create your account with user, password and email from dockerub
 
 ## 4G Specific requirements:
 
@@ -167,7 +167,7 @@ This license file will be named **license.crt** and will be used in a later step
 
 4G Only : If you intend to deploy the 4G aspects of dRAX (together with Accelleran's E1000 4G DUs), you will also need to prepare a certificate to ensure secure communication between the various components.
 Please refer to [the Appendix on creating certificates](#appendix-drax-provisioner-keys-and-certificates-generation).
-This will also need to be validated by Accelleran's customer support team, so please do this in advance of attempting the installation.
+This will also need to be validated and signed by Accelleran's customer support team, so please do this in advance of attempting the installation.
 
 ### Namespaces
 
@@ -185,7 +185,7 @@ As mentioned, extra steps or flags must be used with most of the commands that f
 The Default Namespace column sometimes contains another Namespace placeholder, e.g. the NS_4G_CU default is $NS_DRAX - this means that the default behaviour is to run the CUs in the $NS_DRAX namespace, but it can be overridden.
 If neither $NS_DRAX nor $NS_4G_CU is specified, the CU will run in the "default" namespace.
 
-## Install a new installation
+## Install dRAX for the first time 
 When you are not dealing with a new installation you can skip this chapter and move to chapter "Updating existing installation" 
 
 ### install helm
@@ -242,7 +242,7 @@ kubectl get pods -n $NS_DRAX
 
 ### Configure DockerHub credentials in Kubernetes
 
-Create a secret named `accelleran-secret` with your DockerHub credentials, specifically using the kubectl command (do not forget the `-n <namespace>` option if you selected different namespaces previously):
+If you have previously obtained (from the Customer Support) access to Accelleran Dockerhub repository, you can now proceed to create a secret named `accelleran-secret` with your DockerHub credentials, specifically using the kubectl command (do not forget the `-n <namespace>` option if you selected different namespaces previously):
 
 ``` bash
 kubectl create secret docker-registry accelleran-secret --docker-server=docker.io --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASS --docker-email=$DOCKER_EMAIL
@@ -334,7 +334,7 @@ dash-front-back-end:
 By default, these IPs are taken to be the `$NODE_IP`.
 If you are browsing the dRAX Dashboard from a machine that can reach the `$NODE_IP`, this will work.
 However, in certain use cases, dRAX can be installed on a public IP, and the `$NODE_IP` will not be reachable from your local machine.
-In that case, it's best to set these two IPs above to the public IP:
+In that case, it's best to set these IPs above to the public IP:
 
 ``` yaml
 dash-front-back-end:
@@ -347,7 +347,7 @@ dash-front-back-end:
 ### Enabling 5G components
 
 If you plan to install the 5G components (and you have the license to support this), you need to make a few other adjustments to the `ric-values.yaml` file:
-Set the let the $E1_CU_IP and $F1_CU_IP be the last in the range of ip addresses in the file below.
+Let the $E1_CU_IP and $F1_CU_IP be the last in the range of ip addresses in the file below. Of which the $F1_CU_IP is the last one in the range and is the odd number in the LSB of the ipv4. eg: RANGE=10.10.10.110-10.10.10.121 , E1=10.10.10.120, F1=10.10.10.121
 
 > NOTE : enable4G needs to be set to true aswell !
 
@@ -545,9 +545,10 @@ Install the RIC and Dashboard with Helm (if installing without dedicated namespa
 ``` bash
 helm install ric acc-helm/ric --version $RIC_VERSION --values ric-values.yaml -n $NS_DRAX
 ```
+!!! info
+The installation may take up to 5 minutes, it is essential that you wait till the installation is completed and all the pods are in RUNNING or COMPLETE mode, please do **NOT** interrupt the installation by trying to regain control of the command line
 
-After installation which may take 5 minutes check if if it is installed
-First use helm.
+To check if the installation was successful first use Helm:
 
 ``` bash
 helm list
@@ -563,7 +564,6 @@ watch kubectl get pod
 You should see something like this. You can ignore the status of Jaeger in this release. It is not used at the moment.
 > ```
 > NAME                                                 READY   STATUS             RESTARTS   AGE
-> busybox                                              1/1     Running            2          145m
 > ric-acc-fiveg-pmcounters-6d47899ccc-k2w66            1/1     Running            0          56m
 > ric-acc-kafka-955b96786-lvkns                        2/2     Running            2          56m
 > ric-acc-kminion-57648f8c49-g89cj                     1/1     Running            1          56m
@@ -596,8 +596,6 @@ You should see something like this. You can ignore the status of Jaeger in this 
 > ric-zookeeper-0                                      1/1     Running            1          56m
 > ```
 
-!!! info
-    The installation process can take some minutes, please hold on and don't interrupt the installation.
 ## Install dRAX 5G Components
 
 Accelleran's 5G Components are managed and installed via the Dashboard.
@@ -1113,10 +1111,6 @@ This time, pick the **Accelleran dRAX 5G System Dashboard** from the list of pre
 ![Accelleran dRAX 5G Health Dashboard](images/dashboard-5g-health-1.png)
 
 The 5G specific health dashboard, in addition to the 5 global sections explained above, also shows which components of 5G dRAX are running (AMF Controller, CUUP, DS Ctrl, etc.).
-
-# Appendix: Install Helm version 3
-
-Helm version 3 is required for the installation of dRAX. Detailed instructions on installing Helm, which should be done first, can be found here: [https://helm.sh/docs/intro/install/](https://helm.sh/docs/intro/install/).
 
 # Appendix: How to enable/disable DHCP for the IP address of the E1000 4G DU
 
