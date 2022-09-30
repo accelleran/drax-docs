@@ -121,6 +121,14 @@ export L1_VERSION=v0.8.4.2
 export DU_VERSION=2022-07-01-q2-pre-release
 ```
 
+5G values
+``` bash
+export PLMNID=23588
+export FREQ_CENTER=3751.680         # The center frequency of the band the operator uses.
+export ARFCN_POINT_A=648840         # calculated in the DU install part
+export FREQ_BAND=78 
+```
+
 In order to perform many of the commands in this installation manual you need root privileges.
 Whenever a command has to be executed with root privileges it will be prefixed with `sudo`.
 ## know which cores and cpu you will be using.
@@ -148,7 +156,6 @@ assign all cores of 1 CPU to DU. The cores of the other CPU to CU VM).
 ``` bash
 export CORE_SET_DU=0,2,4,6,8,10,12,14
 export CORE_SET_CU=1,3,5,7,9,11,13,15
-export CORE_AMOUNT_CU=8
 ```
 
 ### In case of 1 CPU server
@@ -166,7 +173,6 @@ Assign first half to DU and last half to CU
 ``` bash
 export CORE_SET_DU=0,1,2,3,4,5,6,7,8,9
 export CORE_SET_CU=10,11,12,13,14,15,16,17,18,19
-export CORE_AMOUNT_CU=10
 ```
 
 # Directory
