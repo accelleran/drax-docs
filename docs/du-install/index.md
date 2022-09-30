@@ -21,7 +21,7 @@
     - [set softirq priorities to realtime](#set-softirq-priorities-to-realtime)
     - [**FOR B210 RU ONLY** Install Phluido RRU ( docker )](#for-b210-ru-only-install-phluido-rru--docker-)
 - [Prepare and bring on air the USRP B210 Radio](#prepare-and-bring-on-air-the-usrp-b210-radio)
-  - [DU/L1/RRU Configuration and docker compose](#dul1rru-configuration-and-docker-compose)
+  - [[only for B210 RU] DU/L1/RRU Configuration and docker compose](#only-for-b210-ru-dul1rru-configuration-and-docker-compose)
     - [Start the DU](#start-the-du)
 - [Prepare and bring on air the Benetel 650 Radio](#prepare-and-bring-on-air-the-benetel-650-radio)
     - [Diagram](#diagram)
@@ -615,7 +615,7 @@ Device Address:
     product: B210
     type: b200
 ```
-## DU/L1/RRU Configuration and docker compose
+## [only for B210 RU] DU/L1/RRU Configuration and docker compose
 
 Before starting the configuration of the components it is important to avoid confusion so please create a folder file and move in all the configuration files you find for the L1, RRU and the DU configuration and remove the docker-compose as well:
 ``` bash
@@ -906,7 +906,7 @@ services:
       - "/etc/machine-id:/etc/machine-id:ro"
     working_dir: "/workdir"
     network_mode: host
-    cpuset: "0,2,4,6,8,10,12,14"
+    cpuset: "$CORE_SET_DU"
     
   du:
     image: gnb_du_main_phluido:2022-07-01-q2-pre-release
@@ -924,7 +924,7 @@ services:
     extra_hosts:
       - "cu:$F1_CU_IP"
       - "du:$SERVER_IP"
-    cpuset: "0,2,4,6,8,10,12,14"
+    cpuset: "$CORE_SET_DU"
 
   phluido_rru:
     image: phluido_rru:v0.8.4.2
@@ -1986,68 +1986,4 @@ Perform these steps to get a running active cell.
 ```
 
 > NOTE : type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
-
-## Troubleshooting
-### Fiber Port not showing up
-https://www.serveradminz.com/blog/unsupported-sfp-linux/
-
-### L1 is not listening
-Check if L1 is listening on port 44000 by typing
-
-```
-$ netstat -ano | grep 44000
-```
-
-If nothing is shown L1 is not listening. In this case do a trace on the F1 port like this.
-
-```
-tcpdump -i any port 38472
-18:26:30.940491 IP 10.244.0.208.38472 > bare-metal-node-cab-3.59910: sctp (1) [HB REQ] 
-18:26:30.940491 IP 10.244.0.208.38472 > bare-metal-node-cab-3.maas.56153: sctp (1) [HB REQ] 
-18:26:30.940530 IP bare-metal-node-cab-3.59910 > 10.244.0.208.38472: sctp (1) [HB ACK] 
-18:26:30.940532 IP bare-metal-node-cab-3.59910 > 10.244.0.208.38472: sctp (1) [HB ACK] 
-````
-you should see the HB REQ and ACK messages. If not Check 
- * the docker-compose.yml file if the cu ip address matches the following bullet
- * check ```kubectl get services ``` if the F1 service is running with the that maches previous bullet 
-
-### check SCTP connections
-There are 3 UDP ports you can check. When the system starts up it will setup 3 SCTP connections on following ports in the order mentioned here :
-
-* 38462 - E1 SCTP connection - SCTP between DU and CU
-* 38472 - F1 SCTP connection - SCTP between CU UP and CU CP
-* 38412 - NGAP SCTP connection - SCTP between CU CP and CORE
-
-## Appendix: Engineering tips and tricks
-### custatus
-#### install
-* unzip custatus.zip so you get create a directory ```$HOME/5g-engineering/utilities/custatus```
-* ```sudo apt install tmux```
-* create the ```.tmux.conf``` file with following content.
-```
-cat $HOME/.tmux.conf 
-set -g mouse on
-bind q killw
-```
-add this line in $HOME/.profile
-```
-export PATH=$HOME/5g-engineering/utilities/custatus:$PATH
-```
-
-#### use
-to start 
-```
-custatus.sh tmux
-```
-
-to quit 
-* type "CTRL-b" followed by "q"
-
-> NOTE : you might need to quit the first time you have started. 
-> Start a second time and see the difference.
-
-### example
-
-![image](https://user-images.githubusercontent.com/21971027/148368394-44fd92b2-d803-44ce-b20f-08475fb382cc.png)
-
 
