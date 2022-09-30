@@ -888,10 +888,10 @@ Later on, you can click this button to edit the configuration.
 
 The 5G CU-CP components have a number of parameters that you can set as can be seen below:
 
-* PLMN ID: The PLMN ID to be used
+* PLMN ID: The PLMN ID to be used ( this is the value of $PLMNID )
 * GNB ID: The GNB ID
 * GNB CU-CP name: A friendly name of the 5G CU-CP component
-* AMF NG interface IP Address: You can click on the (+) sign in the table to expand it like on the figure below. You can now Add Rows to add multiple AMF NG interface IP addresses, or delete them using the Delete Row field. Edit the **NG Destination IP Address** to be the AMF NG IP address of your setup. This IP is the $CORE_IP.
+* AMF NG interface IP Address: You can click on the (+) sign in the table to expand it like on the figure below. You can now Add Rows to add multiple AMF NG interface IP addresses, or delete them using the Delete Row field. Edit the **NG Destination IP Address** to be the AMF NG IP address of your setup. ( This IP is the $CORE_IP ).
 
 Click the **Submit** button to send the configuration.
 
@@ -903,8 +903,8 @@ The 5G CU-UP has a number of configuration parameters as seen below:
 
 * GNB CU-UP ID: The 3GPP ID of the CU-UP component.
 * GNB CU-UP name: The 3GPP friendly name of the CU-UP component,
-* E1 Links: You can Add Row or Delete Rows using the button. Here we add the E1 IP address of the CU-CP component that this CU-UP component will connect to. Enter the E1 IP under **E1 Destination IP Address.** This IP is the $E1_CU_IP . 
-* Supported PLMN Slices; Expand the table by clicking the (+) sign. You can now Add Rows or Delete Rows to add multiple PLMN IDs. For each PLMN ID, you can Add Rows to add slices or Delete Rows to delete slices. Each slice is defined by the Slice Type and Slice Differentiator.
+* E1 Links: You can Add Row or Delete Rows using the button. Here we add the E1 IP address of the CU-CP component that this CU-UP component will connect to. Enter the E1 IP under **E1 Destination IP Address.** ( This IP is the **$E1_CU_IP** ). 
+* Change the PLMN ID into what you prepared in the value **$PLMNID**
 
 ![5G CU-UP Configuration parameters](images/dashboard-cu-up-config.png)
 
