@@ -91,13 +91,13 @@ Below a command line that creates a VM with the correct settings.
 > IMPORTANT ! the $CORE_SET_CU can only be a comma seperated list. 
 
 ```bash
-sudo virt-install  --name "$CU_VM_NAME"  --memory 16768 --vcpus "sockets=1,cores=$CORE_AMOUNT_CU,cpuset=$CORE_SET_CU"  --os-type linux  --os-variant rhel7.0 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
+sudo virt-install  --name "$CU_VM_NAME"  --memory 16768 --vcpus "sockets=1,cores=10,cpuset=$CORE_SET_CU"  --os-type linux  --os-variant rhel7.0 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
 ```
 
 Continue in the console the complete the VM installation.
 Take all default values except these points :
 
-* set to static ip $NODE_IP ( see preperation chapter )
+* set to static ip $NODcat E_IP ( see preperation chapter )
 * Select [ x ] install openSSH
 * set hostname=\$CU_HOSTNAME, username=\$USER and password
 
@@ -108,6 +108,12 @@ ssh into the VM.
 
 ``` bash
 ssh $USER@$NODE_IP
+```
+
+in the vm uncomment the line in ```/etc/sysctl.conf``` so you get this.
+
+``` bash
+net.ipv4.ip_forward=1
 ```
 
 from inside this VM you should be able to ping the internet's ip address 8.8.8.8
