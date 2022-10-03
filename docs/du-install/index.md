@@ -1582,9 +1582,14 @@ Do this by altering file ```/usr/sbin/radio_setup_ran650_b.sh``` with following 
 ```
 
 ### reset DPD service
+Go to the RU
+```
+	ssh root@10.10.0.100
+```
+	
 create this script that resets DPD
 ```
-cat <<EOF > ~/resetdpd.sh
+cat <<EOF > /home/root/resetdpd.sh
 #!/bin/sh
 
 date '+%Y-%m-%d %H:%M:%S ##########'    >  /tmp/resetingDpdStatus.txt
@@ -1628,6 +1633,22 @@ systemctl enable resetdpd
 systemctl daemon-reload
 systemctl restart resetdpd
 ```	
+reboot the RU. When the RU is up ( /tmp/radio_status indicates when it is up ) the file ```/tmp/resetingDpdStatus.txt``` should contain this
+```
+2020-02-07 16:06:05 ##########
+
+Reset DPD, channel mask: 0xf
+
+f 1 1
+Reset channel 1, mask 1,
+7 1 2
+Reset channel 2, mask 2,
+3 1 4
+Reset channel 3, mask 4,
+1 1 8
+Reset channel 4, mask 8,Reset type: FULL RESET
+	
+```
 
 ### MAC Address of the DU
 
