@@ -110,6 +110,30 @@ As we're running with a single Node, we need to remove the node-role.kubernetes.
 kubectl taint node --all node-role.kubernetes.io/control-plane-
 ```
 
+## Deploy Longhorn as the Default Persistent Storage
+
+First create the longhorn-system namespace:
+``` bash
+kubectl create namespace longhorn-system
+```
+Then add the longhorn repository to helm:
+``` bash
+helm repo add longhorn https://charts.longhorn.io
+```
+Finally deploy Longhorn with all replica counts set to 1 and UI exposed on port 32100 via NodePort instead of ClusterIp:
+``` bash
+helm install longhorn longhorn/longhorn --version 1.3.1 \
+--set service.ui.type=NodePort,\
+service.ui.nodePort=32100,\
+persistence.defaultClassReplicaCount=1,\
+csi.attacherReplicaCount=1,\
+csi.provisionerReplicaCount=1,\
+csi.resizerReplicaCount=1,\
+csi.snapshotterReplicaCount=1,\
+defaultSettings.defaultReplicaCount=1,\
+namespaceOverride="longhorn-system"
+```
+
 ## A small busybox pod for testing
 
 It is very convenient (however optional) to test the Kubernetes installation with a simple busybox pod for instance to test your DNS resolution inside a pod. To do so create the following yaml file (/tmp/busybox.yaml):
