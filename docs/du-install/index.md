@@ -149,6 +149,13 @@ The PHY layer has very stringent latency requirements, therefore we install a lo
 sudo apt install linux-image-lowlatency
 ```
 
+make sure this line is present in the ```/etc/default/grub``` file. 
+It forces the GRUB to start a lowlatency kernel.
+```
+$ cat /etc/default/grub | grep FLAV
+GRUB_FLAVOUR_ORDER=lowlatency
+``` 
+
 Create a sysctl configuration file to configure the low latency kernel:
 
 ``` bash
