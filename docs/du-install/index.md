@@ -1581,6 +1581,53 @@ Do this by altering file ```/usr/sbin/radio_setup_ran650_b.sh``` with following 
     registercontrol -w c0366 -x 0xFFF >> ${LOG_RAD_STAT_FP}
 ```
 
+### reset DPD service
+create this script that resets DPD
+```
+cat <<EOF > ~/resetdpd.sh
+#!/bin/sh
+
+date '+%Y-%m-%d %H:%M:%S ##########'    >  /tmp/resetingDpdStatus.txt
+_status_file=$(find /tmp/ | grep radio_status)
+if test -e $_status_file -a -n "$(grep ' up ' $_status_file)"
+then
+        echo radiocontrol -o D s                >> /tmp/resetingDpdStatus.txt 
+        /usr/bin/radiocontrol -o D s            >> /tmp/resetingDpdStatus.txt 
+        echo radiocontrol -o D r 15 1           >> /tmp/resetingDpdStatus.txt 
+        /usr/bin/radiocontrol -o D r 15 1       >> /tmp/resetingDpdStatus.txt 
+else
+        echo "radio not up yet"                 >> /tmp/resetingDpdStatus.txt
+fi
+
+EOF
+```
+
+create this service that calls the reset each 1800 seconds
+```
+cat <<EOF > /etc/systemd/system/resetdpd.service
+[Unit]
+Description=resets the DPD
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1800
+User=root
+ExecStart=/home/root/resetdpd.sh
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+enable and start the service. It will start a boot time.
+```
+systemctl enable resetdpd
+systemctl daemon-reload
+systemctl restart resetdpd
+```	
 
 ### MAC Address of the DU
 
