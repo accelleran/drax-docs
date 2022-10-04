@@ -4,6 +4,19 @@ In order to have end-to-end connectivity a core network is required.
 If no core network is available, Open5GS can be installed in a virtual machine on the installation machine.
 If you already have a core you can skip this chapter.
 
+## Table of content
+
+- [Core Installation](#core-installation)
+  - [Table of content](#table-of-content)
+  - [Create a Network Bridge](#create-a-network-bridge)
+  - [Create a Virtual Machine](#create-a-virtual-machine)
+  - [Install Open5GS](#install-open5gs)
+    - [Configure Open5GS](#configure-open5gs)
+    - [open5gs GUI](#open5gs-gui)
+    - [Some scripts one often uses](#some-scripts-one-often-uses)
+      - [restart](#restart)
+      - [version](#version)
+
 ## Create a Network Bridge
 
 In order to be able to assign a public IP address to the Virtual Machine, the network connection of the installation machine has to be bridged.
@@ -61,7 +74,7 @@ VM installation takes 5 minutes
 Make sure to create a bridged network for the virtual machine and assign a fixed IP address (`$CORE_IP`) in the same subnet as `$NODE_IP` to it.
 Note that if you SSH into the virtual machine the `$CORE_IP` and related variables might not be set.
 
-# Install Open5GS
+## Install Open5GS
 
 Please refer to [the Open5GS website](https://open5gs.org/open5gs/docs/guide/01-quickstart/) for information on how to install and configure the Open5GS core network on the virtual machine.
 

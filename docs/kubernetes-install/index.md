@@ -2,22 +2,22 @@
 ## Table of Content
 - [CU installation ( VM & kubernetes )](#cu-installation--vm--kubernetes-)
   - [Table of Content](#table-of-content)
-- [Introduction](#introduction)
-  - [VM Minimum Requirements](#vm-minimum-requirements)
-- [Configure HOST server](#configure-host-server)
-  - [set a linux bridge](#set-a-linux-bridge)
+  - [Introduction](#introduction)
+    - [VM Minimum Requirements](#vm-minimum-requirements)
+  - [Configure HOST server](#configure-host-server)
+    - [set a linux bridge](#set-a-linux-bridge)
 - [Install VM](#install-vm)
-  - [Install Docker in the CU VM](#install-docker-in-the-cu-vm)
-  - [Configure Docker Daemon](#configure-docker-daemon)
-  - [Disable Swap](#disable-swap)
-  - [Install Kubernetes inside the VM](#install-kubernetes-inside-the-vm)
-  - [Configure Kubernetes](#configure-kubernetes)
-  - [Install Flannel](#install-flannel)
-  - [Enable Pod Scheduling](#enable-pod-scheduling)
-  - [A small busybox pod for testing](#a-small-busybox-pod-for-testing)
-- [APENDIX : Remove a full Kubernetes installation](#apendix--remove-a-full-kubernetes-installation)
+    - [Install Docker in the CU VM](#install-docker-in-the-cu-vm)
+    - [Configure Docker Daemon](#configure-docker-daemon)
+    - [Disable Swap](#disable-swap)
+    - [Install Kubernetes inside the VM](#install-kubernetes-inside-the-vm)
+    - [Configure Kubernetes](#configure-kubernetes)
+    - [Install Flannel](#install-flannel)
+    - [Enable Pod Scheduling](#enable-pod-scheduling)
+    - [A small busybox pod for testing](#a-small-busybox-pod-for-testing)
+  - [APENDIX : Remove a full Kubernetes installation](#apendix--remove-a-full-kubernetes-installation)
 
-# Introduction
+## Introduction
 This chapter will install the CU, using Flannel for the CNI.
 This guide defaults to using Docker as the container runtime.
 For more information on installing Kubernetes, see the [official Kubernetes documentation](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/).
@@ -28,15 +28,15 @@ This chapter will guide you through following steps :
 * install kubernetes in the CU VM
 
 
-## VM Minimum Requirements
+### VM Minimum Requirements
 1. 8 dedicated Cores    ( cpuset planned in the preperation chapter ) 
 2. 32GB DDR4 RAM
 3. 200GB Hard Disk      ( includes space for logging/monitor/debugging the system )
 
-# Configure HOST server
+## Configure HOST server
 
 
-## set a linux bridge
+### set a linux bridge
 create a linux bridge using netplan
 
 adapt your netplan file assuming that $SERVER_INT holds the physical interface name of your server
@@ -125,7 +125,7 @@ lsblk
 
 Every heading that follows has to be done inside this VM.
 
-## Install Docker in the CU VM
+### Install Docker in the CU VM
 
 Add the Docker APT repository:
 
@@ -168,7 +168,7 @@ To check if your installation is working you can try to run a test image in a co
 docker run hello-world
 ```
 
-## Configure Docker Daemon
+### Configure Docker Daemon
 
 The recommended configuration of the Docker daemon is provided by the Kubernetes team - particularly to use systemd for the management of the container's cgroups:
 
@@ -194,7 +194,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
-## Disable Swap
+### Disable Swap
 
 Kubernetes refuses to run if swap is enabled on the node, so we disable swap immediately and then also disable it following a reboot:
 
@@ -203,7 +203,7 @@ sudo swapoff -a
 sudo sed -i '/\sswap\s/ s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 
-## Install Kubernetes inside the VM
+### Install Kubernetes inside the VM
 
 Add the Kubernetes APT repository:
 
@@ -222,7 +222,7 @@ sudo apt install -y kubelet=1.20.0-00 kubeadm=1.20.0-00 kubectl=1.20.0-00
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
-## Configure Kubernetes
+### Configure Kubernetes
 
 To initialize the Kubernetes cluster, the IP address of the node needs to be fixed, i.e. if this IP changes, a full re-installation of Kubernetes will be required.
 This is generally the (primary) IP address of the network interface associated with the default gateway.
@@ -256,7 +256,7 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown "$(id -u):$(id -g)" "$HOME/.kube/config"
 ```
 
-## Install Flannel
+### Install Flannel
 
 Prepare the Manifest file:
 
@@ -271,7 +271,7 @@ Apply the Manifest file:
 kubectl apply -f kube-flannel.yml
 ```
 
-## Enable Pod Scheduling
+### Enable Pod Scheduling
 
 By default, Kubernetes will not schedule Pods on the control-plane node for security reasons.
 As we're running with a single Node, we need to remove the node-role.kubernetes.io/master taint, meaning that the scheduler will then be able to schedule Pods on it.
@@ -280,7 +280,7 @@ As we're running with a single Node, we need to remove the node-role.kubernetes.
 kubectl taint nodes --all node-role.kubernetes.io/master-
 ```
 
-## A small busybox pod for testing
+### A small busybox pod for testing
 
 It is very convenient (however optional) to test the Kubernetes installation with a simple busybox pod for instance to test your DNS resolution inside a pod. To do so create the following yaml file (/tmp/busybox.yaml):
 
@@ -330,7 +330,7 @@ kubectl exec -ti busybox -- nslookup mirrors.ubuntu.com
 #Address 1: 91.189.89.32 bilimbi.canonical.com
 ```
  
-# APENDIX : Remove a full Kubernetes installation
+## APENDIX : Remove a full Kubernetes installation
 
 On occasion, it may be deemed necessary to fully remove Kubernetes, for instance if for any reason your server IP address will change, then the advertised Kubernetes IP address will have to follow. THe following command help making sure the previous installation is cleared up: 
 
