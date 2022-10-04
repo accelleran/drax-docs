@@ -7,7 +7,7 @@
   - [Prerequisites / Preperations](#prerequisites--preperations)
     - [Know the ip addresses, interfaces, user account](#know-the-ip-addresses-interfaces-user-account)
     - [know which cores and cpu you will be using.](#know-which-cores-and-cpu-you-will-be-using)
-    - [In case of dual CPU](#in-case-of-dual-cpu)
+      - [In case of dual CPU](#in-case-of-dual-cpu)
       - [In case of 1 CPU server](#in-case-of-1-cpu-server)
   - [Directory](#directory)
   - [network components overview](#network-components-overview)
@@ -128,7 +128,7 @@ Depending on the server you will be using assign the cores to the DU and CU.
 
 > IMPORTANT : only comma seperated list is allowed. ( virt-install will be using it )
 
-### In case of dual CPU
+#### In case of dual CPU
 ``` bash
 ubuntu@bbu3:~$ numactl --hardware
 available: 2 nodes (0-1)
