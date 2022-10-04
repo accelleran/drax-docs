@@ -48,6 +48,13 @@
 - [Troubleshooting](#troubleshooting)
   - [Fiber Port not showing up](#fiber-port-not-showing-up)
   - [L1 is not listening](#l1-is-not-listening)
+  - [check SCTP connections](#check-sctp-connections)
+- [Appendix: Engineering tips and tricks](#appendix-engineering-tips-and-tricks)
+  - [pcscd debug](#pcscd-debug)
+  - [Run RU in freerun mode](#run-ru-in-freerun-mode)
+  - [custatus](#custatus)
+    - [install](#install)
+    - [use](#use)
     - [example](#example)
     
 # Introduction
@@ -2031,10 +2038,11 @@ tcpdump -i any port 38472
 18:26:30.940491 IP 10.244.0.208.38472 > bare-metal-node-cab-3.maas.56153: sctp (1) [HB REQ] 
 18:26:30.940530 IP bare-metal-node-cab-3.59910 > 10.244.0.208.38472: sctp (1) [HB ACK] 
 18:26:30.940532 IP bare-metal-node-cab-3.59910 > 10.244.0.208.38472: sctp (1) [HB ACK] 
-````
+```
 you should see the HB REQ and ACK messages. If not Check 
  * the docker-compose.yml file if the cu ip address matches the following bullet
  * check ```kubectl get services ``` if the F1 service is running with the that maches previous bullet 
+
 
 ## check SCTP connections
 There are 3 UDP ports you can check. When the system starts up it will setup 3 SCTP connections on following ports in the order mentioned here :
@@ -2044,6 +2052,7 @@ There are 3 UDP ports you can check. When the system starts up it will setup 3 S
 * 38412 - NGAP SCTP connection - SCTP between CU CP and CORE
 
 # Appendix: Engineering tips and tricks
+
 ## pcscd debug
 It occurs rarely that the du software throws
 ```
