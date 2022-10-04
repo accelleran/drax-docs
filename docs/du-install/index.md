@@ -2079,11 +2079,11 @@ Perform these steps to get a running active cell.
 
 > NOTE : type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
 
-## Troubleshooting
-### Fiber Port not showing up
+# Troubleshooting
+## Fiber Port not showing up
 https://www.serveradminz.com/blog/unsupported-sfp-linux/
 
-### L1 is not listening
+## L1 is not listening
 Check if L1 is listening on port 44000 by typing
 
 ```
@@ -2103,7 +2103,7 @@ you should see the HB REQ and ACK messages. If not Check
  * the docker-compose.yml file if the cu ip address matches the following bullet
  * check ```kubectl get services ``` if the F1 service is running with the that maches previous bullet 
 
-### check SCTP connections
+## check SCTP connections
 There are 3 UDP ports you can check. When the system starts up it will setup 3 SCTP connections on following ports in the order mentioned here :
 
 * 38462 - E1 SCTP connection - SCTP between DU and CU
