@@ -44,9 +44,9 @@ NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access t
 	
 * Software:
 	* Ubuntu Server 20.04 OS both on the VM and on the Server ( ubuntu-20.04.4-live-server-amd64.iso )
-	* Effnet DU: accelleran-du-phluido-2022-07-01-q2-pre-release.zip
-	* Phluido L1: phluido_docker_0842.tar
-	* effnet-license-activation-yyyy_mm_dd.zip
+	* Effnet DU: accelleran-du-phluido-%Y-%m-%d-pre-release.zip
+	* Phluido L1: phluido_docker_xxxxx.tar
+	* effnet-license-activation-%Y-%m-%d.zip
 	* sysTest executable 
 
 * Linux Configuration:
@@ -54,13 +54,13 @@ NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access t
     * virsh installed
     
 * 5G configuration :
-	* plmn_identity eg 235 88
-	* nr_cell_identity eg 1 any number
-	* nr_pci eg 1 not any number. Make sure to do the correct PCI planning in case of multiple cells.
-	* 5gs_tac eg 1
-	* center_frequency_band eg 3751.680
-	* point_a_arfcn eg 648840 consistent with center freq, scs 30khz
-	* band eg 77 consistent with center frequency
+	* plmn_identity [ eg 235 88 ]
+	* nr_cell_identity [ eg 1 any number ]
+	* nr_pci [ eg 1 not any number. Make sure to do the correct PCI planning in case of multiple cells. ]
+	* 5gs_tac [ eg 1 ]
+	* center_frequency_band [ eg 3751.680 ]
+	* point_a_arfcn [ eg 648840 consistent with center freq, scs 30khz ]
+	* band [ eg 77 consistent with center frequency ]
     
 NOTE: while taking almost no active time to obtain the Phluido license code and the Effnet activation bundle, in order to do so we need to contact our technical partners and this may require up to a couple of working days so it is recommended to take the necessary actions to complete these steps first of all. Similarly, we must enable your dockerhub account to access and download the Accelleran software images, this also takes some time and can be done upfront
 
@@ -116,13 +116,16 @@ export DOCKER_EMAIL=
 
 RIC version. Accelleran will tell you which RIC version needs to be installed in this setup.
 ``` bash
-export RIC_VERSION=5.0.0
-export L1_VERSION=v0.8.4.2
-export DU_VERSION=2022-07-01-q2-pre-release
+export RIC_VERSION=6.0.0
+export CU_VERSION=3.3.0
+export L1_VERSION=8.7.1
+export DU_VERSION=2022-08-26-q2-release-0.4
+export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.
 ```
 
 In order to perform many of the commands in this installation manual you need root privileges.
 Whenever a command has to be executed with root privileges it will be prefixed with `sudo`.
+
 ### know which cores and cpu you will be using.
 Depending on the server you will be using assign the cores to the DU and CU.
 
@@ -170,7 +173,7 @@ export CORE_AMOUNT_CU=10
 ```
 
 ## Directory
-Every command that needs execution is to be expected to execute inside an install directory. This directory will get created when extracting the ```install.xxx.zip``` which will get delivered by Accelleran.
+Every command that needs execution is to be expected to execute inside an install directory. This directory will get created when extracting the ```install-accelleran-%Y-<release>.zip``` which will get delivered by Accelleran.
 
 ## network components overview
 Here a simplified diagram of all network components and the related ip addresses. 

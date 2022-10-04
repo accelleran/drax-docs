@@ -44,7 +44,8 @@
       - [Trace traffic between RRU and L1.](#trace-traffic-between-rru-and-l1)
       - [Check if the L1 is listening](#check-if-the-l1-is-listening)
       - [Show the traffic between rru and l1](#show-the-traffic-between-rru-and-l1)
-  - [Starting RRU Benetel 650](#starting-rru-benetel-650)
+  - [Starting RRU Benetel 650 - manual way](#starting-rru-benetel-650---manual-way)
+  - [Starting RRU Benetel 650 - cell wrapper way](#starting-rru-benetel-650---cell-wrapper-way)
   - [Troubleshooting](#troubleshooting)
     - [Fiber Port not showing up](#fiber-port-not-showing-up)
     - [L1 is not listening](#l1-is-not-listening)
@@ -65,28 +66,21 @@ Before proceeding you may want to crosscheck and modify some paramters that cara
 
 
 #### 5G variables
-* plmn_identity      
-	* eg 235 88 
-* nr_cell_identity   
-	* eg 1  any number
-* nr_pci             
-	* eg 1  not any number. Ask Accelleran to do the PCI planning
-* 5gs_tac            
-	* eg 1 
+* plmn_identity      [ eg 235 88 ] 
+* nr_cell_identity   [ eg 1  any number ]
+* nr_pci             [ eg 1  not any number. Ask Accelleran to do the PCI planning ]
+* 5gs_tac            [ eg 1 ] 
 
 #### Frequency variables
-* center_frequency_band   
-	* eg  3751.680 
-* point_a_arfcn           
-	* 648840 consistent with center freq, scs 30khz
-* band               	  
-	* 77  consistent with center frequency
+* center_frequency_band   [ eg  3751.680 ] 
+* point_a_arfcn           [ 648840 consistent with center freq, scs 30khz ]
+* band               	  [ 77  consistent with center frequency ]
 
 #### licenses and files needed (see intro)
-* accelleran-du-phluido-2022-07-01-q2-pre-release.zip
-* phluido_docker_0842.tar
-* effnet-license-activation-yyyy_mm_dd.zip 
-* 32 digit phluido license key, ex 2B2A-962F-783F-40B9-7064-2DE3-3906-9D2E 
+* accelleran-du-phluido-%Y-%m-%d-release.zip
+* phluido_docker_xxxx.tar
+* effnet-license-activation-%Y-%m-%d.zip 
+* 32 digit phluido license key, [ ex 2B2A-962F-783F-40B9-7064-2DE3-3906-9D2E ] 
 
 For any other modification it is advisable to make contact with the Accelleran service desk as of course, if in principle every paramter in the confuguration file is up for modification, it is certainly not recommendable to proceed in that declaration as each front end may or may not work as a consequence and the analysis and recovery from error scenario will be less than intuitive
 
@@ -1994,11 +1988,12 @@ $ ifstat -i enp45s0f0
 71313.36  105930.1
 ```
 
-## Starting RRU Benetel 650
+## Starting RRU Benetel 650 - manual way
+
 Perform these steps to get a running active cell.
-1) When the RU is still sending traffic use  ```ssh root@10.10.0.100 handshake``` to stop this traffic. 
-2) Start L1 and DU (docker-compose).
-3) Use wireshark to follow the CPlane traffic, at this point following sequence:
+* When the RU is still sending traffic use  ```ssh root@10.10.0.100 handshake``` to stop this traffic. 
+* Start L1 and DU (run docker-compose up inside the install directory ).
+* Use wireshark to follow the CPlane traffic, at this point following sequence:
 ```
      DU                                        CU
       |  F1SetupRequest--->                     |
@@ -2007,9 +2002,9 @@ Perform these steps to get a running active cell.
       |	          <---GNBCUConfigurationUpdate  |
       |                                         |
 ```
-   The L1 starts listening on ip:port 10.10.0.1:44000
+   > The L1 starts listening on ip:port 10.10.0.1:44000
 
-3) After less than 30 seconds communication between rru and du starts. The related fiber port will report around 100 Mbytes/second of traffic in both directions
+* After less than 30 seconds communication between rru and du starts. The related fiber port will report around 100 Mbytes/second of traffic in both directions
  
 ```
      DU                                        CU
@@ -2018,6 +2013,9 @@ Perform these steps to get a running active cell.
 ```
 
 > NOTE : type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
+
+## Starting RRU Benetel 650 - cell wrapper way
+
 
 ## Troubleshooting
 ### Fiber Port not showing up
