@@ -20,7 +20,7 @@ pip3 install mkdocs-section-index
 
 create a new site
 ```
-cd drac-docs
+cd drax-docs
 mkdocs new site
 ```
 
