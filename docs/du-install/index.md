@@ -45,9 +45,16 @@
     - [Check if the L1 is listening](#check-if-the-l1-is-listening)
     - [Show the traffic between rru and l1](#show-the-traffic-between-rru-and-l1)
   - [Starting RRU Benetel 650](#starting-rru-benetel-650)
-  - [Troubleshooting](#troubleshooting)
-    - [Fiber Port not showing up](#fiber-port-not-showing-up)
-    - [L1 is not listening](#l1-is-not-listening)
+- [Troubleshooting](#troubleshooting)
+  - [Fiber Port not showing up](#fiber-port-not-showing-up)
+  - [L1 is not listening](#l1-is-not-listening)
+  - [check SCTP connections](#check-sctp-connections)
+- [Appendix: Engineering tips and tricks](#appendix-engineering-tips-and-tricks)
+  - [pcscd debug](#pcscd-debug)
+  - [Run RU in freerun mode](#run-ru-in-freerun-mode)
+  - [custatus](#custatus)
+    - [install](#install)
+    - [use](#use)
     - [example](#example)
     
 # Introduction
@@ -1581,74 +1588,7 @@ Do this by altering file ```/usr/sbin/radio_setup_ran650_b.sh``` with following 
     registercontrol -w c0366 -x 0xFFF >> ${LOG_RAD_STAT_FP}
 ```
 
-### reset DPD service
-Go to the RU
-```
-	ssh root@10.10.0.100
-```
-	
-create this script that resets DPD
-```
-cat <<EOF > /home/root/resetdpd.sh
-#!/bin/sh
 
-date '+%Y-%m-%d %H:%M:%S ##########'    >  /tmp/resetingDpdStatus.txt
-_status_file=$(find /tmp/ | grep radio_status)
-if test -e $_status_file -a -n "$(grep ' up ' $_status_file)"
-then
-        echo radiocontrol -o D s                >> /tmp/resetingDpdStatus.txt 
-        /usr/bin/radiocontrol -o D s            >> /tmp/resetingDpdStatus.txt 
-        echo radiocontrol -o D r 15 1           >> /tmp/resetingDpdStatus.txt 
-        /usr/bin/radiocontrol -o D r 15 1       >> /tmp/resetingDpdStatus.txt 
-else
-        echo "radio not up yet"                 >> /tmp/resetingDpdStatus.txt
-fi
-
-EOF
-```
-
-create this service that calls the reset each 1800 seconds
-```
-cat <<EOF > /etc/systemd/system/resetdpd.service
-[Unit]
-Description=resets the DPD
-After=network.target
-StartLimitIntervalSec=0
-
-[Service]
-Type=simple
-Restart=always
-RestartSec=1800
-User=root
-ExecStart=/home/root/resetdpd.sh
-
-[Install]
-WantedBy=multi-user.target
-EOF
-```
-
-enable and start the service. It will start a boot time.
-```
-systemctl enable resetdpd
-systemctl daemon-reload
-systemctl restart resetdpd
-```	
-reboot the RU. When the RU is up ( /tmp/radio_status indicates when it is up ) the file ```/tmp/resetingDpdStatus.txt``` should contain this
-```
-2020-02-07 16:06:05 ##########
-
-Reset DPD, channel mask: 0xf
-
-f 1 1
-Reset channel 1, mask 1,
-7 1 2
-Reset channel 2, mask 2,
-3 1 4
-Reset channel 3, mask 4,
-1 1 8
-Reset channel 4, mask 8,Reset type: FULL RESET
-	
-```
 
 ### MAC Address of the DU
 
@@ -2079,11 +2019,11 @@ Perform these steps to get a running active cell.
 
 > NOTE : type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
 
-## Troubleshooting
-### Fiber Port not showing up
+# Troubleshooting
+## Fiber Port not showing up
 https://www.serveradminz.com/blog/unsupported-sfp-linux/
 
-### L1 is not listening
+## L1 is not listening
 Check if L1 is listening on port 44000 by typing
 
 ```
@@ -2098,20 +2038,22 @@ tcpdump -i any port 38472
 18:26:30.940491 IP 10.244.0.208.38472 > bare-metal-node-cab-3.maas.56153: sctp (1) [HB REQ] 
 18:26:30.940530 IP bare-metal-node-cab-3.59910 > 10.244.0.208.38472: sctp (1) [HB ACK] 
 18:26:30.940532 IP bare-metal-node-cab-3.59910 > 10.244.0.208.38472: sctp (1) [HB ACK] 
-````
+```
 you should see the HB REQ and ACK messages. If not Check 
  * the docker-compose.yml file if the cu ip address matches the following bullet
  * check ```kubectl get services ``` if the F1 service is running with the that maches previous bullet 
 
-### check SCTP connections
+
+## check SCTP connections
 There are 3 UDP ports you can check. When the system starts up it will setup 3 SCTP connections on following ports in the order mentioned here :
 
 * 38462 - E1 SCTP connection - SCTP between DU and CU
 * 38472 - F1 SCTP connection - SCTP between CU UP and CU CP
 * 38412 - NGAP SCTP connection - SCTP between CU CP and CORE
 
-## Appendix: Engineering tips and tricks
-### pcscd debug
+# Appendix: Engineering tips and tricks
+
+## pcscd debug
 It occurs rarely that the du software throws
 ```
 DU license check failed
@@ -2132,7 +2074,7 @@ ENTRYPOINT ["/usr/sbin/pcscd", "-d --foreground"]
 
 and  use ``` docker logs ``` on the container to see more logging about what pcscd is doing
 
-### Run RU in freerun mode
+## Run RU in freerun mode
 This is the mode where it does not need a GPS sync. By default a benetel only boots when a GPS signal is present which the RU can be synced with.
 The boot process indicated this with ``Waiting for Sync``` in the ```/tmp/logs/radio_status``` file
 The following steps make the benetel boot without needing GPS signal.
@@ -2151,8 +2093,8 @@ echo 0 > /var/syncmon/sync-state
 Now the boot process will continue. Wait at least a minute.
 
 
-### custatus
-#### install
+## custatus
+### install
 * unzip custatus.zip so you get create a directory ```$HOME/5g-engineering/utilities/custatus```
 * ```sudo apt install tmux```
 * create the ```.tmux.conf``` file with following content.
@@ -2166,7 +2108,7 @@ add this line in $HOME/.profile
 export PATH=$HOME/5g-engineering/utilities/custatus:$PATH
 ```
 
-#### use
+### use
 to start 
 ```
 custatus.sh tmux
