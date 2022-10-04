@@ -6,7 +6,7 @@
     - [VM Minimum Requirements](#vm-minimum-requirements)
   - [Configure HOST server](#configure-host-server)
     - [set a linux bridge](#set-a-linux-bridge)
-- [Install VM](#install-vm)
+  - [Install VM](#install-vm)
     - [Install Docker in the CU VM](#install-docker-in-the-cu-vm)
     - [Configure Docker Daemon](#configure-docker-daemon)
     - [Disable Swap](#disable-swap)
@@ -70,7 +70,7 @@ net.ipv4.ip_forward=1
 
 reboot the host.
 
-# Install VM
+## Install VM
 
 If not yet installed install
 
