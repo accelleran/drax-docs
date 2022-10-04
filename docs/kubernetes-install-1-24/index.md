@@ -120,7 +120,7 @@ Then add the longhorn repository to helm:
 ``` bash
 helm repo add longhorn https://charts.longhorn.io
 ```
-Finally deploy Longhorn with all replica counts set to 1 and UI exposed on port 32100 via NodePort instead of ClusterIp:
+Finally deploy Longhorn in "longhorn-system" namespace, with all replica counts set to 1 and UI exposed on port 32100 via NodePort instead of ClusterIp:
 ``` bash
 helm install longhorn longhorn/longhorn --version 1.3.1 \
 --set service.ui.type=NodePort,\
@@ -130,8 +130,8 @@ csi.attacherReplicaCount=1,\
 csi.provisionerReplicaCount=1,\
 csi.resizerReplicaCount=1,\
 csi.snapshotterReplicaCount=1,\
-defaultSettings.defaultReplicaCount=1,\
-namespaceOverride="longhorn-system"
+defaultSettings.defaultReplicaCount=1 \
+-n longhorn-system
 ```
 
 ## A small busybox pod for testing
