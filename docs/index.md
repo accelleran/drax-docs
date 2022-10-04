@@ -3,22 +3,22 @@
 
 - [Accelleran CU Install Guide](#accelleran-cu-install-guide)
   - [Table of Content](#table-of-content)
-- [Introduction](#introduction)
-- [Prerequisites / Preperations](#prerequisites--preperations)
-  - [Know the ip addresses, interfaces, user account](#know-the-ip-addresses-interfaces-user-account)
-  - [know which cores and cpu you will be using.](#know-which-cores-and-cpu-you-will-be-using)
+  - [Introduction](#introduction)
+  - [Prerequisites / Preperations](#prerequisites--preperations)
+    - [Know the ip addresses, interfaces, user account](#know-the-ip-addresses-interfaces-user-account)
+    - [know which cores and cpu you will be using.](#know-which-cores-and-cpu-you-will-be-using)
     - [In case of dual CPU](#in-case-of-dual-cpu)
-    - [In case of 1 CPU server](#in-case-of-1-cpu-server)
-- [Directory](#directory)
-- [network components overview](#network-components-overview)
-- [Steps to take](#steps-to-take)
+      - [In case of 1 CPU server](#in-case-of-1-cpu-server)
+  - [Directory](#directory)
+  - [network components overview](#network-components-overview)
+  - [Steps to take](#steps-to-take)
 
-# Introduction
+## Introduction
 
 This guide describes the installation of the Accelleran dRAX base, 4G and 5G components, the Effnet DU, Phluido L1 and optionally a core network on a single server machine, however separating the RIC/CU (on a VM) and the DU/L1 (on the server) to increase stability and performances
 
 
-# Prerequisites / Preperations
+## Prerequisites / Preperations
 
 This installation guide assumes that that the following are to be taken as prerequisites and made available before proceding further:
 
@@ -65,7 +65,7 @@ NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access t
 NOTE: while taking almost no active time to obtain the Phluido license code and the Effnet activation bundle, in order to do so we need to contact our technical partners and this may require up to a couple of working days so it is recommended to take the necessary actions to complete these steps first of all. Similarly, we must enable your dockerhub account to access and download the Accelleran software images, this also takes some time and can be done upfront
 
 
-## Know the ip addresses, interfaces, user account
+### Know the ip addresses, interfaces, user account
 Make sure Ubuntu (Server) 20.04 is installed as said both on the physical server and on the virtual machine and that both have access to the internet.
 They both must have a static IP address on a fixed port, in the same subnet
 This guide will refer to the VM static IP address as `$NODE_IP` and the interface it belongs to as `$NODE_INT`, and to $SERVER_IP for the server static IP address.
@@ -123,7 +123,7 @@ export DU_VERSION=2022-07-01-q2-pre-release
 
 In order to perform many of the commands in this installation manual you need root privileges.
 Whenever a command has to be executed with root privileges it will be prefixed with `sudo`.
-## know which cores and cpu you will be using.
+### know which cores and cpu you will be using.
 Depending on the server you will be using assign the cores to the DU and CU.
 
 > IMPORTANT : only comma seperated list is allowed. ( virt-install will be using it )
@@ -151,7 +151,7 @@ export CORE_SET_CU=1,3,5,7,9,11,13,15
 export CORE_AMOUNT_CU=8
 ```
 
-### In case of 1 CPU server
+#### In case of 1 CPU server
 ``` bash
 $ numactl --hardware
 available: 1 nodes (0)
@@ -169,10 +169,10 @@ export CORE_SET_CU=10,11,12,13,14,15,16,17,18,19
 export CORE_AMOUNT_CU=10
 ```
 
-# Directory
+## Directory
 Every command that needs execution is to be expected to execute inside an install directory. This directory will get created when extracting the ```install.xxx.zip``` which will get delivered by Accelleran.
 
-# network components overview
+## network components overview
 Here a simplified diagram of all network components and the related ip addresses. 
 Before you continue installing fill in this simplified drawing with the ip address that apply for the configuration.
 
@@ -249,7 +249,7 @@ Before you continue installing fill in this simplified drawing with the ip addre
 
 ```
 
-# Steps to take
+## Steps to take
 
 The installation process is divided in a number of steps.
 Each of these steps is described in its own chapter.
