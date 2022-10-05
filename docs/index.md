@@ -126,6 +126,17 @@ export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.
 In order to perform many of the commands in this installation manual you need root privileges.
 Whenever a command has to be executed with root privileges it will be prefixed with `sudo`.
 
+### Know the 5G configuration 
+
+``` bash
+export PLMN_ID=001f01
+export PCI_ID=201             
+export ARFCN_POINT_A=662664
+export FREQ_BAND=77
+export FREQ_CENTER=
+```
+> NOTE : for multiple cells bare in mind a correct PCI ID planning.
+
 ### know which cores and cpu you will be using.
 Depending on the server you will be using assign the cores to the DU and CU.
 

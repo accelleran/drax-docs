@@ -46,6 +46,16 @@
       - [Show the traffic between rru and l1](#show-the-traffic-between-rru-and-l1)
   - [Starting RRU Benetel 650 - manual way](#starting-rru-benetel-650---manual-way)
   - [Starting RRU Benetel 650 - cell wrapper way](#starting-rru-benetel-650---cell-wrapper-way)
+  - [Troubleshooting](#troubleshooting)
+    - [Fiber Port not showing up](#fiber-port-not-showing-up)
+    - [L1 is not listening](#l1-is-not-listening)
+    - [check SCTP connections](#check-sctp-connections)
+  - [Appendix: Engineering tips and tricks](#appendix-engineering-tips-and-tricks)
+    - [pcscd debug](#pcscd-debug)
+    - [Run RU in freerun mode](#run-ru-in-freerun-mode)
+    - [custatus](#custatus)
+      - [install](#install)
+      - [use](#use)
       - [example](#example)
     
 ## Introduction
@@ -328,8 +338,9 @@ Which means that a license for the dongle with serial-number 13134288 was loaded
 
 ``` bash
 unzip accelleran-du-phluido-$DU_VERSION.zip
-bzcat accelleran-du-phluido/accelleran-du-phluido-yyyy-mm-dd/gnb_du_main_phluido-yyy-mm-dd.tar.bz2 | docker image load
+bzcat accelleran-du-phluido/accelleran-du-phluido-$DU_VERSION/gnb_du_main_phluido-$DU_VERSION.tar.bz2 | docker image load
 ```
+
  
  #### docker compose file ( with CPU PINNING )
  
@@ -2010,14 +2021,186 @@ Going inside the CU VM.
 ``` 
 ssh $USER@$NODE_IP 
 ```
+
+Add some prerequisites if it is necessary
+``` bash
+sudo apt update 
+sudo apt install zip
+```
+
 To make the CU VM have access to the DU host ( bare metal server ) some privileges need to be given.
 
 ```
 usermod -aG sudo $USER
 printf "$USER ALL=(ALL) NOPASSWD:ALL\n" | sudo tee /etc/sudoers.d/$USER
+```
+
+Create a public/private key pair and add it to kubernetes
+```
+ssh-keygen -t ed25519 -f id_ed25519 -C cell-wrapper
+kubectl create secret generic cw-private --from-file=private=id_ed25519
+kubectl create secret generic cw-public --from-file=public=id_ed25519.pub
+```
+
+and copy the public key to the bare metal server ( DU host )
+```
+ssh-copy-id -i id_ed25519.pub ad@10.22.11.147
+```
 
 
-sudo apt update && sudo apt install zip
+Create a .yaml file containing the configuration. Also fill in the values you have prepared on the first page of the install guide.
+
+It will install the cell-wrapper the will take care of the cell's health. 
+In this configuration the cell-wrapper will reboot the RU every night at 2:00 AM. ```<reboot>true</reboot>``` 
+
+
+``` xml
+cat <<EOF > cw.yaml
+global:
+
+  instanceId: "cw"
+  natsUrl: "$NODE_IP"
+  natsPort: "31100"
+
+  redisHostname: "$NODE_IP"
+  redisPort: "32220"
+
+redis:
+  backup:
+    enabled: true
+    deleteAfterDay: 7
+  jobs:
+    deleteExistingData: true
+
+nats:
+  enabled: false
+
+
+netconf:
+  netconfService:
+    nodePort: 31832
+
+  configOnBoot:
+    enabled: true
+    deleteExistingConfig: true
+    host: 'localhost'
+    config: |
+            <cell-wrapper xmlns="http://accelleran.com/ns/yang/accelleran-granny" xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc
+            <admin-state>locked</admin-state>
+
+            <ssh-key-pair xc:operation="create">
+                <public-key>/home/accelleran/5G/ssh/public</public-key>
+                <private-key>/home/accelleran/5G/ssh/private</private-key>
+            </ssh-key-pair>
+
+            <auto-repair xc:operation="create">
+                <enable>true</enable>
+
+                <health-check xc:operation="create">
+                    <rate xc:operation="create">
+                        <seconds>5</seconds>
+                        <milli-seconds>0</milli-seconds>
+                    </rate>
+                    <unacknowledged-counter-threshold>3</unacknowledged-counter-threshold>
+                </health-check>
+
+                <container-not-running-counter-threshold>2</container-not-running-counter-threshold>
+                <l1-rru-traffic-counter-threshold>6</l1-rru-traffic-counter-threshold>
+            </auto-repair>
+
+            <distributed-unit xc:operation="create">
+                <name>du-1</name>
+                <type>effnet</type>
+
+                <connection-details xc:operation="create">
+                    <host>$SERVER_IP</host>
+                    <port>22</port>
+                    <username>$USER</username>
+                </connection-details>
+
+                <ssh-timeout>30</ssh-timeout>
+
+                <config xc:operation="create">
+                    <cgi-plmn-id>$PLMN_ID</cgi-plmn-id>
+                    <cgi-cell-id>000000000000000000000000000000000001</cgi-cell-id>
+                    <pci>$PCI_ID</pci>
+                    <tac>000001</tac>
+                    <arfcn>$ARFCN_POINT_A</arfcn>
+                    <frequency-band>$FREQ_BAND</frequency-band>
+                    <plmns-id>$PLMN_ID</plmns-id>
+                    <plmns-sst>1</plmns-sst>
+
+                    <l1-license-key>$L1_PHLUIDO_KEY</l1-license-key>
+                    <l1-bbu-addr>10.10.0.1</l1-bbu-addr>
+                    <l1-max-pusch-mod-order>6</l1-max-pusch-mod-order>
+                    <l1-max-num-pdsch-layers>2</l1-max-num-pdsch-layers>
+                    <l1-max-num-pusch-layers>1</l1-max-num-pusch-layers>
+                    <l1-num-workers>8</l1-num-workers>
+                    <l1-target-recv-delay-us>2500</l1-target-recv-delay-us>
+                    <l1-pucch-format0-threshold>0.01</l1-pucch-format0-threshold>
+                    <l1-timing-offset-threshold-nsec>10000</l1-timing-offset-threshold-nsec>
+                </config>
+
+                <enable-auto-repair>true</enable-auto-repair>
+
+                <working-directory>/run</working-directory>
+                <storage-directory>/var/log</storage-directory>
+                <pcscd-socket>/run/pcscd/pcscd.comm</pcscd-socket>
+
+                <enable-log-saving>false</enable-log-saving>
+                <max-storage-disk-usage>80%</max-storage-disk-usage>
+
+                <enable-log-rotation>false</enable-log-rotation>
+                <log-rotation-pattern>*.0</log-rotation-pattern>
+                <log-rotation-count>1</log-rotation-count>
+
+                <centralized-unit-host>$F1_CU_IP</centralized-unit-host>
+                <centralized-unit-listening-port>44000</centralized-unit-listening-port>
+
+                <traffic-threshold xc:operation="create">
+                    <uplink>10000</uplink>
+                    <downlink>10000</downlink>
+                </traffic-threshold>
+
+                <du-image-tag>$DU_VERSION</du-image-tag>
+                <l1-image-tag>$L1_VERSION</l1-image-tag>
+
+                <du-extra-args></du-extra-args>
+                <l1-extra-args></l1-extra-args>
+
+                <du-base-config-file>/home/accelleran/5G/config/duEffnetConfig.json</du-base-config-file>
+
+                <radio-unit xc:operation="create">ru-1</radio-unit>
+            </distributed-unit>
+
+            <radio-unit xc:operation="create">
+                <name>ru-1</name>
+                <type>benetel650</type>
+
+                <connection-details xc:operation="create">
+                    <host>10.10.0.100</host>
+                    <port>22</port>
+                    <username>root</username>
+                </connection-details>
+                <enable-ssh>false</enable-ssh>
+                <ssh-timeout>30</ssh-timeout>
+                <reboot>true</reboot>
+            </radio-unit>
+            </cell-wrapper>
+EOF
+```
+
+Install using helm.
+```
+helm repo update
+helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
+```
+
+Now you can see the kubernetes pods being created. Follow there progress with.
+
+```
+watch -d kubernetes get pod
+```
 
 ## Troubleshooting
 ### Fiber Port not showing up
