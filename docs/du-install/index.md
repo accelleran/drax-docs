@@ -2075,6 +2075,16 @@ redis:
 nats:
   enabled: false
 
+jobs:
+  - name: reboot-ru-1
+    schedule: "0 2 * * *"
+    rpc: |
+      <cell-wrapper xmlns="http://accelleran.com/ns/yang/accelleran-granny" xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc:operation="replace">
+        <radio-unit xc:operation="replace">
+          <name>ru-1</name>
+          <reboot>false</reboot>
+        </radio-unit>
+      </cell-wrapper>
 
 netconf:
   netconfService:
@@ -2184,7 +2194,6 @@ netconf:
                 </connection-details>
                 <enable-ssh>false</enable-ssh>
                 <ssh-timeout>30</ssh-timeout>
-                <reboot>true</reboot>
             </radio-unit>
             </cell-wrapper>
 EOF
