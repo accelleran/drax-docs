@@ -46,16 +46,6 @@
       - [Show the traffic between rru and l1](#show-the-traffic-between-rru-and-l1)
   - [Starting RRU Benetel 650 - manual way](#starting-rru-benetel-650---manual-way)
   - [Starting RRU Benetel 650 - cell wrapper way](#starting-rru-benetel-650---cell-wrapper-way)
-  - [Troubleshooting](#troubleshooting)
-    - [Fiber Port not showing up](#fiber-port-not-showing-up)
-    - [L1 is not listening](#l1-is-not-listening)
-    - [check SCTP connections](#check-sctp-connections)
-  - [Appendix: Engineering tips and tricks](#appendix-engineering-tips-and-tricks)
-    - [pcscd debug](#pcscd-debug)
-    - [Run RU in freerun mode](#run-ru-in-freerun-mode)
-    - [custatus](#custatus)
-      - [install](#install)
-      - [use](#use)
       - [example](#example)
     
 ## Introduction
@@ -2015,7 +2005,19 @@ Perform these steps to get a running active cell.
 > NOTE : type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
 
 ## Starting RRU Benetel 650 - cell wrapper way
+Go to the VM. In the VM a cell wrapper will get installed that controls the DU and RU ( cell ).
+Going inside the CU VM.
+``` 
+ssh $USER@$NODE_IP 
+```
+To make the CU VM have access to the DU host ( bare metal server ) some privileges need to be given.
 
+```
+usermod -aG sudo $USER
+printf "$USER ALL=(ALL) NOPASSWD:ALL\n" | sudo tee /etc/sudoers.d/$USER
+
+
+sudo apt update && sudo apt install zip
 
 ## Troubleshooting
 ### Fiber Port not showing up
