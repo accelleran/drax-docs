@@ -36,6 +36,8 @@
       - [MAC Address of the DU](#mac-address-of-the-du)
       - [Set the Frequency of the Radio End](#set-the-frequency-of-the-radio-end)
       - [Set attenuation level](#set-attenuation-level)
+    - [Configure the physical Benetel Radio End - Older then Release V0.7.0](#configure-the-physical-benetel-radio-end---older-then-release-v070)
+      - [auto reset dpd](#auto-reset-dpd)
     - [verify good operation of the B650 (all releases)](#verify-good-operation-of-the-b650-all-releases)
       - [GPS](#gps)
       - [Cell Status Report](#cell-status-report)
@@ -1752,7 +1754,48 @@ ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
 
 ```
 
+### Configure the physical Benetel Radio End - Older then Release V0.7.0
 
+#### auto reset dpd
+
+For releases older then V0.7.0 the dpd has to get reset every 30 minutes. This is not yet built inside and has to get created manually. These 3 steps need to be done.
+
+* create these 2 files by copy/past the below
+``` bash
+cat <<EOF > /lib/systemd/system/dpd_reset.service
+[Unit]
+Description=Start DPD reset every 30 mins
+After=eth0ipset.service
+
+[Service]
+Type=forking
+ExecStart=/bin/sh /usr/sbin/dpd_reset.sh 
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
+
+cat <<EOF > /usr/sbin/dpd_reset.sh
+#! /bin/sh
+while true 
+do 
+    sleep 1800
+    date '+%Y-%m-%d %H:%M:%S ##########'
+     cd /home/root; radiocontrol -o D r 15 1
+done >> /tmp/dpd_reset_status &
+EOF
+
+```
+
+* enable the service that just has been defined.
+```
+systemctl enable dpd_reset.service
+```
+* and start the service
+```
+systemctl start dpd_reset.service
+```
 
 
 ### verify good operation of the B650 (all releases)
