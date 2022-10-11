@@ -8,42 +8,44 @@
       
       
       
-      
         <link rel="canonical" href="https://accelleran.github.io/drax-docs/benetel650-install/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.0">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
     
     
       
-        <title>Summary - dRAX</title>
+        <title>Summary - dRAX - 2022.3.0 release</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.fe914879.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.20d9efc8.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ba0d045b.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
         
       
+      
+
     
     
     
       
+        
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
-    
     
     
       <link rel="stylesheet" href="../css/extra.css">
     
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
-
+    
     
     
   </head>
@@ -57,7 +59,6 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
   
     
-    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -74,22 +75,30 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="dRAX" class="md-header__button md-logo" aria-label="dRAX" data-md-component="logo">
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
       
+
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            dRAX
+            dRAX - 2022.3.0 release
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -104,15 +113,44 @@
     
     
     
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
     
   </nav>
-</header>
+  
     
-    <div class="md-container" data-md-component="container">
       
-      
-        
-          
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
@@ -124,19 +162,7 @@
 
   <li class="md-tabs__item">
     <a href=".." class="md-tabs__link">
-      Overview
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../core-install/" class="md-tabs__link">
-      Core Installation
+      Accelleran CU Install Guide
     </a>
   </li>
 
@@ -148,7 +174,7 @@
 
   <li class="md-tabs__item">
     <a href="../kubernetes-install/" class="md-tabs__link">
-      Kubernetes Installation
+      CU installation ( VM & kubernetes )
     </a>
   </li>
 
@@ -160,7 +186,7 @@
 
   <li class="md-tabs__item">
     <a href="../drax-install/" class="md-tabs__link">
-      dRAX Installation
+      RIC & CU Installation
     </a>
   </li>
 
@@ -177,9 +203,28 @@
   </li>
 
       
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../core-install/" class="md-tabs__link">
+      Core Installation
+    </a>
+  </li>
+
+      
     </ul>
   </div>
 </nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
         
       
       <main class="md-main" data-md-component="main">
@@ -199,13 +244,12 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="dRAX" class="md-nav__button md-logo" aria-label="dRAX" data-md-component="logo">
+    <a href=".." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <img src="../images/logo.png" alt="logo">
 
     </a>
-    dRAX
+    dRAX - 2022.3.0 release
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -219,22 +263,7 @@
   
     <li class="md-nav__item">
       <a href=".." class="md-nav__link">
-        Overview
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../core-install/" class="md-nav__link">
-        Core Installation
+        Accelleran CU Install Guide
       </a>
     </li>
   
@@ -249,7 +278,7 @@
   
     <li class="md-nav__item">
       <a href="../kubernetes-install/" class="md-nav__link">
-        Kubernetes Installation
+        CU installation ( VM & kubernetes )
       </a>
     </li>
   
@@ -264,7 +293,7 @@
   
     <li class="md-nav__item">
       <a href="../drax-install/" class="md-nav__link">
-        dRAX Installation
+        RIC & CU Installation
       </a>
     </li>
   
@@ -285,6 +314,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-install/" class="md-nav__link">
+        Core Installation
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -293,13 +337,15 @@
             
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
-                
-                <h1 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">⚓︎</a></h1>
-<h2 id="drawing">Drawing<a class="headerlink" href="#drawing" title="Permanent link">⚓︎</a></h2>
+                  
+
+
+<h1 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h1>
+<h2 id="drawing">Drawing<a class="headerlink" href="#drawing" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>  10.10.0.100:ssh
   +-------------+
   |             |
@@ -318,7 +364,7 @@ aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
 
       port FIBER1
 </code></pre></div>
-<h2 id="configure-the-du-under-construction">Configure the DU ( under construction )<a class="headerlink" href="#configure-the-du-under-construction" title="Permanent link">⚓︎</a></h2>
+<h2 id="configure-the-du-under-construction">Configure the DU ( under construction )<a class="headerlink" href="#configure-the-du-under-construction" title="Permanent link">&para;</a></h2>
 <p>This chapter on only focuses on what to configure to get the Benetel650 working. 
  The complete installation of the DU can be found in the du-install doc itself.
 Other then the B210, benetel uses 2 software components. 2 Containers, a effnet du and phluido l1.
@@ -352,7 +398,7 @@ This IP address should be in the IP pool that was assigned to MetalLB in <a href
 <span class="s">    command: /config.cfg</span>
 <span class="s">    volumes:</span>
 <span class="s">      - &quot;$PWD/phluido/PhluidoL1_NR_B210.cfg:/config.cfg:ro&quot;</span>
-<span class="s">      - &quot;$PWD/logs/l1:/workdir&quot;</span>
+<span class="s">      - &quot;/run/logs-du/l1:/workdir&quot;</span>
 <span class="s">      - &quot;/etc/machine-id:/etc/machine-id:ro&quot;</span>
 <span class="s">    working_dir: &quot;/workdir&quot;</span>
 <span class="s">    network_mode: host</span>
@@ -361,7 +407,7 @@ This IP address should be in the IP pool that was assigned to MetalLB in <a href
 <span class="s">    image: gnb_du_main_phluido</span>
 <span class="s">    volumes:</span>
 <span class="s">      - &quot;$PWD/b210_config_20mhz.json:/config.json:ro&quot;</span>
-<span class="s">      - &quot;$PWD/logs/du:/workdir&quot;</span>
+<span class="s">      - &quot;/run/logs-du/du:/workdir&quot;</span>
 <span class="s">      - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm</span>
 <span class="s">    ipc: container:phluido_l1_cn</span>
 <span class="s">    tty: true</span>
@@ -373,11 +419,11 @@ This IP address should be in the IP pool that was assigned to MetalLB in <a href
 <span class="s">    entrypoint: [&quot;/bin/sh&quot;, &quot;-c&quot;, &quot;sleep 4 &amp;&amp; exec /gnb_du_main_phluido /config.json&quot;]</span>
 <span class="s">    working_dir: &quot;/workdir&quot;</span>
 <span class="s">    extra_hosts:</span>
-<span class="s">      - &quot;cu:$CU_IP&quot;</span>
+<span class="s">      - &quot;cu:$F1_CU_IP&quot;</span>
 
 <span class="s">EOF</span>
 </code></pre></div>
-<h2 id="prepare-the-server-for-the-benetel-650">Prepare the server for the Benetel 650<a class="headerlink" href="#prepare-the-server-for-the-benetel-650" title="Permanent link">⚓︎</a></h2>
+<h2 id="prepare-the-server-for-the-benetel-650">Prepare the server for the Benetel 650<a class="headerlink" href="#prepare-the-server-for-the-benetel-650" title="Permanent link">&para;</a></h2>
 <p>The benetel is connected with a fiber to the server. 
 1. The port on the RRU is labeled <code>port FIBER1</code>
 2. The port on the server is one of these listed below.</p>
@@ -513,7 +559,7 @@ chmod 777 /etc/networkd-dispatcher/routable.d/macs.sh
 <div class="highlight"><pre><span></span><code>$ arp -a | grep 10.10.0.2
 ? (10.10.0.2) at 02:00:5e:01:01:01 [ether] PERM on enp45s0f0
 </code></pre></div>
-<h2 id="version-check">Version Check<a class="headerlink" href="#version-check" title="Permanent link">⚓︎</a></h2>
+<h2 id="version-check">Version Check<a class="headerlink" href="#version-check" title="Permanent link">&para;</a></h2>
 <p>finding out the version and commit hash of the benetel650</p>
 <p>commit hash
 <div class="highlight"><pre><span></span><code>root@benetelru:~# registercontrol -v
@@ -534,8 +580,8 @@ Depending on the version different configuration commands apply.
 <div class="highlight"><pre><span></span><code>root@benetelru:~# cat /etc/benetel-rootfs-version 
 RAN650-2V0.4
 </code></pre></div></p>
-<h2 id="configure-the-rru-release-v03">Configure the RRU release V0.3<a class="headerlink" href="#configure-the-rru-release-v03" title="Permanent link">⚓︎</a></h2>
-<h3 id="set-du-mac-address-for-version-v03">Set DU mac address for version V0.3<a class="headerlink" href="#set-du-mac-address-for-version-v03" title="Permanent link">⚓︎</a></h3>
+<h2 id="configure-the-rru-release-v03">Configure the RRU release V0.3<a class="headerlink" href="#configure-the-rru-release-v03" title="Permanent link">&para;</a></h2>
+<h3 id="set-du-mac-address-for-version-v03">Set DU mac address for version V0.3<a class="headerlink" href="#set-du-mac-address-for-version-v03" title="Permanent link">&para;</a></h3>
 <p>Inside the file <code>/etc/radio_init.sh</code> we program the mac. </p>
 <p>Example for MAC address 00:1E:67:FD:F5:51 you will find in the file:</p>
 <div class="highlight"><pre><span></span><code>registercontrol -w c0315 -x 0x67FDF551 &gt;&gt; /home/root/radio_boot_response 
@@ -548,7 +594,7 @@ echo &quot;Configure the MAC address of the O-DU: 00:1E:67:FD:F5:51 &quot; &gt;&
 <div class="highlight"><pre><span></span><code>registercontrol -w c0315 -x 0x67FDF551 &gt;&gt; /home/root/radio_boot_response 
 registercontrol -w c0316 -x 0x001E &gt;&gt; /home/root/radio_boot_response
 </code></pre></div>
-<h3 id="set-the-frequency-for-version-v03">Set the Frequency for version V0.3<a class="headerlink" href="#set-the-frequency-for-version-v03" title="Permanent link">⚓︎</a></h3>
+<h3 id="set-the-frequency-for-version-v03">Set the Frequency for version V0.3<a class="headerlink" href="#set-the-frequency-for-version-v03" title="Permanent link">&para;</a></h3>
 <p>This file <code>/etc/systemd/system/multi-user.target.wants/autoconfig.service</code> is called during boot that sets the frequency.
 change the frequency here.</p>
 <div class="highlight"><pre><span></span><code>[Service]
@@ -557,8 +603,8 @@ ExecStart =/bin/sh /etc/radio_init.sh 3751.680
 <p>Example for frequency 3751.68MHz (ARFCN=650112) you will find in the file:
 Make sure to edit the pointA frequency ARFCN value in the DU config (in this example PointA_ARFCN=648840).</p>
 <p>Reboot the Benetel.</p>
-<h2 id="configure-the-rru-release-v04">Configure the RRU release V0.4<a class="headerlink" href="#configure-the-rru-release-v04" title="Permanent link">⚓︎</a></h2>
-<h3 id="set-du-mac-address-in-the-rru">Set DU mac address in the RRU<a class="headerlink" href="#set-du-mac-address-in-the-rru" title="Permanent link">⚓︎</a></h3>
+<h2 id="configure-the-rru-release-v04">Configure the RRU release V0.4<a class="headerlink" href="#configure-the-rru-release-v04" title="Permanent link">&para;</a></h2>
+<h3 id="set-du-mac-address-in-the-rru">Set DU mac address in the RRU<a class="headerlink" href="#set-du-mac-address-in-the-rru" title="Permanent link">&para;</a></h3>
 <p>Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that.</p>
 <div class="highlight"><pre><span></span><code>root@benetelru:~# cat progDuMAC-5GCN-enp45s0f0 
 # 11:22:33:44:55:66  5GCN-itf
@@ -570,7 +616,7 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1D:0x01:0x44
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1E:0x01:0x55
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1F:0x01:0x66
 </code></pre></div>
-<h3 id="set-the-frequency-for-version-v04">Set the Frequency for version v0.4<a class="headerlink" href="#set-the-frequency-for-version-v04" title="Permanent link">⚓︎</a></h3>
+<h3 id="set-the-frequency-for-version-v04">Set the Frequency for version v0.4<a class="headerlink" href="#set-the-frequency-for-version-v04" title="Permanent link">&para;</a></h3>
 <p>This file <code>/etc/systemd/system/multi-user.target.wants/autoconfig.service</code> is called during boot that sets the frequency.</p>
 <div class="highlight"><pre><span></span><code>[Service]
 ExecStart =/bin/sh /etc/radio_init.sh $(read_default_tx_frequency)
@@ -602,7 +648,7 @@ eeprog_cp60 -f -16 /dev/i2c-0 0x57 -r 0x174:8
 eeprog_cp60 -f -16 /dev/i2c-0 0x57 -r 0x17C:8
 </code></pre></div>
 <p>Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680</p>
-<h3 id="set-attenuation-level">Set attenuation level<a class="headerlink" href="#set-attenuation-level" title="Permanent link">⚓︎</a></h3>
+<h3 id="set-attenuation-level">Set attenuation level<a class="headerlink" href="#set-attenuation-level" title="Permanent link">&para;</a></h3>
 <ol>
 <li>read current attenuations
 <div class="highlight"><pre><span></span><code>~# radiocontrol -o G a
@@ -644,8 +690,8 @@ ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
 </blockquote>
 </li>
 </ol>
-<h2 id="configure-for-any-rru-release">Configure for any RRU release<a class="headerlink" href="#configure-for-any-rru-release" title="Permanent link">⚓︎</a></h2>
-<h3 id="the-frequency-in-the-rru">The frequency in the RRU<a class="headerlink" href="#the-frequency-in-the-rru" title="Permanent link">⚓︎</a></h3>
+<h2 id="configure-for-any-rru-release">Configure for any RRU release<a class="headerlink" href="#configure-for-any-rru-release" title="Permanent link">&para;</a></h2>
+<h3 id="the-frequency-in-the-rru">The frequency in the RRU<a class="headerlink" href="#the-frequency-in-the-rru" title="Permanent link">&para;</a></h3>
 <p>The frequency set in in the RRU is the center frequency. The center frequency has to be divisable by 3.84 Mhz.</p>
 <p>Ths is an example of a configuration
 * point A frequency : 3732.60  ( arfcn : 648840 ) - du configuration
@@ -679,9 +725,9 @@ cat eff_log_bin | grep -i -e freq -e scs -e band
 00001261908387320821 info ssbConfig.absoluteFrequencySsb: 649152
 00001261908387328381 info prachConfig.msg1_FrequencyStart: 0
 </code></pre></div>
-<h3 id="set-rru-mac-address-in-du-server">Set RRU mac address in DU server<a class="headerlink" href="#set-rru-mac-address-in-du-server" title="Permanent link">⚓︎</a></h3>
-<h2 id="throubleshoot">Throubleshoot<a class="headerlink" href="#throubleshoot" title="Permanent link">⚓︎</a></h2>
-<h3 id="gps">GPS<a class="headerlink" href="#gps" title="Permanent link">⚓︎</a></h3>
+<h3 id="set-rru-mac-address-in-du-server">Set RRU mac address in DU server<a class="headerlink" href="#set-rru-mac-address-in-du-server" title="Permanent link">&para;</a></h3>
+<h2 id="throubleshoot">Throubleshoot<a class="headerlink" href="#throubleshoot" title="Permanent link">&para;</a></h2>
+<h3 id="gps">GPS<a class="headerlink" href="#gps" title="Permanent link">&para;</a></h3>
 <p>See if GPS is locked
 <div class="highlight"><pre><span></span><code>root@benetelru:~# syncmon
 DPLL0 State (SyncE/Ethernet clock): LOCKED
@@ -698,7 +744,7 @@ CLK5 GPS STICKY: LOS and Frequency Offset
 CLK6 EXT 1PPS LIVE: LOS and Frequency Offset
 CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
 </code></pre></div></p>
-<h3 id="to-be-noted">To be noted<a class="headerlink" href="#to-be-noted" title="Permanent link">⚓︎</a></h3>
+<h3 id="to-be-noted">To be noted<a class="headerlink" href="#to-be-noted" title="Permanent link">&para;</a></h3>
 <p>some important registers
 <div class="highlight"><pre><span></span><code>root@benetelru:~# reportRuStatus 
 
@@ -768,7 +814,7 @@ udp        0      0 10.10.0.1:44000         0.0.0.0:*                           
 71320.01  105959.7
 71313.36  105930.1
 </code></pre></div>
-<h3 id="troubleshooting-fiber-port-not-showing-up">Troubleshooting Fiber Port not showing up<a class="headerlink" href="#troubleshooting-fiber-port-not-showing-up" title="Permanent link">⚓︎</a></h3>
+<h3 id="troubleshooting-fiber-port-not-showing-up">Troubleshooting Fiber Port not showing up<a class="headerlink" href="#troubleshooting-fiber-port-not-showing-up" title="Permanent link">&para;</a></h3>
 <p>https://www.serveradminz.com/blog/unsupported-sfp-linux/</p>
 <p>fiber port should always be like this
 <div class="highlight"><pre><span></span><code>enp1s0f1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9000
@@ -781,7 +827,7 @@ enp1s0f1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9000
 <div class="highlight"><pre><span></span><code>$ arp -an | grep 10.10
 ? (10.10.0.2) at 02:00:5e:01:01:01 [ether] PERM on enp1s0f1
 </code></pre></div></p>
-<h2 id="starting-rru-benetel-650">Starting RRU Benetel 650<a class="headerlink" href="#starting-rru-benetel-650" title="Permanent link">⚓︎</a></h2>
+<h2 id="starting-rru-benetel-650">Starting RRU Benetel 650<a class="headerlink" href="#starting-rru-benetel-650" title="Permanent link">&para;</a></h2>
 <p>Perform these steps to get a running active cell.</p>
 <p>1) Start L1
 2) Start DU<br />
@@ -801,37 +847,55 @@ enp1s0f1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9000
       |                                         |
 </code></pre></div>
 <p>5) type <code>ssh root@10.10.0.100 handshake</code> again to stop the traffic. ( If it does not stop use <code>ssh_rru "registercontrol -w c0310 -x 0</code> but be carefull )</p>
-                
-              
-              
-                
+<h2 id="fiber-port-not-coming-up">Fiber port not coming up.<a class="headerlink" href="#fiber-port-not-coming-up" title="Permanent link">&para;</a></h2>
+<p>It has been seen on a rare occasion that the B650 is not pingable although the interface is UP.
+pinging the server has this result</p>
+<div class="highlight"><pre><span></span><code>$ ping 10.10.0.100
+PING 10.10.0.100 (10.10.0.100) 56(84) bytes of data.                   
+From 10.10.0.1 icmp_seq=1 Destination Host Unreachable                 
+From 10.10.0.1 icmp_seq=2 Destination Host Unreachable                 
+From 10.10.0.1 icmp_seq=5 Destination Host Unreachable                            
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ ip -br a
+enp43s0f0        UP             10.10.0.1/24 fe80::21b:21ff:fec1:38a8/64  
+</code></pre></div>
+<p>in that case check the arp table</p>
+<div class="highlight"><pre><span></span><code>$ arp -an
+? (10.10.0.100) at &lt;incomplete&gt; on enp43s0f0   
+</code></pre></div>
+<p>powercycling the B650 a few times fixes this issue. Also I connect and reconnect the fiber SFP+ at the server side.</p>
 
 
-              
-            </article>
-          </div>
+
+
+
+                
+              </article>
+            </div>
+          
+          
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
             Back to top
           </a>
         
       </main>
       
-        
-<footer class="md-footer">
+        <footer class="md-footer">
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-        
-      </div>
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
       
     </div>
   </div>
@@ -841,10 +905,11 @@ enp1s0f1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 9000
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.53c85856.min.js", "version": {"provider": "mike"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate"], "search": "../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.716f8af4.min.js"></script>
+      <script src="../assets/javascripts/bundle.078830c0.min.js"></script>
       
     
   </body>

@@ -8,42 +8,44 @@
       
       
       
-      
         <link rel="canonical" href="https://accelleran.github.io/drax-docs/core-install/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.0">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
     
     
       
-        <title>Core Installation - dRAX</title>
+        <title>Core Installation - dRAX - 2022.3.0 release</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.fe914879.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.20d9efc8.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ba0d045b.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
         
       
+      
+
     
     
     
       
+        
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
-    
     
     
       <link rel="stylesheet" href="../css/extra.css">
     
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
-
+    
     
     
   </head>
@@ -57,7 +59,6 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
   
     
-    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -74,22 +75,30 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="dRAX" class="md-header__button md-logo" aria-label="dRAX" data-md-component="logo">
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
       
+
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            dRAX
+            dRAX - 2022.3.0 release
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -104,15 +113,44 @@
     
     
     
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
     
   </nav>
-</header>
+  
     
-    <div class="md-container" data-md-component="container">
       
-      
-        
-          
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
@@ -124,7 +162,43 @@
 
   <li class="md-tabs__item">
     <a href=".." class="md-tabs__link">
-      Overview
+      Accelleran CU Install Guide
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../kubernetes-install/" class="md-tabs__link">
+      CU installation ( VM & kubernetes )
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../drax-install/" class="md-tabs__link">
+      RIC & CU Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../du-install/" class="md-tabs__link">
+      DU Installation
     </a>
   </li>
 
@@ -143,45 +217,16 @@
   </li>
 
       
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../kubernetes-install/" class="md-tabs__link">
-      Kubernetes Installation
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../drax-install/" class="md-tabs__link">
-      dRAX Installation
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../du-install/" class="md-tabs__link">
-      DU Installation
-    </a>
-  </li>
-
-      
     </ul>
   </div>
 </nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
         
       
       <main class="md-main" data-md-component="main">
@@ -201,13 +246,12 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="dRAX" class="md-nav__button md-logo" aria-label="dRAX" data-md-component="logo">
+    <a href=".." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <img src="../images/logo.png" alt="logo">
 
     </a>
-    dRAX
+    dRAX - 2022.3.0 release
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -221,7 +265,52 @@
   
     <li class="md-nav__item">
       <a href=".." class="md-nav__link">
-        Overview
+        Accelleran CU Install Guide
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubernetes-install/" class="md-nav__link">
+        CU installation ( VM & kubernetes )
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drax-install/" class="md-nav__link">
+        RIC & CU Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../du-install/" class="md-nav__link">
+        DU Installation
       </a>
     </li>
   
@@ -245,13 +334,8 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
+          Core Installation
           <span class="md-nav__icon md-icon"></span>
-          
-            <a href="./" class="md-nav__link md-nav__link--active"
-              style="margin: initial; padding: initial; pointer-events: initial">
-          
-            Core Installation
-          </a>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
@@ -259,6 +343,7 @@
       </a>
       
         
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -271,6 +356,13 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-content" class="md-nav__link">
+    Table of content
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#create-a-network-bridge" class="md-nav__link">
@@ -291,12 +383,52 @@
     Install Open5GS
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Install Open5GS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#configure-open5gs" class="md-nav__link">
     Configure Open5GS
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open5gs-gui" class="md-nav__link">
+    open5gs GUI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#some-scripts-one-often-uses" class="md-nav__link">
+    Some scripts one often uses
+  </a>
+  
+    <nav class="md-nav" aria-label="Some scripts one often uses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restart" class="md-nav__link">
+    restart
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version" class="md-nav__link">
+    version
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -304,51 +436,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../kubernetes-install/" class="md-nav__link">
-        Kubernetes Installation
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../drax-install/" class="md-nav__link">
-        dRAX Installation
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../du-install/" class="md-nav__link">
-        DU Installation
-      </a>
     </li>
   
 
@@ -361,16 +448,33 @@
             
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
-                
-                <h1 id="core-installation">Core Installation<a class="headerlink" href="#core-installation" title="Permanent link">⚓︎</a></h1>
+                  
+
+
+<h1 id="core-installation">Core Installation<a class="headerlink" href="#core-installation" title="Permanent link">&para;</a></h1>
 <p>In order to have end-to-end connectivity a core network is required.
 If no core network is available, Open5GS can be installed in a virtual machine on the installation machine.
 If you already have a core you can skip this chapter.</p>
-<h2 id="create-a-network-bridge">Create a Network Bridge<a class="headerlink" href="#create-a-network-bridge" title="Permanent link">⚓︎</a></h2>
+<h2 id="table-of-content">Table of content<a class="headerlink" href="#table-of-content" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#core-installation">Core Installation</a></li>
+<li><a href="#table-of-content">Table of content</a></li>
+<li><a href="#create-a-network-bridge">Create a Network Bridge</a></li>
+<li><a href="#create-a-virtual-machine">Create a Virtual Machine</a></li>
+<li><a href="#install-open5gs">Install Open5GS</a><ul>
+<li><a href="#configure-open5gs">Configure Open5GS</a></li>
+<li><a href="#open5gs-gui">open5gs GUI</a></li>
+<li><a href="#some-scripts-one-often-uses">Some scripts one often uses</a></li>
+<li><a href="#restart">restart</a></li>
+<li><a href="#version">version</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="create-a-network-bridge">Create a Network Bridge<a class="headerlink" href="#create-a-network-bridge" title="Permanent link">&para;</a></h2>
 <p>In order to be able to assign a public IP address to the Virtual Machine, the network connection of the installation machine has to be bridged.
 This allows to add the virtual machine to the created bridge.
 To create a bridge, replace the network configuration of the installation machine which is assumed to be located in <code>/etc/netplan/00-installer-config.yaml</code> with the configuration below.
@@ -401,96 +505,181 @@ You might have to edit this configuration to match your set-up.</p>
 <p>Make sure to use <code>br0</code> as the <code>$NODE_INT</code> from now on:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">NODE_INT</span><span class="o">=</span>br0
 </code></pre></div>
-<h2 id="create-a-virtual-machine">Create a Virtual Machine<a class="headerlink" href="#create-a-virtual-machine" title="Permanent link">⚓︎</a></h2>
-<p>Next you can install the virtual machine that hosts the core.
-The installation process is outside the scope of this document.
-Make sure to create a bridged network for the virtual machine and assign a fixed IP address (<code>$CORE_IP</code>) in the same subnet as <code>$NODE_IP</code> to it.
+<h2 id="create-a-virtual-machine">Create a Virtual Machine<a class="headerlink" href="#create-a-virtual-machine" title="Permanent link">&para;</a></h2>
+<p>Next you can install the virtual machine that hosts the core. The installation process is outside the scope of this document. Still we share the commandline you can use
+<div class="highlight"><pre><span></span><code>virt-install  --name open5gs-ubuntu-20.04.4  --memory <span class="m">8192</span> --vcpus <span class="s2">&quot;cpuset=9-15&quot;</span>  --os-type linux  --os-variant rhel7 --accelerate --disk <span class="s2">&quot;/var/lib/libvirt/images/CU-ubuntu-20~.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio&quot;</span> --network <span class="s2">&quot;source=br0,model=virtio&quot;</span> --vnc  --noautoconsole --cdrom <span class="s2">&quot;./ubuntu-20.04.4-live-server-amd64.iso&quot;</span>
+</code></pre></div>
+Continue with <code>virt-manager</code> console
+Choose all default except for
+  * Fill in the static ip of $CORE_IP
+  * select [ x ] openSsh</p>
+<p>VM installation takes 5 minutes</p>
+<p>Make sure to create a bridged network for the virtual machine and assign a fixed IP address (<code>$CORE_IP</code>) in the same subnet as <code>$NODE_IP</code> to it.
 Note that if you SSH into the virtual machine the <code>$CORE_IP</code> and related variables might not be set.</p>
-<h2 id="install-open5gs">Install Open5GS<a class="headerlink" href="#install-open5gs" title="Permanent link">⚓︎</a></h2>
+<h2 id="install-open5gs">Install Open5GS<a class="headerlink" href="#install-open5gs" title="Permanent link">&para;</a></h2>
 <p>Please refer to <a href="https://open5gs.org/open5gs/docs/guide/01-quickstart/">the Open5GS website</a> for information on how to install and configure the Open5GS core network on the virtual machine.</p>
-<h2 id="configure-open5gs">Configure Open5GS<a class="headerlink" href="#configure-open5gs" title="Permanent link">⚓︎</a></h2>
+<blockquote>
+<p>NOTE : don't forget the ip forwarding section. If forgotten the UE connects with an exclemation mark in the triangle and has no internet connectivity.</p>
+</blockquote>
+<h3 id="configure-open5gs">Configure Open5GS<a class="headerlink" href="#configure-open5gs" title="Permanent link">&para;</a></h3>
 <p>The default configuration of Open5GS can mostly be used as-is.
 There are a couple of modifications that have to be made to its configuration:</p>
 <p>Edit <code>/etc/open5gs/amf.yaml</code> and set the NGAP listen address to the public address of the virtual machine:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">amf</span><span class="p">:</span>
-    <span class="nt">ngap</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">addr</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">$CORE_IP</span>
+<div class="highlight"><pre><span></span><code><span class="nt">amf</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">ngap</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">addr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$CORE_IP</span><span class="w"></span>
 </code></pre></div>
+<p>Change the <code>plmn_id:</code> everywhere in the amf.yaml file to the one of your setup.</p>
 <p>Edit <code>/etc/open5gs/upf.yaml</code> and set the GTP-U listen address to the public address of the virtual machine:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">upf</span><span class="p">:</span>
-    <span class="nt">gtpu</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">addr</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">$CORE_IP</span>
+<div class="highlight"><pre><span></span><code><span class="nt">upf</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">gtpu</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">addr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$CORE_IP</span><span class="w"></span>
 </code></pre></div>
 <p>Restart the AMF and UPF:</p>
 <div class="highlight"><pre><span></span><code>sudo systemctl restart open5gs-amfd
 sudo systemctl restart open5gs-upfd
 </code></pre></div>
-                
-              
-              
-                
+<h3 id="open5gs-gui">open5gs GUI<a class="headerlink" href="#open5gs-gui" title="Permanent link">&para;</a></h3>
+<p>To be able to reach the GUI from any IP address add these lines </p>
+<div class="highlight"><pre><span></span><code>Environment=HOSTNAME=0.0.0.0
+Environment=PORT=3000
+</code></pre></div>
+<p>to the file <code>/etc/systemd/system/multi-user.target.wants/open5gs-webui.service</code></p>
+<p>and restart the service </p>
+<p><div class="highlight"><pre><span></span><code>systemctl daemon-reload
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>systemctl restart open5gs-webui.service
+</code></pre></div>
+now you will find that this service is listening on port 3000 on any ip</p>
+<p><div class="highlight"><pre><span></span><code>netstat -ano | grep 3000
+#tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      off (0.00/0/0)
+````
+
+### Provision a UE
+
+This can be done through command line
+</code></pre></div>
+open5gs-dbctl add 001010000006309 00112233445566778899aabbccddeeff 84d4c9c08b4f482861e3a9c6c35bc4d8 internet
+<div class="highlight"><pre><span></span><code>or webgui
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;img width=&quot;1025&quot; height=&quot;531&quot; src=&quot;2022-08-09_135057.png&quot;&gt;
+  &lt;img width=&quot;1024&quot; height=&quot;542&quot; src=&quot;2022-08-09_135124.png&quot;&gt;
+  &lt;img width=&quot;1026&quot; height=&quot;544&quot; src=&quot;2022-08-09_135146.png&quot;&gt;
+&lt;/p&gt;
 
 
-              
-            </article>
-          </div>
+* use static ip address which you can map to the imsi. This makes debugging traffic much easier when using multiple UE&#39;s. 
+    ``` eg: imsi 235880000009834 gets ip address 10.0.0.34```
+### Verify if open5gs is functional
+open5gs listens on ngap interface
+``` bash
+netstat -ano | grep 38412
+# sctp                10.55.7.104:38412                               LISTEN      
+</code></pre></div></p>
+<p>5g configuration
+<div class="highlight"><pre><span></span><code>grep -e <span class="m">10</span>.55.7 -e m<span class="o">[</span>cn<span class="o">]</span>c  /etc/open5gs/* <span class="p">|</span> egrep -v :<span class="se">\s</span>*#
+<span class="c1">#/etc/open5gs/amf.yaml:      - addr: 10.55.7.104</span>
+<span class="c1">#/etc/open5gs/amf.yaml:          mcc: 001</span>
+<span class="c1">#/etc/open5gs/amf.yaml:          mnc: 01</span>
+<span class="c1">#/etc/open5gs/amf.yaml:          mcc: 001</span>
+<span class="c1">#/etc/open5gs/amf.yaml:          mnc: 01</span>
+<span class="c1">#/etc/open5gs/amf.yaml:          mcc: 001</span>
+<span class="c1">#/etc/open5gs/amf.yaml:          mnc: 01</span>
+<span class="c1">#/etc/open5gs/upf.yaml:      - addr: 10.55.7.104</span>
+</code></pre></div></p>
+<h3 id="some-scripts-one-often-uses">Some scripts one often uses<a class="headerlink" href="#some-scripts-one-often-uses" title="Permanent link">&para;</a></h3>
+<h4 id="restart">restart<a class="headerlink" href="#restart" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>at &gt; restartcore.sh <span class="s">&lt;&lt; EOF</span>
+<span class="s">sudo systemctl restart open5gs-mmed</span>
+<span class="s">sudo systemctl restart open5gs-sgwcd</span>
+<span class="s">sudo systemctl restart open5gs-smfd</span>
+<span class="s">sudo systemctl restart open5gs-amfd</span>
+<span class="s">sudo systemctl restart open5gs-sgwud</span>
+<span class="s">sudo systemctl restart open5gs-upfd</span>
+<span class="s">sudo systemctl restart open5gs-hssd</span>
+<span class="s">sudo systemctl restart open5gs-pcrfd</span>
+<span class="s">sudo systemctl restart open5gs-nrfd</span>
+<span class="s">sudo systemctl restart open5gs-ausfd</span>
+<span class="s">sudo systemctl restart open5gs-udmd</span>
+<span class="s">sudo systemctl restart open5gs-pcfd</span>
+<span class="s">sudo systemctl restart open5gs-udrd</span>
+<span class="s">sudo systemctl restart open5gs-webui</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<h4 id="version">version<a class="headerlink" href="#version" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>cat &gt; versioncore.sh <span class="s">&lt;&lt; EOF</span>
+<span class="s">set -x</span>
+<span class="s">open5gs-mmed -v </span>
+<span class="s">open5gs-sgwcd -v </span>
+<span class="s">open5gs-smfd -v </span>
+<span class="s">open5gs-amfd -v </span>
+<span class="s">open5gs-sgwud -v </span>
+<span class="s">open5gs-upfd -v </span>
+<span class="s">open5gs-hssd -v </span>
+<span class="s">open5gs-pcrfd -v </span>
+<span class="s">open5gs-nrfd -v </span>
+<span class="s">open5gs-ausfd -v </span>
+<span class="s">open5gs-udmd -v </span>
+<span class="s">open5gs-pcfd -v </span>
+<span class="s">open5gs-udrd -v </span>
+<span class="s">open5gs-webui -v </span>
+<span class="s">set +x</span>
+<span class="s">EOF</span>
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
             Back to top
           </a>
         
       </main>
       
-        
-<footer class="md-footer">
+        <footer class="md-footer">
   
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview" rel="prev">
+        <a href="../du-install/" class="md-footer__link md-footer__link--prev" aria-label="Previous: DU Installation" rel="prev">
           <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Previous
               </span>
-              Overview
+              DU Installation
             </div>
           </div>
         </a>
       
-      
-        
-        <a href="../kubernetes-install/" class="md-footer__link md-footer__link--next" aria-label="Next: Kubernetes Installation" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Kubernetes Installation
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
       
     </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-        
-      </div>
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
       
     </div>
   </div>
@@ -500,10 +689,11 @@ sudo systemctl restart open5gs-upfd
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.53c85856.min.js", "version": {"provider": "mike"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate"], "search": "../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.716f8af4.min.js"></script>
+      <script src="../assets/javascripts/bundle.078830c0.min.js"></script>
       
     
   </body>

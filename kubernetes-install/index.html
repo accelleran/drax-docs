@@ -8,42 +8,44 @@
       
       
       
-      
         <link rel="canonical" href="https://accelleran.github.io/drax-docs/kubernetes-install/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.0">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
     
     
       
-        <title>Kubernetes Installation - dRAX</title>
+        <title>CU installation ( VM & kubernetes ) - dRAX - 2022.3.0 release</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.fe914879.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.20d9efc8.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ba0d045b.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
         
       
+      
+
     
     
     
       
+        
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
-    
     
     
       <link rel="stylesheet" href="../css/extra.css">
     
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
-
+    
     
     
   </head>
@@ -57,7 +59,6 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
   
     
-    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -65,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#kubernetes-installation" class="md-skip">
+        <a href="#cu-installation-vm-kubernetes" class="md-skip">
           Skip to content
         </a>
       
@@ -74,28 +75,36 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="dRAX" class="md-header__button md-logo" aria-label="dRAX" data-md-component="logo">
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
       
+
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            dRAX
+            dRAX - 2022.3.0 release
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Kubernetes Installation
+              CU installation ( VM & kubernetes )
             
           </span>
         </div>
@@ -104,15 +113,44 @@
     
     
     
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
     
   </nav>
-</header>
+  
     
-    <div class="md-container" data-md-component="container">
       
-      
-        
-          
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
@@ -124,19 +162,7 @@
 
   <li class="md-tabs__item">
     <a href=".." class="md-tabs__link">
-      Overview
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../core-install/" class="md-tabs__link">
-      Core Installation
+      Accelleran CU Install Guide
     </a>
   </li>
 
@@ -150,7 +176,7 @@
 
   <li class="md-tabs__item">
     <a href="./" class="md-tabs__link md-tabs__link--active">
-      Kubernetes Installation
+      CU installation ( VM & kubernetes )
     </a>
   </li>
 
@@ -162,7 +188,7 @@
 
   <li class="md-tabs__item">
     <a href="../drax-install/" class="md-tabs__link">
-      dRAX Installation
+      RIC & CU Installation
     </a>
   </li>
 
@@ -179,9 +205,28 @@
   </li>
 
       
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../core-install/" class="md-tabs__link">
+      Core Installation
+    </a>
+  </li>
+
+      
     </ul>
   </div>
 </nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
         
       
       <main class="md-main" data-md-component="main">
@@ -201,13 +246,12 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="dRAX" class="md-nav__button md-logo" aria-label="dRAX" data-md-component="logo">
+    <a href=".." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <img src="../images/logo.png" alt="logo">
 
     </a>
-    dRAX
+    dRAX - 2022.3.0 release
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -221,22 +265,7 @@
   
     <li class="md-nav__item">
       <a href=".." class="md-nav__link">
-        Overview
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../core-install/" class="md-nav__link">
-        Core Installation
+        Accelleran CU Install Guide
       </a>
     </li>
   
@@ -260,20 +289,16 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
+          CU installation ( VM & kubernetes )
           <span class="md-nav__icon md-icon"></span>
-          
-            <a href="./" class="md-nav__link md-nav__link--active"
-              style="margin: initial; padding: initial; pointer-events: initial">
-          
-            Kubernetes Installation
-          </a>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Kubernetes Installation
+        CU installation ( VM & kubernetes )
       </a>
       
         
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -288,64 +313,124 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-docker" class="md-nav__link">
-    Install Docker
+  <a href="#table-of-content" class="md-nav__link">
+    Table of Content
   </a>
   
 </li>
       
         <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vm-minimum-requirements" class="md-nav__link">
+    VM Minimum Requirements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-host-server" class="md-nav__link">
+    Configure HOST server
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure HOST server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-a-linux-bridge" class="md-nav__link">
+    set a linux bridge
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-vm" class="md-nav__link">
+    Install VM
+  </a>
+  
+    <nav class="md-nav" aria-label="Install VM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-docker-in-the-cu-vm" class="md-nav__link">
+    Install Docker in the CU VM
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#configure-docker-daemon" class="md-nav__link">
     Configure Docker Daemon
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#disable-swap" class="md-nav__link">
     Disable Swap
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#install-kubernetes" class="md-nav__link">
-    Install Kubernetes
+        
+          <li class="md-nav__item">
+  <a href="#install-kubernetes-inside-the-vm" class="md-nav__link">
+    Install Kubernetes inside the VM
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#configure-kubernetes" class="md-nav__link">
     Configure Kubernetes
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#install-flannel" class="md-nav__link">
     Install Flannel
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#enable-pod-scheduling" class="md-nav__link">
     Enable Pod Scheduling
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#a-small-busybox-pod-for-testing" class="md-nav__link">
     A small busybox pod for testing
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#remove-in-full-a-kubernetes-installation" class="md-nav__link">
-    Remove in full a Kubernetes installation
+  <a href="#apendix-remove-a-full-kubernetes-installation" class="md-nav__link">
+    APENDIX : Remove a full Kubernetes installation
   </a>
   
 </li>
@@ -367,7 +452,7 @@
   
     <li class="md-nav__item">
       <a href="../drax-install/" class="md-nav__link">
-        dRAX Installation
+        RIC & CU Installation
       </a>
     </li>
   
@@ -388,6 +473,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-install/" class="md-nav__link">
+        Core Installation
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -396,32 +496,143 @@
             
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
-                
-                <h1 id="kubernetes-installation">Kubernetes Installation<a class="headerlink" href="#kubernetes-installation" title="Permanent link">⚓︎</a></h1>
-<p>This chapter will install Kubernetes, using Flannel for the CNI.
+                  
+
+
+<h1 id="cu-installation-vm-kubernetes">CU installation ( VM &amp; kubernetes )<a class="headerlink" href="#cu-installation-vm-kubernetes" title="Permanent link">&para;</a></h1>
+<h2 id="table-of-content">Table of Content<a class="headerlink" href="#table-of-content" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#cu-installation--vm--kubernetes-">CU installation ( VM &amp; kubernetes )</a></li>
+<li><a href="#table-of-content">Table of Content</a></li>
+<li><a href="#introduction">Introduction</a><ul>
+<li><a href="#vm-minimum-requirements">VM Minimum Requirements</a></li>
+</ul>
+</li>
+<li><a href="#configure-host-server">Configure HOST server</a><ul>
+<li><a href="#set-a-linux-bridge">set a linux bridge</a></li>
+</ul>
+</li>
+<li><a href="#install-vm">Install VM</a><ul>
+<li><a href="#install-docker-in-the-cu-vm">Install Docker in the CU VM</a></li>
+<li><a href="#configure-docker-daemon">Configure Docker Daemon</a></li>
+<li><a href="#disable-swap">Disable Swap</a></li>
+<li><a href="#install-kubernetes-inside-the-vm">Install Kubernetes inside the VM</a></li>
+<li><a href="#configure-kubernetes">Configure Kubernetes</a></li>
+<li><a href="#install-flannel">Install Flannel</a></li>
+<li><a href="#enable-pod-scheduling">Enable Pod Scheduling</a></li>
+<li><a href="#a-small-busybox-pod-for-testing">A small busybox pod for testing</a></li>
+</ul>
+</li>
+<li><a href="#apendix--remove-a-full-kubernetes-installation">APENDIX : Remove a full Kubernetes installation</a></li>
+</ul>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>This chapter will install the CU, using Flannel for the CNI.
 This guide defaults to using Docker as the container runtime.
 For more information on installing Kubernetes, see the <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/">official Kubernetes documentation</a>.</p>
-<h2 id="install-docker">Install Docker<a class="headerlink" href="#install-docker" title="Permanent link">⚓︎</a></h2>
+<p>This chapter will guide you through following steps : 
+* install VM ( with cpu pinning )
+* install docker in the CU VM
+* install kubernetes in the CU VM</p>
+<h3 id="vm-minimum-requirements">VM Minimum Requirements<a class="headerlink" href="#vm-minimum-requirements" title="Permanent link">&para;</a></h3>
+<ol>
+<li>8 dedicated Cores    ( cpuset planned in the preperation chapter ) </li>
+<li>32GB DDR4 RAM</li>
+<li>200GB Hard Disk      ( includes space for logging/monitor/debugging the system )</li>
+</ol>
+<h2 id="configure-host-server">Configure HOST server<a class="headerlink" href="#configure-host-server" title="Permanent link">&para;</a></h2>
+<h3 id="set-a-linux-bridge">set a linux bridge<a class="headerlink" href="#set-a-linux-bridge" title="Permanent link">&para;</a></h3>
+<p>create a linux bridge using netplan</p>
+<p>adapt your netplan file assuming that $SERVER_INT holds the physical interface name of your server
+that connects to the network.</p>
+<p><div class="highlight"><pre><span></span><code>network:
+  ethernets:
+    <span class="nv">$SERVER_INT</span>:
+      dhcp4: <span class="nb">false</span>
+  :
+  :
+  bridges:
+    br0:
+      interfaces: <span class="o">[</span><span class="nv">$SERVER_INT</span><span class="o">]</span>
+      addresses:
+            - <span class="nv">$SERVER_IP</span>/24
+      gateway4: <span class="nv">$GATEWAY_IP</span>
+      nameservers:
+        addresses: <span class="o">[</span><span class="m">8</span>.8.8.8<span class="o">]</span>
+
+  version: <span class="m">2</span>
+</code></pre></div>
+on the host uncomment the line in <code>/etc/sysctl.conf</code> so you get this.</p>
+<div class="highlight"><pre><span></span><code>net.ipv4.ip_forward<span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+<p>reboot the host.</p>
+<h2 id="install-vm">Install VM<a class="headerlink" href="#install-vm" title="Permanent link">&para;</a></h2>
+<p>If not yet installed install</p>
+<div class="highlight"><pre><span></span><code>sudo apt install virtinst
+sudo apt install libvirt-clients
+sudo apt install qemu
+sudo apt install qemu-kvm
+sudo apt install libvirt_daemon
+sudo apt install bridge-utils
+sudo apt install virt-manager
+</code></pre></div>
+<p><strong> reboot server </strong></p>
+<p>Below a command line that creates a VM with the correct settings.</p>
+<blockquote>
+<p>IMPORTANT ! the $CORE_SET_CU can only be a comma seperated list. </p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>sudo virt-install  --name <span class="s2">&quot;</span><span class="nv">$CU_VM_NAME</span><span class="s2">&quot;</span>  --memory <span class="m">16768</span> --vcpus <span class="s2">&quot;sockets=1,cores=</span><span class="nv">$CORE_AMOUNT_CU</span><span class="s2">,cpuset=</span><span class="nv">$CORE_SET_CU</span><span class="s2">&quot;</span>  --os-type linux  --os-variant rhel7.0 --accelerate --disk <span class="s2">&quot;/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio&quot;</span>  --network <span class="s2">&quot;source=br0,model=virtio&quot;</span> --vnc  --noautoconsole --cdrom <span class="s2">&quot;./ubuntu-20.04.4-live-server-amd64.iso&quot;</span>
+</code></pre></div>
+<p>Continue in the console the complete the VM installation.
+Take all default values except these points :</p>
+<ul>
+<li>set to static ip $NODE_IP ( see preperation chapter )</li>
+<li>Select [ x ] install openSSH</li>
+<li>set hostname=\$CU_HOSTNAME, username=\$USER and password</li>
+</ul>
+<p>Installation will begin. Wait about 5 minutes for it to install.
+reboot the VM </p>
+<p>ssh into the VM.</p>
+<div class="highlight"><pre><span></span><code>ssh <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>
+</code></pre></div>
+<p>from inside this VM you should be able to ping the internet's ip address 8.8.8.8</p>
+<div class="highlight"><pre><span></span><code>ping <span class="m">8</span>.8.8.8
+</code></pre></div>
+<p>make sure all available disk space is being used inside the VM.
+<div class="highlight"><pre><span></span><code>lsblk
+sudo lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+lsblk
+</code></pre></div></p>
+<p>Every heading that follows has to be done inside this VM.</p>
+<h3 id="install-docker-in-the-cu-vm">Install Docker in the CU VM<a class="headerlink" href="#install-docker-in-the-cu-vm" title="Permanent link">&para;</a></h3>
 <p>Add the Docker APT repository:</p>
-<div class="highlight"><pre><span></span><code>curl -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="p">|</span> sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-<span class="nb">echo</span> <span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg --print-architecture<span class="k">)</span><span class="s2"> signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu </span><span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> stable&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
-sudo apt update
+<p><div class="highlight"><pre><span></span><code>curl -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="p">|</span> sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>echo &quot;deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable&quot; | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt update
+</code></pre></div></p>
 <p>Install the required packages:</p>
-<div class="highlight"><pre><span></span><code>sudo apt install docker-ce docker-ce-cli containerd.io docker-compose
+<p><div class="highlight"><pre><span></span><code>sudo apt install docker-ce 
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install docker-ce-cli 
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install containerd.io 
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install docker-compose
+</code></pre></div></p>
 <p>Add your user to the docker group to be able to run docker commands without sudo access.
 You might have to reboot or log out and in again for this change to take effect.</p>
 <div class="highlight"><pre><span></span><code>sudo usermod -aG docker <span class="nv">$USER</span>
+sudo reboot
 </code></pre></div>
 <p>To check if your installation is working you can try to run a test image in a container:</p>
 <div class="highlight"><pre><span></span><code>docker run hello-world
 </code></pre></div>
-<h2 id="configure-docker-daemon">Configure Docker Daemon<a class="headerlink" href="#configure-docker-daemon" title="Permanent link">⚓︎</a></h2>
+<h3 id="configure-docker-daemon">Configure Docker Daemon<a class="headerlink" href="#configure-docker-daemon" title="Permanent link">&para;</a></h3>
 <p>The recommended configuration of the Docker daemon is provided by the Kubernetes team - particularly to use systemd for the management of the container's cgroups:</p>
 <div class="highlight"><pre><span></span><code>sudo mkdir /etc/docker
 sudo tee /etc/docker/daemon.json <span class="s">&lt;&lt;EOF</span>
@@ -440,26 +651,27 @@ sudo tee /etc/docker/daemon.json <span class="s">&lt;&lt;EOF</span>
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 </code></pre></div>
-<h2 id="disable-swap">Disable Swap<a class="headerlink" href="#disable-swap" title="Permanent link">⚓︎</a></h2>
+<h3 id="disable-swap">Disable Swap<a class="headerlink" href="#disable-swap" title="Permanent link">&para;</a></h3>
 <p>Kubernetes refuses to run if swap is enabled on the node, so we disable swap immediately and then also disable it following a reboot:</p>
 <div class="highlight"><pre><span></span><code>sudo swapoff -a
 sudo sed -i <span class="s1">&#39;/\sswap\s/ s/^\(.*\)$/#\1/g&#39;</span> /etc/fstab
 </code></pre></div>
-<h2 id="install-kubernetes">Install Kubernetes<a class="headerlink" href="#install-kubernetes" title="Permanent link">⚓︎</a></h2>
+<h3 id="install-kubernetes-inside-the-vm">Install Kubernetes inside the VM<a class="headerlink" href="#install-kubernetes-inside-the-vm" title="Permanent link">&para;</a></h3>
 <p>Add the Kubernetes APT repository:</p>
 <div class="highlight"><pre><span></span><code>sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 <span class="nb">echo</span> <span class="s2">&quot;deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt update
 </code></pre></div>
 <p>Accelleran dRAX currently supports Kubernetes up to version 1.20. The following command installs specifically this version:</p>
-<div class="highlight"><pre><span></span><code>sudo apt install -y <span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.20.0-00 <span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.20.0-00 <span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.20.0-00
-sudo apt-mark hold kubelet kubeadm kubectl
+<p><div class="highlight"><pre><span></span><code>sudo apt install -y <span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.20.0-00 <span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.20.0-00 <span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.20.0-00
 </code></pre></div>
-<h2 id="configure-kubernetes">Configure Kubernetes<a class="headerlink" href="#configure-kubernetes" title="Permanent link">⚓︎</a></h2>
+<div class="highlight"><pre><span></span><code>sudo apt-mark hold kubelet kubeadm kubectl
+</code></pre></div></p>
+<h3 id="configure-kubernetes">Configure Kubernetes<a class="headerlink" href="#configure-kubernetes" title="Permanent link">&para;</a></h3>
 <p>To initialize the Kubernetes cluster, the IP address of the node needs to be fixed, i.e. if this IP changes, a full re-installation of Kubernetes will be required.
 This is generally the (primary) IP address of the network interface associated with the default gateway.
 From here on, this IP is referred to as <code>$NODE_IP</code> - we store it as an environment variable for later use:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">NODE_IP</span><span class="o">=</span><span class="m">1</span>.2.3.4   <span class="c1"># replace 1.2.3.4 with the correct IP</span>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">NODE_IP</span><span class="o">=</span>x.x.x.x         <span class="c1"># See Preperation paragraph for correct ip</span>
 </code></pre></div>
 <p>This guide assumes we will use Flannel as the CNI-based Pod network for this Kubernetes instance, which uses the <code>10.244.0.0/16</code> subnet by default.
 We store it again as an environment variable for later use, and of course if you wish to use a different subnet, change the command accordingly:</p>
@@ -475,7 +687,7 @@ We won't do that at this point, but it's a sign that the command completed succe
 sudo cp -i /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
 sudo chown <span class="s2">&quot;</span><span class="k">$(</span>id -u<span class="k">)</span><span class="s2">:</span><span class="k">$(</span>id -g<span class="k">)</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.kube/config&quot;</span>
 </code></pre></div>
-<h2 id="install-flannel">Install Flannel<a class="headerlink" href="#install-flannel" title="Permanent link">⚓︎</a></h2>
+<h3 id="install-flannel">Install Flannel<a class="headerlink" href="#install-flannel" title="Permanent link">&para;</a></h3>
 <p>Prepare the Manifest file:</p>
 <div class="highlight"><pre><span></span><code>curl -sSOJ https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 sed -i <span class="s1">&#39;/net-conf.json/,/}/{ s#10.244.0.0/16#&#39;</span><span class="s2">&quot;</span><span class="nv">$POD_NETWORK</span><span class="s2">&quot;</span><span class="s1">&#39;#; }&#39;</span> kube-flannel.yml
@@ -483,105 +695,120 @@ sed -i <span class="s1">&#39;/net-conf.json/,/}/{ s#10.244.0.0/16#&#39;</span><s
 <p>Apply the Manifest file:</p>
 <div class="highlight"><pre><span></span><code>kubectl apply -f kube-flannel.yml
 </code></pre></div>
-<h2 id="enable-pod-scheduling">Enable Pod Scheduling<a class="headerlink" href="#enable-pod-scheduling" title="Permanent link">⚓︎</a></h2>
+<h3 id="enable-pod-scheduling">Enable Pod Scheduling<a class="headerlink" href="#enable-pod-scheduling" title="Permanent link">&para;</a></h3>
 <p>By default, Kubernetes will not schedule Pods on the control-plane node for security reasons.
 As we're running with a single Node, we need to remove the node-role.kubernetes.io/master taint, meaning that the scheduler will then be able to schedule Pods on it.</p>
 <div class="highlight"><pre><span></span><code>kubectl taint nodes --all node-role.kubernetes.io/master-
 </code></pre></div>
-<h2 id="a-small-busybox-pod-for-testing">A small busybox pod for testing<a class="headerlink" href="#a-small-busybox-pod-for-testing" title="Permanent link">⚓︎</a></h2>
+<h3 id="a-small-busybox-pod-for-testing">A small busybox pod for testing<a class="headerlink" href="#a-small-busybox-pod-for-testing" title="Permanent link">&para;</a></h3>
 <p>It is very convenient (however optional) to test the Kubernetes installation with a simple busybox pod for instance to test your DNS resolution inside a pod. To do so create the following yaml file (/tmp/busybox.yaml):</p>
-<div class="highlight"><pre><span></span><code>apiVersion: v1
-kind: Pod
-metadata:
- name: busybox
- namespace: default
-spec:
- containers:
- - name: busybox
-   image: busybox:1.28
-   command:
-     - sleep
-     - <span class="s2">&quot;3600&quot;</span>
-   imagePullPolicy: IfNotPresent
- restartPolicy: Always
+<div class="highlight"><pre><span></span><code>cat <span class="s">&lt;&lt; EOF &gt; /tmp/busybox.yaml</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: Pod</span>
+<span class="s">metadata:</span>
+<span class="s"> name: busybox</span>
+<span class="s"> namespace: default</span>
+<span class="s">spec:</span>
+<span class="s"> containers:</span>
+<span class="s"> - name: busybox</span>
+<span class="s">   image: busybox:1.28</span>
+<span class="s">   command:</span>
+<span class="s">     - sleep</span>
+<span class="s">     - &quot;3600&quot;</span>
+<span class="s">   imagePullPolicy: IfNotPresent</span>
+<span class="s"> restartPolicy: Always</span>
+<span class="s">EOF</span>
 </code></pre></div>
-<p>Then you can create the pod:</p>
-<div class="highlight"><pre><span></span><code>kubectl --kubeconfig &lt;CONFIG_PATH&gt; create -f /tmp/busybox.yaml
+<p>Then you can create the pod:
+NOTE : --kubeconfig is optional here because <code>$HOME/.kube/config</code> is the default config file</p>
+<div class="highlight"><pre><span></span><code>kubectl --kubeconfig <span class="nv">$HOME</span>/.kube/config create -f /tmp/busybox.yaml
 </code></pre></div>
 <p>If all went well a new POD was created, you can verify this with the following command</p>
-<div class="highlight"><pre><span></span><code>kubectl --kubeconfig &lt;CONFIG_PATH&gt; get pods
-NAME      READY STATUS    RESTARTS AGE
-busybox   <span class="m">1</span>/1 Running   <span class="m">21</span> 21h
+<div class="highlight"><pre><span></span><code>kubectl --kubeconfig <span class="nv">$HOME</span>/.kube/config get pods
+<span class="c1">#NAME      READY STATUS    RESTARTS AGE</span>
+<span class="c1">#busybox   1/1 Running   21 21h</span>
 </code></pre></div>
 <p>In order to verify if your Kubernetes is working correctly you could try some simple commands using the busybox POD. 
 For instance to verify your name resolution works do:</p>
 <div class="highlight"><pre><span></span><code>kubectl <span class="nb">exec</span> -ti busybox -- nslookup mirrors.ubuntu.com 
-Server:    <span class="m">10</span>.96.0.10
-Address <span class="m">1</span>: <span class="m">10</span>.96.0.10 kube-dns.kube-system.svc.cluster.local
+<span class="c1">#Server:    10.96.0.10</span>
+<span class="c1">#Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local</span>
 
-Name:      mirrors.ubuntu.com
-Address <span class="m">1</span>: <span class="m">91</span>.189.89.32 bilimbi.canonical.com
+<span class="c1">#Name:      mirrors.ubuntu.com</span>
+<span class="c1">#Address 1: 91.189.89.32 bilimbi.canonical.com</span>
 </code></pre></div>
-<h2 id="remove-in-full-a-kubernetes-installation">Remove in full a Kubernetes installation<a class="headerlink" href="#remove-in-full-a-kubernetes-installation" title="Permanent link">⚓︎</a></h2>
+<h2 id="apendix-remove-a-full-kubernetes-installation">APENDIX : Remove a full Kubernetes installation<a class="headerlink" href="#apendix-remove-a-full-kubernetes-installation" title="Permanent link">&para;</a></h2>
 <p>On occasion, it may be deemed necessary to fully remove Kubernetes, for instance if for any reason your server IP address will change, then the advertised Kubernetes IP address will have to follow. THe following command help making sure the previous installation is cleared up: </p>
-<div class="highlight"><pre><span></span><code>sudo kubeadm reset
-sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*
-sudo rm -rf ~/.kube
-sudo rm -rf /etc/cni/net.d
-sudo ip link delete cni0
-sudo ip link delete flannel.1
+<p><div class="highlight"><pre><span></span><code>sudo kubeadm reset
 </code></pre></div>
-                
-              
-              
-                
+<div class="highlight"><pre><span></span><code>sudo apt-get purge kubeadm 
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt-get purge kubectl 
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt-get purge kubelet
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt-get purge kubernetes-cni
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo rm -rf ~/.kube
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo rm -rf /etc/cni/net.d
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo ip link delete cni0
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo ip link delete flannel.1
+</code></pre></div></p>
 
 
-              
-            </article>
-          </div>
+
+
+
+                
+              </article>
+            </div>
+          
+          
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
             Back to top
           </a>
         
       </main>
       
-        
-<footer class="md-footer">
+        <footer class="md-footer">
   
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../core-install/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Core Installation" rel="prev">
+        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Accelleran CU Install Guide" rel="prev">
           <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Previous
               </span>
-              Core Installation
+              Accelleran CU Install Guide
             </div>
           </div>
         </a>
       
       
         
-        <a href="../drax-install/" class="md-footer__link md-footer__link--next" aria-label="Next: dRAX Installation" rel="next">
+        <a href="../drax-install/" class="md-footer__link md-footer__link--next" aria-label="Next: RIC &amp; CU Installation" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              dRAX Installation
+              RIC & CU Installation
             </div>
           </div>
           <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
           </div>
         </a>
       
@@ -589,14 +816,15 @@ sudo ip link delete flannel.1
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-        
-      </div>
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
       
     </div>
   </div>
@@ -606,10 +834,11 @@ sudo ip link delete flannel.1
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.tabs", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.53c85856.min.js", "version": {"provider": "mike"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate"], "search": "../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.716f8af4.min.js"></script>
+      <script src="../assets/javascripts/bundle.078830c0.min.js"></script>
       
     
   </body>

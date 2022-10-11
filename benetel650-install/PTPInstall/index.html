@@ -1,0 +1,545 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://accelleran.github.io/drax-docs/benetel650-install/PTPInstall/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
+    
+    
+      
+        <title>PTPInstall - dRAX - 2022.3.0 release</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.20d9efc8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#prerequisites" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            dRAX - 2022.3.0 release
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PTPInstall
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      Accelleran CU Install Guide
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../kubernetes-install/" class="md-tabs__link">
+      CU installation ( VM & kubernetes )
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../drax-install/" class="md-tabs__link">
+      RIC & CU Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../du-install/" class="md-tabs__link">
+      DU Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../core-install/" class="md-tabs__link">
+      Core Installation
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    dRAX - 2022.3.0 release
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Accelleran CU Install Guide
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes-install/" class="md-nav__link">
+        CU installation ( VM & kubernetes )
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drax-install/" class="md-nav__link">
+        RIC & CU Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../du-install/" class="md-nav__link">
+        DU Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../core-install/" class="md-nav__link">
+        Core Installation
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>PTPInstall</h1>
+
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<p>The RU needs at least version 2V0.6.0</p>
+<div class="highlight"><pre><span></span><code>oot@benetelru:~# cat /etc/benetel-rootfs-version 
+RAN550-2V0.6.0
+</code></pre></div>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<h3 id="dawing">Dawing<a class="headerlink" href="#dawing" title="Permanent link">&para;</a></h3>
+<p>created in  https://asciiflow.com/</p>
+<div class="highlight"><pre><span></span><code>                                               CU
+                                               IP : 10.10.0.1
+                                              ┌─────────────────────┐
+       RU                                     │                     │
+       IP : 10.10.0.100                       │                     │
+      ┌──────────┐                            │                     │
+      │          │                            │                     │
+      │          │                            │                     │
+      │      eth0├────────────────────────────┤eno1                 │
+      │          │    Fiber                   │                     │
+      │          │                            │                     │
+      │          │                            │                     │
+      │          │                            │                     │
+      └──────────┘                            │                     │
+                                              │                     │
+                                              │                     │
+                                              │                     │
+                                              └─────────────────────┘
+</code></pre></div>
+<h2 id="server-side">Server side<a class="headerlink" href="#server-side" title="Permanent link">&para;</a></h2>
+<h3 id="install-ptp-server">Install ptp server<a class="headerlink" href="#install-ptp-server" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo apt update
+sudo apt install linuxptp
+</code></pre></div>
+<h3 id="configuration-file">configuration file<a class="headerlink" href="#configuration-file" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>cat &lt;&lt; EOF &gt; benetel550_ptp.cfg
+[global]
+domainNumber 24
+twoStepFlag 1
+assume_two_step 1
+#masterOnly 1
+announceReceiptTimeout 3
+logAnnounceInterval 1
+logSyncInterval -4
+logMinDelayReqInterval -4
+network_transport L2
+hybrid_e2e 1
+EOF
+</code></pre></div>
+<h3 id="the-interface-to-the-ru">the interface to the RU<a class="headerlink" href="#the-interface-to-the-ru" title="Permanent link">&para;</a></h3>
+<p>the interface to the should have an ip starting with 10.10.
+<div class="highlight"><pre><span></span><code>ITF_RU=$(ip -br a | grep 10.10.0 | awk &#39;{print $1}&#39;)
+echo $ITF_RU
+</code></pre></div></p>
+<h3 id="run-the-server">run the server<a class="headerlink" href="#run-the-server" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo ptp4l -2 -E -f benetel550_ptp.cfg -i $ITF_RU -m
+</code></pre></div>
+<p>-2 means that it is ethernet multicast packets that are being sent.
+At this moment multicast messages will be sent on the interface <code>eno1</code></p>
+<p>example of a tcpdump on the server
+<div class="highlight"><pre><span></span><code>ad@duserver:~$ sudo tcpdump -i eno1 -en
+[sudo] password for ad: 
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eno1, link-type EN10MB (Ethernet), capture size 262144 bytes
+13:03:30.226015 ec:f4:bb:e3:b4:68 &gt; 01:1b:19:00:00:00, ethertype Unknown (0x88f7), length 58: 
+    0x0000:  0002 002c 1800 0200 0000 0000 0000 0000  ...,............
+    0x0010:  0000 0000 ecf4 bbff fee3 b468 0001 74cc  ...........h..t.
+    0x0020:  00fc 0000 0000 0000 0000 0000            ............
+</code></pre></div></p>
+<h2 id="ru-side">RU side<a class="headerlink" href="#ru-side" title="Permanent link">&para;</a></h2>
+<h3 id="commands-to-configure-ptp">Commands to configure PTP<a class="headerlink" href="#commands-to-configure-ptp" title="Permanent link">&para;</a></h3>
+<p>Below the command to execute to use PTP to sync</p>
+<div class="highlight"><pre><span></span><code>root@benetelru:~# setSyncModePtp.sh
+
+57 settings written to SMU
+RU Set to use PTP on next reboot. Reboot for this to take effect.
+</code></pre></div>
+<h3 id="trace-ethernet-packets">trace ethernet packets<a class="headerlink" href="#trace-ethernet-packets" title="Permanent link">&para;</a></h3>
+<p>tracing ethernet packets on the RU
+<div class="highlight"><pre><span></span><code>oot@benetelru:~# tcpdump -i eth0 ether proto 0x88f7
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+12:31:00.865296 ec:f4:bb:e3:b4:68 (oui Unknown) &gt; 01:1b:19:00:00:00 (oui Unknown), ethertype Unknown (0x88f7), length 78: 
+    0x0000:  0b02 0040 1800 0008 0000 0000 0000 0000  ...@............
+    0x0010:  0000 0000 ecf4 bbff fee3 b468 0001 0000  ...........h....
+    0x0020:  0501 0000 0000 0000 0000 0000 0025 0080  .............%..
+    0x0030:  f8fe ffff 80ec f4bb fffe e3b4 6800 00a0  ............h...
+</code></pre></div></p>
+<h3 id="restart-sync-or-reboot">restart sync or reboot<a class="headerlink" href="#restart-sync-or-reboot" title="Permanent link">&para;</a></h3>
+<p>without rebooting we can restart the sync by this command</p>
+<p><code>systemctl restart ru_sync</code></p>
+<p>when rebooting the unit the previous command is not necessary</p>
+<h3 id="logs">logs<a class="headerlink" href="#logs" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>tail -f /var/log/pcm4l
+</code></pre></div>
+<p>this is a succesful sync. It first shows the drift and ends with Time and Freq locked to Yes.
+<div class="highlight"><pre><span></span><code>E::SyncAnalysis: 2020-02-11 19:34:02 373837860 ns [3, Tracker#0] (3240) offset: -355.0 ns    delay: 262.0 ns  
+RE::SyncAnalysis: 2020-02-11 19:34:02 437792660 ns [3, Tracker#0] (3240) offset: -370.5 ns    delay: 262.5 ns  
+RE::SyncAnalysis: 2020-02-11 19:34:02 497767860 ns [3, Tracker#0] (3240) offset: -389.5 ns    delay: 266.5 ns  
+RE::SyncAnalysis: 2020-02-11 19:34:02 561789160 ns [3, Tracker#0] (3240) offset: -403.0 ns    delay: 265.0 ns  
+       :
+RE::SyncAnalysis: 2020-02-11 19:34:06 001791300 ns [3, Tracker#0] (3240) offset: 0.0 ns    delay: 269.0 ns  
+RE::SyncAnalysis: 2020-02-11 19:34:07 377794460 ns [3, Tracker#0] (3240) offset: 0.0 ns    delay: 269.0 ns  
+       :
+RE::Debug: 2020-02-11 19:34:07 695880440 ns [2, Supervisor] Enter time locked state  
+RE::Debug: 2020-02-11 19:34:07 696391520 ns [2, Supervisor] Tracker#0:  
+RE::Debug: 2020-02-11 19:34:07 701360020 ns [2, Supervisor]     Master port ID: ec:f4:bb:ff:fe:e3:b4:68.1  
+RE::Debug: 2020-02-11 19:34:07 701947880 ns [2, Supervisor]     Current reference master: Yes  
+RE::Debug: 2020-02-11 19:34:07 702461120 ns [2, Supervisor]     Freq locked: Yes  
+RE::Debug: 2020-02-11 19:34:07 702870420 ns [2, Supervisor]     Time locked: Yes  
+</code></pre></div></p>
+<h3 id="reboot-the-ru">reboot the RU<a class="headerlink" href="#reboot-the-ru" title="Permanent link">&para;</a></h3>
+<p>rebooting the RU will make the RU sync 
+The indication of <code>Sync Completed</code> in this file indicates sync is succesful</p>
+<div class="highlight"><pre><span></span><code>root@benetelru:~# cat /tmp/logs/radio_status 
+[INFO] Platform: RAN550_B
+[INFO] Radio bringup begin
+[INFO] Initialize TDD Pattern
+[INFO] Load EEPROM Data
+[INFO] Tx1 Attenuation set to 05580 mdB
+[INFO] Tx3 Attenuation set to 07660 mdB
+[INFO] Operating Frequency set to 3601.920 MHz
+[INFO] Waiting for Sync
+[INFO] Sync completed
+[INFO] Kick off Synchronization of Linux system time to PTP time
+[INFO] Start Radio Configuration
+        :
+        :
+[INFO] Radio bringup complete
+ 15:54:47 up 4 min,  load average: 0.08, 0.23, 0.11
+</code></pre></div>
+<p>another file indicates the success aswell.</p>
+<div class="highlight"><pre><span></span><code>root@benetelru:~# cat /tmp/logs/radio_sync_status 
+Configuring CP60 for PTP Sync Mode
+PTP Settings configured
+Directory /usr/lib/benetel OK
+Directory /usr/lib/benetel/splane OK
+Directory /usr/lib/benetel/splane/flags OK
+todsync started
+PTP4L started
+PCM4L started
+Syncmon started
+Waiting for initial PTP sync...
+PTP locked, enabling holdover functionality.
+</code></pre></div>
+<h2 id="source-references">Source References<a class="headerlink" href="#source-references" title="Permanent link">&para;</a></h2>
+<p>Software User Guide for RANx50-02 CAT-B O-RUs [June 2022]</p>
+<div class="highlight"><pre><span></span><code>https://drive.google.com/drive/u/0/folders/17uyl3vpKXAO_9IMyiEKNQw0VpvLJvVxe
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate"], "search": "../../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.078830c0.min.js"></script>
+      
+    
+  </body>
+</html>
