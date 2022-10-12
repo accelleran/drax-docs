@@ -7,6 +7,22 @@
   - [Configure HOST server](#configure-host-server)
     - [set a linux bridge](#set-a-linux-bridge)
   - [Install VM](#install-vm)
+    - [console using command line](#console-using-command-line)
+    - [console using virt-manager](#console-using-virt-manager)
+      - [screen 1 - basic mode](#screen-1---basic-mode)
+      - [screen 2 - Continue without updating](#screen-2---continue-without-updating)
+      - [screen 3 - English US keyboard](#screen-3---english-us-keyboard)
+      - [screen 4 and 5 - Set static ip](#screen-4-and-5---set-static-ip)
+      - [screen 6 - proxy](#screen-6---proxy)
+      - [screen 7 - archive mirror](#screen-7---archive-mirror)
+      - [screen 8 and 9 - storage configuration](#screen-8-and-9---storage-configuration)
+      - [screen 10 and 11 - are you sure](#screen-10-and-11---are-you-sure)
+      - [screen 12 - profile setup](#screen-12---profile-setup)
+      - [screen 13 - enable ubuntu advantage](#screen-13---enable-ubuntu-advantage)
+      - [screen 14 - install openSSH server](#screen-14---install-openssh-server)
+      - [screen 15 - Featured server snaps](#screen-15---featured-server-snaps)
+      - [screen 16 - installation starts](#screen-16---installation-starts)
+      - [screen 17 - install complete](#screen-17---install-complete)
     - [Install Docker in the CU VM](#install-docker-in-the-cu-vm)
     - [Configure Docker Daemon](#configure-docker-daemon)
     - [Disable Swap](#disable-swap)
@@ -111,7 +127,7 @@ connect to the remote baremetal server using the ip $SERVER_IP.
 You will see the virtual machine $CU_VM_NAME listed. 
 double click it and proceed.
 
-### screen 1 - basic mode
+#### screen 1 - basic mode
 
 select basic mode
 
@@ -135,7 +151,7 @@ select basic mode
                           [ View SSH instructions    ]                        
 ```
 
-### consoe screen 2 - Continue without updating
+#### screen 2 - Continue without updating
 select "Continue without updating"
 
 ```
@@ -157,7 +173,7 @@ select "Continue without updating"
                         [ Back                        ]                       
 ```
 
-### console screen 3 - English US keyboard
+#### screen 3 - English US keyboard
 
 select Engligh US keyboard
 
@@ -177,7 +193,7 @@ select Engligh US keyboard
                                  [ Back       ]                               
 ```
 
-### screen 4 and 5 - Set static ip
+#### screen 4 and 5 - Set static ip
 * select Edit IPv4
 * Set the subnet, ip, gateway and name servers in the next screen
 * select Done
@@ -228,7 +244,7 @@ select Engligh US keyboard
    │                                                                        │
    └────────────────────────────────────────────────────────────────────────┘
 ```
-### screen 6 - proxy
+#### screen 6 - proxy
 * Select Done
 ```
 ================================================================================
@@ -250,7 +266,7 @@ select Engligh US keyboard
 
 ```
 
-### screen 7 - archive mirror
+#### screen 7 - archive mirror
 * select Done
 ```
 ================================================================================
@@ -267,7 +283,7 @@ select Engligh US keyboard
 
 ```
 
-### screen 8 and 9 - storage configuration
+#### screen 8 and 9 - storage configuration
 * select Done 
 * select Done
 ```
@@ -321,7 +337,7 @@ select Engligh US keyboard
 
 ```
 
-### screen 10 and 11 - are you sure
+#### screen 10 and 11 - are you sure
 * select Continue
 
 ```
@@ -340,7 +356,7 @@ select Engligh US keyboard
    │                                                                        │
    └────────────────────────────────────────────────────────────────────────┘
 ```
-### screen 12 - profile setup
+#### screen 12 - profile setup
 * enter your name, the name of the person that does this installation
 * enter the server name $CU_VM_NAME
 * enter the username $USER
@@ -367,7 +383,7 @@ select Engligh US keyboard
                                                                               
                                  [ Done       ]                               
 ```
-### screen 13 - enable ubuntu advantage
+#### screen 13 - enable ubuntu advantage
 * select Done
 
 ```
@@ -385,7 +401,7 @@ select Engligh US keyboard
                                  [ Back       ]                               
 ```
 
-### screen 14 - install openSSH server
+#### screen 14 - install openSSH server
 * select Install openSSH server
 ```
 ================================================================================
@@ -410,7 +426,7 @@ select Engligh US keyboard
                                  [ Back       ]                               
 ```
 
-### screen 15 - Featured server snaps
+#### screen 15 - Featured server snaps
 * don't select any extra feature
 * select Done
 ```
@@ -439,7 +455,7 @@ select Engligh US keyboard
                                  [ Back       ]                               
 ```
 
-### screen 16 - installation starts
+#### screen 16 - installation starts
 wait like around 5 minutes for the installation to complete
 
 ```
@@ -468,12 +484,7 @@ wait like around 5 minutes for the installation to complete
                                [ View full log ]
 ```
 
-### screen 17 - install complete
-* eject the cdrom 
-``` 
-virsh change-media $CU_VM_NAME --eject hda
-```
-
+#### screen 17 - install complete
 * select reboot now
 ```
 ================================================================================
@@ -500,10 +511,13 @@ virsh change-media $CU_VM_NAME --eject hda
                                [ View full log ]
                                [ Reboot Now    ]
 ```
-
-
 Wait untill you can click reboot server
 
+> NOTE : if after some minutes the server has not rebooted yet you have to reboot it  forcefully like this. Most likely the cdrom fails to unmount.
+>
+> ``` 
+> virsh reset $CU_VM_NAME 
+> ```
 
 ssh into the VM.
 
