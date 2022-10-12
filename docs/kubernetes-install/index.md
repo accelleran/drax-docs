@@ -91,18 +91,403 @@ Below a command line that creates a VM with the correct settings.
 > IMPORTANT ! the $CORE_SET_CU can only be a comma seperated list. 
 
 ```bash
-sudo virt-install  --name "$CU_VM_NAME"  --memory 16768 --vcpus "sockets=1,cores=$CORE_AMOUNT_CU,cpuset=$CORE_SET_CU"  --os-type linux  --os-variant rhel7.0 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,,type=bridge" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
+sudo virt-install  --name "$CU_VM_NAME"  --memory 16768 --vcpus "sockets=1,cores=$CORE_AMOUNT_CU,cpuset=$CORE_SET_CU"  --os-type linux  --os-variant rhel7.0 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,,type=bridge" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"  --console pty,target_type=virtio
 ```
 
+> NOTES about this command
+> * --noautoconsole : if you ommit this, a graphical console window will popup. This works only when the remote server can export its graphical UI to your local graphical environment like an X-windows
+> * 
+
 Continue in the console the complete the VM installation.
-Take all default values except these points :
+```
+virsh console $CU_VM_NAME
+```
 
-* set to static ip $NODE_IP ( see preperation chapter )
-* Select [ x ] install openSSH
-* set hostname=\$CU_HOSTNAME, username=\$USER and password
+> NOTE ! This can take a few minutes before you see something appearing
 
-Installation will begin. Wait about 5 minutes for it to install.
-reboot the VM 
+### screen 1 - basic mode
+
+select basic mode
+
+```
+================================================================================
+  Serial                                                              [ Help ]
+================================================================================
+                                                                              
+  As the installer is running on a serial console, it has started in basic    
+  mode, using only the ASCII character set and black and white colours.       
+                                                                              
+  If you are connecting from a terminal emulator such as gnome-terminal that  
+  supports unicode and rich colours you can switch to "rich mode" which uses  
+  unicode, colours and supports many languages.                               
+                                                                              
+  You can also connect to the installer over the network via SSH, which will  
+  allow use of rich mode.                                                     
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                          [ Continue in rich mode  > ]                        
+                          [ Continue in basic mode > ]                        
+                          [ View SSH instructions    ]                        
+```
+
+### consoe screen 2 - Continue without updating
+select "Continue without updating"
+
+```
+================================================================================
+  Installer update available                                          [ Help ]
+================================================================================
+  Version 22.07.2 of the installer is now available (22.02.2 is currently     
+  running).                                                                   
+                                                                              
+  You can read the release notes for each version at:                         
+                                                                              
+                 https://github.com/canonical/subiquity/releases              
+                                                                              
+  If you choose to update, the update will be downloaded and the installation 
+  will continue from here.                                                    
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                        [ Update to the new installer ]                       
+                        [ Continue without updating   ]                       
+                        [ Back                        ]                       
+```
+
+### console screen 3 - English US keyboard
+
+select Engligh US keyboard
+
+```
+================================================================================
+  Keyboard configuration                                              [ Help ]
+================================================================================
+  Please select the layout of the keyboard directly attached to the system, if
+  any.                                                                        
+                                                                              
+                 Layout:  [ English (US)                     v ]              
+                                                                              
+                                                                              
+                Variant:  [ English (US)                     v ]              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+```
+
+### screen 4 and 5 - Set static ip
+* select Edit IPv4
+* Set the subnet, ip, gateway and name servers in the next screen
+* select Done
+```
+================================================================================
+  Network connections                                                 [ Help ]
+================================================================================
+  Configure at least one interface this server can use to talk to other       
+  machines, and which preferably provides sufficient access for updates.      
+                                                                              
+    NAME    TYPE  NOTES             ┌───────────────────┐                     
+  [ ens3    eth   -                >│< (close)          │                     
+    static  10.22.11.148/24         │  Info            >│                     
+    52:54:00:68:47:29 / Red Hat, Inc│  Edit IPv4       >│vice                 
+                                    │  Edit IPv6       >│                     
+  [ Create bond > ]                 │  Add a VLAN tag  >│                     
+                                    └───────────────────┘                     
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+
+================================================================================
+  Network connections                                                 [ Help ]
+================================================================================
+
+   ┌───────────────────── Edit ens3 IPv4 configuration ─────────────────────┐
+   │                                                                        │
+   │  IPv4 Method:   [ Manual           v ]                              ^  │
+   │                                                                     │  │
+   │                                                                     │  │
+   │          Subnet:  $NODE_SUBNET                                      │  │
+   │                                                                     │  │
+   │                                                                     │  │
+   │         Address:  $NODE_IP                                          │  │
+   │                                                                     │  │
+   │                                                                     |  │
+   │         Gateway:  $GATEWAY_IP                                       |  │
+   │                                                                     |  │
+   │    Name servers:  8.8.8.8                                           │  │
+   │                   IP addresses, comma separated                     │  │
+   │                                                                     │  │
+   │  Search domains:                                                    │  │
+   │                   Domains, comma separated                          v  │
+   │                                                                        │
+   │                                                                        │
+   │                             [ Save       ]                             │
+   │                             [ Cancel     ]                             │
+   │                                                                        │
+   └────────────────────────────────────────────────────────────────────────┘
+```
+### screen 6 - proxy
+* Select Done
+```
+================================================================================
+  Configure proxy                                                     [ Help ]
+================================================================================
+  If this system requires a proxy to connect to the internet, enter its       
+  details here.                                                               
+                                                                              
+  Proxy address:                                                              
+                  If you need to use a HTTP proxy to access the outside world,
+                  enter the proxy information here. Otherwise, leave this     
+                  blank.                                                      
+                                                                              
+                  The proxy information should be given in the standard form  
+                  of "http://[[user][:pass]@]host[:port]/".                   
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+
+```
+
+### screen 7 - archive mirror
+* select Done
+```
+================================================================================
+  Configure Ubuntu archive mirror                                     [ Help ]
+================================================================================
+  If you use an alternative mirror for Ubuntu, enter its details here.        
+                                                                              
+  Mirror address:  http://be.archive.ubuntu.com/ubuntu                        
+                   You may provide an archive mirror that will be used instead
+                   of the default.                                            
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                                                              
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+
+```
+
+### screen 8 and 9 - storage configuration
+* select Done 
+* select Done
+```
+================================================================================
+  Guided storage configuration                                        [ Help ]
+================================================================================
+  Configure a guided storage layout, or create a custom one:                  
+                                                                              
+  (X)  Use an entire disk                                                     
+                                                                              
+       [ /dev/vda local disk 256.000G v ]                                     
+                                                                              
+       [X]  Set up this disk as an LVM group                                  
+                                                                              
+            [ ]  Encrypt the LVM group with LUKS                              
+                                                                              
+                         Passphrase:                                          
+                                                                              
+                                                                              
+                 Confirm passphrase:                                          
+                                                                              
+                                                                              
+  ( )  Custom storage layout                                                  
+                                                                              
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+
+================================================================================
+  Storage configuration                                               [ Help ]
+================================================================================
+  FILE SYSTEM SUMMARY                                                        ^
+                                                                             │
+    MOUNT POINT     SIZE    TYPE      DEVICE TYPE                            │
+  [ /             100.000G  new ext4  new LVM logical volume      > ]        │
+  [ /boot           1.500G  new ext4  new partition of local disk > ]        │
+                                                                             │
+                                                                             │
+  AVAILABLE DEVICES                                                          │
+                                                                             │
+    DEVICE                                   TYPE                 SIZE        
+  [ ubuntu-vg (new)                          LVM volume group   254.496G  > ] 
+    free space                                                  154.496G  >   
+                                                                              
+  [ Create software RAID (md) > ]                                             
+  [ Create volume group (LVM) > ]                                             
+                                                                             v
+                                                                              
+                                 [ Done       ]                               
+                                 [ Reset      ]                               
+                                 [ Back       ]                               
+
+```
+
+### screen 10 and 11 - are you sure
+* select Done
+* select Done
+
+```
+   ┌────────────────────── Confirm destructive action ──────────────────────┐
+   │                                                                        │
+   │  Selecting Continue below will begin the installation process and      │
+   │  result in the loss of data on the disks selected to be formatted.     │
+   │                                                                        │
+   │  You will not be able to return to this or a previous screen once the  │
+   │  installation has started.                                             │
+   │                                                                        │
+   │  Are you sure you want to continue?                                    │
+   │                                                                        │
+   │                             [ No         ]                             │
+   │                             [ Continue   ]                             │
+   │                                                                        │
+   └────────────────────────────────────────────────────────────────────────┘
+```
+### screen 12 - enable ubuntu advantage
+* select Done
+
+```
+================================================================================
+  Enable Ubuntu Advantage                                             [ Help ]
+================================================================================
+  Enter your Ubuntu Advantage token if you want to enroll this system.        
+                                                                              
+  Ubuntu Advantage token:                                                     
+                           If you want to enroll this system using your Ubuntu
+                           Advantage subscription, enter your Ubuntu Advantage
+                           token here. Otherwise, leave this blank.           
+                                                                              
+                                                                              
+          
+                                                                              
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+```
+
+### screen 13 - install openSSH server
+* select Install openSSH server
+```
+================================================================================
+  SSH Setup                                                           [ Help ]
+================================================================================
+  You can choose to install the OpenSSH server package to enable secure remote
+  access to your server.                                                      
+                                                                              
+                   [X]  Install OpenSSH server                                
+                                                                              
+                                                                              
+  Import SSH identity:  [ No             v ]                                  
+                        You can import your SSH keys from GitHub or Launchpad.
+                                                                              
+      Import Username:                                                        
+                                                                              
+                                                                              
+                   [X]  Allow password authentication over SSH                
+                                                                              
+                                                                              
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+```
+
+### screen 14 - Featured server snaps
+* don't select any extra feature
+* select Done
+```
+================================================================================
+  Featured Server Snaps                                               [ Help ]
+================================================================================
+  These are popular snaps in server environments. Select or deselect with     
+  SPACE, press ENTER to see more details of the package, publisher and        
+  versions available.                                                         
+                                                                              
+  [ ] microk8s            Kubernetes for workstations and appliances        >^
+  [ ] nextcloud           Nextcloud Server - A safe home for all your data  >│
+  [ ] wekan               The open-source kanban                            >│
+  [ ] kata-containers     Build lightweight VMs that seamlessly plug into t >│
+  [ ] docker              Docker container runtime                          >│
+  [ ] canonical-livepatch Canonical Livepatch Client                        >│
+  [ ] rocketchat-server   Rocket.Chat server                                >│
+  [ ] mosquitto           Eclipse Mosquitto MQTT broker                     > 
+  [ ] etcd                Resilient key-value store by CoreOS               > 
+  [ ] powershell          PowerShell for every system!                      > 
+  [ ] stress-ng           tool to load and stress a computer                > 
+  [ ] sabnzbd             SABnzbd                                           > 
+  [ ] wormhole            get things from one computer to another, safely   >v
+                                                                              
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+```
+
+### screen 15 - installation starts
+```
+================================================================================
+  Installing system                                                   [ Help ]
+================================================================================
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │          configuring iscsi service                                      ^│
+  │          configuring raid (mdadm) service                                │
+  │          installing kernel                                               │
+  │          setting up swap                                                 │
+  │          apply networking config                                         │
+  │          writing etc/fstab                                               │
+  │          configuring multipath                                           │
+  │          updating packages on target system                              │
+  │          configuring pollinate user-agent on target                      │
+  │          updating initramfs configuration                                │
+  │          configuring target system bootloader                            │
+  │          installing grub to target devices                               │
+  │    finalizing installation                                               │
+  │      running 'curtin hook'                                               │
+  │        curtin command hook                                              ││
+  │    executing late commands                                              v│
+  └──────────────────────────────────────────────────────────────────────────┘
+
+                               [ View full log ]
+```
+
+Wait untill you can click reboot server
+
 
 ssh into the VM.
 
