@@ -368,6 +368,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#console-using-command-line" class="md-nav__link">
+    console using command line
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#console-using-virt-manager" class="md-nav__link">
+    console using virt-manager
+  </a>
+  
+    <nav class="md-nav" aria-label="console using virt-manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#screen-1-basic-mode" class="md-nav__link">
     screen 1 - basic mode
   </a>
@@ -375,15 +390,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#consoe-screen-2-continue-without-updating" class="md-nav__link">
-    consoe screen 2 - Continue without updating
+  <a href="#screen-2-continue-without-updating" class="md-nav__link">
+    screen 2 - Continue without updating
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#console-screen-3-english-us-keyboard" class="md-nav__link">
-    console screen 3 - English US keyboard
+  <a href="#screen-3-english-us-keyboard" class="md-nav__link">
+    screen 3 - English US keyboard
   </a>
   
 </li>
@@ -455,6 +470,18 @@
   <a href="#screen-16-installation-starts" class="md-nav__link">
     screen 16 - installation starts
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screen-17-install-complete" class="md-nav__link">
+    screen 17 - install complete
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -608,6 +635,22 @@
 </ul>
 </li>
 <li><a href="#install-vm">Install VM</a><ul>
+<li><a href="#console-using-command-line">console using command line</a></li>
+<li><a href="#console-using-virt-manager">console using virt-manager</a></li>
+<li><a href="#screen-1---basic-mode">screen 1 - basic mode</a></li>
+<li><a href="#screen-2---continue-without-updating">screen 2 - Continue without updating</a></li>
+<li><a href="#screen-3---english-us-keyboard">screen 3 - English US keyboard</a></li>
+<li><a href="#screen-4-and-5---set-static-ip">screen 4 and 5 - Set static ip</a></li>
+<li><a href="#screen-6---proxy">screen 6 - proxy</a></li>
+<li><a href="#screen-7---archive-mirror">screen 7 - archive mirror</a></li>
+<li><a href="#screen-8-and-9---storage-configuration">screen 8 and 9 - storage configuration</a></li>
+<li><a href="#screen-10-and-11---are-you-sure">screen 10 and 11 - are you sure</a></li>
+<li><a href="#screen-12---profile-setup">screen 12 - profile setup</a></li>
+<li><a href="#screen-13---enable-ubuntu-advantage">screen 13 - enable ubuntu advantage</a></li>
+<li><a href="#screen-14---install-openssh-server">screen 14 - install openSSH server</a></li>
+<li><a href="#screen-15---featured-server-snaps">screen 15 - Featured server snaps</a></li>
+<li><a href="#screen-16---installation-starts">screen 16 - installation starts</a></li>
+<li><a href="#screen-17---install-complete">screen 17 - install complete</a></li>
 <li><a href="#install-docker-in-the-cu-vm">Install Docker in the CU VM</a></li>
 <li><a href="#configure-docker-daemon">Configure Docker Daemon</a></li>
 <li><a href="#disable-swap">Disable Swap</a></li>
@@ -682,13 +725,19 @@ sudo apt install virt-manager
 * --noautoconsole : if you ommit this, a graphical console window will popup. This works only when the remote server can export its graphical UI to your local graphical environment like an X-windows
 * --console pty,target_type=virtio will make sure you can use <code>virsh console $CU_VM_NAME</code></p>
 </blockquote>
-<p>Continue in the console the complete the VM installation.
+<p>Continue in the console the complete the VM installation.</p>
+<h3 id="console-using-command-line">console using command line<a class="headerlink" href="#console-using-command-line" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>virsh console $CU_VM_NAME
-</code></pre></div></p>
+</code></pre></div>
 <blockquote>
 <p>NOTE ! This can take a few minutes before you see something appearing</p>
 </blockquote>
-<h3 id="screen-1-basic-mode">screen 1 - basic mode<a class="headerlink" href="#screen-1-basic-mode" title="Permanent link">&para;</a></h3>
+<h3 id="console-using-virt-manager">console using virt-manager<a class="headerlink" href="#console-using-virt-manager" title="Permanent link">&para;</a></h3>
+<p>start on your local machine virt-manager. 
+connect to the remote baremetal server using the ip $SERVER_IP.
+You will see the virtual machine $CU_VM_NAME listed. 
+double click it and proceed.</p>
+<h4 id="screen-1-basic-mode">screen 1 - basic mode<a class="headerlink" href="#screen-1-basic-mode" title="Permanent link">&para;</a></h4>
 <p>select basic mode</p>
 <div class="highlight"><pre><span></span><code>================================================================================
   Serial                                                              [ Help ]
@@ -708,7 +757,7 @@ sudo apt install virt-manager
                           [ Continue in basic mode &gt; ]                        
                           [ View SSH instructions    ]                        
 </code></pre></div>
-<h3 id="consoe-screen-2-continue-without-updating">consoe screen 2 - Continue without updating<a class="headerlink" href="#consoe-screen-2-continue-without-updating" title="Permanent link">&para;</a></h3>
+<h4 id="screen-2-continue-without-updating">screen 2 - Continue without updating<a class="headerlink" href="#screen-2-continue-without-updating" title="Permanent link">&para;</a></h4>
 <p>select "Continue without updating"</p>
 <div class="highlight"><pre><span></span><code>================================================================================
   Installer update available                                          [ Help ]
@@ -727,7 +776,7 @@ sudo apt install virt-manager
                         [ Continue without updating   ]                       
                         [ Back                        ]                       
 </code></pre></div>
-<h3 id="console-screen-3-english-us-keyboard">console screen 3 - English US keyboard<a class="headerlink" href="#console-screen-3-english-us-keyboard" title="Permanent link">&para;</a></h3>
+<h4 id="screen-3-english-us-keyboard">screen 3 - English US keyboard<a class="headerlink" href="#screen-3-english-us-keyboard" title="Permanent link">&para;</a></h4>
 <p>select Engligh US keyboard</p>
 <div class="highlight"><pre><span></span><code>================================================================================
   Keyboard configuration                                              [ Help ]
@@ -743,7 +792,7 @@ sudo apt install virt-manager
                                  [ Done       ]                               
                                  [ Back       ]                               
 </code></pre></div>
-<h3 id="screen-4-and-5-set-static-ip">screen 4 and 5 - Set static ip<a class="headerlink" href="#screen-4-and-5-set-static-ip" title="Permanent link">&para;</a></h3>
+<h4 id="screen-4-and-5-set-static-ip">screen 4 and 5 - Set static ip<a class="headerlink" href="#screen-4-and-5-set-static-ip" title="Permanent link">&para;</a></h4>
 <ul>
 <li>select Edit IPv4</li>
 <li>Set the subnet, ip, gateway and name servers in the next screen</li>
@@ -795,7 +844,7 @@ sudo apt install virt-manager
    └────────────────────────────────────────────────────────────────────────┘
 </code></pre></div></li>
 </ul>
-<h3 id="screen-6-proxy">screen 6 - proxy<a class="headerlink" href="#screen-6-proxy" title="Permanent link">&para;</a></h3>
+<h4 id="screen-6-proxy">screen 6 - proxy<a class="headerlink" href="#screen-6-proxy" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Select Done
 <div class="highlight"><pre><span></span><code>================================================================================
@@ -816,7 +865,7 @@ sudo apt install virt-manager
                                  [ Back       ]                               
 </code></pre></div></li>
 </ul>
-<h3 id="screen-7-archive-mirror">screen 7 - archive mirror<a class="headerlink" href="#screen-7-archive-mirror" title="Permanent link">&para;</a></h3>
+<h4 id="screen-7-archive-mirror">screen 7 - archive mirror<a class="headerlink" href="#screen-7-archive-mirror" title="Permanent link">&para;</a></h4>
 <ul>
 <li>select Done
 <div class="highlight"><pre><span></span><code>================================================================================
@@ -832,7 +881,7 @@ sudo apt install virt-manager
                                  [ Back       ]                               
 </code></pre></div></li>
 </ul>
-<h3 id="screen-8-and-9-storage-configuration">screen 8 and 9 - storage configuration<a class="headerlink" href="#screen-8-and-9-storage-configuration" title="Permanent link">&para;</a></h3>
+<h4 id="screen-8-and-9-storage-configuration">screen 8 and 9 - storage configuration<a class="headerlink" href="#screen-8-and-9-storage-configuration" title="Permanent link">&para;</a></h4>
 <ul>
 <li>select Done </li>
 <li>select Done
@@ -885,7 +934,7 @@ sudo apt install virt-manager
                                  [ Back       ]                               
 </code></pre></div></li>
 </ul>
-<h3 id="screen-10-and-11-are-you-sure">screen 10 and 11 - are you sure<a class="headerlink" href="#screen-10-and-11-are-you-sure" title="Permanent link">&para;</a></h3>
+<h4 id="screen-10-and-11-are-you-sure">screen 10 and 11 - are you sure<a class="headerlink" href="#screen-10-and-11-are-you-sure" title="Permanent link">&para;</a></h4>
 <ul>
 <li>select Continue</li>
 </ul>
@@ -904,7 +953,7 @@ sudo apt install virt-manager
    │                                                                        │
    └────────────────────────────────────────────────────────────────────────┘
 </code></pre></div>
-<h3 id="screen-12-profile-setup">screen 12 - profile setup<a class="headerlink" href="#screen-12-profile-setup" title="Permanent link">&para;</a></h3>
+<h4 id="screen-12-profile-setup">screen 12 - profile setup<a class="headerlink" href="#screen-12-profile-setup" title="Permanent link">&para;</a></h4>
 <ul>
 <li>enter your name, the name of the person that does this installation</li>
 <li>enter the server name $CU_VM_NAME</li>
@@ -931,7 +980,7 @@ sudo apt install virt-manager
 
                                  [ Done       ]                               
 </code></pre></div>
-<h3 id="screen-13-enable-ubuntu-advantage">screen 13 - enable ubuntu advantage<a class="headerlink" href="#screen-13-enable-ubuntu-advantage" title="Permanent link">&para;</a></h3>
+<h4 id="screen-13-enable-ubuntu-advantage">screen 13 - enable ubuntu advantage<a class="headerlink" href="#screen-13-enable-ubuntu-advantage" title="Permanent link">&para;</a></h4>
 <ul>
 <li>select Done</li>
 </ul>
@@ -948,7 +997,7 @@ sudo apt install virt-manager
                                  [ Done       ]                               
                                  [ Back       ]                               
 </code></pre></div>
-<h3 id="screen-14-install-openssh-server">screen 14 - install openSSH server<a class="headerlink" href="#screen-14-install-openssh-server" title="Permanent link">&para;</a></h3>
+<h4 id="screen-14-install-openssh-server">screen 14 - install openSSH server<a class="headerlink" href="#screen-14-install-openssh-server" title="Permanent link">&para;</a></h4>
 <ul>
 <li>select Install openSSH server
 <div class="highlight"><pre><span></span><code>================================================================================
@@ -973,7 +1022,7 @@ sudo apt install virt-manager
                                  [ Back       ]                               
 </code></pre></div></li>
 </ul>
-<h3 id="screen-15-featured-server-snaps">screen 15 - Featured server snaps<a class="headerlink" href="#screen-15-featured-server-snaps" title="Permanent link">&para;</a></h3>
+<h4 id="screen-15-featured-server-snaps">screen 15 - Featured server snaps<a class="headerlink" href="#screen-15-featured-server-snaps" title="Permanent link">&para;</a></h4>
 <ul>
 <li>don't select any extra feature</li>
 <li>select Done
@@ -1002,12 +1051,13 @@ sudo apt install virt-manager
                                  [ Back       ]                               
 </code></pre></div></li>
 </ul>
-<h3 id="screen-16-installation-starts">screen 16 - installation starts<a class="headerlink" href="#screen-16-installation-starts" title="Permanent link">&para;</a></h3>
+<h4 id="screen-16-installation-starts">screen 16 - installation starts<a class="headerlink" href="#screen-16-installation-starts" title="Permanent link">&para;</a></h4>
+<p>wait like around 5 minutes for the installation to complete</p>
 <div class="highlight"><pre><span></span><code>================================================================================
   Installing system                                                   [ Help ]
 ================================================================================
   ┌──────────────────────────────────────────────────────────────────────────┐
-  │          configuring iscsi service                                      ^│
+  │          configuring iscsi service                                       │
   │          configuring raid (mdadm) service                                │
   │          installing kernel                                               │
   │          setting up swap                                                 │
@@ -1021,13 +1071,46 @@ sudo apt install virt-manager
   │          installing grub to target devices                               │
   │    finalizing installation                                               │
   │      running &#39;curtin hook&#39;                                               │
-  │        curtin command hook                                              ││
-  │    executing late commands                                              v│
+  │        curtin command hook                                               │
+  │    executing late commands  /                                            │
   └──────────────────────────────────────────────────────────────────────────┘
 
                                [ View full log ]
 </code></pre></div>
-<p>Wait untill you can click reboot server</p>
+<h4 id="screen-17-install-complete">screen 17 - install complete<a class="headerlink" href="#screen-17-install-complete" title="Permanent link">&para;</a></h4>
+<ul>
+<li>select reboot now
+<div class="highlight"><pre><span></span><code>================================================================================
+  Install complete!                                                   [ Help ]
+================================================================================
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │    finalizing installation                                              ^│
+  │      running &#39;curtin hook&#39;                                               │
+  │        curtin command hook                                               │
+  │    executing late commands                                               │
+  │final system configuration                                                │
+  │  configuring cloud-init                                                  │
+  │  calculating extra packages to install                                   │
+  │  installing openssh-server                                               │
+  │    curtin command system-install                                         │
+  │  downloading and installing security updates                             │
+  │    curtin command in-target                                              │
+  │  restoring apt configuration                                             │
+  │    curtin command in-target                                              │
+  │    curtin command in-target                                             ││
+  │subiquity/Late/run                                                       v│
+  └──────────────────────────────────────────────────────────────────────────┘
+
+                               [ View full log ]
+                               [ Reboot Now    ]
+</code></pre></div>
+Wait untill you can click reboot server</li>
+</ul>
+<blockquote>
+<p>NOTE : if after some minutes the server has not rebooted yet you have to reboot it  forcefully like this. Most likely the cdrom fails to unmount.</p>
+<div class="highlight"><pre><span></span><code>virsh reset $CU_VM_NAME 
+</code></pre></div>
+</blockquote>
 <p>ssh into the VM.</p>
 <div class="highlight"><pre><span></span><code>ssh <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>
 </code></pre></div>
