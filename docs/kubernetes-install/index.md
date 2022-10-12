@@ -99,11 +99,17 @@ sudo virt-install  --name "$CU_VM_NAME"  --memory 16768 --vcpus "sockets=1,cores
 > * --console pty,target_type=virtio will make sure you can use ```virsh console $CU_VM_NAME```
 
 Continue in the console the complete the VM installation.
+### console using command line
 ```
 virsh console $CU_VM_NAME
 ```
-
 > NOTE ! This can take a few minutes before you see something appearing
+
+### console using virt-manager
+start on your local machine virt-manager. 
+connect to the remote baremetal server using the ip $SERVER_IP.
+You will see the virtual machine $CU_VM_NAME listed. 
+double click it and proceed.
 
 ### screen 1 - basic mode
 
