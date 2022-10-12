@@ -76,7 +76,8 @@ Alternatively you can edit the configurations to set the correct IP addresses.
 > NOTE: All IP's need to be in the same subnet.
 
 ``` bash
-export NODE_IP=192.168.88.4       # replace 192.168.88.4 by the IP address of the node. ( The IP of the eth0 in the CU VM )
+export NODE_IP=192.168.88.4          # replace 192.168.88.4 by the IP address of the node. ( The IP of the eth0 in the CU VM )
+export NODE_SUBNET=192.168.88.0/24   # the subnet that contains the $NODE_IP
 export SERVER_IP=192.168.88.3     # The IP address of the linux bridge ( br0 )
 export NODE_INT=br0               # replace enp0s3 by the name of the network interface that has IP $NODE_IP
 export GATEWAY_IP=192.168.88.1    # replace 192.168.88.1 by the IP address of the gateway
