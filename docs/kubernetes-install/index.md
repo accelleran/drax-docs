@@ -316,8 +316,7 @@ select Engligh US keyboard
 ```
 
 ### screen 10 and 11 - are you sure
-* select Done
-* select Done
+* select Continue
 
 ```
    ┌────────────────────── Confirm destructive action ──────────────────────┐
@@ -335,7 +334,34 @@ select Engligh US keyboard
    │                                                                        │
    └────────────────────────────────────────────────────────────────────────┘
 ```
-### screen 12 - enable ubuntu advantage
+### screen 12 - profile setup
+* enter your name, the name of the person that does this installation
+* enter the server name $CU_VM_NAME
+* enter the username $USER
+* enter the password
+* Select Done
+
+```
+  Profile setup                                                       [ Help ]
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  Enter the username and password you will use to log in to the system. You   
+  can configure SSH access on the next screen but a password is still needed  
+  for sudo.                                                                   
+                                                                              
+              Your name:  Dennis                                              
+                                                                              
+     Your server's name:  testvm                                              
+                          The name it uses when it talks to other computers.  
+                                                                              
+        Pick a username:  ad                                                  
+                                                                              
+      Choose a password:  *********                                           
+                                                                              
+  Confirm your password:  *********                                           
+                                                                              
+                                 [ Done       ]                               
+```
+### screen 13 - enable ubuntu advantage
 * select Done
 
 ```
@@ -353,7 +379,7 @@ select Engligh US keyboard
                                  [ Back       ]                               
 ```
 
-### screen 13 - install openSSH server
+### screen 14 - install openSSH server
 * select Install openSSH server
 ```
 ================================================================================
@@ -378,7 +404,7 @@ select Engligh US keyboard
                                  [ Back       ]                               
 ```
 
-### screen 14 - Featured server snaps
+### screen 15 - Featured server snaps
 * don't select any extra feature
 * select Done
 ```
@@ -407,7 +433,7 @@ select Engligh US keyboard
                                  [ Back       ]                               
 ```
 
-### screen 15 - installation starts
+### screen 16 - installation starts
 ```
 ================================================================================
   Installing system                                                   [ Help ]
