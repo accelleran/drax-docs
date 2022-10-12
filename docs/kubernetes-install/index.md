@@ -440,12 +440,14 @@ select Engligh US keyboard
 ```
 
 ### screen 16 - installation starts
+wait like around 5 minutes for the installation to complete
+
 ```
 ================================================================================
   Installing system                                                   [ Help ]
 ================================================================================
   ┌──────────────────────────────────────────────────────────────────────────┐
-  │          configuring iscsi service                                      ^│
+  │          configuring iscsi service                                       │
   │          configuring raid (mdadm) service                                │
   │          installing kernel                                               │
   │          setting up swap                                                 │
@@ -459,12 +461,46 @@ select Engligh US keyboard
   │          installing grub to target devices                               │
   │    finalizing installation                                               │
   │      running 'curtin hook'                                               │
-  │        curtin command hook                                              ││
-  │    executing late commands                                              v│
+  │        curtin command hook                                               │
+  │    executing late commands  /                                            │
   └──────────────────────────────────────────────────────────────────────────┘
 
                                [ View full log ]
 ```
+
+### screen 17 - install complete
+* eject the cdrom 
+``` 
+virsh change-media $CU_VM_NAME --eject hda
+```
+
+* select reboot now
+```
+================================================================================
+  Install complete!                                                   [ Help ]
+================================================================================
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │    finalizing installation                                              ^│
+  │      running 'curtin hook'                                               │
+  │        curtin command hook                                               │
+  │    executing late commands                                               │
+  │final system configuration                                                │
+  │  configuring cloud-init                                                  │
+  │  calculating extra packages to install                                   │
+  │  installing openssh-server                                               │
+  │    curtin command system-install                                         │
+  │  downloading and installing security updates                             │
+  │    curtin command in-target                                              │
+  │  restoring apt configuration                                             │
+  │    curtin command in-target                                              │
+  │    curtin command in-target                                             ││
+  │subiquity/Late/run                                                       v│
+  └──────────────────────────────────────────────────────────────────────────┘
+
+                               [ View full log ]
+                               [ Reboot Now    ]
+```
+
 
 Wait untill you can click reboot server
 
