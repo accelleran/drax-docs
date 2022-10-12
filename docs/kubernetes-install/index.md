@@ -123,13 +123,7 @@ select basic mode
                                                                               
   You can also connect to the installer over the network via SSH, which will  
   allow use of rich mode.                                                     
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
+                                                                            
                           [ Continue in rich mode  > ]                        
                           [ Continue in basic mode > ]                        
                           [ View SSH instructions    ]                        
@@ -152,13 +146,6 @@ select "Continue without updating"
   If you choose to update, the update will be downloaded and the installation 
   will continue from here.                                                    
                                                                               
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
                         [ Update to the new installer ]                       
                         [ Continue without updating   ]                       
                         [ Back                        ]                       
@@ -179,16 +166,6 @@ select Engligh US keyboard
                                                                               
                                                                               
                 Variant:  [ English (US)                     v ]              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
                                                                               
                                  [ Done       ]                               
                                  [ Back       ]                               
@@ -212,13 +189,6 @@ select Engligh US keyboard
                                     │  Edit IPv6       >│                     
   [ Create bond > ]                 │  Add a VLAN tag  >│                     
                                     └───────────────────┘                     
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
                                                                               
                                  [ Done       ]                               
                                  [ Back       ]                               
@@ -269,13 +239,6 @@ select Engligh US keyboard
                   The proxy information should be given in the standard form  
                   of "http://[[user][:pass]@]host[:port]/".                   
                                                                               
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
                                  [ Done       ]                               
                                  [ Back       ]                               
 
@@ -292,18 +255,6 @@ select Engligh US keyboard
   Mirror address:  http://be.archive.ubuntu.com/ubuntu                        
                    You may provide an archive mirror that will be used instead
                    of the default.                                            
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
-                                                                              
                                                                               
                                  [ Done       ]                               
                                  [ Back       ]                               
@@ -397,10 +348,7 @@ select Engligh US keyboard
                            If you want to enroll this system using your Ubuntu
                            Advantage subscription, enter your Ubuntu Advantage
                            token here. Otherwise, leave this blank.           
-                                                                              
-                                                                              
           
-                                                                              
                                  [ Done       ]                               
                                  [ Back       ]                               
 ```
