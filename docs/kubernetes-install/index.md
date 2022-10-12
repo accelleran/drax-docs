@@ -94,9 +94,9 @@ Below a command line that creates a VM with the correct settings.
 sudo virt-install  --name "$CU_VM_NAME"  --memory 16768 --vcpus "sockets=1,cores=$CORE_AMOUNT_CU,cpuset=$CORE_SET_CU"  --os-type linux  --os-variant rhel7.0 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,,type=bridge" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"  --console pty,target_type=virtio
 ```
 
-> NOTES about this command
+> some notes about this command
 > * --noautoconsole : if you ommit this, a graphical console window will popup. This works only when the remote server can export its graphical UI to your local graphical environment like an X-windows
-> * 
+> * --console pty,target_type=virtio will make sure you can use ```virsh console $CU_VM_NAME```
 
 Continue in the console the complete the VM installation.
 ```
