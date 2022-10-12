@@ -23,10 +23,10 @@
       - [screen 15 - Featured server snaps](#screen-15---featured-server-snaps)
       - [screen 16 - installation starts](#screen-16---installation-starts)
       - [screen 17 - install complete](#screen-17---install-complete)
-    - [Install Docker in the CU VM](#install-docker-in-the-cu-vm)
+  - [Install Docker in the CU VM](#install-docker-in-the-cu-vm)
     - [Configure Docker Daemon](#configure-docker-daemon)
     - [Disable Swap](#disable-swap)
-    - [Install Kubernetes inside the VM](#install-kubernetes-inside-the-vm)
+  - [Install Kubernetes inside the VM](#install-kubernetes-inside-the-vm)
     - [Configure Kubernetes](#configure-kubernetes)
     - [Install Flannel](#install-flannel)
     - [Enable Pod Scheduling](#enable-pod-scheduling)
@@ -540,7 +540,7 @@ lsblk
 
 Every heading that follows has to be done inside this VM.
 
-### Install Docker in the CU VM
+## Install Docker in the CU VM
 
 Add the Docker APT repository:
 
@@ -618,7 +618,7 @@ sudo swapoff -a
 sudo sed -i '/\sswap\s/ s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 
-### Install Kubernetes inside the VM
+## Install Kubernetes inside the VM
 
 Add the Kubernetes APT repository:
 
