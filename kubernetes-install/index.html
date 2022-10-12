@@ -485,12 +485,18 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#install-docker-in-the-cu-vm" class="md-nav__link">
     Install Docker in the CU VM
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Install Docker in the CU VM">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#configure-docker-daemon" class="md-nav__link">
@@ -506,12 +512,18 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#install-kubernetes-inside-the-vm" class="md-nav__link">
     Install Kubernetes inside the VM
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Install Kubernetes inside the VM">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#configure-kubernetes" class="md-nav__link">
@@ -651,10 +663,14 @@
 <li><a href="#screen-15---featured-server-snaps">screen 15 - Featured server snaps</a></li>
 <li><a href="#screen-16---installation-starts">screen 16 - installation starts</a></li>
 <li><a href="#screen-17---install-complete">screen 17 - install complete</a></li>
-<li><a href="#install-docker-in-the-cu-vm">Install Docker in the CU VM</a></li>
+</ul>
+</li>
+<li><a href="#install-docker-in-the-cu-vm">Install Docker in the CU VM</a><ul>
 <li><a href="#configure-docker-daemon">Configure Docker Daemon</a></li>
 <li><a href="#disable-swap">Disable Swap</a></li>
-<li><a href="#install-kubernetes-inside-the-vm">Install Kubernetes inside the VM</a></li>
+</ul>
+</li>
+<li><a href="#install-kubernetes-inside-the-vm">Install Kubernetes inside the VM</a><ul>
 <li><a href="#configure-kubernetes">Configure Kubernetes</a></li>
 <li><a href="#install-flannel">Install Flannel</a></li>
 <li><a href="#enable-pod-scheduling">Enable Pod Scheduling</a></li>
@@ -1123,7 +1139,7 @@ sudo lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 lsblk
 </code></pre></div></p>
 <p>Every heading that follows has to be done inside this VM.</p>
-<h3 id="install-docker-in-the-cu-vm">Install Docker in the CU VM<a class="headerlink" href="#install-docker-in-the-cu-vm" title="Permanent link">&para;</a></h3>
+<h2 id="install-docker-in-the-cu-vm">Install Docker in the CU VM<a class="headerlink" href="#install-docker-in-the-cu-vm" title="Permanent link">&para;</a></h2>
 <p>Add the Docker APT repository:</p>
 <p><div class="highlight"><pre><span></span><code>curl -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="p">|</span> sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 </code></pre></div>
@@ -1172,7 +1188,7 @@ sudo systemctl restart docker
 <div class="highlight"><pre><span></span><code>sudo swapoff -a
 sudo sed -i <span class="s1">&#39;/\sswap\s/ s/^\(.*\)$/#\1/g&#39;</span> /etc/fstab
 </code></pre></div>
-<h3 id="install-kubernetes-inside-the-vm">Install Kubernetes inside the VM<a class="headerlink" href="#install-kubernetes-inside-the-vm" title="Permanent link">&para;</a></h3>
+<h2 id="install-kubernetes-inside-the-vm">Install Kubernetes inside the VM<a class="headerlink" href="#install-kubernetes-inside-the-vm" title="Permanent link">&para;</a></h2>
 <p>Add the Kubernetes APT repository:</p>
 <div class="highlight"><pre><span></span><code>sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 <span class="nb">echo</span> <span class="s2">&quot;deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/kubernetes.list
