@@ -368,6 +368,97 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#screen-1-basic-mode" class="md-nav__link">
+    screen 1 - basic mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consoe-screen-2-continue-without-updating" class="md-nav__link">
+    consoe screen 2 - Continue without updating
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#console-screen-3-english-us-keyboard" class="md-nav__link">
+    console screen 3 - English US keyboard
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screen-4-and-5-set-static-ip" class="md-nav__link">
+    screen 4 and 5 - Set static ip
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screen-6-proxy" class="md-nav__link">
+    screen 6 - proxy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screen-7-archive-mirror" class="md-nav__link">
+    screen 7 - archive mirror
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screen-8-and-9-storage-configuration" class="md-nav__link">
+    screen 8 and 9 - storage configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screen-10-and-11-are-you-sure" class="md-nav__link">
+    screen 10 and 11 - are you sure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screen-12-profile-setup" class="md-nav__link">
+    screen 12 - profile setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screen-13-enable-ubuntu-advantage" class="md-nav__link">
+    screen 13 - enable ubuntu advantage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screen-14-install-openssh-server" class="md-nav__link">
+    screen 14 - install openSSH server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screen-15-featured-server-snaps" class="md-nav__link">
+    screen 15 - Featured server snaps
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screen-16-installation-starts" class="md-nav__link">
+    screen 16 - installation starts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#install-docker-in-the-cu-vm" class="md-nav__link">
     Install Docker in the CU VM
   </a>
@@ -584,17 +675,359 @@ sudo apt install virt-manager
 <blockquote>
 <p>IMPORTANT ! the $CORE_SET_CU can only be a comma seperated list. </p>
 </blockquote>
-<div class="highlight"><pre><span></span><code>sudo virt-install  --name <span class="s2">&quot;</span><span class="nv">$CU_VM_NAME</span><span class="s2">&quot;</span>  --memory <span class="m">16768</span> --vcpus <span class="s2">&quot;sockets=1,cores=</span><span class="nv">$CORE_AMOUNT_CU</span><span class="s2">,cpuset=</span><span class="nv">$CORE_SET_CU</span><span class="s2">&quot;</span>  --os-type linux  --os-variant rhel7.0 --accelerate --disk <span class="s2">&quot;/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio&quot;</span>  --network <span class="s2">&quot;source=br0,,type=bridge&quot;</span> --vnc  --noautoconsole --cdrom <span class="s2">&quot;./ubuntu-20.04.4-live-server-amd64.iso&quot;</span>
+<div class="highlight"><pre><span></span><code>sudo virt-install  --name <span class="s2">&quot;</span><span class="nv">$CU_VM_NAME</span><span class="s2">&quot;</span>  --memory <span class="m">16768</span> --vcpus <span class="s2">&quot;sockets=1,cores=</span><span class="nv">$CORE_AMOUNT_CU</span><span class="s2">,cpuset=</span><span class="nv">$CORE_SET_CU</span><span class="s2">&quot;</span>  --os-type linux  --os-variant rhel7.0 --accelerate --disk <span class="s2">&quot;/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio&quot;</span>  --network <span class="s2">&quot;source=br0,type=bridge&quot;</span> --vnc  --noautoconsole --cdrom <span class="s2">&quot;./ubuntu-20.04.4-live-server-amd64.iso&quot;</span>  --console pty,target_type<span class="o">=</span>virtio
 </code></pre></div>
+<blockquote>
+<p>some notes about this command
+* --noautoconsole : if you ommit this, a graphical console window will popup. This works only when the remote server can export its graphical UI to your local graphical environment like an X-windows
+* --console pty,target_type=virtio will make sure you can use <code>virsh console $CU_VM_NAME</code></p>
+</blockquote>
 <p>Continue in the console the complete the VM installation.
-Take all default values except these points :</p>
+<div class="highlight"><pre><span></span><code>virsh console $CU_VM_NAME
+</code></pre></div></p>
+<blockquote>
+<p>NOTE ! This can take a few minutes before you see something appearing</p>
+</blockquote>
+<h3 id="screen-1-basic-mode">screen 1 - basic mode<a class="headerlink" href="#screen-1-basic-mode" title="Permanent link">&para;</a></h3>
+<p>select basic mode</p>
+<div class="highlight"><pre><span></span><code>================================================================================
+  Serial                                                              [ Help ]
+================================================================================
+
+  As the installer is running on a serial console, it has started in basic    
+  mode, using only the ASCII character set and black and white colours.       
+
+  If you are connecting from a terminal emulator such as gnome-terminal that  
+  supports unicode and rich colours you can switch to &quot;rich mode&quot; which uses  
+  unicode, colours and supports many languages.                               
+
+  You can also connect to the installer over the network via SSH, which will  
+  allow use of rich mode.                                                     
+
+                          [ Continue in rich mode  &gt; ]                        
+                          [ Continue in basic mode &gt; ]                        
+                          [ View SSH instructions    ]                        
+</code></pre></div>
+<h3 id="consoe-screen-2-continue-without-updating">consoe screen 2 - Continue without updating<a class="headerlink" href="#consoe-screen-2-continue-without-updating" title="Permanent link">&para;</a></h3>
+<p>select "Continue without updating"</p>
+<div class="highlight"><pre><span></span><code>================================================================================
+  Installer update available                                          [ Help ]
+================================================================================
+  Version 22.07.2 of the installer is now available (22.02.2 is currently     
+  running).                                                                   
+
+  You can read the release notes for each version at:                         
+
+                 https://github.com/canonical/subiquity/releases              
+
+  If you choose to update, the update will be downloaded and the installation 
+  will continue from here.                                                    
+
+                        [ Update to the new installer ]                       
+                        [ Continue without updating   ]                       
+                        [ Back                        ]                       
+</code></pre></div>
+<h3 id="console-screen-3-english-us-keyboard">console screen 3 - English US keyboard<a class="headerlink" href="#console-screen-3-english-us-keyboard" title="Permanent link">&para;</a></h3>
+<p>select Engligh US keyboard</p>
+<div class="highlight"><pre><span></span><code>================================================================================
+  Keyboard configuration                                              [ Help ]
+================================================================================
+  Please select the layout of the keyboard directly attached to the system, if
+  any.                                                                        
+
+                 Layout:  [ English (US)                     v ]              
+
+
+                Variant:  [ English (US)                     v ]              
+
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+</code></pre></div>
+<h3 id="screen-4-and-5-set-static-ip">screen 4 and 5 - Set static ip<a class="headerlink" href="#screen-4-and-5-set-static-ip" title="Permanent link">&para;</a></h3>
 <ul>
-<li>set to static ip $NODE_IP ( see preperation chapter )</li>
-<li>Select [ x ] install openSSH</li>
-<li>set hostname=\$CU_HOSTNAME, username=\$USER and password</li>
+<li>select Edit IPv4</li>
+<li>Set the subnet, ip, gateway and name servers in the next screen</li>
+<li>select Done
+<div class="highlight"><pre><span></span><code>================================================================================
+  Network connections                                                 [ Help ]
+================================================================================
+  Configure at least one interface this server can use to talk to other       
+  machines, and which preferably provides sufficient access for updates.      
+
+    NAME    TYPE  NOTES             ┌───────────────────┐                     
+  [ ens3    eth   -                &gt;│&lt; (close)          │                     
+    static  10.22.11.148/24         │  Info            &gt;│                     
+    52:54:00:68:47:29 / Red Hat, Inc│  Edit IPv4       &gt;│vice                 
+                                    │  Edit IPv6       &gt;│                     
+  [ Create bond &gt; ]                 │  Add a VLAN tag  &gt;│                     
+                                    └───────────────────┘                     
+
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+
+================================================================================
+  Network connections                                                 [ Help ]
+================================================================================
+
+   ┌───────────────────── Edit ens3 IPv4 configuration ─────────────────────┐
+   │                                                                        │
+   │  IPv4 Method:   [ Manual           v ]                              ^  │
+   │                                                                     │  │
+   │                                                                     │  │
+   │          Subnet:  $NODE_SUBNET                                      │  │
+   │                                                                     │  │
+   │                                                                     │  │
+   │         Address:  $NODE_IP                                          │  │
+   │                                                                     │  │
+   │                                                                     |  │
+   │         Gateway:  $GATEWAY_IP                                       |  │
+   │                                                                     |  │
+   │    Name servers:  8.8.8.8                                           │  │
+   │                   IP addresses, comma separated                     │  │
+   │                                                                     │  │
+   │  Search domains:                                                    │  │
+   │                   Domains, comma separated                          v  │
+   │                                                                        │
+   │                                                                        │
+   │                             [ Save       ]                             │
+   │                             [ Cancel     ]                             │
+   │                                                                        │
+   └────────────────────────────────────────────────────────────────────────┘
+</code></pre></div></li>
 </ul>
-<p>Installation will begin. Wait about 5 minutes for it to install.
-reboot the VM </p>
+<h3 id="screen-6-proxy">screen 6 - proxy<a class="headerlink" href="#screen-6-proxy" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Select Done
+<div class="highlight"><pre><span></span><code>================================================================================
+  Configure proxy                                                     [ Help ]
+================================================================================
+  If this system requires a proxy to connect to the internet, enter its       
+  details here.                                                               
+
+  Proxy address:                                                              
+                  If you need to use a HTTP proxy to access the outside world,
+                  enter the proxy information here. Otherwise, leave this     
+                  blank.                                                      
+
+                  The proxy information should be given in the standard form  
+                  of &quot;http://[[user][:pass]@]host[:port]/&quot;.                   
+
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+</code></pre></div></li>
+</ul>
+<h3 id="screen-7-archive-mirror">screen 7 - archive mirror<a class="headerlink" href="#screen-7-archive-mirror" title="Permanent link">&para;</a></h3>
+<ul>
+<li>select Done
+<div class="highlight"><pre><span></span><code>================================================================================
+  Configure Ubuntu archive mirror                                     [ Help ]
+================================================================================
+  If you use an alternative mirror for Ubuntu, enter its details here.        
+
+  Mirror address:  http://be.archive.ubuntu.com/ubuntu                        
+                   You may provide an archive mirror that will be used instead
+                   of the default.                                            
+
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+</code></pre></div></li>
+</ul>
+<h3 id="screen-8-and-9-storage-configuration">screen 8 and 9 - storage configuration<a class="headerlink" href="#screen-8-and-9-storage-configuration" title="Permanent link">&para;</a></h3>
+<ul>
+<li>select Done </li>
+<li>select Done
+<div class="highlight"><pre><span></span><code>================================================================================
+  Guided storage configuration                                        [ Help ]
+================================================================================
+  Configure a guided storage layout, or create a custom one:                  
+
+  (X)  Use an entire disk                                                     
+
+       [ /dev/vda local disk 256.000G v ]                                     
+
+       [X]  Set up this disk as an LVM group                                  
+
+            [ ]  Encrypt the LVM group with LUKS                              
+
+                         Passphrase:                                          
+
+
+                 Confirm passphrase:                                          
+
+
+  ( )  Custom storage layout                                                  
+
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+
+================================================================================
+  Storage configuration                                               [ Help ]
+================================================================================
+  FILE SYSTEM SUMMARY                                                        ^
+                                                                             │
+    MOUNT POINT     SIZE    TYPE      DEVICE TYPE                            │
+  [ /             100.000G  new ext4  new LVM logical volume      &gt; ]        │
+  [ /boot           1.500G  new ext4  new partition of local disk &gt; ]        │
+                                                                             │
+                                                                             │
+  AVAILABLE DEVICES                                                          │
+                                                                             │
+    DEVICE                                   TYPE                 SIZE        
+  [ ubuntu-vg (new)                          LVM volume group   254.496G  &gt; ] 
+    free space                                                  154.496G  &gt;   
+
+  [ Create software RAID (md) &gt; ]                                             
+  [ Create volume group (LVM) &gt; ]                                             
+                                                                             v
+
+                                 [ Done       ]                               
+                                 [ Reset      ]                               
+                                 [ Back       ]                               
+</code></pre></div></li>
+</ul>
+<h3 id="screen-10-and-11-are-you-sure">screen 10 and 11 - are you sure<a class="headerlink" href="#screen-10-and-11-are-you-sure" title="Permanent link">&para;</a></h3>
+<ul>
+<li>select Continue</li>
+</ul>
+<div class="highlight"><pre><span></span><code>   ┌────────────────────── Confirm destructive action ──────────────────────┐
+   │                                                                        │
+   │  Selecting Continue below will begin the installation process and      │
+   │  result in the loss of data on the disks selected to be formatted.     │
+   │                                                                        │
+   │  You will not be able to return to this or a previous screen once the  │
+   │  installation has started.                                             │
+   │                                                                        │
+   │  Are you sure you want to continue?                                    │
+   │                                                                        │
+   │                             [ No         ]                             │
+   │                             [ Continue   ]                             │
+   │                                                                        │
+   └────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="screen-12-profile-setup">screen 12 - profile setup<a class="headerlink" href="#screen-12-profile-setup" title="Permanent link">&para;</a></h3>
+<ul>
+<li>enter your name, the name of the person that does this installation</li>
+<li>enter the server name $CU_VM_NAME</li>
+<li>enter the username $USER</li>
+<li>enter the password</li>
+<li>Select Done</li>
+</ul>
+<div class="highlight"><pre><span></span><code>  Profile setup                                                       [ Help ]
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  Enter the username and password you will use to log in to the system. You   
+  can configure SSH access on the next screen but a password is still needed  
+  for sudo.                                                                   
+
+              Your name:  Dennis                                              
+
+     Your server&#39;s name:  testvm                                              
+                          The name it uses when it talks to other computers.  
+
+        Pick a username:  ad                                                  
+
+      Choose a password:  *********                                           
+
+  Confirm your password:  *********                                           
+
+                                 [ Done       ]                               
+</code></pre></div>
+<h3 id="screen-13-enable-ubuntu-advantage">screen 13 - enable ubuntu advantage<a class="headerlink" href="#screen-13-enable-ubuntu-advantage" title="Permanent link">&para;</a></h3>
+<ul>
+<li>select Done</li>
+</ul>
+<div class="highlight"><pre><span></span><code>================================================================================
+  Enable Ubuntu Advantage                                             [ Help ]
+================================================================================
+  Enter your Ubuntu Advantage token if you want to enroll this system.        
+
+  Ubuntu Advantage token:                                                     
+                           If you want to enroll this system using your Ubuntu
+                           Advantage subscription, enter your Ubuntu Advantage
+                           token here. Otherwise, leave this blank.           
+
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+</code></pre></div>
+<h3 id="screen-14-install-openssh-server">screen 14 - install openSSH server<a class="headerlink" href="#screen-14-install-openssh-server" title="Permanent link">&para;</a></h3>
+<ul>
+<li>select Install openSSH server
+<div class="highlight"><pre><span></span><code>================================================================================
+  SSH Setup                                                           [ Help ]
+================================================================================
+  You can choose to install the OpenSSH server package to enable secure remote
+  access to your server.                                                      
+
+                   [X]  Install OpenSSH server                                
+
+
+  Import SSH identity:  [ No             v ]                                  
+                        You can import your SSH keys from GitHub or Launchpad.
+
+      Import Username:                                                        
+
+
+                   [X]  Allow password authentication over SSH                
+
+
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+</code></pre></div></li>
+</ul>
+<h3 id="screen-15-featured-server-snaps">screen 15 - Featured server snaps<a class="headerlink" href="#screen-15-featured-server-snaps" title="Permanent link">&para;</a></h3>
+<ul>
+<li>don't select any extra feature</li>
+<li>select Done
+<div class="highlight"><pre><span></span><code>================================================================================
+  Featured Server Snaps                                               [ Help ]
+================================================================================
+  These are popular snaps in server environments. Select or deselect with     
+  SPACE, press ENTER to see more details of the package, publisher and        
+  versions available.                                                         
+
+  [ ] microk8s            Kubernetes for workstations and appliances        &gt;^
+  [ ] nextcloud           Nextcloud Server - A safe home for all your data  &gt;│
+  [ ] wekan               The open-source kanban                            &gt;│
+  [ ] kata-containers     Build lightweight VMs that seamlessly plug into t &gt;│
+  [ ] docker              Docker container runtime                          &gt;│
+  [ ] canonical-livepatch Canonical Livepatch Client                        &gt;│
+  [ ] rocketchat-server   Rocket.Chat server                                &gt;│
+  [ ] mosquitto           Eclipse Mosquitto MQTT broker                     &gt; 
+  [ ] etcd                Resilient key-value store by CoreOS               &gt; 
+  [ ] powershell          PowerShell for every system!                      &gt; 
+  [ ] stress-ng           tool to load and stress a computer                &gt; 
+  [ ] sabnzbd             SABnzbd                                           &gt; 
+  [ ] wormhole            get things from one computer to another, safely   &gt;v
+
+                                 [ Done       ]                               
+                                 [ Back       ]                               
+</code></pre></div></li>
+</ul>
+<h3 id="screen-16-installation-starts">screen 16 - installation starts<a class="headerlink" href="#screen-16-installation-starts" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>================================================================================
+  Installing system                                                   [ Help ]
+================================================================================
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │          configuring iscsi service                                      ^│
+  │          configuring raid (mdadm) service                                │
+  │          installing kernel                                               │
+  │          setting up swap                                                 │
+  │          apply networking config                                         │
+  │          writing etc/fstab                                               │
+  │          configuring multipath                                           │
+  │          updating packages on target system                              │
+  │          configuring pollinate user-agent on target                      │
+  │          updating initramfs configuration                                │
+  │          configuring target system bootloader                            │
+  │          installing grub to target devices                               │
+  │    finalizing installation                                               │
+  │      running &#39;curtin hook&#39;                                               │
+  │        curtin command hook                                              ││
+  │    executing late commands                                              v│
+  └──────────────────────────────────────────────────────────────────────────┘
+
+                               [ View full log ]
+</code></pre></div>
+<p>Wait untill you can click reboot server</p>
 <p>ssh into the VM.</p>
 <div class="highlight"><pre><span></span><code>ssh <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>
 </code></pre></div>
