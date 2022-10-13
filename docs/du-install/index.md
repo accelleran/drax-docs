@@ -331,7 +331,7 @@ Which means that a license for the dongle with serial-number 13134288 was loaded
 
 #### Install the Phluido L1 ( docker )
  
- ``` bash
+``` bash
  docker image load -i phluido_docker_$L1_VERSION.tar
 ```
 
