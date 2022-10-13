@@ -1113,8 +1113,8 @@ the dongle with the serial number 13134288 has not been activated, or the licens
 </code></pre></div>
 <p>Which means that a license for the dongle with serial-number 13134288 was loaded to the dongle (i.e., it was bundled in the license-activation image).</p>
 <h4 id="install-the-phluido-l1-docker">Install the Phluido L1 ( docker )<a class="headerlink" href="#install-the-phluido-l1-docker" title="Permanent link">&para;</a></h4>
-<p><code>bash
- docker image load -i phluido_docker_$L1_VERSION.tar</code></p>
+<div class="highlight"><pre><span></span><code> docker image load -i phluido_docker_<span class="nv">$L1_VERSION</span>.tar
+</code></pre></div>
 <h4 id="install-effnet-du-docker">Install Effnet DU ( docker )<a class="headerlink" href="#install-effnet-du-docker" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code>unzip accelleran-du-phluido-<span class="nv">$DU_VERSION</span>.zip
 bzcat accelleran-du-phluido/accelleran-du-phluido-<span class="nv">$DU_VERSION</span>/gnb_du_main_phluido-<span class="nv">$DU_VERSION</span>.tar.bz2 <span class="p">|</span> docker image load
