@@ -4,8 +4,10 @@
 - [Accelleran CU Install Guide](#accelleran-cu-install-guide)
   - [Table of Content](#table-of-content)
   - [Introduction](#introduction)
+  - [Releases](#releases)
   - [Prerequisites / Preperations](#prerequisites--preperations)
     - [Know the ip addresses, interfaces, user account](#know-the-ip-addresses-interfaces-user-account)
+    - [Know the 5G configuration](#know-the-5g-configuration)
     - [know which cores and cpu you will be using.](#know-which-cores-and-cpu-you-will-be-using)
       - [In case of dual CPU](#in-case-of-dual-cpu)
       - [In case of 1 CPU server](#in-case-of-1-cpu-server)
@@ -16,6 +18,21 @@
 ## Introduction
 
 This guide describes the installation of the Accelleran dRAX base, 4G and 5G components, the Effnet DU, Phluido L1 and optionally a core network on a single server machine, however separating the RIC/CU (on a VM) and the DU/L1 (on the server) to increase stability and performances
+
+## Releases
+This document is released together with the system release 2022.3.0. 
+This system release contains 
+
+| component    | version                     |
+|--------------|-----------------------------|
+| RIC          | 6.0.0                       |
+| CU CHART     | 5.0.0                       |
+| CU APP       | R3.3.0_hoegaarden           |
+| DU           | 2022-08-26-q2-release-0.4   |
+| L1           | 8.4.2                       |
+| BNTL650      | 0.5.2                       |
+| BNTL550      | 0.6.0                       |
+| cell wrapper | 1.0.0                       |
 
 
 ## Prerequisites / Preperations
@@ -31,7 +48,7 @@ This installation guide assumes that that the following are to be taken as prere
 		* 8 assigned cores
 		* 32 GB assigned RAM
 		* 200 GB assigned Disk space  
-NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access to its libvirt XML configuration when needed, ex. to perform the CPU pinning. The User can alternately choose other VM management tools, however without further support from Accelleran. 
+           > NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access to its libvirt XML configuration when needed, ex. to perform the CPU pinning. The User can alternately choose other VM management tools, however without further support from Accelleran. 
 
 * Licenses:
 	* A dRAX license file: license.crt

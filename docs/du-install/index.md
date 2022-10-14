@@ -251,7 +251,7 @@ Plug the YubiKey in a USB port of the machine.
 Then, create a Dockerfile named Dockerfile.pcscd for this Docker image:
 
 ``` bash
-mkdir -p pcscd
+mkdir -p pcscd 
 tee pcscd/Dockerfile.pcscd <<EOF
 FROM ubuntu:20.04
 
@@ -354,6 +354,8 @@ These have been found during the preperation fase and shared over DU and CU. In 
 In this specific example, there are two banks of 4 cores, each capable of hyperthreading, so in total we can count on 16 CPUs, let's then set 8 CPUs aside to run the VM for kubernetes and CU, and the other 8 CPUs to run L1/L2 so that they never compete for the same CPU. The assumption is that the rest of the processes on the system (very light load) is equally spread over all cores. If a large number of cores is available, probably the core with a higher number will be mostly free and can be then dedicated to L1 and DU, as mentioned there is no specific rule. For the sake of argument let's assign the even cores to the L1 and DU equally, so the Docker compose looks as follows:
 
 ``` bash
+mkdir -p ~/install-$DU_VERSION/ 
+cd !$
 cat > docker-compose.yaml << EOF
 version: "2"
 services:
@@ -730,6 +732,8 @@ Create a configuration file for the Effnet DU:
 * 5gs_tac           ( 3 byte array. eg 1 fill in 000001 ) 
 
 ``` bash
+mkdir -p ~/install-$DU_VERSION/ 
+cd !$
 tee du-config.json <<EOF
 {
     "configuration": {
@@ -899,6 +903,8 @@ Now, create a docker-compose configuration file:
 ** remove the rru: when NOT using a b210. eg when using a b650 **
 
 ``` bash
+mkdir -p ~/install-$DU_VERSION/ 
+cd !$
 tee docker-compose.yml <<EOF
 version: "2"
 
@@ -1071,7 +1077,7 @@ Create the configuration file for the Phluido L1 component the `PhluidoL1_NR_Ben
 Make sure to set the value `LicenseKey` option to the received Phluido license key:
 
 ``` bash
-mkdir ~/install-$DU_VERSION/
+mkdir -p ~/install-$DU_VERSION/ 
 cd !$
 tee PhluidoL1_NR_Benetel.cfg <<EOF
 /******************************************************************
@@ -1117,7 +1123,8 @@ EOF
 Create a configuration file for the Effnet DU:
 
 ``` bash
-cd ~/$DU_VERSION
+mkdir -p ~/install-$DU_VERSION/ 
+cd !$
 tee b650_config_40mhz.json <<EOF
 {
     "configuration": {
@@ -1317,7 +1324,8 @@ The CUCP F1 SCTP interface external address is the second IP address and should 
 Now, create a docker-compose configuration file:
 
 ``` bash
-cd ~/$DU_VERSION
+mkdir -p ~/install-$DU_VERSION/ 
+cd !$
 tee docker-compose-B650.yml <<EOF
 version: "2"
 services:
@@ -2098,7 +2106,9 @@ In this configuration the cell-wrapper will reboot the RU every night at 2:00 AM
 
 
 ``` xml
-cat <<EOF > cw.yaml
+mkdir -p ~/install-$CU_VERSION/ 
+cd !$
+tee cw.yaml <<EOF 
 global:
 
   instanceId: "cw"
