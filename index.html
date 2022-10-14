@@ -312,6 +312,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#releases" class="md-nav__link">
+    Releases
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#prerequisites-preperations" class="md-nav__link">
     Prerequisites / Preperations
   </a>
@@ -475,8 +482,10 @@
 <li><a href="#accelleran-cu-install-guide">Accelleran CU Install Guide</a></li>
 <li><a href="#table-of-content">Table of Content</a></li>
 <li><a href="#introduction">Introduction</a></li>
+<li><a href="#releases">Releases</a></li>
 <li><a href="#prerequisites--preperations">Prerequisites / Preperations</a><ul>
 <li><a href="#know-the-ip-addresses-interfaces-user-account">Know the ip addresses, interfaces, user account</a></li>
+<li><a href="#know-the-5g-configuration">Know the 5G configuration</a></li>
 <li><a href="#know-which-cores-and-cpu-you-will-be-using">know which cores and cpu you will be using.</a></li>
 <li><a href="#in-case-of-dual-cpu">In case of dual CPU</a></li>
 <li><a href="#in-case-of-1-cpu-server">In case of 1 CPU server</a></li>
@@ -488,6 +497,51 @@
 </ul>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
 <p>This guide describes the installation of the Accelleran dRAX base, 4G and 5G components, the Effnet DU, Phluido L1 and optionally a core network on a single server machine, however separating the RIC/CU (on a VM) and the DU/L1 (on the server) to increase stability and performances</p>
+<h2 id="releases">Releases<a class="headerlink" href="#releases" title="Permanent link">&para;</a></h2>
+<p>This document is released together with the system release 2022.3.0. 
+This system release contains </p>
+<table>
+<thead>
+<tr>
+<th>component</th>
+<th>version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RIC</td>
+<td>6.0.0</td>
+</tr>
+<tr>
+<td>CU CHART</td>
+<td>5.0.0</td>
+</tr>
+<tr>
+<td>CU APP</td>
+<td>R3.3.0_hoegaarden</td>
+</tr>
+<tr>
+<td>DU</td>
+<td>2022-08-26-q2-release-0.4</td>
+</tr>
+<tr>
+<td>L1</td>
+<td>8.4.2</td>
+</tr>
+<tr>
+<td>BNTL650</td>
+<td>0.5.2</td>
+</tr>
+<tr>
+<td>BNTL550</td>
+<td>0.6.0</td>
+</tr>
+<tr>
+<td>cell wrapper</td>
+<td>1.0.0</td>
+</tr>
+</tbody>
+</table>
 <h2 id="prerequisites-preperations">Prerequisites / Preperations<a class="headerlink" href="#prerequisites-preperations" title="Permanent link">&para;</a></h2>
 <p>This installation guide assumes that that the following are to be taken as prerequisites and made available before proceding further:</p>
 <ul>
@@ -503,8 +557,10 @@
 <li>VM within the Server, in the same subnet with at least :<ul>
 <li>8 assigned cores</li>
 <li>32 GB assigned RAM</li>
-<li>200 GB assigned Disk space<br />
-NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access to its libvirt XML configuration when needed, ex. to perform the CPU pinning. The User can alternately choose other VM management tools, however without further support from Accelleran. </li>
+<li>200 GB assigned Disk space  <blockquote>
+<p>NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access to its libvirt XML configuration when needed, ex. to perform the CPU pinning. The User can alternately choose other VM management tools, however without further support from Accelleran. </p>
+</blockquote>
+</li>
 </ul>
 </li>
 </ul>

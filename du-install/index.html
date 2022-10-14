@@ -1061,7 +1061,7 @@ Then you can find the serial number (yubikey-manager needed, install if it's not
 The license in the YubiKey is shared by the PCSCD daemon, which itself can run in a Docker container to satisfy OS dependencies.
 Plug the YubiKey in a USB port of the machine.
 Then, create a Dockerfile named Dockerfile.pcscd for this Docker image:</p>
-<div class="highlight"><pre><span></span><code>mkdir -p pcscd
+<div class="highlight"><pre><span></span><code>mkdir -p pcscd 
 tee pcscd/Dockerfile.pcscd <span class="s">&lt;&lt;EOF</span>
 <span class="s">FROM ubuntu:20.04</span>
 
@@ -1124,7 +1124,9 @@ bzcat accelleran-du-phluido/accelleran-du-phluido-<span class="nv">$DU_VERSION</
 <p>First thing to find out is what resources are available on our system:
 These have been found during the preperation fase and shared over DU and CU. In this chapter the DU core are assigned.</p>
 <p>In this specific example, there are two banks of 4 cores, each capable of hyperthreading, so in total we can count on 16 CPUs, let's then set 8 CPUs aside to run the VM for kubernetes and CU, and the other 8 CPUs to run L1/L2 so that they never compete for the same CPU. The assumption is that the rest of the processes on the system (very light load) is equally spread over all cores. If a large number of cores is available, probably the core with a higher number will be mostly free and can be then dedicated to L1 and DU, as mentioned there is no specific rule. For the sake of argument let's assign the even cores to the L1 and DU equally, so the Docker compose looks as follows:</p>
-<div class="highlight"><pre><span></span><code>cat &gt; docker-compose.yaml <span class="s">&lt;&lt; EOF</span>
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install-<span class="nv">$DU_VERSION</span>/ 
+<span class="nb">cd</span> !$
+cat &gt; docker-compose.yaml <span class="s">&lt;&lt; EOF</span>
 <span class="s">version: &quot;2&quot;</span>
 <span class="s">services:</span>
 
@@ -1424,7 +1426,9 @@ Make sure to set the value <code>LicenseKey</code> option to the received Phluid
 <li>nr_frequency_band ( 77 or 78 )</li>
 <li>5gs_tac           ( 3 byte array. eg 1 fill in 000001 ) </li>
 </ul>
-<div class="highlight"><pre><span></span><code>tee du-config.json <span class="s">&lt;&lt;EOF</span>
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install-<span class="nv">$DU_VERSION</span>/ 
+<span class="nb">cd</span> !$
+tee du-config.json <span class="s">&lt;&lt;EOF</span>
 <span class="s">{</span>
 <span class="s">    &quot;configuration&quot;: {</span>
 <span class="s">        &quot;du_address&quot;: &quot;du&quot;,</span>
@@ -1586,7 +1590,9 @@ This IP address can be determined by executing the following command:</p>
 The CUCP F1 SCTP interface external address is the second IP address and should be in the IP pool that was assigned to MetalLB in <a href="../drax-install/">dRax Installation</a>.</p>
 <p>Now, create a docker-compose configuration file:</p>
 <p><strong> remove the rru: when NOT using a b210. eg when using a b650 </strong></p>
-<div class="highlight"><pre><span></span><code>tee docker-compose.yml <span class="s">&lt;&lt;EOF</span>
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install-<span class="nv">$DU_VERSION</span>/ 
+<span class="nb">cd</span> !$
+tee docker-compose.yml <span class="s">&lt;&lt;EOF</span>
 <span class="s">version: &quot;2&quot;</span>
 
 <span class="s">services:</span>
@@ -1739,7 +1745,7 @@ aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
 <p>Differently from the Ettus B210, Benetel runs the RRU software on board, therefore we only need to prepare 2 software components in the server, that is, 2 Containers, Effnet DU and Phluido L1.</p>
 <p>Create the configuration file for the Phluido L1 component the <code>PhluidoL1_NR_Benetel.cfg</code> file delivered by effnet
 Make sure to set the value <code>LicenseKey</code> option to the received Phluido license key:</p>
-<p><div class="highlight"><pre><span></span><code>mkdir ~/install-<span class="nv">$DU_VERSION</span>/
+<p><div class="highlight"><pre><span></span><code>mkdir -p ~/install-<span class="nv">$DU_VERSION</span>/ 
 <span class="nb">cd</span> !$
 tee PhluidoL1_NR_Benetel.cfg <span class="s">&lt;&lt;EOF</span>
 <span class="s">/******************************************************************</span>
@@ -1780,7 +1786,8 @@ tee PhluidoL1_NR_Benetel.cfg <span class="s">&lt;&lt;EOF</span>
 </code></pre></div>
 **IMPORTANT: After this replace the LicenseKey value with the effective license sequence you obtained from Accelleran, all the other parameters shall not be modified </p>
 <p>Create a configuration file for the Effnet DU:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span> ~/<span class="nv">$DU_VERSION</span>
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install-<span class="nv">$DU_VERSION</span>/ 
+<span class="nb">cd</span> !$
 tee b650_config_40mhz.json <span class="s">&lt;&lt;EOF</span>
 <span class="s">{</span>
 <span class="s">    &quot;configuration&quot;: {</span>
@@ -1974,7 +1981,8 @@ This IP address can be determined by executing the following command:</p>
 </code></pre></div>
 The CUCP F1 SCTP interface external address is the second IP address and should be in the IP pool that was assigned to MetalLB in <a href="../drax-install/">dRax Installation</a>.</p>
 <p>Now, create a docker-compose configuration file:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span> ~/<span class="nv">$DU_VERSION</span>
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install-<span class="nv">$DU_VERSION</span>/ 
+<span class="nb">cd</span> !$
 tee docker-compose-B650.yml <span class="s">&lt;&lt;EOF</span>
 <span class="s">version: &quot;2&quot;</span>
 <span class="s">services:</span>
@@ -2615,31 +2623,33 @@ kubectl create secret generic cw-public --from-file=public=id_ed25519.pub
 <p>Create a .yaml file containing the configuration. Also fill in the values you have prepared on the first page of the install guide.</p>
 <p>It will install the cell-wrapper the will take care of the cell's health. 
 In this configuration the cell-wrapper will reboot the RU every night at 2:00 AM. <code>&lt;reboot&gt;true&lt;/reboot&gt;</code> </p>
-<div class="highlight"><pre><span></span><code>cat <span class="err">&lt;</span><span class="nt">&lt;EOF</span> <span class="nt">&gt;</span> cw.yaml
-global:
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install-$CU_VERSION/ 
+cd !$
+tee cw.yaml <span class="err">&lt;</span><span class="nt">&lt;EOF</span> 
+<span class="err">global:</span>
 
-  instanceId: &quot;cw&quot;
-  natsUrl: &quot;$NODE_IP&quot;
-  natsPort: &quot;31100&quot;
+  <span class="err">instanceId:</span> <span class="err">&quot;cw&quot;</span>
+  <span class="err">natsUrl:</span> <span class="err">&quot;$NODE_IP&quot;</span>
+  <span class="err">natsPort:</span> <span class="err">&quot;31100&quot;</span>
 
-  redisHostname: &quot;$NODE_IP&quot;
-  redisPort: &quot;32220&quot;
+  <span class="err">redisHostname:</span> <span class="err">&quot;$NODE_IP&quot;</span>
+  <span class="err">redisPort:</span> <span class="err">&quot;32220&quot;</span>
 
-redis:
-  backup:
-    enabled: true
-    deleteAfterDay: 7
-  jobs:
-    deleteExistingData: true
+<span class="err">redis:</span>
+  <span class="err">backup:</span>
+    <span class="err">enabled:</span> <span class="err">true</span>
+    <span class="err">deleteAfterDay:</span> <span class="err">7</span>
+  <span class="err">jobs:</span>
+    <span class="err">deleteExistingData:</span> <span class="err">true</span>
 
-nats:
-  enabled: false
+<span class="err">nats:</span>
+  <span class="err">enabled:</span> <span class="err">false</span>
 
-jobs:
-  - name: reboot-ru-1
-    schedule: &quot;0 2 * * *&quot;
-    rpc: |
-      <span class="nt">&lt;cell-wrapper</span> <span class="na">xmlns=</span><span class="s">&quot;http://accelleran.com/ns/yang/accelleran-granny&quot;</span> <span class="na">xmlns:xc=</span><span class="s">&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot;</span> <span class="na">xc:operation=</span><span class="s">&quot;replace&quot;</span><span class="nt">&gt;</span>
+<span class="err">jobs:</span>
+  <span class="err">-</span> <span class="err">name:</span> <span class="err">reboot-ru-1</span>
+    <span class="err">schedule:</span> <span class="err">&quot;0</span> <span class="err">2</span> <span class="err">*</span> <span class="err">*</span> <span class="err">*&quot;</span>
+    <span class="err">rpc:</span> <span class="err">|</span>
+      <span class="err">&lt;cell-wrapper</span> <span class="na">xmlns=</span><span class="s">&quot;http://accelleran.com/ns/yang/accelleran-granny&quot;</span> <span class="na">xmlns:xc=</span><span class="s">&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot;</span> <span class="na">xc:operation=</span><span class="s">&quot;replace&quot;</span><span class="nt">&gt;</span>
         <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;replace&quot;</span><span class="nt">&gt;</span>
           <span class="nt">&lt;name&gt;</span>ru-1<span class="nt">&lt;/name&gt;</span>
           <span class="nt">&lt;reboot&gt;</span>false<span class="nt">&lt;/reboot&gt;</span>
