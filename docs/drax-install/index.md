@@ -938,13 +938,13 @@ export XDP_CU_VERSION=                      # see install manual
 until [ `docker ps | wc -l` -ge "15" ]
 do
     echo "We are waiting for first 15 docker containers."
-    echo "Current amount of docker containers running: "$(docker ps | wc -l)
+    echo "Current amount of docker containers running: "\$(docker ps | wc -l)
     sleep 1
 done
 
 if kubectl get pods | grep ups ; then
     echo "UPS pods are still running. Deleting..."
-    kubectl get pods --no-headers=true | awk '/ups/{print $1}'| xargs  kubectl delete pod
+    kubectl get pods --no-headers=true | awk '/ups/{print \$1}'| xargs  kubectl delete pod
 else
     echo "UPS Pods are not present. Doing nothing."
 fi
@@ -953,7 +953,7 @@ if docker ps | grep xdp ; then
     echo "XDP Already running. Doing nothing."
 else
     echo "XDP not found. Starting...:"
-     /home/ad/install/q3/deploy_xdpupsappl.sh -i $XDP_INSTANCE_ID   -g  $XDP_GTP_IP    -G $XDP_GTP_ITF   -t $XDP_CU_VERSION
+     /home/ad/install/q3/deploy_xdpupsappl.sh -i \$XDP_INSTANCE_ID   -g  \$XDP_GTP_IP    -G \$XDP_GTP_ITF   -t \$XDP_CU_VERSION
      docker logs xdp_cu_up
 fi
 
@@ -969,49 +969,49 @@ node_ip="$(kubectl get node -o jsonpath='{.items[0].status.addresses[?(.type == 
 instance_id=
 
 while getopts 'i:G:g:n:n:t:' option; do
-	case "$option" in
+	case "\$option" in
 		i)
-			instance_id="$OPTARG"
+			instance_id="\$OPTARG"
 		;;
 		G)
-			gtp_iface="$OPTARG"
+			gtp_iface="\$OPTARG"
 		;;
 		g)
-			gtp_ip="$OPTARG"
+			gtp_ip="\$OPTARG"
 		;;
 		m)
-			mtu="$OPTARG"
+			mtu="\$OPTARG"
 		;;
 		n)
-			node_ip="$OPTARG"
+			node_ip="\$OPTARG"
 		;;
 		t)
-			build_tag="$OPTARG"
+			build_tag="\$OPTARG"
 		;;
 	esac
 done
 
-if [ -z "$instance_id" ]; then
+if [ -z "\$instance_id" ]; then
 	echo "Error: no instance ID (-i) specified" >&2
 	exit 1
 fi
-if [ -z "$gtp_iface" ]; then
+if [ -z "\$gtp_iface" ]; then
 	echo "Error: no GTP interface (-G) specified" >&2
 	exit 1
 fi
-if [ -z "$gtp_ip" ]; then
+if [ -z "\$gtp_ip" ]; then
 	echo "Error: no GTP IP (-g) specified" >&2
 	exit 1
 fi
-if [ -z "$mtu" ]; then
+if [ -z "\$mtu" ]; then
 	echo "Error: no MTU (-m) specified" >&2
 	exit 1
 fi
-if [ -z "$node_ip" ]; then
+if [ -z "\$node_ip" ]; then
 	echo "Error: no node IP (-n) specified" >&2
 	exit 1
 fi
-if [ -z "$build_tag" ]; then
+if [ -z "\$build_tag" ]; then
 	echo "Error: no build tag (-t) specified" >&2
 	exit 1
 fi
@@ -1019,13 +1019,13 @@ fi
 
 config_dir="\$(mktemp -d)"
 
-cat >"\$config_dir/bootstrap" <<EOF
-redis.hostname:$node_ip
+cat >"\$config_dir/bootstrap" <<NESTED_EOF
+redis.hostname:\$node_ip
 redis.port:32200
-instance.filter:$instance_id
-EOF
+instance.filter:\$instance_id
+NESTED_EOF
 
-cat >"\$config_dir/zlog.conf" <<EOF
+cat >"\$config_dir/zlog.conf" <<NESTED_EOF
 [global]
 strict init = true
 buffer min = 64K
@@ -1036,7 +1036,7 @@ rotate lock file = /tmp/zlog.lock
 printf_format = "%d(%b %d %H:%M:%S).%ms %8.8H %m%n"
 [rules]
 user.* >stdout ;printf_format
-EOF
+NESTED_EOF
 
 docker run \
 	--name xdp_cu_up \
@@ -1045,10 +1045,10 @@ docker run \
 	--privileged \
 	--user 0 \
 	--network host \
-	--volume "$config_dir:/home/accelleran/5G/config:ro" \
-	--env "IFNAME=$gtp_iface" \
-	--env "NATS_SERVICE_URL=nats://$node_ip:31100" \
-	--env "MTU_SIZE=$mtu" \
+	--volume "\$config_dir:/home/accelleran/5G/config:ro" \
+	--env "IFNAME=\$gtp_iface" \
+	--env "NATS_SERVICE_URL=nats://\$node_ip:31100" \
+	--env "MTU_SIZE=\$mtu" \
 	--env __APPNAME=cuUp \
 	--env __APPID=1 \
 	--env ZLOG_CONF_PATH=/home/accelleran/5G/config/zlog.conf \
@@ -1056,11 +1056,11 @@ docker run \
 	--env XDP_OBJECT_FILE=/home/accelleran/5G/xdp_gtp_kernel.o \
 	--env LD_LIBRARY_PATH=/home/accelleran/5G/lib \
 	--env HOSTMODE=true \
-	"accelleran/xdpupsappl:$build_tag" \
+	"accelleran/xdpupsappl:\$build_tag" \
 	/home/accelleran/5G/xdpUpsAppl.exe \
-	--uplink "$gtp_ip" \
-	--downlink "$gtp_ip" \
-	--bind "$gtp_ip" \
+	--uplink "\$gtp_ip" \
+	--downlink "\$gtp_ip" \
+	--bind "\$gtp_ip" \
 
 EOF
 
@@ -1068,30 +1068,29 @@ EOF
 ```
 
 In the first script ```startXdpAfterBoot.sh``` put in 4 values manually for the following variables.
-Verify if the values make sense.
 
   * XDP_INSTANCE_ID=
-    > you can get de values by executing :
-    > ``` bash 
-    > export XDP_INSTANCE_ID=$(kubectl get pod  | grep "e1-sctp" | sed "s/-e1-sctp.*//g")
-    > ```
+    * The prefix of the output of ```kubectl get pod | grep e1-sctp```
 
   * XDP_GTP_IP=
-    > this value is the same as the values held by the variable ```$NODE_IP``` ( see first preperation page )
-    ``` bash
-    export XDP_GTP_IP=$NODE_IP
-
+    * The $NODE_IP mentioned in the preperation page
   * XDP_GTP_ITF=
-    > Get the value for this variable by executing :
-    > ``` bash
-    > export XDP_GTP_ITF=$(ip -br a | grep 10.22.11.203 | xargs | cut -d ' ' -f 1)
-    > ```
-
+    * The interface in the CU VM holding the $NODE_IP
   * XDP_CU_VERSION=
-    > is the same value as whats in ```$CU_VERSION``` ( filled in during preperation fase). It should be the same as executing :
-    > ``` bash
-    > export XDP_CU_VERSION=$(helm list | grep "cu-up" | awk '{print $NF}')
-    > ```
+    * The version of the CU. Should be the same as the ```$CU_VERSION``` given in the preperation page.
+  
+You can autogenerate these values by copying/pasting following block.
+
+
+>
+> ``` bash
+> echo "
+> export XDP_INSTANCE_ID=$(kubectl get pod  | grep "e1-sctp" | sed "s/-e1-sctp.*//g")
+> export XDP_CU_VERSION=$(helm list | grep "cu-up" | awk '{print $NF}')
+> export XDP_GTP_IP=$NODE_IP
+> export XDP_GTP_ITF=$(ip -br a | grep 10.22.11.203 | xargs | cut -d ' ' -f 1)
+> "
+> ```
 
 
 Make the run of the script boot persistent by putting it in crontab
@@ -1103,7 +1102,7 @@ Add this line into the crontab editor file. Change the ```$USER``` and install `
 Check the preperation page.
 
 ``` bash
-@reboot /home/$USER/install_${CU_VERSION}/startXdpAfterBoot.sh >> /tmp/xdp_bootscript_response
+@reboot /home/$USER/install_${XDP_CU_VERSION}/startXdpAfterBoot.sh >> /tmp/xdp_bootscript_response
 ```
 
 execute to verify
