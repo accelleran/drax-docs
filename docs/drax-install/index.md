@@ -58,6 +58,7 @@
     - [5G RAN Configuration](#5g-ran-configuration)
       - [5G CU-CP configuration](#5g-cu-cp-configuration)
       - [5G CU-UP configuration](#5g-cu-up-configuration)
+      - [Install XDP](#install-xdp)
   - [Verifying the dRAX installation](#verifying-the-drax-installation)
     - [Monitoring via the Kubernetes API](#monitoring-via-the-kubernetes-api)
     - [The Grafana Accelleran dRAX System Dashboard](#the-grafana-accelleran-drax-system-dashboard)
@@ -904,6 +905,189 @@ The 5G CU-UP has a number of configuration parameters as seen below:
 * Supported PLMN Slices; Expand the table by clicking the (+) sign. You can now Add Rows or Delete Rows to add multiple PLMN IDs. For each PLMN ID, you can Add Rows to add slices or Delete Rows to delete slices. Each slice is defined by the Slice Type and Slice Differentiator.
 
 ![5G CU-UP Configuration parameters](images/dashboard-cu-up-config.png)
+
+#### Install XDP
+This part 
+
+go to the VM
+
+``` bash
+ssh $USER@$CU_IP
+```
+
+Copy/Paste the below and 2 scripts are generated
+  * startXdpAfterBoot.sh
+  * deploy_xdpupsappl.sh
+
+In the first script ```startXdpAfterBoot.sh``` put in 4 values manually for the following variables.
+Verify if the values make sense.
+
+  * INSTANCE_ID=
+    > you can get de values by executing :
+    > ``` bash 
+    > kubectl get pod  | grep "e1-sctp" | sed "s/-e1-sctp.*//g" 
+    > ```
+
+  * GTP_IP=
+    > this value is the same as the values held by the variable ```$NODE_IP``` ( see first preperation page )
+
+  * GTP_ITF=
+    > Get the value for this variable by executing :
+    > ``` bash
+    > ip -br a | grep 10.22.11.203 | xargs | cut -d ' ' -f 1
+    > ```
+
+  * CU_VERSION=
+    > is the same value as whats in ```$CU_VERSION``` ( filled in during preperation fase)
+
+Now here below the script 2 scripts you can copy/paste in one go.
+
+``` bash
+
+tee startXdpAfterBoot.sh <<EOF
+#!/bin/bash
+
+export INSTANCE_ID=up                     # 
+export GTP_IP=$NODE_IP                    # the ip of the VM.
+export GTP_ITF=enp1s0
+export CU_VERSION=$CU_VERSION
+
+until [ `docker ps | wc -l` -ge "15" ]
+do
+    echo "We are waiting for first 15 docker containers."
+    echo "Current amount of docker containers running: "$(docker ps | wc -l)
+    sleep 1
+done
+
+if kubectl get pods | grep ups ; then
+    echo "UPS pods are still running. Deleting..."
+    kubectl get pods --no-headers=true | awk '/ups/{print $1}'| xargs  kubectl delete pod
+else
+    echo "UPS Pods are not present. Doing nothing."
+fi
+
+if docker ps | grep xdp ; then
+    echo "XDP Already running. Doing nothing."
+else
+    echo "XDP not found. Starting...:"
+     /home/ad/install/q3/deploy_xdpupsappl.sh -i cuup-lode-33 -g 10.55.6.3 -G ens3 -t R3.3.0-rc5_hoegaarden
+     docker logs xdp_cu_up
+fi
+
+EOF
+
+
+tee deploy_xdpupsappl.sh <<EOF
+#!/bin/bash
+
+build_tag=
+
+gtp_iface=
+gtp_ip=
+mtu=1460
+
+node_ip="$(kubectl get node -o jsonpath='{.items[0].status.addresses[?(.type == "InternalIP")].address}')"
+instance_id=
+
+while getopts 'i:G:g:n:n:t:' option; do
+	case "$option" in
+		i)
+			instance_id="$OPTARG"
+		;;
+		G)
+			gtp_iface="$OPTARG"
+		;;
+		g)
+			gtp_ip="$OPTARG"
+		;;
+		m)
+			mtu="$OPTARG"
+		;;
+		n)
+			node_ip="$OPTARG"
+		;;
+		t)
+			build_tag="$OPTARG"
+		;;
+	esac
+done
+
+if [ -z "$instance_id" ]; then
+	echo "Error: no instance ID (-i) specified" >&2
+	exit 1
+fi
+if [ -z "$gtp_iface" ]; then
+	echo "Error: no GTP interface (-G) specified" >&2
+	exit 1
+fi
+if [ -z "$gtp_ip" ]; then
+	echo "Error: no GTP IP (-g) specified" >&2
+	exit 1
+fi
+if [ -z "$mtu" ]; then
+	echo "Error: no MTU (-m) specified" >&2
+	exit 1
+fi
+if [ -z "$node_ip" ]; then
+	echo "Error: no node IP (-n) specified" >&2
+	exit 1
+fi
+if [ -z "$build_tag" ]; then
+	echo "Error: no build tag (-t) specified" >&2
+	exit 1
+fi
+
+config_dir="$(mktemp -d)"
+
+cat >"$config_dir/bootstrap" <<EOF
+redis.hostname:$node_ip
+redis.port:32200
+instance.filter:$instance_id
+EOF
+
+cat >"$config_dir/zlog.conf" <<EOF
+[global]
+strict init = true
+buffer min = 64K
+buffer max = 64K
+rotate lock file = /tmp/zlog.lock
+
+[formats]
+printf_format = "%d(%b %d %H:%M:%S).%ms %8.8H %m%n"
+[rules]
+user.* >stdout ;printf_format
+EOF
+
+docker run \
+	--name xdp_cu_up \
+	--detach \
+	--rm \
+	--privileged \
+	--user 0 \
+	--network host \
+	--volume "$config_dir:/home/accelleran/5G/config:ro" \
+	--env "IFNAME=$gtp_iface" \
+	--env "NATS_SERVICE_URL=nats://$node_ip:31100" \
+	--env "MTU_SIZE=$mtu" \
+	--env __APPNAME=cuUp \
+	--env __APPID=1 \
+	--env ZLOG_CONF_PATH=/home/accelleran/5G/config/zlog.conf \
+	--env BOOTSTRAP_FILENAME=/home/accelleran/5G/config/bootstrap \
+	--env XDP_OBJECT_FILE=/home/accelleran/5G/xdp_gtp_kernel.o \
+	--env LD_LIBRARY_PATH=/home/accelleran/5G/lib \
+	--env HOSTMODE=true \
+	"accelleran/xdpupsappl:$build_tag" \
+	/home/accelleran/5G/xdpUpsAppl.exe \
+	--uplink "$gtp_ip" \
+	--downlink "$gtp_ip" \
+	--bind "$gtp_ip" \
+
+EOF
+
+```
+
+
+
 
 ## Verifying the dRAX installation
 

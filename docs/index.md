@@ -135,7 +135,7 @@ export DOCKER_EMAIL=
 RIC version. Accelleran will tell you which RIC version needs to be installed in this setup.
 ``` bash
 export RIC_VERSION=6.0.0
-export CU_VERSION=3.3.0
+export CU_VERSION=R3.3.0_hoegaarden             # build tag
 export L1_VERSION=8.7.1
 export DU_VERSION=2022-08-26-q2-release-0.4
 export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.
