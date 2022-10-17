@@ -1015,17 +1015,17 @@ if [ -z "$build_tag" ]; then
 	echo "Error: no build tag (-t) specified" >&2
 	exit 1
 fi
-EOF
 
-config_dir="$(mktemp -d)"
 
-cat >"$config_dir/bootstrap" <<EOF
+config_dir="\$(mktemp -d)"
+
+cat >"\$config_dir/bootstrap" <<EOF
 redis.hostname:$node_ip
 redis.port:32200
 instance.filter:$instance_id
 EOF
 
-cat >"$config_dir/zlog.conf" <<EOF
+cat >"\$config_dir/zlog.conf" <<EOF
 [global]
 strict init = true
 buffer min = 64K
@@ -1063,6 +1063,7 @@ docker run \
 	--bind "$gtp_ip" \
 
 EOF
+
 
 ```
 
