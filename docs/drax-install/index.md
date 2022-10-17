@@ -930,10 +930,10 @@ cd !$
 tee startXdpAfterBoot.sh <<EOF
 #!/bin/bash
 
-export XDP_INSTANCE_ID=                     # see install manual 
-export XDP_GTP_IP=                          # see install manual
-export XDP_GTP_ITF=                         # see install manual
-export XDP_CU_VERSION=                      # see install manual
+export XDP_INSTANCE_ID=$(kubectl get pod  | grep "e1-sctp" | sed "s/-e1-sctp.*//g")
+export XDP_CU_VERSION=$(helm list | grep "cu-up" | awk '{print $NF}')
+export XDP_GTP_IP=$NODE_IP
+export XDP_GTP_ITF=$(ip -br a | grep 10.22.11.203 | xargs | cut -d ' ' -f 1)
 
 until [ `docker ps | wc -l` -ge "15" ]
 do
@@ -953,7 +953,7 @@ if docker ps | grep xdp ; then
     echo "XDP Already running. Doing nothing."
 else
     echo "XDP not found. Starting...:"
-     /home/ad/install/q3/deploy_xdpupsappl.sh -i \$XDP_INSTANCE_ID   -g  \$XDP_GTP_IP    -G \$XDP_GTP_ITF   -t \$XDP_CU_VERSION
+     $HOME/install_$XDP_CU_VERSION/deploy_xdpupsappl.sh -i \$XDP_INSTANCE_ID   -g  \$XDP_GTP_IP    -G \$XDP_GTP_ITF   -t \$XDP_CU_VERSION
      docker logs xdp_cu_up
 fi
 
@@ -1064,6 +1064,7 @@ docker run \
 
 EOF
 
+chmod 777 *
 
 ```
 
