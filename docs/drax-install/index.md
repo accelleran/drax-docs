@@ -1015,6 +1015,7 @@ if [ -z "$build_tag" ]; then
 	echo "Error: no build tag (-t) specified" >&2
 	exit 1
 fi
+EOF
 
 config_dir="$(mktemp -d)"
 
