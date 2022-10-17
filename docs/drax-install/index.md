@@ -965,7 +965,7 @@ tee deploy_xdpupsappl.sh <<EOF
 
 mtu=1460
 
-node_ip="$(kubectl get node -o jsonpath='{.items[0].status.addresses[?(.type == "InternalIP")].address}')"
+node_ip="\$(kubectl get node -o jsonpath='{.items[0].status.addresses[?(.type == "InternalIP")].address}')"
 instance_id=
 
 while getopts 'i:G:g:n:n:t:' option; do
