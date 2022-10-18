@@ -253,14 +253,14 @@ Before you continue installing fill in this simplified drawing with the ip addre
                                   │ └──────────────────────────────────────────────────────────────────────┘ │
                                   │                                                                          │
                                   │                 ┌────────────────────┐                                   │
-                                  │                 │DU effnet docker    │                                   │
+                                  │                 │DU effnet container │                                   │
                                   │                 │                    │                                   │
                                   │                 │                    │                                   │
                                   │                 │                    │                                   │
                                   │                 └────────────────────┘                                   │
                                   │                                                                          │
                                   │                 ┌────────────────────┐                                   │
-                                  │                 │L1 phluido docker   │                                   │
+                                  │                 │L1 phluido container│                                   │
                                   │                 │                    │                                   │
                                   │                 │                    │                                   │
                                   │                 │                    │                                   │

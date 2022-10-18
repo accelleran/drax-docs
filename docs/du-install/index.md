@@ -49,6 +49,7 @@
   - [Starting RRU Benetel 650 - manual way](#starting-rru-benetel-650---manual-way)
   - [Starting RRU Benetel 650 - cell wrapper way](#starting-rru-benetel-650---cell-wrapper-way)
   - [Troubleshooting](#troubleshooting)
+    - [DEBUG Configuration](#debug-configuration)
     - [Fiber Port not showing up](#fiber-port-not-showing-up)
     - [L1 is not listening](#l1-is-not-listening)
     - [check SCTP connections](#check-sctp-connections)
@@ -2265,6 +2266,12 @@ watch -d kubernetes get pod
 ```
 
 ## Troubleshooting
+### DEBUG Configuration
+  * To enable the L1 and DU logs to get saved after a cellwrapper intervention, install the cellwrapper with these settings.
+```
+<enable-log-saving>true</enable-log-saving>
+```
+
 ### Fiber Port not showing up
 https://www.serveradminz.com/blog/unsupported-sfp-linux/
 

@@ -36,9 +36,9 @@
 ## Introduction
 This chapter will install the CU, using Flannel for the CNI.
 This guide defaults to using Docker as the container runtime.
-For more information on installing Kubernetes, see the [official Kubernetes documentation](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/).
 
 This chapter will guide you through following steps : 
+
 * install VM ( with cpu pinning )
 * install docker in the CU VM
 * install kubernetes in the CU VM
