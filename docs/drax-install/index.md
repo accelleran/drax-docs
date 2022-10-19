@@ -935,7 +935,7 @@ export XDP_CU_VERSION=$(helm list | grep "cu-up" | awk '{print $NF}')
 export XDP_GTP_IP=$NODE_IP
 export XDP_GTP_ITF=$(ip -br a | grep $NODE_IP | xargs | cut -d ' ' -f 1)
 
-until [ `docker ps | wc -l` -ge "15" ]
+until [ \$(docker ps | wc -l) -ge "15" ]
 do
     echo "We are waiting for first 15 docker containers."
     echo "Current amount of docker containers running: "\$(docker ps | wc -l)
