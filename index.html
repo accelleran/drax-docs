@@ -652,7 +652,7 @@ Alternatively you can edit the configurations to set the correct IP addresses. <
 </code></pre></div></p>
 <p>RIC version. Accelleran will tell you which RIC version needs to be installed in this setup.
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">RIC_VERSION</span><span class="o">=</span><span class="m">6</span>.0.0
-<span class="nb">export</span> <span class="nv">CU_VERSION</span><span class="o">=</span><span class="m">3</span>.3.0
+<span class="nb">export</span> <span class="nv">CU_VERSION</span><span class="o">=</span>R3.3.0_hoegaarden             <span class="c1"># build tag</span>
 <span class="nb">export</span> <span class="nv">L1_VERSION</span><span class="o">=</span><span class="m">8</span>.7.1
 <span class="nb">export</span> <span class="nv">DU_VERSION</span><span class="o">=</span><span class="m">2022</span>-08-26-q2-release-0.4
 <span class="nb">export</span> <span class="nv">RU_VERSION</span><span class="o">=</span>RAN650-2V0.5.2                <span class="c1"># shipped with the UNIT.</span>
@@ -755,14 +755,14 @@ Before you continue installing fill in this simplified drawing with the ip addre
                                   │ └──────────────────────────────────────────────────────────────────────┘ │
                                   │                                                                          │
                                   │                 ┌────────────────────┐                                   │
-                                  │                 │DU effnet docker    │                                   │
+                                  │                 │DU effnet container │                                   │
                                   │                 │                    │                                   │
                                   │                 │                    │                                   │
                                   │                 │                    │                                   │
                                   │                 └────────────────────┘                                   │
                                   │                                                                          │
                                   │                 ┌────────────────────┐                                   │
-                                  │                 │L1 phluido docker   │                                   │
+                                  │                 │L1 phluido container│                                   │
                                   │                 │                    │                                   │
                                   │                 │                    │                                   │
                                   │                 │                    │                                   │
