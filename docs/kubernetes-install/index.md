@@ -385,10 +385,10 @@ select Engligh US keyboard
                                                                               
               Your name:  Dennis                                              
                                                                               
-     Your server's name:  testvm                                              
-                          The name it uses when it talks to other computers.  
+     Your server's name:  $CU_HOSTNAME (put here the value from variable)                                              
+                            
                                                                               
-        Pick a username:  ad                                                  
+        Pick a username:  $USER ( put here the value from variable )                                                  
                                                                               
       Choose a password:  *********                                           
                                                                               
@@ -531,6 +531,14 @@ Wait untill you can click reboot server
 > ``` 
 > virsh reset $CU_VM_NAME 
 > ```
+> 
+
+copy the .vars file to the VM
+
+``` bash
+scp $HOME/.vars $USER@$NODE_IP:.vars
+ssh $USER@$NODE_IP "echo . .vars >> .profile"
+```
 
 ssh into the VM.
 
@@ -582,11 +590,19 @@ sudo apt install containerd.io
 sudo apt install docker-compose
 ```
 
+rerun the .profile
+``` bash
+. profile
+```
 Add your user to the docker group to be able to run docker commands without sudo access.
-You might have to reboot or log out and in again for this change to take effect.
+
+now all the variable values 
 
 ``` bash
 sudo usermod -aG docker $USER
+```
+
+``` bash
 sudo reboot
 ```
 

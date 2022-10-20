@@ -211,7 +211,7 @@ This will make the variables and values available in the shell.
 
 ``` bash
 
-cat >> $HOME/.profile <<EOF
+cat >> $HOME/.vars <<EOF
 # install variables
 # RELEASES
 export RIC_VERSION=6.0.0
@@ -270,6 +270,8 @@ export MAC_DU=11:22:33:44:55:66          # mac of the server interface to RU.
 export MAC_RU=aa:bb:cc:dd:ee:ff      # mac of the RU for ip 10.0.0.2. Use tcpdump to find.
 
 EOF
+
+echo ". .vars" >> .profile
 ```
 
 log out and in again in this server and try
