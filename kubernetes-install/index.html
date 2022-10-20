@@ -722,14 +722,20 @@ on the host uncomment the line in <code>/etc/sysctl.conf</code> so you get this.
 <p>reboot the host.</p>
 <h2 id="install-vm">Install VM<a class="headerlink" href="#install-vm" title="Permanent link">&para;</a></h2>
 <p>If not yet installed install</p>
-<div class="highlight"><pre><span></span><code>sudo apt install virtinst
-sudo apt install libvirt-clients
-sudo apt install qemu
-sudo apt install qemu-kvm
-sudo apt install libvirt_daemon
-sudo apt install bridge-utils
-sudo apt install virt-manager
+<p><div class="highlight"><pre><span></span><code>sudo apt install virtinst
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install libvirt-clients
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install qemu
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install qemu-kvm
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install libvirt_daemon_system
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install bridge-utils
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install virt-manager
+</code></pre></div></p>
 <p><strong> reboot server </strong></p>
 <p>Below a command line that creates a VM with the correct settings.</p>
 <blockquote>
@@ -812,6 +818,7 @@ double click it and proceed.</p>
 <h4 id="screen-4-and-5-set-static-ip">screen 4 and 5 - Set static ip<a class="headerlink" href="#screen-4-and-5-set-static-ip" title="Permanent link">&para;</a></h4>
 <ul>
 <li>select Edit IPv4</li>
+<li>select Manual</li>
 <li>Set the subnet, ip, gateway and name servers in the next screen</li>
 <li>select Done
 <div class="highlight"><pre><span></span><code>================================================================================
@@ -840,13 +847,13 @@ double click it and proceed.</p>
    │  IPv4 Method:   [ Manual           v ]                              ^  │
    │                                                                     │  │
    │                                                                     │  │
-   │          Subnet:  $NODE_SUBNET                                      │  │
+   │          Subnet:  $NODE_SUBNET (fill in the value here)             │  │
    │                                                                     │  │
    │                                                                     │  │
-   │         Address:  $NODE_IP                                          │  │
+   │         Address:  $NODE_IP (fill in the value here)                 │  │
    │                                                                     │  │
    │                                                                     |  │
-   │         Gateway:  $GATEWAY_IP                                       |  │
+   │         Gateway:  $GATEWAY_IP ( fill in the value here )            |  │
    │                                                                     |  │
    │    Name servers:  8.8.8.8                                           │  │
    │                   IP addresses, comma separated                     │  │

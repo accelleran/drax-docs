@@ -373,6 +373,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#add-the-variables-in-profile" class="md-nav__link">
+    Add the variables in .profile
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#directory" class="md-nav__link">
     Directory
   </a>
@@ -491,6 +498,7 @@
 <li><a href="#in-case-of-1-cpu-server">In case of 1 CPU server</a></li>
 </ul>
 </li>
+<li><a href="#add-the-variables-in-profile">Add the variables in .profile</a></li>
 <li><a href="#directory">Directory</a></li>
 <li><a href="#network-components-overview">network components overview</a></li>
 <li><a href="#steps-to-take">Steps to take</a></li>
@@ -708,6 +716,74 @@ Assign first half to DU and last half to CU
 <span class="nb">export</span> <span class="nv">CORE_SET_CU</span><span class="o">=</span><span class="m">10</span>,11,12,13,14,15,16,17,18,19
 <span class="nb">export</span> <span class="nv">CORE_AMOUNT_CU</span><span class="o">=</span><span class="m">10</span>
 </code></pre></div></p>
+<h2 id="add-the-variables-in-profile">Add the variables in .profile<a class="headerlink" href="#add-the-variables-in-profile" title="Permanent link">&para;</a></h2>
+<p>All the variables prepared above will be put into the .profile file. 
+copy/paste the below into a shell on the server and it will be added.</p>
+<p>This will make the variables and values available in the shell.</p>
+<div class="highlight"><pre><span></span><code>cat &gt;&gt; <span class="nv">$HOME</span>/.profile <span class="s">&lt;&lt;EOF</span>
+<span class="s"># install variables</span>
+<span class="s"># RELEASES</span>
+<span class="s">export RIC_VERSION=6.0.0</span>
+<span class="s">export CU_VERSION=R3.3.0_hoegaarden             # build tag</span>
+<span class="s">export L1_VERSION=8.7.1</span>
+<span class="s">export DU_VERSION=2022-08-26-q2-release-0.4</span>
+<span class="s">export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.</span>
+
+<span class="s"># IP </span>
+<span class="s">export NODE_INT=br0                  # replace enp0s3 by the name of the network interface that has IP $NODE_IP</span>
+
+<span class="s">export NODE_SUBNET=                  # the subnet that contains the $NODE_IP</span>
+
+<span class="s">export GATEWAY_IP= .1                # replace 192.168.88.1 by the IP address of the gateway</span>
+<span class="s">export SERVER_IP= .2                  # The IP address of the linux bridge ( br0 )</span>
+<span class="s">export NODE_IP= .3                   # replace by the IP address of the node. ( The IP of the eth0 in the CU VM )</span>
+<span class="s">export CORE_IP= .4                   # replace by the IP address of the core</span>
+
+<span class="s">export LOADBALANCER_IP_RANGE= .20-.31</span>
+<span class="s">export E1_CU_IP= .30          # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.</span>
+<span class="s">export F1_CU_IP= .31          # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.</span>
+
+<span class="s">export USER=ad                      # username to log into linux</span>
+<span class="s">export CU_HOSTNAME=cu-heqet         # the hostname the CU VM will get.</span>
+<span class="s">export CU_VM_NAME=vm-cu-heqet       # the hostname the CU VM will get.</span>
+<span class="s">export OPEN5GS_HOSTNAME=open5gs-heqet          # the hostname the CU VM will get.</span>
+<span class="s">export OPEN5GS_VM_NAME=vm-open5gs-heqet        # the hostname the oCU VM will get.</span>
+
+<span class="s"># CPU</span>
+<span class="s">export CORE_SET_DU=0,2,4,6,8,10,12,14</span>
+<span class="s">export CORE_SET_CU=1,3,5,7,9,11,13,15</span>
+<span class="s">export CORE_AMOUNT_CU=8</span>
+
+<span class="s"># DOCKER &amp; KUBERNETES</span>
+<span class="s">export DOCKER_USER=</span>
+<span class="s">export DOCKER_PASS=</span>
+<span class="s">export DOCKER_EMAIL=</span>
+
+<span class="s">export NS_DRAX=default</span>
+<span class="s">export NS_4G_CU=default</span>
+<span class="s">export NS_5G_CU=default</span>
+
+<span class="s"># 5G DU</span>
+<span class="s">export PLMN_ID=001f01</span>
+<span class="s">export PCI_ID=301</span>
+<span class="s">export ARFCN_POINT_A=662664</span>
+<span class="s">export FREQ_BAND=77</span>
+<span class="s">export FREQ_CENTER=</span>
+
+<span class="s"># L1</span>
+<span class="s">export L1_PHLUIDO_KEY=&quot;EB50-AF71-1864-80E2-B03F-EDB8-F9AF-5D75&quot;</span>
+
+<span class="s"># RU</span>
+<span class="s">export SERVER_RU_INT=enp1s0f0            # interface of the server to the RU. Fiber interface.</span>
+<span class="s">export MAC_DU=11:22:33:44:55:66          # mac of the server interface to RU.</span>
+<span class="s">export MAC_RU=aa:bb:cc:dd:ee:ff      # mac of the RU for ip 10.0.0.2. Use tcpdump to find.</span>
+
+<span class="s">EOF</span>
+</code></pre></div>
+<p>log out and in again in this server and try
+<div class="highlight"><pre><span></span><code>env <span class="p">|</span> grep IP
+</code></pre></div>
+the variables containing the IP are displayed.</p>
 <h2 id="directory">Directory<a class="headerlink" href="#directory" title="Permanent link">&para;</a></h2>
 <p>Every command that needs execution is to be expected to execute inside an install directory. This directory will get created when extracting the <code>install-accelleran-%Y-&lt;release&gt;.zip</code> which will get delivered by Accelleran.</p>
 <h2 id="network-components-overview">network components overview<a class="headerlink" href="#network-components-overview" title="Permanent link">&para;</a></h2>

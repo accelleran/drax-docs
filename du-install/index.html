@@ -469,6 +469,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#docker-compose-file-with-cpu-pinning" class="md-nav__link">
+    docker compose file ( with CPU PINNING )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#set-softirq-priorities-to-realtime" class="md-nav__link">
     set softirq priorities to realtime
   </a>
@@ -1127,7 +1134,7 @@ the dongle with the serial number 13134288 has not been activated, or the licens
 <div class="highlight"><pre><span></span><code>unzip accelleran-du-phluido-<span class="nv">$DU_VERSION</span>.zip
 bzcat accelleran-du-phluido/accelleran-du-phluido-<span class="nv">$DU_VERSION</span>/gnb_du_main_phluido-<span class="nv">$DU_VERSION</span>.tar.bz2 <span class="p">|</span> docker image load
 </code></pre></div>
-<p>#### docker compose file ( with CPU PINNING )</p>
+<h4 id="docker-compose-file-with-cpu-pinning">docker compose file ( with CPU PINNING )<a class="headerlink" href="#docker-compose-file-with-cpu-pinning" title="Permanent link">&para;</a></h4>
 <p>To achieve maximum stability and performance it is necessary to optimise the CPU load and this can be done by distributing the available CPUs among the components and assign different priorities to the most demanding processes. We split therefore the CPUs in two groups, one group of CPUs for the VM where the RIC/CU run and one group of CPUs for the containers that run L1 and DU. The CPU pinning allows for ceertain components to run only on certain CPUs, however it doesn't impede other processes to use the same CPUs, so the full optimisation of the CPU usage and the exclusive allocation of the CPUs are beyond the scope of this document, here we illustrate one possible split as an example.</p>
 <p>First thing to find out is what resources are available on our system:
 These have been found during the preperation fase and shared over DU and CU. In this chapter the DU core are assigned.</p>
