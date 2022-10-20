@@ -92,11 +92,23 @@ If not yet installed install
 
 ```bash
 sudo apt install virtinst
+```
+``` bash
 sudo apt install libvirt-clients
+```
+``` bash
 sudo apt install qemu
+```
+``` bash
 sudo apt install qemu-kvm
-sudo apt install libvirt_daemon
+```
+``` bash
+sudo apt install libvirt_daemon_system
+```
+``` bash
 sudo apt install bridge-utils
+```
+``` bash
 sudo apt install virt-manager
 ```
 
@@ -195,6 +207,7 @@ select Engligh US keyboard
 
 #### screen 4 and 5 - Set static ip
 * select Edit IPv4
+* select Manual
 * Set the subnet, ip, gateway and name servers in the next screen
 * select Done
 ```
@@ -224,13 +237,13 @@ select Engligh US keyboard
    │  IPv4 Method:   [ Manual           v ]                              ^  │
    │                                                                     │  │
    │                                                                     │  │
-   │          Subnet:  $NODE_SUBNET                                      │  │
+   │          Subnet:  $NODE_SUBNET (fill in the value here)             │  │
    │                                                                     │  │
    │                                                                     │  │
-   │         Address:  $NODE_IP                                          │  │
+   │         Address:  $NODE_IP (fill in the value here)                 │  │
    │                                                                     │  │
    │                                                                     |  │
-   │         Gateway:  $GATEWAY_IP                                       |  │
+   │         Gateway:  $GATEWAY_IP ( fill in the value here )            |  │
    │                                                                     |  │
    │    Name servers:  8.8.8.8                                           │  │
    │                   IP addresses, comma separated                     │  │

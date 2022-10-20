@@ -223,16 +223,16 @@ export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.
 # IP 
 export NODE_INT=br0                  # replace enp0s3 by the name of the network interface that has IP $NODE_IP
 
-export NODE_SUBNET=10.0.120.0/24     # the subnet that contains the $NODE_IP
+export NODE_SUBNET=                  # the subnet that contains the $NODE_IP
 
-export GATEWAY_IP=10.0.120.1         # replace 192.168.88.1 by the IP address of the gateway
-export SERVER_IP=10.0.120.2          # The IP address of the linux bridge ( br0 )
-export NODE_IP=10.0.120.3            # replace by the IP address of the node. ( The IP of the eth0 in the CU VM )
-export CORE_IP=10.0.120.4            # replace by the IP address of the core
+export GATEWAY_IP= .1                # replace 192.168.88.1 by the IP address of the gateway
+export SERVER_IP= .2                  # The IP address of the linux bridge ( br0 )
+export NODE_IP= .3                   # replace by the IP address of the node. ( The IP of the eth0 in the CU VM )
+export CORE_IP= .4                   # replace by the IP address of the core
 
-export LOADBALANCER_IP_RANGE=10.0.120.20-10.0.120.31
-export E1_CU_IP=10.0.120.30          # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.
-export F1_CU_IP=10.0.120.31          # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.
+export LOADBALANCER_IP_RANGE= .20-.31
+export E1_CU_IP= .30          # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.
+export F1_CU_IP= .31          # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.
 
 export USER=ad                      # username to log into linux
 export CU_HOSTNAME=cu-heqet         # the hostname the CU VM will get.
