@@ -11,6 +11,7 @@
     - [know which cores and cpu you will be using.](#know-which-cores-and-cpu-you-will-be-using)
       - [In case of dual CPU](#in-case-of-dual-cpu)
       - [In case of 1 CPU server](#in-case-of-1-cpu-server)
+  - [Add the variables in .profile](#add-the-variables-in-profile)
   - [Directory](#directory)
   - [network components overview](#network-components-overview)
   - [Steps to take](#steps-to-take)
@@ -200,6 +201,82 @@ export CORE_SET_DU=0,1,2,3,4,5,6,7,8,9
 export CORE_SET_CU=10,11,12,13,14,15,16,17,18,19
 export CORE_AMOUNT_CU=10
 ```
+
+## Add the variables in .profile
+
+All the variables prepared above will be put into the .profile file. 
+copy/paste the below into a shell on the server and it will be added.
+
+This will make the variables and values available in the shell.
+
+``` bash
+
+cat >> $HOME/.profile <<EOF
+# install variables
+# RELEASES
+export RIC_VERSION=6.0.0
+export CU_VERSION=R3.3.0_hoegaarden             # build tag
+export L1_VERSION=8.7.1
+export DU_VERSION=2022-08-26-q2-release-0.4
+export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.
+
+# IP 
+export NODE_INT=br0                  # replace enp0s3 by the name of the network interface that has IP $NODE_IP
+
+export NODE_SUBNET=10.0.120.0/24     # the subnet that contains the $NODE_IP
+
+export GATEWAY_IP=10.0.120.1         # replace 192.168.88.1 by the IP address of the gateway
+export SERVER_IP=10.0.120.2          # The IP address of the linux bridge ( br0 )
+export NODE_IP=10.0.120.3            # replace by the IP address of the node. ( The IP of the eth0 in the CU VM )
+export CORE_IP=10.0.120.4            # replace by the IP address of the core
+
+export LOADBALANCER_IP_RANGE=10.0.120.20-10.0.120.31
+export E1_CU_IP=10.0.120.30          # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.
+export F1_CU_IP=10.0.120.31          # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.
+
+export USER=ad                      # username to log into linux
+export CU_HOSTNAME=cu-heqet         # the hostname the CU VM will get.
+export CU_VM_NAME=vm-cu-heqet       # the hostname the CU VM will get.
+export OPEN5GS_HOSTNAME=open5gs-heqet          # the hostname the CU VM will get.
+export OPEN5GS_VM_NAME=vm-open5gs-heqet        # the hostname the oCU VM will get.
+
+# CPU
+export CORE_SET_DU=0,2,4,6,8,10,12,14
+export CORE_SET_CU=1,3,5,7,9,11,13,15
+export CORE_AMOUNT_CU=8
+
+# DOCKER & KUBERNETES
+export DOCKER_USER=
+export DOCKER_PASS=
+export DOCKER_EMAIL=
+
+export NS_DRAX=default
+export NS_4G_CU=default
+export NS_5G_CU=default
+
+# 5G DU
+export PLMN_ID=001f01
+export PCI_ID=301
+export ARFCN_POINT_A=662664
+export FREQ_BAND=77
+export FREQ_CENTER=
+
+# L1
+export L1_PHLUIDO_KEY="EB50-AF71-1864-80E2-B03F-EDB8-F9AF-5D75"
+
+# RU
+export SERVER_RU_INT=enp1s0f0            # interface of the server to the RU. Fiber interface.
+export MAC_DU=11:22:33:44:55:66          # mac of the server interface to RU.
+export MAC_RU=aa:bb:cc:dd:ee:ff      # mac of the RU for ip 10.0.0.2. Use tcpdump to find.
+
+EOF
+```
+
+log out and in again in this server and try
+``` bash
+env | grep IP
+```
+the variables containing the IP are displayed.
 
 ## Directory
 Every command that needs execution is to be expected to execute inside an install directory. This directory will get created when extracting the ```install-accelleran-%Y-<release>.zip``` which will get delivered by Accelleran.
