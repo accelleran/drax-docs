@@ -533,7 +533,7 @@ Wait untill you can click reboot server
 > ```
 > 
 
-copy the .vars file to the VM
+copy the .vars file to the VM. This will set all the variables in the shell of the VM.
 
 ``` bash
 scp $HOME/.vars $USER@$NODE_IP:.vars

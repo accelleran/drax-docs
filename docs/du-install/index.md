@@ -48,6 +48,8 @@
       - [Show the traffic between rru and l1](#show-the-traffic-between-rru-and-l1)
   - [Starting RRU Benetel 650 - manual way](#starting-rru-benetel-650---manual-way)
   - [Starting RRU Benetel 650 - cell wrapper way](#starting-rru-benetel-650---cell-wrapper-way)
+    - [Install cell wrapper](#install-cell-wrapper)
+    - [scripts to steer cell and cell-wrapper](#scripts-to-steer-cell-and-cell-wrapper)
   - [Troubleshooting](#troubleshooting)
     - [DEBUG Configuration](#debug-configuration)
     - [Fiber Port not showing up](#fiber-port-not-showing-up)
@@ -2073,6 +2075,7 @@ Going inside the CU VM.
 ssh $USER@$NODE_IP 
 ```
 
+### Install cell wrapper
 Add some prerequisites if it is necessary
 ``` bash
 sudo apt update 
@@ -2128,16 +2131,16 @@ redis:
 nats:
   enabled: false
 
-jobs:
-  - name: reboot-ru-1
-    schedule: "0 2 * * *"
-    rpc: |
-      <cell-wrapper xmlns="http://accelleran.com/ns/yang/accelleran-granny" xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc:operation="replace">
-        <radio-unit xc:operation="replace">
-          <name>ru-1</name>
-          <reboot>false</reboot>
-        </radio-unit>
-      </cell-wrapper>
+#jobs:
+#  - name: reboot-ru-1
+#    schedule: "0 2 * * *"
+#    rpc: |
+#      <cell-wrapper xmlns="http://accelleran.com/ns/yang/accelleran-granny" #xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc:operation="replace">
+#        <radio-unit xc:operation="replace">
+#          <name>vi su-1</name>
+#          <reboot>true</reboot>
+#        </radio-unit>
+#      </cell-wrapper>
 
 netconf:
   netconfService:
@@ -2148,8 +2151,8 @@ netconf:
     deleteExistingConfig: true
     host: 'localhost'
     config: |
-            <cell-wrapper xmlns="http://accelleran.com/ns/yang/accelleran-granny" xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc
-            <admin-state>locked</admin-state>
+            <cell-wrapper xmlns="http://accelleran.com/ns/yang/accelleran-granny" xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc:operation="create">
+            <admin-state>unlocked</admin-state>
 
             <ssh-key-pair xc:operation="create">
                 <public-key>/home/accelleran/5G/ssh/public</public-key>
@@ -2252,6 +2255,8 @@ netconf:
 EOF
 ```
 
+> NOTE : uncomment the ```jobs:``` part if the RU should restart every night at 2am.
+
 Install using helm.
 ```
 helm repo update
@@ -2260,9 +2265,22 @@ helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
 
 Now you can see the kubernetes pods being created. Follow there progress with.
 
-```
+``` bash
 watch -d kubernetes get pod
+
 ```
+
+
+### scripts to steer cell and cell-wrapper
+Following script are delivered
+
+  * cell-start.sh
+  * cell-stop.sh
+  * cell-restart.sh
+  * cw-disable.sh
+  * cw-enable.sh
+
+The script do what there name says
 
 ## Troubleshooting
 ### DEBUG Configuration
