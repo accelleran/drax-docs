@@ -344,8 +344,7 @@ unzip accelleran-du-phluido-$DU_VERSION.zip
 bzcat accelleran-du-phluido/accelleran-du-phluido-$DU_VERSION/gnb_du_main_phluido-$DU_VERSION.tar.bz2 | docker image load
 ```
 
- 
- #### docker compose file ( with CPU PINNING )
+#### docker compose file ( with CPU PINNING )
  
  To achieve maximum stability and performance it is necessary to optimise the CPU load and this can be done by distributing the available CPUs among the components and assign different priorities to the most demanding processes. We split therefore the CPUs in two groups, one group of CPUs for the VM where the RIC/CU run and one group of CPUs for the containers that run L1 and DU. The CPU pinning allows for ceertain components to run only on certain CPUs, however it doesn't impede other processes to use the same CPUs, so the full optimisation of the CPU usage and the exclusive allocation of the CPUs are beyond the scope of this document, here we illustrate one possible split as an example.
  

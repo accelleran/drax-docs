@@ -92,11 +92,23 @@ If not yet installed install
 
 ```bash
 sudo apt install virtinst
+```
+``` bash
 sudo apt install libvirt-clients
+```
+``` bash
 sudo apt install qemu
+```
+``` bash
 sudo apt install qemu-kvm
-sudo apt install libvirt_daemon
+```
+``` bash
+sudo apt install libvirt_daemon_system
+```
+``` bash
 sudo apt install bridge-utils
+```
+``` bash
 sudo apt install virt-manager
 ```
 
@@ -195,6 +207,7 @@ select Engligh US keyboard
 
 #### screen 4 and 5 - Set static ip
 * select Edit IPv4
+* select Manual
 * Set the subnet, ip, gateway and name servers in the next screen
 * select Done
 ```
@@ -224,13 +237,13 @@ select Engligh US keyboard
    │  IPv4 Method:   [ Manual           v ]                              ^  │
    │                                                                     │  │
    │                                                                     │  │
-   │          Subnet:  $NODE_SUBNET                                      │  │
+   │          Subnet:  $NODE_SUBNET (fill in the value here)             │  │
    │                                                                     │  │
    │                                                                     │  │
-   │         Address:  $NODE_IP                                          │  │
+   │         Address:  $NODE_IP (fill in the value here)                 │  │
    │                                                                     │  │
    │                                                                     |  │
-   │         Gateway:  $GATEWAY_IP                                       |  │
+   │         Gateway:  $GATEWAY_IP ( fill in the value here )            |  │
    │                                                                     |  │
    │    Name servers:  8.8.8.8                                           │  │
    │                   IP addresses, comma separated                     │  │
@@ -372,10 +385,10 @@ select Engligh US keyboard
                                                                               
               Your name:  Dennis                                              
                                                                               
-     Your server's name:  testvm                                              
-                          The name it uses when it talks to other computers.  
+     Your server's name:  $CU_HOSTNAME (put here the value from variable)                                              
+                            
                                                                               
-        Pick a username:  ad                                                  
+        Pick a username:  $USER ( put here the value from variable )                                                  
                                                                               
       Choose a password:  *********                                           
                                                                               
@@ -518,6 +531,14 @@ Wait untill you can click reboot server
 > ``` 
 > virsh reset $CU_VM_NAME 
 > ```
+> 
+
+copy the .vars file to the VM
+
+``` bash
+scp $HOME/.vars $USER@$NODE_IP:.vars
+ssh $USER@$NODE_IP "echo . .vars >> .profile"
+```
 
 ssh into the VM.
 
@@ -569,11 +590,19 @@ sudo apt install containerd.io
 sudo apt install docker-compose
 ```
 
+rerun the .profile
+``` bash
+. profile
+```
 Add your user to the docker group to be able to run docker commands without sudo access.
-You might have to reboot or log out and in again for this change to take effect.
+
+now all the variable values 
 
 ``` bash
 sudo usermod -aG docker $USER
+```
+
+``` bash
 sudo reboot
 ```
 
@@ -641,18 +670,16 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 To initialize the Kubernetes cluster, the IP address of the node needs to be fixed, i.e. if this IP changes, a full re-installation of Kubernetes will be required.
 This is generally the (primary) IP address of the network interface associated with the default gateway.
-From here on, this IP is referred to as `$NODE_IP` - we store it as an environment variable for later use:
+From here on, this IP is referred to as `$NODE_IP` - this shell variable has been stored in the first page:
 
-``` bash
-export NODE_IP=x.x.x.x         # See Preperation paragraph for correct ip
-```
+> NOTE : in this part these variables will be used.
+> 
+>   export NODE_IP             # See Preperation paragraph for correct ip
+>   export POD_NETWORK
 
 This guide assumes we will use Flannel as the CNI-based Pod network for this Kubernetes instance, which uses the `10.244.0.0/16` subnet by default.
 We store it again as an environment variable for later use, and of course if you wish to use a different subnet, change the command accordingly:
 
-``` bash
-export POD_NETWORK=10.244.0.0/16
-```
 
 The following command initializes the cluster on this node:
 
