@@ -1,7 +1,7 @@
 # Accelleran CU Install Guide 
 ## Table of Content
 
-- [Accelleran CU Install Guide](#accelleran-cu-install-guide)
+- [Accelleran Product Install Guide](#accelleran-cu-install-guide)
   - [Table of Content](#table-of-content)
   - [Introduction](#introduction)
   - [Releases](#releases)
