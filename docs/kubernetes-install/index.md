@@ -670,18 +670,16 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 To initialize the Kubernetes cluster, the IP address of the node needs to be fixed, i.e. if this IP changes, a full re-installation of Kubernetes will be required.
 This is generally the (primary) IP address of the network interface associated with the default gateway.
-From here on, this IP is referred to as `$NODE_IP` - we store it as an environment variable for later use:
+From here on, this IP is referred to as `$NODE_IP` - this shell variable has been stored in the first page:
 
-``` bash
-export NODE_IP=x.x.x.x         # See Preperation paragraph for correct ip
-```
+> NOTE : in this part these variables will be used.
+> 
+>   export NODE_IP             # See Preperation paragraph for correct ip
+>   export POD_NETWORK
 
 This guide assumes we will use Flannel as the CNI-based Pod network for this Kubernetes instance, which uses the `10.244.0.0/16` subnet by default.
 We store it again as an environment variable for later use, and of course if you wish to use a different subnet, change the command accordingly:
 
-``` bash
-export POD_NETWORK=10.244.0.0/16
-```
 
 The following command initializes the cluster on this node:
 

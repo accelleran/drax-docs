@@ -221,22 +221,22 @@ export DU_VERSION=2022-08-26-q2-release-0.4
 export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.
 
 # IP 
-export NODE_INT=br0                  # replace enp0s3 by the name of the network interface that has IP $NODE_IP
+export NODE_INT=br0                   # replace enp0s3 by the name of the network interface that has IP $NODE_IP
 
-export NODE_SUBNET=                  # the subnet that contains the $NODE_IP
+export NODE_SUBNET=                   # the subnet that contains the $NODE_IP
 
-export GATEWAY_IP= .1                # replace 192.168.88.1 by the IP address of the gateway
+export GATEWAY_IP= .1                 # replace 192.168.88.1 by the IP address of the gateway
 export SERVER_IP= .2                  # The IP address of the linux bridge ( br0 )
-export NODE_IP= .3                   # replace by the IP address of the node. ( The IP of the eth0 in the CU VM )
-export CORE_IP= .4                   # replace by the IP address of the core
+export NODE_IP= .3                    # replace by the IP address of the node. ( The IP of the eth0 in the CU VM )
+export CORE_IP= .4                    # replace by the IP address of the core
 
 export LOADBALANCER_IP_RANGE= .20-.31
-export E1_CU_IP= .30          # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.
-export F1_CU_IP= .31          # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.
+export E1_CU_IP= .30                  # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.
+export F1_CU_IP= .31                  # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.
 
-export USER=ad                      # username to log into linux
-export CU_HOSTNAME=cu-heqet         # the hostname the CU VM will get.
-export CU_VM_NAME=vm-cu-heqet       # the hostname the CU VM will get.
+export USER=ad                        # username to log into linux
+export CU_HOSTNAME=cu-heqet           # the hostname the CU VM will get.
+export CU_VM_NAME=vm-cu-heqet         # the hostname the CU VM will get.
 export OPEN5GS_HOSTNAME=open5gs-heqet          # the hostname the CU VM will get.
 export OPEN5GS_VM_NAME=vm-open5gs-heqet        # the hostname the oCU VM will get.
 
@@ -254,6 +254,8 @@ export NS_DRAX=default
 export NS_4G_CU=default
 export NS_5G_CU=default
 
+export POD_NETWORK=10.244.0.0/16         
+
 # 5G DU
 export PLMN_ID=001f01
 export PCI_ID=301
@@ -268,10 +270,11 @@ export L1_PHLUIDO_KEY="EB50-AF71-1864-80E2-B03F-EDB8-F9AF-5D75"
 export SERVER_RU_INT=enp1s0f0            # interface of the server to the RU. Fiber interface.
 export MAC_DU=11:22:33:44:55:66          # mac of the server interface to RU.
 export MAC_RU=aa:bb:cc:dd:ee:ff      # mac of the RU for ip 10.0.0.2. Use tcpdump to find.
-
+cd
 EOF
 
-echo ". .vars" >> .profile
+echo ". .vars" >> $HOME/.profile
+
 ```
 
 log out and in again in this server and try
