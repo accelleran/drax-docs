@@ -1,20 +1,18 @@
-# Accelleran CU Install Guide 
+# Accelleran Product Install Guide 
 ## Table of Content
 
-- [Accelleran Product Install Guide](#accelleran-cu-install-guide)
-  - [Table of Content](#table-of-content)
-  - [Introduction](#introduction)
-  - [Releases](#releases)
-  - [Prerequisites / Preperations](#prerequisites--preperations)
-    - [Know the ip addresses, interfaces, user account](#know-the-ip-addresses-interfaces-user-account)
-    - [Know the 5G configuration](#know-the-5g-configuration)
-    - [know which cores and cpu you will be using.](#know-which-cores-and-cpu-you-will-be-using)
-      - [In case of dual CPU](#in-case-of-dual-cpu)
-      - [In case of 1 CPU server](#in-case-of-1-cpu-server)
-  - [Add the variables in .profile](#add-the-variables-in-profile)
-  - [Directory](#directory)
-  - [network components overview](#network-components-overview)
-  - [Steps to take](#steps-to-take)
+- [Introduction](#introduction)
+- [Releases](#releases)
+- [Prerequisites / Preperations](#prerequisites--preperations)
+  - [Know the ip addresses, interfaces, user account](#know-the-ip-addresses-interfaces-user-account)
+  - [Know the 5G configuration](#know-the-5g-configuration)
+  - [know which cores and cpu you will be using.](#know-which-cores-and-cpu-you-will-be-using)
+    - [In case of dual CPU](#in-case-of-dual-cpu)
+    - [In case of 1 CPU server](#in-case-of-1-cpu-server)
+- [Add the variables in .profile](#add-the-variables-in-profile)
+- [Directory](#directory)
+- [network components overview](#network-components-overview)
+- [Steps to take](#steps-to-take)
 
 ## Introduction
 
@@ -38,7 +36,7 @@ This system release contains
 
 ## Prerequisites / Preperations
 
-This installation guide assumes that that the following are to be taken as prerequisites and made available before proceding further:
+This installation guide assumes that the following are to be taken as prerequisites and made available before proceding further:
 
 * Hardware:
 	* Server with at least the following specifications:
