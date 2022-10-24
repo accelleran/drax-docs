@@ -23,7 +23,6 @@
       - [Configure License in Kubernetes](#configure-license-in-kubernetes)
     - [Install dRAX RIC and Dashboard](#install-drax-ric-and-dashboard)
       - [Prepare RIC values configuration file](#prepare-ric-values-configuration-file)
-      - [Dashboard specific configuration](#dashboard-specific-configuration)
       - [Enabling 5G components](#enabling-5g-components)
       - [Enabling 4G components](#enabling-4g-components)
           - [4G : Prepare keys and certificates for the dRAX Provisioner](#4g--prepare-keys-and-certificates-for-the-drax-provisioner)
@@ -276,80 +275,28 @@ To do so, we first retrieve the default values file from the Helm chart reposito
 We do this with the following command:
 
 ``` bash
-curl https://raw.githubusercontent.com/accelleran/helm-charts/5/ric/values.yaml  > ric-values.yaml
+curl https://raw.githubusercontent.com/accelleran/helm-charts/${RIC_VERSION}/ric/simple-values/simple-values.yaml  > ric-values.yaml
 ```
 
 Next, edit the newly created `ric-values.yaml` file.
 Find the following fields and edit them according to your setup.
-We use parameters from the [Plan your deployment](#plan-parameters) section, such as `$NODE_IP`, to show what should be filled in:
+We use parameters from the [Plan your deployment](#plan-parameters) section, such as 
+* `$NODE_IP`, to show what should be filled in
+
+In the example below we disabled 4G assuming we don't install the 4G component.
 
 ``` yaml
 global:
     kubeIp: $NODE_IP
+    enable4G: false
     # Enable the components that you intend to install
     # Note that these must also be supported by the License you have
-```
-
-> NOTE : If you'd like to use specific nodes in the Kubernetes cluster, you can adjust the following settings to select the nodes based on labels assigned to them > (this needs to have been done separately and is outside the scope of this document):
->
-> ``` yaml
-> global:
->     # If using a node label, enable the dRAX Node Selector and specify the draxName label value
->     draxNodeSelectorEnabled: "true"
->     draxName: "main"
-> ```
-
-> NOTE : If you've chosen to use specific namespaces during the [Plan your deployment](#namespaces) section, additional changes are needed to handle these additional namespaces.
-> If you've chosen not to use one of these dedicated namespaces, use the default value as described in the [Plan your deployment](#namespaces) section, e.g. if you > don't have a dedicated `$NS_4G_CU` namespace, but you are using a dedicated `$NS_4G` namespace for all 4G components, use that value to replace both `$NS_4G` and `$NS_4G_CU`.
-> Find and update the following fields with the names of the Namespaces which you've chosen to use:
-> 
-> ``` yaml
-> dash-front-back-end:
->     config:
->         # The namespace where the 4G CUs will be run
->         defaultServiceNamespace: "$NS_4G_CU"
->         # The namespace where the other 4G components will be installed
->         defaultOranNamespace: "$NS_DRAX"
-> acc-service-monitor:
->     # Enter all namespaces used by your dRAX deployment, in a comma-separated-list of namespace names
->     monitoredNamespaces: "$NS_DRAX, $NS_4G_CU, $NS_5G_CU"
-> ```
-
-> NOTE: For the monitoredNamespaces list, make sure that each value is unique, i.e. if two of the namespaces are the same, only add them to the list once.
-
-#### Dashboard specific configuration
-If you are browsing the dRAX Dashboard from a machine that can reach the `$NODE_IP`, this chapter can be ignored.
-
-When opening the dRAX Dashboard in a browser, the frontend needs to be able to connect to the backend.
-For this to work properly, the following fields in the RIC values.yaml need to be edited:
-
-``` yaml
-dash-front-back-end:
-    config:
-        grafanaURL: "{{ .Values.global.kubeIp }}"
-        nodeApiURL: "{{ .Values.global.kubeIp }}"
-        apiUrl: "{{ .Values.global.kubeIp }}"
-```
-
-By default, these IPs are taken to be the `$NODE_IP`.
-If you are browsing the dRAX Dashboard from a machine that can reach the `$NODE_IP`, this will work.
-However, in certain use cases, dRAX can be installed on a public IP, and the `$NODE_IP` will not be reachable from your local machine.
-In that case, it's best to set these IPs above to the public IP:
-
-``` yaml
-dash-front-back-end:
-    config:
-        grafanaURL: "publicIP"
-        nodeApiURL: "publicIP"
-        apiUrl: "publicIP"
 ```
 
 #### Enabling 5G components
 
 If you plan to install the 5G components (and you have the license to support this), you need to make a few other adjustments to the `ric-values.yaml` file:
 Let the $E1_CU_IP and $F1_CU_IP be the last in the range of ip addresses in the file below. Of which the $F1_CU_IP is the last one in the range and is the odd number in the LSB of the ipv4. eg: RANGE=10.10.10.110-10.10.10.121 , E1=10.10.10.120, F1=10.10.10.121
-
-> NOTE : enable4G needs to be set to true aswell !
 
 ``` yml
 global:
@@ -366,20 +313,20 @@ acc-5g-infrastructure:
 ```
 
 > NOTE : The IP pool which is selected here will be used by [MetalLB](https://metallb.universe.tf/), which we use to expose the E1, F1, and GTP interfaces to the
-> external O-RAN components, such as the DU, and the 5GC. In other words, the CUCP E1, CUCP F1 and the CUUP GTP IP addresses will be taken from the specifed pool:
-    
-``` bash
-kubectl get services
-#NAME                                             TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                                                                     AGE
-#acc-5g-cu-cp-cucp-1-sctp-e1                      LoadBalancer   10.107.230.196   192.168.88.170  38462:31859/SCTP                                                                            3h35m
-#acc-5g-cu-cp-cucp-1-sctp-f1                      LoadBalancer   10.99.246.255    192.168.88.171  38472:30306/SCTP                                                                            3h35m
-#acc-5g-cu-up-cuup-1-cu-up-gtp-0                  LoadBalancer   10.104.129.111   192.168.88.160  2152:30176/UDP                                                                              3h34m
-#acc-5g-cu-up-cuup-1-cu-up-gtp-1                  LoadBalancer   10.110.90.45     192.168.88.161  2152:30816/UDP                                                                              3h34m
-```
-    
-    
+> external O-RAN components, such as the DU, and the 5GCore. In other words, the CUCP E1, CUCP F1 and the CUUP GTP IP addresses will be taken from the specifed pool:
+> ``` bash
+> kubectl get services
+>#NAME                                             TYPE           CLUSTER-IP       EXTERNAL-IP     PORT> (S)                                                                                     AGE
+> #acc-5g-cu-cp-cucp-1-sctp-e1                      LoadBalancer   10.107.230.196   192.168.88.170  38462:31859/SCTP                                                                            3h35m
+> #acc-5g-cu-cp-cucp-1-sctp-f1                      LoadBalancer   10.99.246.255    192.168.88.171  38472:30306/SCTP                                                                            3h35m
+> #acc-5g-cu-up-cuup-1-cu-up-gtp-0                  LoadBalancer   10.104.129.111   192.168.88.160  2152:30176/UDP                                                                              3h34m
+> #acc-5g-cu-up-cuup-1-cu-up-gtp-1                  LoadBalancer   10.110.90.45     192.168.88.161  2152:30816/UDP                                                                              3h34m
+> ```
 > NOTE : MetalLB works by handling ARP requests for these addresses, so the external components need to be in the same L2 subnet in order to access these interfaces.
 > To avoid difficulties, it's recommended that this IP pool is unique in the wider network and in the same subnet of your Kubernetes Node
+
+ 
+
 
 #### Enabling 4G components
 4G Only : when you don't need 4G you can skip and move on to chapter [Install the dRAX RIC and Dashboard](#install-the-drax-ricand-dashboard) where the RIC is actually being installed.
