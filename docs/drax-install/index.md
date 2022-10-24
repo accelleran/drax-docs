@@ -523,8 +523,6 @@ You should see something like this. You can ignore the status of Jaeger in this 
 > ric-grafana-7488865b58-nwqvx                         1/1     Running            2          56m
 > ric-influxdb-0                                       1/1     Running            1          56m
 > ric-jaeger-agent-qn6xv                               1/1     Running            1          56m
-> ric-jaeger-collector-55597cfbbc-r9mdh                0/1     CrashLoopBackOff   16         56m
-> ric-jaeger-query-774f759bb6-jz7jc                    1/2     CrashLoopBackOff   16         56m
 > ric-kube-eagle-776bf55547-55f5m                      1/1     Running            1          56m
 > ric-loki-0                                           1/1     Running            1          56m
 > ric-metallb-controller-7dc7845dbc-zlmvv              1/1     Running            1          56m
