@@ -60,6 +60,7 @@
       - [Install XDP](#install-xdp)
   - [Verifying the dRAX installation](#verifying-the-drax-installation)
     - [Monitoring via the Kubernetes API](#monitoring-via-the-kubernetes-api)
+    - [SCTP connections setup](#sctp-connections-setup)
     - [The Grafana Accelleran dRAX System Dashboard](#the-grafana-accelleran-drax-system-dashboard)
       - [4G system health dashboard](#4g-system-health-dashboard)
       - [5G system health dashboard](#5g-system-health-dashboard)
@@ -1197,6 +1198,18 @@ If something crashes or you need to restart a pod, you can use the scale command
 ``` bash
 kubectl scale deployment $DEPLOYMENT_NAME --replicas=0
 kubectl scale deployment $DEPLOYMENT_NAME --replicas=1
+```
+
+### SCTP connections setup
+Check services and verify E1 and F1 ip address.
+
+``` bash
+kubectl get services
+```
+
+Verify SCTP connection is setup. Expecting  HB REQ and HB ACK tracing with this tcpdump commandline.
+``` bash
+sudo tcpdump -i any or 38462
 ```
 
 ### The Grafana Accelleran dRAX System Dashboard
