@@ -728,6 +728,26 @@
     Starting RRU Benetel 650 - cell wrapper way
   </a>
   
+    <nav class="md-nav" aria-label="Starting RRU Benetel 650 - cell wrapper way">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-cell-wrapper" class="md-nav__link">
+    Install cell wrapper
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scripts-to-steer-cell-and-cell-wrapper" class="md-nav__link">
+    scripts to steer cell and cell-wrapper
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -928,7 +948,11 @@
 </ul>
 </li>
 <li><a href="#starting-rru-benetel-650---manual-way">Starting RRU Benetel 650 - manual way</a></li>
-<li><a href="#starting-rru-benetel-650---cell-wrapper-way">Starting RRU Benetel 650 - cell wrapper way</a></li>
+<li><a href="#starting-rru-benetel-650---cell-wrapper-way">Starting RRU Benetel 650 - cell wrapper way</a><ul>
+<li><a href="#install-cell-wrapper">Install cell wrapper</a></li>
+<li><a href="#scripts-to-steer-cell-and-cell-wrapper">scripts to steer cell and cell-wrapper</a></li>
+</ul>
+</li>
 <li><a href="#troubleshooting">Troubleshooting</a><ul>
 <li><a href="#debug-configuration">DEBUG Configuration</a></li>
 <li><a href="#fiber-port-not-showing-up">Fiber Port not showing up</a></li>
@@ -2619,6 +2643,7 @@ udp        0      0 10.10.0.1:44000         0.0.0.0:*                           
 Going inside the CU VM.
 <div class="highlight"><pre><span></span><code>ssh $USER@$NODE_IP 
 </code></pre></div></p>
+<h3 id="install-cell-wrapper">Install cell wrapper<a class="headerlink" href="#install-cell-wrapper" title="Permanent link">&para;</a></h3>
 <p>Add some prerequisites if it is necessary
 <div class="highlight"><pre><span></span><code>sudo apt update 
 sudo apt install zip
@@ -2660,16 +2685,16 @@ tee cw.yaml <span class="err">&lt;</span><span class="nt">&lt;EOF</span>
 <span class="err">nats:</span>
   <span class="err">enabled:</span> <span class="err">false</span>
 
-<span class="err">jobs:</span>
-  <span class="err">-</span> <span class="err">name:</span> <span class="err">reboot-ru-1</span>
-    <span class="err">schedule:</span> <span class="err">&quot;0</span> <span class="err">2</span> <span class="err">*</span> <span class="err">*</span> <span class="err">*&quot;</span>
-    <span class="err">rpc:</span> <span class="err">|</span>
-      <span class="err">&lt;cell-wrapper</span> <span class="na">xmlns=</span><span class="s">&quot;http://accelleran.com/ns/yang/accelleran-granny&quot;</span> <span class="na">xmlns:xc=</span><span class="s">&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot;</span> <span class="na">xc:operation=</span><span class="s">&quot;replace&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;replace&quot;</span><span class="nt">&gt;</span>
-          <span class="nt">&lt;name&gt;</span>ru-1<span class="nt">&lt;/name&gt;</span>
-          <span class="nt">&lt;reboot&gt;</span>false<span class="nt">&lt;/reboot&gt;</span>
-        <span class="nt">&lt;/radio-unit&gt;</span>
-      <span class="nt">&lt;/cell-wrapper&gt;</span>
+<span class="err">#jobs:</span>
+<span class="err">#</span>  <span class="err">-</span> <span class="err">name:</span> <span class="err">reboot-ru-1</span>
+<span class="err">#</span>    <span class="err">schedule:</span> <span class="err">&quot;0</span> <span class="err">2</span> <span class="err">*</span> <span class="err">*</span> <span class="err">*&quot;</span>
+<span class="err">#</span>    <span class="err">rpc:</span> <span class="err">|</span>
+<span class="err">#</span>      <span class="err">&lt;cell-wrapper</span> <span class="na">xmlns=</span><span class="s">&quot;http://accelleran.com/ns/yang/accelleran-granny&quot;</span> <span class="err">#</span><span class="na">xmlns:xc=</span><span class="s">&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot;</span> <span class="na">xc:operation=</span><span class="s">&quot;replace&quot;</span><span class="nt">&gt;</span>
+#        <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;replace&quot;</span><span class="nt">&gt;</span>
+#          <span class="nt">&lt;name&gt;</span>vi su-1<span class="nt">&lt;/name&gt;</span>
+#          <span class="nt">&lt;reboot&gt;</span>true<span class="nt">&lt;/reboot&gt;</span>
+#        <span class="nt">&lt;/radio-unit&gt;</span>
+#      <span class="nt">&lt;/cell-wrapper&gt;</span>
 
 netconf:
   netconfService:
@@ -2680,8 +2705,8 @@ netconf:
     deleteExistingConfig: true
     host: &#39;localhost&#39;
     config: |
-            <span class="nt">&lt;cell-wrapper</span> <span class="na">xmlns=</span><span class="s">&quot;http://accelleran.com/ns/yang/accelleran-granny&quot;</span> <span class="na">xmlns:xc=</span><span class="s">&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot;</span> <span class="err">xc</span>
-            <span class="err">&lt;admin-state</span><span class="nt">&gt;</span>locked<span class="nt">&lt;/admin-state&gt;</span>
+            <span class="nt">&lt;cell-wrapper</span> <span class="na">xmlns=</span><span class="s">&quot;http://accelleran.com/ns/yang/accelleran-granny&quot;</span> <span class="na">xmlns:xc=</span><span class="s">&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot;</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;admin-state&gt;</span>unlocked<span class="nt">&lt;/admin-state&gt;</span>
 
             <span class="nt">&lt;ssh-key-pair</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
                 <span class="nt">&lt;public-key&gt;</span>/home/accelleran/5G/ssh/public<span class="nt">&lt;/public-key&gt;</span>
@@ -2783,6 +2808,9 @@ netconf:
             <span class="nt">&lt;/cell-wrapper&gt;</span>
 EOF
 </code></pre></div>
+<blockquote>
+<p>NOTE : uncomment the <code>jobs:</code> part if the RU should restart every night at 2am.</p>
+</blockquote>
 <p>Install using helm.
 <div class="highlight"><pre><span></span><code>helm repo update
 helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
@@ -2790,6 +2818,16 @@ helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
 <p>Now you can see the kubernetes pods being created. Follow there progress with.</p>
 <div class="highlight"><pre><span></span><code>watch -d kubernetes get pod
 </code></pre></div>
+<h3 id="scripts-to-steer-cell-and-cell-wrapper">scripts to steer cell and cell-wrapper<a class="headerlink" href="#scripts-to-steer-cell-and-cell-wrapper" title="Permanent link">&para;</a></h3>
+<p>Following script are delivered</p>
+<ul>
+<li>cell-start.sh</li>
+<li>cell-stop.sh</li>
+<li>cell-restart.sh</li>
+<li>cw-disable.sh</li>
+<li>cw-enable.sh</li>
+</ul>
+<p>The script do what there name says</p>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="debug-configuration">DEBUG Configuration<a class="headerlink" href="#debug-configuration" title="Permanent link">&para;</a></h3>
 <ul>

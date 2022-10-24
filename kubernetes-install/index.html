@@ -993,10 +993,10 @@ double click it and proceed.</p>
 
               Your name:  Dennis                                              
 
-     Your server&#39;s name:  testvm                                              
-                          The name it uses when it talks to other computers.  
+     Your server&#39;s name:  $CU_HOSTNAME (put here the value from variable)                                              
 
-        Pick a username:  ad                                                  
+
+        Pick a username:  $USER ( put here the value from variable )                                                  
 
       Choose a password:  *********                                           
 
@@ -1132,9 +1132,14 @@ Wait untill you can click reboot server</li>
 </ul>
 <blockquote>
 <p>NOTE : if after some minutes the server has not rebooted yet you have to reboot it  forcefully like this. Most likely the cdrom fails to unmount.</p>
-<div class="highlight"><pre><span></span><code>virsh reset $CU_VM_NAME 
+<p><div class="highlight"><pre><span></span><code>virsh reset $CU_VM_NAME 
 </code></pre></div>
+</p>
 </blockquote>
+<p>copy the .vars file to the VM. This will set all the variables in the shell of the VM.</p>
+<div class="highlight"><pre><span></span><code>scp <span class="nv">$HOME</span>/.vars <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>:.vars
+ssh <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span> <span class="s2">&quot;echo . .vars &gt;&gt; .profile&quot;</span>
+</code></pre></div>
 <p>ssh into the VM.</p>
 <div class="highlight"><pre><span></span><code>ssh <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>
 </code></pre></div>
@@ -1164,10 +1169,14 @@ lsblk
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>sudo apt install docker-compose
 </code></pre></div></p>
-<p>Add your user to the docker group to be able to run docker commands without sudo access.
-You might have to reboot or log out and in again for this change to take effect.</p>
+<p>rerun the .profile
+<div class="highlight"><pre><span></span><code>. profile
+</code></pre></div>
+Add your user to the docker group to be able to run docker commands without sudo access.</p>
+<p>now all the variable values </p>
 <div class="highlight"><pre><span></span><code>sudo usermod -aG docker <span class="nv">$USER</span>
-sudo reboot
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo reboot
 </code></pre></div>
 <p>To check if your installation is working you can try to run a test image in a container:</p>
 <div class="highlight"><pre><span></span><code>docker run hello-world
@@ -1210,13 +1219,14 @@ sudo apt update
 <h3 id="configure-kubernetes">Configure Kubernetes<a class="headerlink" href="#configure-kubernetes" title="Permanent link">&para;</a></h3>
 <p>To initialize the Kubernetes cluster, the IP address of the node needs to be fixed, i.e. if this IP changes, a full re-installation of Kubernetes will be required.
 This is generally the (primary) IP address of the network interface associated with the default gateway.
-From here on, this IP is referred to as <code>$NODE_IP</code> - we store it as an environment variable for later use:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">NODE_IP</span><span class="o">=</span>x.x.x.x         <span class="c1"># See Preperation paragraph for correct ip</span>
-</code></pre></div>
+From here on, this IP is referred to as <code>$NODE_IP</code> - this shell variable has been stored in the first page:</p>
+<blockquote>
+<p>NOTE : in this part these variables will be used.</p>
+<p>export NODE_IP             # See Preperation paragraph for correct ip
+  export POD_NETWORK</p>
+</blockquote>
 <p>This guide assumes we will use Flannel as the CNI-based Pod network for this Kubernetes instance, which uses the <code>10.244.0.0/16</code> subnet by default.
 We store it again as an environment variable for later use, and of course if you wish to use a different subnet, change the command accordingly:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">POD_NETWORK</span><span class="o">=</span><span class="m">10</span>.244.0.0/16
-</code></pre></div>
 <p>The following command initializes the cluster on this node:</p>
 <div class="highlight"><pre><span></span><code>sudo kubeadm init --pod-network-cidr<span class="o">=</span><span class="nv">$POD_NETWORK</span> --apiserver-advertise-address<span class="o">=</span><span class="nv">$NODE_IP</span>
 </code></pre></div>

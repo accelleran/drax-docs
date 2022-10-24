@@ -720,7 +720,7 @@ Assign first half to DU and last half to CU
 <p>All the variables prepared above will be put into the .profile file. 
 copy/paste the below into a shell on the server and it will be added.</p>
 <p>This will make the variables and values available in the shell.</p>
-<div class="highlight"><pre><span></span><code>cat &gt;&gt; <span class="nv">$HOME</span>/.profile <span class="s">&lt;&lt;EOF</span>
+<div class="highlight"><pre><span></span><code>cat &gt;&gt; <span class="nv">$HOME</span>/.vars <span class="s">&lt;&lt;EOF</span>
 <span class="s"># install variables</span>
 <span class="s"># RELEASES</span>
 <span class="s">export RIC_VERSION=6.0.0</span>
@@ -730,22 +730,22 @@ copy/paste the below into a shell on the server and it will be added.</p>
 <span class="s">export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.</span>
 
 <span class="s"># IP </span>
-<span class="s">export NODE_INT=br0                  # replace enp0s3 by the name of the network interface that has IP $NODE_IP</span>
+<span class="s">export NODE_INT=br0                   # replace enp0s3 by the name of the network interface that has IP $NODE_IP</span>
 
-<span class="s">export NODE_SUBNET=                  # the subnet that contains the $NODE_IP</span>
+<span class="s">export NODE_SUBNET=                   # the subnet that contains the $NODE_IP</span>
 
-<span class="s">export GATEWAY_IP= .1                # replace 192.168.88.1 by the IP address of the gateway</span>
+<span class="s">export GATEWAY_IP= .1                 # replace 192.168.88.1 by the IP address of the gateway</span>
 <span class="s">export SERVER_IP= .2                  # The IP address of the linux bridge ( br0 )</span>
-<span class="s">export NODE_IP= .3                   # replace by the IP address of the node. ( The IP of the eth0 in the CU VM )</span>
-<span class="s">export CORE_IP= .4                   # replace by the IP address of the core</span>
+<span class="s">export NODE_IP= .3                    # replace by the IP address of the node. ( The IP of the eth0 in the CU VM )</span>
+<span class="s">export CORE_IP= .4                    # replace by the IP address of the core</span>
 
 <span class="s">export LOADBALANCER_IP_RANGE= .20-.31</span>
-<span class="s">export E1_CU_IP= .30          # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.</span>
-<span class="s">export F1_CU_IP= .31          # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.</span>
+<span class="s">export E1_CU_IP= .30                  # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.</span>
+<span class="s">export F1_CU_IP= .31                  # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.</span>
 
-<span class="s">export USER=ad                      # username to log into linux</span>
-<span class="s">export CU_HOSTNAME=cu-heqet         # the hostname the CU VM will get.</span>
-<span class="s">export CU_VM_NAME=vm-cu-heqet       # the hostname the CU VM will get.</span>
+<span class="s">export USER=ad                        # username to log into linux</span>
+<span class="s">export CU_HOSTNAME=cu-heqet           # the hostname the CU VM will get.</span>
+<span class="s">export CU_VM_NAME=vm-cu-heqet         # the hostname the CU VM will get.</span>
 <span class="s">export OPEN5GS_HOSTNAME=open5gs-heqet          # the hostname the CU VM will get.</span>
 <span class="s">export OPEN5GS_VM_NAME=vm-open5gs-heqet        # the hostname the oCU VM will get.</span>
 
@@ -763,6 +763,8 @@ copy/paste the below into a shell on the server and it will be added.</p>
 <span class="s">export NS_4G_CU=default</span>
 <span class="s">export NS_5G_CU=default</span>
 
+<span class="s">export POD_NETWORK=10.244.0.0/16         </span>
+
 <span class="s"># 5G DU</span>
 <span class="s">export PLMN_ID=001f01</span>
 <span class="s">export PCI_ID=301</span>
@@ -777,8 +779,10 @@ copy/paste the below into a shell on the server and it will be added.</p>
 <span class="s">export SERVER_RU_INT=enp1s0f0            # interface of the server to the RU. Fiber interface.</span>
 <span class="s">export MAC_DU=11:22:33:44:55:66          # mac of the server interface to RU.</span>
 <span class="s">export MAC_RU=aa:bb:cc:dd:ee:ff      # mac of the RU for ip 10.0.0.2. Use tcpdump to find.</span>
-
+<span class="s">cd</span>
 <span class="s">EOF</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;. .vars&quot;</span> &gt;&gt; <span class="nv">$HOME</span>/.profile
 </code></pre></div>
 <p>log out and in again in this server and try
 <div class="highlight"><pre><span></span><code>env <span class="p">|</span> grep IP
