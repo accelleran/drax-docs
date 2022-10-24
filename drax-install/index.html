@@ -506,8 +506,29 @@
     Enabling 5G components
   </a>
   
-    <nav class="md-nav" aria-label="Enabling 5G components">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-4g-components" class="md-nav__link">
+    Enabling 4G components
+  </a>
+  
+    <nav class="md-nav" aria-label="Enabling 4G components">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4g-prepare-keys-and-certificates-for-the-drax-provisioner" class="md-nav__link">
+    4G : Prepare keys and certificates for the dRAX Provisioner
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4g-create-configmaps-for-the-drax-provisioner" class="md-nav__link">
+    4G : Create configMaps for the dRAX Provisioner
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#4g-prepare-the-values-configuration-file" class="md-nav__link">
@@ -1369,28 +1390,19 @@ external O-RAN components, such as the DU, and the 5GCore. In other words, the C
  <span class="c1">#acc-5g-cu-cp-cucp-1-sctp-f1                      LoadBalancer   10.99.246.255    192.168.88.171  38472:30306/SCTP                                                                            3h35m</span>
  <span class="c1">#acc-5g-cu-up-cuup-1-cu-up-gtp-0                  LoadBalancer   10.104.129.111   192.168.88.160  2152:30176/UDP                                                                              3h34m</span>
  <span class="c1">#acc-5g-cu-up-cuup-1-cu-up-gtp-1                  LoadBalancer   10.110.90.45     192.168.88.161  2152:30816/UDP                                                                              3h34m</span>
- <span class="sb">```</span>
-&gt; NOTE : MetalLB works by handling ARP requests <span class="k">for</span> these addresses, so the external components need to be <span class="k">in</span> the same L2 subnet <span class="k">in</span> order to access these interfaces.
-&gt; To avoid difficulties, it<span class="s1">&#39;s recommended that this IP pool is unique in the wider network and in the same subnet of your Kubernetes Node</span>
-
-
-
-
-<span class="s1">#### Enabling 4G components</span>
-<span class="s1">4G Only : when you don&#39;</span>t need 4G you can skip and move on to chapter <span class="o">[</span>Install the dRAX RIC and Dashboard<span class="o">](</span><span class="c1">#install-the-drax-ricand-dashboard) where the RIC is actually being installed.</span>
-
-If you are not planning any 4G deployment you can skip this section and proceed to the **Install the dRAX RIC and Dashboard** section
-
-<span class="c1">###### 4G : Prepare keys and certificates for the dRAX Provisioner</span>
-
-The working assumption is that keys and certificates <span class="k">for</span> the dRAX Provisioner have been created by the Accelleran Support Team, however, <span class="k">for</span> a more detailed guide, please check the <span class="o">[</span>Appendix: dRAX Provisioner - Keys and Certificates Generation<span class="o">](</span><span class="c1">#appendix-drax-provisioner-keys-and-certificates-generation) of this document.</span>
-
-<span class="c1">###### 4G : Create configMaps for the dRAX Provisioner</span>
-
-We now need to store the previously created keys and certificates as configMaps <span class="k">in</span> Kubernetes, so that they can be used by the dRAX Provisioner:
-
-<span class="sb">```</span> bash
-kubectl create configmap -n <span class="nv">$NS_DRAX_4G</span> prov-server-key --from-file<span class="o">=</span>server.key
+</code></pre></div>
+<blockquote>
+<p>NOTE : MetalLB works by handling ARP requests for these addresses, so the external components need to be in the same L2 subnet in order to access these interfaces.
+To avoid difficulties, it's recommended that this IP pool is unique in the wider network and in the same subnet of your Kubernetes Node</p>
+</blockquote>
+<h4 id="enabling-4g-components">Enabling 4G components<a class="headerlink" href="#enabling-4g-components" title="Permanent link">&para;</a></h4>
+<p>4G Only : when you don't need 4G you can skip and move on to chapter <a href="#install-the-drax-ricand-dashboard">Install the dRAX RIC and Dashboard</a> where the RIC is actually being installed.</p>
+<p>If you are not planning any 4G deployment you can skip this section and proceed to the <strong>Install the dRAX RIC and Dashboard</strong> section</p>
+<h6 id="4g-prepare-keys-and-certificates-for-the-drax-provisioner">4G : Prepare keys and certificates for the dRAX Provisioner<a class="headerlink" href="#4g-prepare-keys-and-certificates-for-the-drax-provisioner" title="Permanent link">&para;</a></h6>
+<p>The working assumption is that keys and certificates for the dRAX Provisioner have been created by the Accelleran Support Team, however, for a more detailed guide, please check the <a href="#appendix-drax-provisioner-keys-and-certificates-generation">Appendix: dRAX Provisioner - Keys and Certificates Generation</a> of this document.</p>
+<h6 id="4g-create-configmaps-for-the-drax-provisioner">4G : Create configMaps for the dRAX Provisioner<a class="headerlink" href="#4g-create-configmaps-for-the-drax-provisioner" title="Permanent link">&para;</a></h6>
+<p>We now need to store the previously created keys and certificates as configMaps in Kubernetes, so that they can be used by the dRAX Provisioner:</p>
+<div class="highlight"><pre><span></span><code>kubectl create configmap -n <span class="nv">$NS_DRAX_4G</span> prov-server-key --from-file<span class="o">=</span>server.key
 kubectl create configmap -n <span class="nv">$NS_DRAX_4G</span> prov-server-crt --from-file<span class="o">=</span>server.crt
 kubectl create configmap -n <span class="nv">$NS_DRAX_4G</span> prov-client-crt --from-file<span class="o">=</span>client.crt
 kubectl create configmap -n <span class="nv">$NS_DRAX_4G</span> prov-client-key --from-file<span class="o">=</span>client.key
@@ -1845,6 +1857,9 @@ Later on, you can click this button to edit the configuration.</p>
 <p>This chapter will improve the CU performance.</p>
 <p>go to the CU VM</p>
 <div class="highlight"><pre><span></span><code>ssh <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>
+</code></pre></div>
+<p>login to docker</p>
+<div class="highlight"><pre><span></span><code>docker login -u <span class="nv">$DOCKER_USER</span> -p <span class="nv">$DOCKER_PASS</span>
 </code></pre></div>
 <p>Copy/Paste the below and 2 scripts are generated
   * startXdpAfterBoot.sh
