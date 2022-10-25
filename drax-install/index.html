@@ -826,6 +826,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#sctp-connections-setup" class="md-nav__link">
+    SCTP connections setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#the-grafana-accelleran-drax-system-dashboard" class="md-nav__link">
     The Grafana Accelleran dRAX System Dashboard
   </a>
@@ -1152,6 +1159,7 @@
 </li>
 <li><a href="#verifying-the-drax-installation">Verifying the dRAX installation</a><ul>
 <li><a href="#monitoring-via-the-kubernetes-api">Monitoring via the Kubernetes API</a></li>
+<li><a href="#sctp-connections-setup">SCTP connections setup</a></li>
 <li><a href="#the-grafana-accelleran-drax-system-dashboard">The Grafana Accelleran dRAX System Dashboard</a></li>
 <li><a href="#4g-system-health-dashboard">4G system health dashboard</a></li>
 <li><a href="#5g-system-health-dashboard">5G system health dashboard</a></li>
@@ -2167,6 +2175,13 @@ The number of restarts for each pod should also stabilize and stop increasing.</
 <div class="highlight"><pre><span></span><code>kubectl scale deployment <span class="nv">$DEPLOYMENT_NAME</span> --replicas<span class="o">=</span><span class="m">0</span>
 kubectl scale deployment <span class="nv">$DEPLOYMENT_NAME</span> --replicas<span class="o">=</span><span class="m">1</span>
 </code></pre></div>
+<h3 id="sctp-connections-setup">SCTP connections setup<a class="headerlink" href="#sctp-connections-setup" title="Permanent link">&para;</a></h3>
+<p>Check services and verify E1 and F1 ip address.</p>
+<div class="highlight"><pre><span></span><code>kubectl get services
+</code></pre></div>
+<p>Verify SCTP connection is setup. Expecting  HB REQ and HB ACK tracing with this tcpdump commandline.
+<div class="highlight"><pre><span></span><code>sudo tcpdump -i any or <span class="m">38462</span>
+</code></pre></div></p>
 <h3 id="the-grafana-accelleran-drax-system-dashboard">The Grafana Accelleran dRAX System Dashboard<a class="headerlink" href="#the-grafana-accelleran-drax-system-dashboard" title="Permanent link">&para;</a></h3>
 <p>The dRAX Grafana contains two system health dashboards, one for 4G and one for 5G.
 On these dashboards we can check if all the 4G or 5G components are running, if there are Kubernetes pods that are in an error state, we can check the RAM and CPU usage per pod, etc.
