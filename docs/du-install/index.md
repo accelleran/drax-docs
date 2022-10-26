@@ -38,18 +38,20 @@
       - [Set attenuation level](#set-attenuation-level)
     - [Configure the physical Benetel Radio End - Older then Release V0.7.0](#configure-the-physical-benetel-radio-end---older-then-release-v070)
       - [auto reset dpd](#auto-reset-dpd)
-    - [verify good operation of the B650 (all releases)](#verify-good-operation-of-the-b650-all-releases)
-      - [GPS](#gps)
-      - [Cell Status Report](#cell-status-report)
-      - [RRU Status Report](#rru-status-report)
-      - [Handshake](#handshake)
-      - [Trace traffic between RRU and L1.](#trace-traffic-between-rru-and-l1)
-      - [Check if the L1 is listening](#check-if-the-l1-is-listening)
-      - [Show the traffic between rru and l1](#show-the-traffic-between-rru-and-l1)
-  - [Starting RRU Benetel 650 - manual way](#starting-rru-benetel-650---manual-way)
-  - [Starting RRU Benetel 650 - cell wrapper way](#starting-rru-benetel-650---cell-wrapper-way)
+  - [Starting RU Benetel 650 - manual way](#starting-ru-benetel-650---manual-way)
+    - [prepare cell](#prepare-cell)
+    - [start cell](#start-cell)
+  - [Starting RU Benetel 650 - cell wrapper way](#starting-ru-benetel-650---cell-wrapper-way)
     - [Install cell wrapper](#install-cell-wrapper)
     - [scripts to steer cell and cell-wrapper](#scripts-to-steer-cell-and-cell-wrapper)
+  - [verify good operation of the B650 (all releases)](#verify-good-operation-of-the-b650-all-releases)
+      - [GPS](#gps)
+      - [Cell Status Report](#cell-status-report)
+    - [RU Status Report](#ru-status-report)
+    - [Trace traffic between RU and L1.](#trace-traffic-between-ru-and-l1)
+    - [Cell is ON](#cell-is-on)
+      - [Check if the L1 is listening](#check-if-the-l1-is-listening)
+      - [Show the traffic between rru and l1](#show-the-traffic-between-rru-and-l1)
   - [Troubleshooting](#troubleshooting)
     - [DEBUG Configuration](#debug-configuration)
     - [Fiber Port not showing up](#fiber-port-not-showing-up)
@@ -1808,111 +1810,17 @@ systemctl start dpd_reset.service
 ```
 
 
-### verify good operation of the B650 (all releases)
-
-#### GPS
-See if GPS is locked
-```
-root@benetelru:~# syncmon
-DPLL0 State (SyncE/Ethernet clock): LOCKED
-DPLL1 State (FPGA clocks): FREERUN
-DPLL2 State (FPGA clocks): FREERUN
-DPLL3 State (RF/PTP clock): LOCKED
-
-CLK0 SyncE LIVE: OK
-CLK0 SyncE STICKY: LOS + No Activity
-CLK2 10MHz LIVE: LOS + No Activity
-CLK2 10MHz STICKY: LOS + No Activity
-CLK5 GPS LIVE: OK
-CLK5 GPS STICKY: LOS and Frequency Offset
-CLK6 EXT 1PPS LIVE: LOS and Frequency Offset
-CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
-```
-
-#### Cell Status Report
-
-Verify if the boot sequence ended up correctly, by checking the radio status, the ouput shall mention explicitly the up time and the succesful bringup
-```
-
-> NOTE : this file is not present the first minute after reboot.
-
-root@benetelru:~# cat /tmp/radio_status 
-[INFO] Platform: RAN650_B
-[INFO] Radio bringup begin
-[INFO] Load EEPROM Data
-[INFO] Tx1 Attenuation set to 15000 mdB
-[INFO] Tx3 Attenuation set to 15730 mdB
-[INFO] Operating Frequency set to 3774.720 MHz
-[INFO] Waiting for Sync
-[INFO] Sync completed
-[INFO] Start Radio Configuration
-[INFO] Initialize RF IC
-[INFO] Disabled CFR for Antenna 1
-[INFO] Disabled CFR for Antenna 3
-[INFO] Move platform to TDD mode
-[INFO] Set CP60 as TDD control master
-[INFO] Enable TX on FEM
-[INFO] FEM to full MIMO1_3 mode
-[INFO] DPD Tx1 configuration
-[INFO] DPD Tx3 configuration
-[INFO] Set attn at 3774.720 MHz
-[INFO] Reg 0xC0366 to 0x3FF
-[INFO] Tuning the UE TA to reduce timing_offset
-[INFO] The O-RU is ready for System Integration
-[INFO] Radio bringup complete
- 15:54:47 up 4 min,  load average: 0.09, 0.19, 0.08
- ```
-
-#### RRU Status Report
-some important registers must be checked to determine if the boot sequence has completed correctly:
-
-```bash
-root@benetelru:~# reportRuStatus 
-
-[INFO] Sync status is: 
-Register 0xc0367, Value : 0x1
--------------------------------
-
-[INFO] RU Status information is: 
-Register 0xc0306, Value : 0x470800
--------------------------------
-
-[INFO] Fill level of Reception Window is: 
-Register 0xc0308, Value : 0x6c12
--------------------------------
-
-[INFO] Sample Count is: 
-Register 0xc0311, Value : 0x56f49
--------------------------------
 
 
-============================================================
-RU Status Register description:
-============================================================
-[31:19] not used                                                        
-[18]    set to 1 if handshake is successful                             
-[17]    set to 1 when settling time (fronthaul) has  completed 
-[16]    set to 1 if symbolndex=0 was captured                           
-[15]    set to 1 if payload format is invalid                           
-[14]    set to 1 if symbol index error has been detected                
-[13:12] not used                                                        
-[11]    set to 1 if DU MAC address is correct                           
-[10:2]  not used                                                        
-[1]     Reception Window Buffer is empty                                
-[0]     Reception Window Buffer is full                                 
-------------------------------------------------------------
-===========================================================
-[NOTE] Max buffer  depth is 53424 (112 symbols, 2 antennas)
-===========================================================
-```
+## Starting RU Benetel 650 - manual way
 
-#### Handshake
+### prepare cell
 
 
-The handshake command on the RU does only need to be performed in 1 situation. When at startup of the DU ( docker-compose up ) the traffic between the RU and the server is still going. You can find out by this:
+When the CELL is OFF this traffic can be in this state shown below.
 
 ```
-ifstat -i enp1s0f0
+ifstat -i $SERVER_RU_INT
      enp1s0f0     
  KB/s in  KB/s out
 71308.34  0.0
@@ -1922,36 +1830,27 @@ ifstat -i enp1s0f0
 In this case execute
 
 ```
-$ handshake
+$ ssh root@10.10.0.100 handshake
 ```
 
 After execution you will have 
 
 ```
-ifstat -i enp1s0f0
+ifstat -i $SERVER_RU_INT
      enp1s0f0     
  KB/s in  KB/s out
  0.0      0.0
  0.0      0.0
 ```
 
-Handshake messages are sent by the RU every second. When phluido L1 is starting or running it will Listen on port 44000 and reply to these messages.
+In this traffic state the dell is ready to start.
 
-Login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):
-
-```
-tcpdump -i enp45s0f0 -c 5 port 44000 -en
-19:22:47.096453 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
-```
-
-The above shows that 10.10.0.2 (U plane default IP address of the B650 Cell)  is sending a Handshake message from the MAC address 02:00:5e:01:01:01 (default MAC address of the B650 Uplane interface) to 10.10.0.1 (Server Fiber interface IP address) on MAC 6c:b3:11:08:a4:e0 (the MAC address of that fiber interface)
-
-Such initial message may repeat a certain number of times, this is normal.
-
-2)Now bring the components up with docker compose
+### start cell
+Bring the components up with docker compose
 
 ``` bash
-docker-compose up -f docker-compose-benetel.yml
+cd ~/install-$DU_VERSION/  
+docker-compose up -f docker-compose-B650.yml
 ```
 
 If all goes well this will produce output similar to:
@@ -2004,48 +1903,6 @@ phluido_l1  |     maxPuschModOrder = 6
 phluido_l1  |
 ```
 
-#### Trace traffic between RRU and L1.
-
-As said, the first packet goes out from the Radio End to the DU, this is the handshake packet. The second packet is the Handshake response of the DU and we have to make sure that as described the MAC address used in such response from the DU has been set correctly so that the DATA Interface MAC address of the Radio End is used (by default in the Benetel Radio this MAC address is ```02:00:5e:01:01:01```) When data flows the udp packet lengths are 3874. 
-Remember we increased the MTU size to 9000. Without increasing the L1 would crash on the fragmented udp packets.
-
-```
-$ tcpdump -i enp45s0f0 -c 20 port 44000 -en
-tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
-listening on enp45s0f0, link-type EN10MB (Ethernet), capture size 262144 bytes
-19:22:47.096453 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
-19:22:47.106677 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 54: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 12
-19:23:14.596247 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 12
-19:23:14.596621 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 3874: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 3832
-19:23:14.596631 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 3874: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 3832
-
-```
-
-#### Check if the L1 is listening 
-```
-$ while true ; do sleep 1 ; netstat -ano | grep 44000 ;echo $RANDOM; done
-udp        0 118272 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
-1427
-udp        0  16896 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
-11962
-udp        0  42240 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
-16780
-udp        0      0 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
-502
-```
-
-#### Show the traffic between rru and l1
-
-```
-$ ifstat -i enp45s0f0
-    enp45s0f0     
- KB/s in  KB/s out
-71320.01  105959.7
-71313.36  105930.1
-```
-
-## Starting RRU Benetel 650 - manual way
-
 Perform these steps to get a running active cell.
 * When the RU is still sending traffic use  ```ssh root@10.10.0.100 handshake``` to stop this traffic. 
 * Start L1 and DU (run docker-compose up inside the install directory ).
@@ -2070,7 +1927,9 @@ Perform these steps to get a running active cell.
 
 > NOTE : type ```ssh root@10.10.0.100 handshake``` again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen
 
-## Starting RRU Benetel 650 - cell wrapper way
+
+
+## Starting RU Benetel 650 - cell wrapper way
 Go to the VM. In the VM a cell wrapper will get installed that controls the DU and RU ( cell ).
 Going inside the CU VM.
 ``` 
@@ -2283,6 +2142,162 @@ Following script are delivered
   * cw-enable.sh
 
 The script do what there name says
+
+
+## verify good operation of the B650 (all releases)
+
+#### GPS
+See if GPS is locked
+```
+root@benetelru:~# syncmon
+DPLL0 State (SyncE/Ethernet clock): LOCKED
+DPLL1 State (FPGA clocks): FREERUN
+DPLL2 State (FPGA clocks): FREERUN
+DPLL3 State (RF/PTP clock): LOCKED
+
+CLK0 SyncE LIVE: OK
+CLK0 SyncE STICKY: LOS + No Activity
+CLK2 10MHz LIVE: LOS + No Activity
+CLK2 10MHz STICKY: LOS + No Activity
+CLK5 GPS LIVE: OK
+CLK5 GPS STICKY: LOS and Frequency Offset
+CLK6 EXT 1PPS LIVE: LOS and Frequency Offset
+CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
+```
+
+#### Cell Status Report
+
+Verify if the boot sequence ended up correctly, by checking the radio status, the ouput shall mention explicitly the up time and the succesful bringup
+```
+
+> NOTE : this file is not present the first minute after reboot.
+
+root@benetelru:~# cat /tmp/radio_status 
+[INFO] Platform: RAN650_B
+[INFO] Radio bringup begin
+[INFO] Load EEPROM Data
+[INFO] Tx1 Attenuation set to 15000 mdB
+[INFO] Tx3 Attenuation set to 15730 mdB
+[INFO] Operating Frequency set to 3774.720 MHz
+[INFO] Waiting for Sync
+[INFO] Sync completed
+[INFO] Start Radio Configuration
+[INFO] Initialize RF IC
+[INFO] Disabled CFR for Antenna 1
+[INFO] Disabled CFR for Antenna 3
+[INFO] Move platform to TDD mode
+[INFO] Set CP60 as TDD control master
+[INFO] Enable TX on FEM
+[INFO] FEM to full MIMO1_3 mode
+[INFO] DPD Tx1 configuration
+[INFO] DPD Tx3 configuration
+[INFO] Set attn at 3774.720 MHz
+[INFO] Reg 0xC0366 to 0x3FF
+[INFO] Tuning the UE TA to reduce timing_offset
+[INFO] The O-RU is ready for System Integration
+[INFO] Radio bringup complete
+ 15:54:47 up 4 min,  load average: 0.09, 0.19, 0.08
+ ```
+
+### RU Status Report
+some important registers must be checked to determine if the boot sequence has completed correctly:
+
+```bash
+root@benetelru:~# reportRuStatus 
+
+[INFO] Sync status is: 
+Register 0xc0367, Value : 0x1
+-------------------------------
+
+[INFO] RU Status information is: 
+Register 0xc0306, Value : 0x470800
+-------------------------------
+
+[INFO] Fill level of Reception Window is: 
+Register 0xc0308, Value : 0x6c12
+-------------------------------
+
+[INFO] Sample Count is: 
+Register 0xc0311, Value : 0x56f49
+-------------------------------
+
+
+============================================================
+RU Status Register description:
+============================================================
+[31:19] not used                                                        
+[18]    set to 1 if handshake is successful                             
+[17]    set to 1 when settling time (fronthaul) has  completed 
+[16]    set to 1 if symbolndex=0 was captured                           
+[15]    set to 1 if payload format is invalid                           
+[14]    set to 1 if symbol index error has been detected                
+[13:12] not used                                                        
+[11]    set to 1 if DU MAC address is correct                           
+[10:2]  not used                                                        
+[1]     Reception Window Buffer is empty                                
+[0]     Reception Window Buffer is full                                 
+------------------------------------------------------------
+===========================================================
+[NOTE] Max buffer  depth is 53424 (112 symbols, 2 antennas)
+===========================================================
+```
+
+
+Handshake messages are sent by the RU every second. When phluido L1 is starting or running it will Listen on port 44000 and reply to these messages.
+
+Login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):
+
+```
+tcpdump -i enp45s0f0 -c 5 port 44000 -en
+19:22:47.096453 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
+```
+
+The above shows that 10.10.0.2 (U plane default IP address of the B650 Cell)  is sending a Handshake message from the MAC address 02:00:5e:01:01:01 (default MAC address of the B650 Uplane interface) to 10.10.0.1 (Server Fiber interface IP address) on MAC 6c:b3:11:08:a4:e0 (the MAC address of that fiber interface)
+
+Such initial message may repeat a certain number of times, this is normal.
+
+
+
+### Trace traffic between RU and L1.
+
+As said, the first packet goes out from the Radio End to the DU, this is the handshake packet. The second packet is the Handshake response of the DU and we have to make sure that as described the MAC address used in such response from the DU has been set correctly so that the DATA Interface MAC address of the Radio End is used (by default in the Benetel Radio this MAC address is ```02:00:5e:01:01:01```) When data flows the udp packet lengths are 3874. 
+Remember we increased the MTU size to 9000. Without increasing the L1 would crash on the fragmented udp packets.
+
+```
+$ tcpdump -i enp45s0f0 -c 20 port 44000 -en
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on enp45s0f0, link-type EN10MB (Ethernet), capture size 262144 bytes
+19:22:47.096453 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
+19:22:47.106677 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 54: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 12
+19:23:14.596247 02:00:5e:01:01:01 > 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 12
+19:23:14.596621 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 3874: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 3832
+19:23:14.596631 6c:b3:11:08:a4:e0 > 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 3874: 10.10.0.1.44000 > 10.10.0.2.44000: UDP, length 3832
+
+```
+
+### Cell is ON
+#### Check if the L1 is listening 
+```
+$ while true ; do sleep 1 ; netstat -ano | grep 44000 ;echo $RANDOM; done
+udp        0 118272 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
+1427
+udp        0  16896 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
+11962
+udp        0  42240 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
+16780
+udp        0      0 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
+502
+```
+
+#### Show the traffic between rru and l1
+
+```
+$ ifstat -i enp45s0f0
+    enp45s0f0     
+ KB/s in  KB/s out
+71320.01  105959.7
+71313.36  105930.1
+```
 
 ## Troubleshooting
 ### DEBUG Configuration
