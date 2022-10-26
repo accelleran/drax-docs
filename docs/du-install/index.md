@@ -43,6 +43,8 @@
     - [start cell](#start-cell)
   - [Starting RU Benetel 650 - cell wrapper way](#starting-ru-benetel-650---cell-wrapper-way)
     - [Install cell wrapper](#install-cell-wrapper)
+      - [On the HOST](#on-the-host)
+      - [Ont the VM](#ont-the-vm)
     - [scripts to steer cell and cell-wrapper](#scripts-to-steer-cell-and-cell-wrapper)
   - [verify good operation of the B650 (all releases)](#verify-good-operation-of-the-b650-all-releases)
       - [GPS](#gps)
@@ -1937,17 +1939,20 @@ ssh $USER@$NODE_IP
 ```
 
 ### Install cell wrapper
+#### On the HOST
+To make the CU VM have access to the DU host ( bare metal server ) some privileges need to be given.
+
+``` bash
+usermod -aG sudo $USER
+printf "$USER ALL=(ALL) NOPASSWD:ALL\n" | sudo tee /etc/sudoers.d/$USER
+```
+
+#### Ont the VM
 Add some prerequisites if it is necessary
+
 ``` bash
 sudo apt update 
 sudo apt install zip
-```
-
-To make the CU VM have access to the DU host ( bare metal server ) some privileges need to be given.
-
-```
-usermod -aG sudo $USER
-printf "$USER ALL=(ALL) NOPASSWD:ALL\n" | sudo tee /etc/sudoers.d/$USER
 ```
 
 Create a public/private key pair and add it to kubernetes
@@ -2018,106 +2023,112 @@ netconf:
     host: 'localhost'
     config: |
             <cell-wrapper xmlns="http://accelleran.com/ns/yang/accelleran-granny" xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc:operation="create">
-            <admin-state>unlocked</admin-state>
+                <admin-state>unlocked</admin-state>
 
-            <ssh-key-pair xc:operation="create">
-                <public-key>/home/accelleran/5G/ssh/public</public-key>
-                <private-key>/home/accelleran/5G/ssh/private</private-key>
-            </ssh-key-pair>
+                <ssh-key-pair xc:operation="create">
+                    <public-key>/home/accelleran/5G/ssh/public</public-key>
+                    <private-key>/home/accelleran/5G/ssh/private</private-key>
+                </ssh-key-pair>
 
-            <auto-repair xc:operation="create">
-                <enable>true</enable>
+                <auto-repair xc:operation="create">
+                    <enable>true</enable>
 
-                <health-check xc:operation="create">
-                    <rate xc:operation="create">
-                        <seconds>5</seconds>
-                        <milli-seconds>0</milli-seconds>
-                    </rate>
-                    <unacknowledged-counter-threshold>3</unacknowledged-counter-threshold>
-                </health-check>
+                    <health-check xc:operation="create">
+                        <rate xc:operation="create">
+                            <seconds>5</seconds>
+                            <milli-seconds>0</milli-seconds>
+                        </rate>
+                        <unacknowledged-counter-threshold>3</unacknowledged-counter-threshold>
+                    </health-check>
 
-                <container-not-running-counter-threshold>2</container-not-running-counter-threshold>
-                <l1-rru-traffic-counter-threshold>6</l1-rru-traffic-counter-threshold>
-            </auto-repair>
+                    <container-not-running-counter-threshold>2</container-not-running-counter-threshold>
+                    <l1-not-listening-to-ru-counter-threshold>6</l1-not-listening-to-ru-counter-threshold>
+                    <l1-rru-traffic-counter-threshold>6</l1-rru-traffic-counter-threshold>
+                </auto-repair>
 
-            <distributed-unit xc:operation="create">
-                <name>du-1</name>
-                <type>effnet</type>
+                <distributed-unit xc:operation="create">
+                    <name>du-1</name>
+                    <type>effnet</type>
 
-                <connection-details xc:operation="create">
-                    <host>$SERVER_IP</host>
-                    <port>22</port>
-                    <username>$USER</username>
-                </connection-details>
+                    <connection-details xc:operation="create">
+                        <host>$SERVER_IP</host>
+                        <port>22</port>
+                        <username>$USER</username>
+                    </connection-details>
 
-                <ssh-timeout>30</ssh-timeout>
+                    <ssh-timeout>30</ssh-timeout>
 
-                <config xc:operation="create">
-                    <cgi-plmn-id>$PLMN_ID</cgi-plmn-id>
-                    <cgi-cell-id>000000000000000000000000000000000001</cgi-cell-id>
-                    <pci>$PCI_ID</pci>
-                    <tac>000001</tac>
-                    <arfcn>$ARFCN_POINT_A</arfcn>
-                    <frequency-band>$FREQ_BAND</frequency-band>
-                    <plmns-id>$PLMN_ID</plmns-id>
-                    <plmns-sst>1</plmns-sst>
+                    <config xc:operation="create">
+                        <cgi-plmn-id>$PLMN_ID</cgi-plmn-id>
+                        <cgi-cell-id>000000000000000000000000000000000001</cgi-cell-id>
+                        <pci>$PCI_ID</pci>
+                        <tac>000001</tac>
+                        <arfcn>$ARFCN_POINT_A</arfcn>
+                        <frequency-band>$FREQ_BAND</frequency-band>
+                        <plmns-id>$PLMN_ID</plmns-id>
+                        <plmns-sst>1</plmns-sst>
 
-                    <l1-license-key>$L1_PHLUIDO_KEY</l1-license-key>
-                    <l1-bbu-addr>10.10.0.1</l1-bbu-addr>
-                    <l1-max-pusch-mod-order>6</l1-max-pusch-mod-order>
-                    <l1-max-num-pdsch-layers>2</l1-max-num-pdsch-layers>
-                    <l1-max-num-pusch-layers>1</l1-max-num-pusch-layers>
-                    <l1-num-workers>8</l1-num-workers>
-                    <l1-target-recv-delay-us>2500</l1-target-recv-delay-us>
-                    <l1-pucch-format0-threshold>0.01</l1-pucch-format0-threshold>
-                    <l1-timing-offset-threshold-nsec>10000</l1-timing-offset-threshold-nsec>
-                </config>
+                        <l1-license-key>$L1_PHLUIDO_KEY</l1-license-key>
+                        <l1-bbu-addr>10.10.0.1</l1-bbu-addr>
+                        <l1-max-pusch-mod-order>6</l1-max-pusch-mod-order>
+                        <l1-max-num-pdsch-layers>2</l1-max-num-pdsch-layers>
+                        <l1-max-num-pusch-layers>1</l1-max-num-pusch-layers>
+                        <l1-num-workers>8</l1-num-workers>
+                        <l1-target-recv-delay-us>2500</l1-target-recv-delay-us>
+                        <l1-pucch-format0-threshold>0.01</l1-pucch-format0-threshold>
+                        <l1-timing-offset-threshold-nsec>10000</l1-timing-offset-threshold-nsec>
+                    </config>
 
-                <enable-auto-repair>true</enable-auto-repair>
+                    <enable-auto-repair>true</enable-auto-repair>
 
-                <working-directory>/run</working-directory>
-                <storage-directory>/var/log</storage-directory>
-                <pcscd-socket>/run/pcscd/pcscd.comm</pcscd-socket>
+                    <working-directory>/run</working-directory>
+                    <storage-directory>/var/log</storage-directory>
+                    <pcscd-socket>/run/pcscd/pcscd.comm</pcscd-socket>
 
-                <enable-log-saving>false</enable-log-saving>
-                <max-storage-disk-usage>80%</max-storage-disk-usage>
+                    <enable-log-saving>false</enable-log-saving>
+                    <max-storage-disk-usage>80%</max-storage-disk-usage>
 
-                <enable-log-rotation>false</enable-log-rotation>
-                <log-rotation-pattern>*.0</log-rotation-pattern>
-                <log-rotation-count>1</log-rotation-count>
+                    <enable-log-rotation>false</enable-log-rotation>
+                    <log-rotation-pattern>*.0</log-rotation-pattern>
+                    <log-rotation-count>1</log-rotation-count>
 
-                <centralized-unit-host>$F1_CU_IP</centralized-unit-host>
-                <centralized-unit-listening-port>44000</centralized-unit-listening-port>
+                    <centralized-unit-host>$F1_CU_IP</centralized-unit-host>
+                    <l1-listening-port>44000</l1-listening-port>
 
-                <traffic-threshold xc:operation="create">
-                    <uplink>10000</uplink>
-                    <downlink>10000</downlink>
-                </traffic-threshold>
+                    <traffic-threshold xc:operation="create">
+                        <uplink>10000</uplink>
+                        <downlink>10000</downlink>
+                    </traffic-threshold>
 
-                <du-image-tag>$DU_VERSION</du-image-tag>
-                <l1-image-tag>$L1_VERSION</l1-image-tag>
+                    <du-image-tag>$DU_VERSION</du-image-tag>
+                    <l1-image-tag>$L1_VERSION</l1-image-tag>
 
-                <du-extra-args>--cpuset-cpus=$CORE_SET_DU</du-extra-args>
-                <l1-extra-args>--cpuset-cpus=$CORE_SET_DU</l1-extra-args>
+                    <du-extra-args>--cpuset-cpus=$CORE_SET_DU</du-extra-args>
+                    <l1-extra-args>--cpuset-cpus=$CORE_SET_DU</l1-extra-args>
 
-                <du-base-config-file>/home/accelleran/5G/config/duEffnetConfig.json</du-base-config-file>
+                    <du-extra-args></du-extra-args>
+                    <l1-extra-args></l1-extra-args>
 
-                <radio-unit xc:operation="create">ru-1</radio-unit>
-            </distributed-unit>
+                    <du-base-config-file>/home/accelleran/5G/config/duEffnetConfig.json</du-base-config-file>
 
-            <radio-unit xc:operation="create">
-                <name>ru-1</name>
-                <type>benetel650</type>
+                    <radio-unit xc:operation="create">ru-1</radio-unit>
+                </distributed-unit>
 
-                <connection-details xc:operation="create">
-                    <host>10.10.0.100</host>
-                    <port>22</port>
-                    <username>root</username>
-                </connection-details>
-                <enable-ssh>false</enable-ssh>
-                <ssh-timeout>30</ssh-timeout>
-            </radio-unit>
+                <radio-unit xc:operation="create">
+                    <name>ru-1</name>
+                    <type>benetel650</type>
+
+                    <connection-details xc:operation="create">
+                        <host>10.10.0.100</host>
+                        <port>22</port>
+                        <username>root</username>
+                    </connection-details>
+
+                    <enable-ssh>false</enable-ssh>
+                    <ssh-timeout>30</ssh-timeout>
+                </radio-unit>
             </cell-wrapper>
+
 EOF
 ```
 
