@@ -712,8 +712,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ont-the-vm" class="md-nav__link">
-    Ont the VM
+  <a href="#on-the-cu-vm" class="md-nav__link">
+    On the CU VM
   </a>
   
 </li>
@@ -993,7 +993,7 @@
 <li><a href="#starting-ru-benetel-650---cell-wrapper-way">Starting RU Benetel 650 - cell wrapper way</a><ul>
 <li><a href="#install-cell-wrapper">Install cell wrapper</a></li>
 <li><a href="#on-the-host">On the HOST</a></li>
-<li><a href="#ont-the-vm">Ont the VM</a></li>
+<li><a href="#on-the-cu-vm">On the CU VM</a></li>
 <li><a href="#scripts-to-steer-cell-and-cell-wrapper">scripts to steer cell and cell-wrapper</a></li>
 </ul>
 </li>
@@ -2578,7 +2578,7 @@ Going inside the CU VM.
 <div class="highlight"><pre><span></span><code>usermod -aG sudo <span class="nv">$USER</span>
 <span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$USER</span><span class="s2"> ALL=(ALL) NOPASSWD:ALL\n&quot;</span> <span class="p">|</span> sudo tee /etc/sudoers.d/<span class="nv">$USER</span>
 </code></pre></div>
-<h4 id="ont-the-vm">Ont the VM<a class="headerlink" href="#ont-the-vm" title="Permanent link">&para;</a></h4>
+<h4 id="on-the-cu-vm">On the CU VM<a class="headerlink" href="#on-the-cu-vm" title="Permanent link">&para;</a></h4>
 <p>Add some prerequisites if it is necessary</p>
 <div class="highlight"><pre><span></span><code>sudo apt update 
 sudo apt install zip
@@ -2591,7 +2591,7 @@ sudo apt install zip
 <div class="highlight"><pre><span></span><code>kubectl create secret generic cw-public --from-file<span class="o">=</span><span class="nv">public</span><span class="o">=</span>id_ed25519.pub
 </code></pre></div></p>
 <p>and copy the public key to the bare metal server ( DU host )
-<div class="highlight"><pre><span></span><code>ssh-copy-id -i id_ed25519.pub ad@10.22.11.147
+<div class="highlight"><pre><span></span><code>ssh-copy-id -i id_ed25519.pub ad@$SERVER_IP
 </code></pre></div></p>
 <p>Create a .yaml file containing the configuration. Also fill in the values you have prepared on the first page of the install guide.</p>
 <p>It will install the cell-wrapper the will take care of the cell's health. 
