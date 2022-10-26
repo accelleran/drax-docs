@@ -2572,7 +2572,7 @@ printf &quot;$USER ALL=(ALL) NOPASSWD:ALL\n&quot; | sudo tee /etc/sudoers.d/$USE
 <p>Create a .yaml file containing the configuration. Also fill in the values you have prepared on the first page of the install guide.</p>
 <p>It will install the cell-wrapper the will take care of the cell's health. 
 In this configuration the cell-wrapper will reboot the RU every night at 2:00 AM. <code>&lt;reboot&gt;true&lt;/reboot&gt;</code> </p>
-<div class="highlight"><pre><span></span><code>mkdir -p ~/install-$CU_VERSION/ 
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install_$CU_VERSION/ 
 cd !$
 tee cw.yaml <span class="err">&lt;</span><span class="nt">&lt;EOF</span> 
 <span class="err">global:</span>

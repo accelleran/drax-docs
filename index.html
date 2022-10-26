@@ -628,8 +628,9 @@ Alternatively you can edit the configurations to set the correct IP addresses. <
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">NODE_IP</span><span class="o">=</span><span class="m">192</span>.168.88.4          <span class="c1"># replace 192.168.88.4 by the IP address of the node. ( The IP of the eth0 in the CU VM )</span>
 <span class="nb">export</span> <span class="nv">NODE_SUBNET</span><span class="o">=</span><span class="m">192</span>.168.88.0/24   <span class="c1"># the subnet that contains the $NODE_IP</span>
+<span class="nb">export</span> <span class="nv">NODE_INT</span><span class="o">=</span>br0               <span class="c1"># he name of the network interface that has IP $NODE_IP</span>
 <span class="nb">export</span> <span class="nv">SERVER_IP</span><span class="o">=</span><span class="m">192</span>.168.88.3     <span class="c1"># The IP address of the linux bridge ( br0 )</span>
-<span class="nb">export</span> <span class="nv">NODE_INT</span><span class="o">=</span>br0               <span class="c1"># replace enp0s3 by the name of the network interface that has IP $NODE_IP</span>
+<span class="nb">export</span> <span class="nv">SERVER_INT</span><span class="o">=</span>eno             <span class="c1"># The physical interface the server connects to the LAN.</span>
 <span class="nb">export</span> <span class="nv">GATEWAY_IP</span><span class="o">=</span><span class="m">192</span>.168.88.1    <span class="c1"># replace 192.168.88.1 by the IP address of the gateway</span>
 <span class="nb">export</span> <span class="nv">CORE_IP</span><span class="o">=</span><span class="m">192</span>.168.88.5       <span class="c1"># replace 192.168.88.5 by the IP address of the core</span>
 <span class="nb">export</span> <span class="nv">E1_CU_IP</span><span class="o">=</span><span class="m">192</span>.168.88.170    <span class="c1"># E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.</span>
@@ -731,7 +732,7 @@ copy/paste the below into a shell on the server and it will be added.</p>
 
 <span class="s"># IP </span>
 <span class="s">export NODE_INT=br0                   # replace enp0s3 by the name of the network interface that has IP $NODE_IP</span>
-
+<span class="s">export SERVER_INT=eno1                # the physical interface in the server to the network</span>
 <span class="s">export NODE_SUBNET=                   # the subnet that contains the $NODE_IP</span>
 
 <span class="s">export GATEWAY_IP= .1                 # replace 192.168.88.1 by the IP address of the gateway</span>

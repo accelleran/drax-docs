@@ -479,25 +479,22 @@ If you already have a core you can skip this chapter.</p>
 This allows to add the virtual machine to the created bridge.
 To create a bridge, replace the network configuration of the installation machine which is assumed to be located in <code>/etc/netplan/00-installer-config.yaml</code> with the configuration below.
 You might have to edit this configuration to match your set-up.</p>
-<div class="highlight"><pre><span></span><code>sudo tee /etc/netplan/00-installer-config.yaml <span class="s">&lt;&lt;EOF</span>
-<span class="s">network:</span>
-<span class="s">  ethernets:</span>
-<span class="s">    $NODE_INT:</span>
-<span class="s">      dhcp4: no</span>
-<span class="s">  bridges:</span>
-<span class="s">    br0:</span>
-<span class="s">      addresses:</span>
-<span class="s">      - $NODE_IP/24</span>
-<span class="s">      gateway4: $GATEWAY_IP</span>
-<span class="s">      nameservers:</span>
-<span class="s">        addresses:</span>
-<span class="s">        - $GATEWAY_IP</span>
-<span class="s">        search:</span>
-<span class="s">        - $GATEWAY_IP</span>
-<span class="s">      interfaces:</span>
-<span class="s">        - $NODE_INT</span>
-<span class="s">  version: 2</span>
-<span class="s">EOF</span>
+<div class="highlight"><pre><span></span><code>network:
+  ethernets:
+    <span class="nv">$SERVER_INT</span>:
+      dhcp4: <span class="nb">false</span>
+  :
+  :
+  bridges:
+    br0:
+      interfaces: <span class="o">[</span><span class="nv">$SERVER_INT</span><span class="o">]</span>
+      addresses:
+            - <span class="nv">$SERVER_IP</span>/24
+      gateway4: <span class="nv">$GATEWAY_IP</span>
+      nameservers:
+        addresses: <span class="o">[</span><span class="m">8</span>.8.8.8<span class="o">]</span>
+
+  version: <span class="m">2</span>
 </code></pre></div>
 <p>Next run the following command to test and apply the new configuration:</p>
 <div class="highlight"><pre><span></span><code>sudo netplan try
