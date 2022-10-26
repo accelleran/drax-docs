@@ -504,15 +504,31 @@ You might have to edit this configuration to match your set-up.</p>
 </code></pre></div>
 <h2 id="create-a-virtual-machine">Create a Virtual Machine<a class="headerlink" href="#create-a-virtual-machine" title="Permanent link">&para;</a></h2>
 <p>Next you can install the virtual machine that hosts the core. The installation process is outside the scope of this document. Still we share the commandline you can use
-<div class="highlight"><pre><span></span><code>virt-install  --name open5gs-ubuntu-20.04.4  --memory <span class="m">8192</span> --vcpus <span class="s2">&quot;cpuset=9-15&quot;</span>  --os-type linux  --os-variant rhel7 --accelerate --disk <span class="s2">&quot;/var/lib/libvirt/images/CU-ubuntu-20~.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio&quot;</span> --network <span class="s2">&quot;source=br0,model=virtio&quot;</span> --vnc  --noautoconsole --cdrom <span class="s2">&quot;./ubuntu-20.04.4-live-server-amd64.iso&quot;</span>
+Below a command line that creates a VM with the correct settings.</p>
+<blockquote>
+<p>IMPORTANT ! the $CORE_SET_CU can only be a comma seperated list. </p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>sudo virt-install  --name <span class="s2">&quot;</span><span class="nv">$OPEN5GS_VM_NAME</span><span class="s2">&quot;</span>  --memory <span class="m">16768</span> --vcpus <span class="s2">&quot;sockets=1,cores=</span><span class="nv">$CORE_AMOUNT_CU</span><span class="s2">,cpuset=</span><span class="nv">$CORE_SET_CU</span><span class="s2">&quot;</span>  --os-type linux  --os-variant rhel7.0 --accelerate --disk <span class="s2">&quot;/var/lib/libvirt/images/o5gsCORE-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio&quot;</span>  --network <span class="s2">&quot;source=br0,type=bridge&quot;</span> --vnc  --noautoconsole --cdrom <span class="s2">&quot;./ubuntu-20.04.4-live-server-amd64.iso&quot;</span>  --console pty,target_type<span class="o">=</span>virtio
 </code></pre></div>
-Continue with <code>virt-manager</code> console
+<blockquote>
+<p>some notes about this command
+* --noautoconsole : if you ommit this, a graphical console window will popup. This works only when the remote server can export its graphical UI to your local graphical environment like an X-windows
+* --console pty,target_type=virtio will make sure you can use <code>virsh console $CU_VM_NAME</code></p>
+</blockquote>
+<p>Continue with <code>virt-manager</code> console
 Choose all default except for
+  * Fill in the hostname $OPEN5GS_HOSTNAME
   * Fill in the static ip of $CORE_IP
   * select [ x ] openSsh</p>
 <p>VM installation takes 5 minutes</p>
-<p>Make sure to create a bridged network for the virtual machine and assign a fixed IP address (<code>$CORE_IP</code>) in the same subnet as <code>$NODE_IP</code> to it.
-Note that if you SSH into the virtual machine the <code>$CORE_IP</code> and related variables might not be set.</p>
+<p>Make sure to create a bridged network for the virtual machine and assign a fixed IP address (<code>$CORE_IP</code>) in the same subnet as <code>$NODE_IP</code> to it. </p>
+<p>Copy the .var file over to the core VM.</p>
+<div class="highlight"><pre><span></span><code>scp <span class="nv">$HOME</span>/.vars <span class="nv">$USER</span>@<span class="nv">$CORE_IP</span>:.vars
+ssh <span class="nv">$USER</span>@<span class="nv">$CORE_IP</span> <span class="s2">&quot;echo . .vars &gt;&gt; .profile&quot;</span>
+</code></pre></div>
+<p>ssh into the CORE VM.</p>
+<div class="highlight"><pre><span></span><code>ssh <span class="nv">$USER</span>@<span class="nv">$CORE_IP</span>
+</code></pre></div>
 <h2 id="install-open5gs">Install Open5GS<a class="headerlink" href="#install-open5gs" title="Permanent link">&para;</a></h2>
 <p>Please refer to <a href="https://open5gs.org/open5gs/docs/guide/01-quickstart/">the Open5GS website</a> for information on how to install and configure the Open5GS core network on the virtual machine.</p>
 <blockquote>
