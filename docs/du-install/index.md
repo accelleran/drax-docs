@@ -44,7 +44,7 @@
   - [Starting RU Benetel 650 - cell wrapper way](#starting-ru-benetel-650---cell-wrapper-way)
     - [Install cell wrapper](#install-cell-wrapper)
       - [On the HOST](#on-the-host)
-      - [Ont the VM](#ont-the-vm)
+      - [On the CU VM](#on-the-cu-vm)
     - [scripts to steer cell and cell-wrapper](#scripts-to-steer-cell-and-cell-wrapper)
   - [verify good operation of the B650 (all releases)](#verify-good-operation-of-the-b650-all-releases)
       - [GPS](#gps)
@@ -1947,7 +1947,7 @@ usermod -aG sudo $USER
 printf "$USER ALL=(ALL) NOPASSWD:ALL\n" | sudo tee /etc/sudoers.d/$USER
 ```
 
-#### Ont the VM
+#### On the CU VM
 Add some prerequisites if it is necessary
 
 ``` bash
@@ -1969,7 +1969,7 @@ kubectl create secret generic cw-public --from-file=public=id_ed25519.pub
 
 and copy the public key to the bare metal server ( DU host )
 ```
-ssh-copy-id -i id_ed25519.pub ad@10.22.11.147
+ssh-copy-id -i id_ed25519.pub ad@$SERVER_IP
 ```
 
 
