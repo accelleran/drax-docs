@@ -1951,9 +1951,14 @@ printf "$USER ALL=(ALL) NOPASSWD:ALL\n" | sudo tee /etc/sudoers.d/$USER
 ```
 
 Create a public/private key pair and add it to kubernetes
-```
+
+``` bash
 ssh-keygen -t ed25519 -f id_ed25519 -C cell-wrapper
+```
+``` bash
 kubectl create secret generic cw-private --from-file=private=id_ed25519
+```
+``` bash
 kubectl create secret generic cw-public --from-file=public=id_ed25519.pub
 ```
 
