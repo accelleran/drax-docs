@@ -25,25 +25,23 @@ To create a bridge, replace the network configuration of the installation machin
 You might have to edit this configuration to match your set-up.
 
 ``` bash
-sudo tee /etc/netplan/00-installer-config.yaml <<EOF
 network:
   ethernets:
-    $NODE_INT:
-      dhcp4: no
+    $SERVER_INT:
+      dhcp4: false
+  :
+  :
   bridges:
     br0:
+      interfaces: [$SERVER_INT]
       addresses:
-      - $NODE_IP/24
+            - $SERVER_IP/24
       gateway4: $GATEWAY_IP
       nameservers:
-        addresses:
-        - $GATEWAY_IP
-        search:
-        - $GATEWAY_IP
-      interfaces:
-        - $NODE_INT
+        addresses: [8.8.8.8]
+
   version: 2
-EOF
+
 ```
 
 Next run the following command to test and apply the new configuration:

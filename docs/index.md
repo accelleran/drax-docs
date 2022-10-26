@@ -96,8 +96,9 @@ Alternatively you can edit the configurations to set the correct IP addresses.
 ``` bash
 export NODE_IP=192.168.88.4          # replace 192.168.88.4 by the IP address of the node. ( The IP of the eth0 in the CU VM )
 export NODE_SUBNET=192.168.88.0/24   # the subnet that contains the $NODE_IP
+export NODE_INT=br0               # he name of the network interface that has IP $NODE_IP
 export SERVER_IP=192.168.88.3     # The IP address of the linux bridge ( br0 )
-export NODE_INT=br0               # replace enp0s3 by the name of the network interface that has IP $NODE_IP
+export SERVER_INT=eno             # The physical interface the server connects to the LAN.
 export GATEWAY_IP=192.168.88.1    # replace 192.168.88.1 by the IP address of the gateway
 export CORE_IP=192.168.88.5       # replace 192.168.88.5 by the IP address of the core
 export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.
@@ -222,7 +223,7 @@ export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.
 
 # IP 
 export NODE_INT=br0                   # replace enp0s3 by the name of the network interface that has IP $NODE_IP
-
+export SERVER_INT=eno1                # the physical interface in the server to the network
 export NODE_SUBNET=                   # the subnet that contains the $NODE_IP
 
 export GATEWAY_IP= .1                 # replace 192.168.88.1 by the IP address of the gateway
