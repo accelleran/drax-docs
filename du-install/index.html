@@ -2559,10 +2559,12 @@ sudo apt install zip
 <div class="highlight"><pre><span></span><code>usermod -aG sudo $USER
 printf &quot;$USER ALL=(ALL) NOPASSWD:ALL\n&quot; | sudo tee /etc/sudoers.d/$USER
 </code></pre></div>
-<p>Create a public/private key pair and add it to kubernetes
-<div class="highlight"><pre><span></span><code>ssh-keygen -t ed25519 -f id_ed25519 -C cell-wrapper
-kubectl create secret generic cw-private --from-file=private=id_ed25519
-kubectl create secret generic cw-public --from-file=public=id_ed25519.pub
+<p>Create a public/private key pair and add it to kubernetes</p>
+<p><div class="highlight"><pre><span></span><code>ssh-keygen -t ed25519 -f id_ed25519 -C cell-wrapper
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>kubectl create secret generic cw-private --from-file<span class="o">=</span><span class="nv">private</span><span class="o">=</span>id_ed25519
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>kubectl create secret generic cw-public --from-file<span class="o">=</span><span class="nv">public</span><span class="o">=</span>id_ed25519.pub
 </code></pre></div></p>
 <p>and copy the public key to the bare metal server ( DU host )
 <div class="highlight"><pre><span></span><code>ssh-copy-id -i id_ed25519.pub ad@10.22.11.147
