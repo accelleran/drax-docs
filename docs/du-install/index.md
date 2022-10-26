@@ -2106,8 +2106,6 @@ netconf:
                     <du-extra-args>--cpuset-cpus=$CORE_SET_DU</du-extra-args>
                     <l1-extra-args>--cpuset-cpus=$CORE_SET_DU</l1-extra-args>
 
-                    <du-extra-args></du-extra-args>
-                    <l1-extra-args></l1-extra-args>
 
                     <du-base-config-file>/home/accelleran/5G/config/duEffnetConfig.json</du-base-config-file>
 
