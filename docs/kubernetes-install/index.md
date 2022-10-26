@@ -127,6 +127,7 @@ sudo virt-install  --name "$CU_VM_NAME"  --memory 16768 --vcpus "sockets=1,cores
 > * --console pty,target_type=virtio will make sure you can use ```virsh console $CU_VM_NAME```
 
 Continue in the console the complete the VM installation.
+
 ### console using command line
 ```
 virsh console $CU_VM_NAME

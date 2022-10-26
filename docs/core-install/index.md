@@ -59,18 +59,41 @@ export NODE_INT=br0
 ## Create a Virtual Machine
 
 Next you can install the virtual machine that hosts the core. The installation process is outside the scope of this document. Still we share the commandline you can use
-``` bash
-virt-install  --name open5gs-ubuntu-20.04.4  --memory 8192 --vcpus "cpuset=9-15"  --os-type linux  --os-variant rhel7 --accelerate --disk "/var/lib/libvirt/images/CU-ubuntu-20~.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio" --network "source=br0,model=virtio" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"
+Below a command line that creates a VM with the correct settings.
+
+> IMPORTANT ! the $CORE_SET_CU can only be a comma seperated list. 
+
+```bash
+sudo virt-install  --name "$OPEN5GS_VM_NAME"  --memory 16768 --vcpus "sockets=1,cores=$CORE_AMOUNT_CU,cpuset=$CORE_SET_CU"  --os-type linux  --os-variant rhel7.0 --accelerate --disk "/var/lib/libvirt/images/o5gsCORE-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio"  --network "source=br0,type=bridge" --vnc  --noautoconsole --cdrom "./ubuntu-20.04.4-live-server-amd64.iso"  --console pty,target_type=virtio
 ```
+
+> some notes about this command
+> * --noautoconsole : if you ommit this, a graphical console window will popup. This works only when the remote server can export its graphical UI to your local graphical environment like an X-windows
+> * --console pty,target_type=virtio will make sure you can use ```virsh console $CU_VM_NAME```
+
 Continue with ```virt-manager``` console
 Choose all default except for
+  * Fill in the hostname $OPEN5GS_HOSTNAME
   * Fill in the static ip of $CORE_IP
   * select [ x ] openSsh
   
 VM installation takes 5 minutes
 
-Make sure to create a bridged network for the virtual machine and assign a fixed IP address (`$CORE_IP`) in the same subnet as `$NODE_IP` to it.
-Note that if you SSH into the virtual machine the `$CORE_IP` and related variables might not be set.
+Make sure to create a bridged network for the virtual machine and assign a fixed IP address (`$CORE_IP`) in the same subnet as `$NODE_IP` to it. 
+
+Copy the .var file over to the core VM.
+
+``` bash
+scp $HOME/.vars $USER@$CORE_IP:.vars
+ssh $USER@$CORE_IP "echo . .vars >> .profile"
+```
+
+ssh into the CORE VM.
+
+``` bash
+ssh $USER@$CORE_IP
+```
+
 
 ## Install Open5GS
 
