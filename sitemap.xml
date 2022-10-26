@@ -2,47 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://accelleran.github.io/drax-docs/</loc>
-         <lastmod>2022-10-25</lastmod>
+         <lastmod>2022-10-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://accelleran.github.io/drax-docs/publish/</loc>
-         <lastmod>2022-10-25</lastmod>
+         <lastmod>2022-10-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://accelleran.github.io/drax-docs/benetel650-install/</loc>
-         <lastmod>2022-10-25</lastmod>
+         <lastmod>2022-10-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://accelleran.github.io/drax-docs/benetel650-install/PTPInstall/</loc>
-         <lastmod>2022-10-25</lastmod>
+         <lastmod>2022-10-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://accelleran.github.io/drax-docs/core-install/</loc>
-         <lastmod>2022-10-25</lastmod>
+         <lastmod>2022-10-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://accelleran.github.io/drax-docs/drax-install/</loc>
-         <lastmod>2022-10-25</lastmod>
+         <lastmod>2022-10-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://accelleran.github.io/drax-docs/du-install/</loc>
-         <lastmod>2022-10-25</lastmod>
+         <lastmod>2022-10-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://accelleran.github.io/drax-docs/kubernetes-install/</loc>
-         <lastmod>2022-10-25</lastmod>
+         <lastmod>2022-10-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://accelleran.github.io/drax-docs/kubernetes-install-1-24/</loc>
-         <lastmod>2022-10-25</lastmod>
+         <lastmod>2022-10-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

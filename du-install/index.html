@@ -2510,22 +2510,22 @@ RU Status Register description:
 </code></pre></div></p>
 <h4 id="handshake">Handshake<a class="headerlink" href="#handshake" title="Permanent link">&para;</a></h4>
 <p>The handshake command on the RU does only need to be performed in 1 situation. When at startup of the DU ( docker-compose up ) the traffic between the RU and the server is still going. You can find out by this:</p>
-<p>```ifstat -i enp1s0f0
-     enp1s0f0   <br />
+<div class="highlight"><pre><span></span><code>ifstat -i enp1s0f0
+     enp1s0f0     
  KB/s in  KB/s out
 71308.34  0.0
 71318.21  0.0
-<div class="highlight"><pre><span></span><code>In this case execute
 </code></pre></div>
-$ handshake
-<div class="highlight"><pre><span></span><code>After execution you will have 
-
-```ifstat -i enp1s0f0
+<p>In this case execute</p>
+<div class="highlight"><pre><span></span><code>$ handshake
+</code></pre></div>
+<p>After execution you will have </p>
+<div class="highlight"><pre><span></span><code>ifstat -i enp1s0f0
      enp1s0f0     
  KB/s in  KB/s out
  0.0      0.0
  0.0      0.0
-</code></pre></div></p>
+</code></pre></div>
 <p>Handshake messages are sent by the RU every second. When phluido L1 is starting or running it will Listen on port 44000 and reply to these messages.</p>
 <p>Login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):</p>
 <div class="highlight"><pre><span></span><code>tcpdump -i enp45s0f0 -c 5 port 44000 -en
