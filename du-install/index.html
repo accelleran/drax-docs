@@ -701,6 +701,26 @@
     Install cell wrapper
   </a>
   
+    <nav class="md-nav" aria-label="Install cell wrapper">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#on-the-host" class="md-nav__link">
+    On the HOST
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ont-the-vm" class="md-nav__link">
+    Ont the VM
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -972,6 +992,8 @@
 </li>
 <li><a href="#starting-ru-benetel-650---cell-wrapper-way">Starting RU Benetel 650 - cell wrapper way</a><ul>
 <li><a href="#install-cell-wrapper">Install cell wrapper</a></li>
+<li><a href="#on-the-host">On the HOST</a></li>
+<li><a href="#ont-the-vm">Ont the VM</a></li>
 <li><a href="#scripts-to-steer-cell-and-cell-wrapper">scripts to steer cell and cell-wrapper</a></li>
 </ul>
 </li>
@@ -2551,13 +2573,15 @@ Going inside the CU VM.
 <div class="highlight"><pre><span></span><code>ssh $USER@$NODE_IP 
 </code></pre></div></p>
 <h3 id="install-cell-wrapper">Install cell wrapper<a class="headerlink" href="#install-cell-wrapper" title="Permanent link">&para;</a></h3>
-<p>Add some prerequisites if it is necessary
+<h4 id="on-the-host">On the HOST<a class="headerlink" href="#on-the-host" title="Permanent link">&para;</a></h4>
+<p>To make the CU VM have access to the DU host ( bare metal server ) some privileges need to be given.</p>
+<div class="highlight"><pre><span></span><code>usermod -aG sudo <span class="nv">$USER</span>
+<span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$USER</span><span class="s2"> ALL=(ALL) NOPASSWD:ALL\n&quot;</span> <span class="p">|</span> sudo tee /etc/sudoers.d/<span class="nv">$USER</span>
+</code></pre></div>
+<h4 id="ont-the-vm">Ont the VM<a class="headerlink" href="#ont-the-vm" title="Permanent link">&para;</a></h4>
+<p>Add some prerequisites if it is necessary</p>
 <div class="highlight"><pre><span></span><code>sudo apt update 
 sudo apt install zip
-</code></pre></div></p>
-<p>To make the CU VM have access to the DU host ( bare metal server ) some privileges need to be given.</p>
-<div class="highlight"><pre><span></span><code>usermod -aG sudo $USER
-printf &quot;$USER ALL=(ALL) NOPASSWD:ALL\n&quot; | sudo tee /etc/sudoers.d/$USER
 </code></pre></div>
 <p>Create a public/private key pair and add it to kubernetes</p>
 <p><div class="highlight"><pre><span></span><code>ssh-keygen -t ed25519 -f id_ed25519 -C cell-wrapper
@@ -2615,106 +2639,112 @@ netconf:
     host: &#39;localhost&#39;
     config: |
             <span class="nt">&lt;cell-wrapper</span> <span class="na">xmlns=</span><span class="s">&quot;http://accelleran.com/ns/yang/accelleran-granny&quot;</span> <span class="na">xmlns:xc=</span><span class="s">&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot;</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;admin-state&gt;</span>unlocked<span class="nt">&lt;/admin-state&gt;</span>
+                <span class="nt">&lt;admin-state&gt;</span>unlocked<span class="nt">&lt;/admin-state&gt;</span>
 
-            <span class="nt">&lt;ssh-key-pair</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-                <span class="nt">&lt;public-key&gt;</span>/home/accelleran/5G/ssh/public<span class="nt">&lt;/public-key&gt;</span>
-                <span class="nt">&lt;private-key&gt;</span>/home/accelleran/5G/ssh/private<span class="nt">&lt;/private-key&gt;</span>
-            <span class="nt">&lt;/ssh-key-pair&gt;</span>
+                <span class="nt">&lt;ssh-key-pair</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;public-key&gt;</span>/home/accelleran/5G/ssh/public<span class="nt">&lt;/public-key&gt;</span>
+                    <span class="nt">&lt;private-key&gt;</span>/home/accelleran/5G/ssh/private<span class="nt">&lt;/private-key&gt;</span>
+                <span class="nt">&lt;/ssh-key-pair&gt;</span>
 
-            <span class="nt">&lt;auto-repair</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-                <span class="nt">&lt;enable&gt;</span>true<span class="nt">&lt;/enable&gt;</span>
+                <span class="nt">&lt;auto-repair</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;enable&gt;</span>true<span class="nt">&lt;/enable&gt;</span>
 
-                <span class="nt">&lt;health-check</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-                    <span class="nt">&lt;rate</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-                        <span class="nt">&lt;seconds&gt;</span>5<span class="nt">&lt;/seconds&gt;</span>
-                        <span class="nt">&lt;milli-seconds&gt;</span>0<span class="nt">&lt;/milli-seconds&gt;</span>
-                    <span class="nt">&lt;/rate&gt;</span>
-                    <span class="nt">&lt;unacknowledged-counter-threshold&gt;</span>3<span class="nt">&lt;/unacknowledged-counter-threshold&gt;</span>
-                <span class="nt">&lt;/health-check&gt;</span>
+                    <span class="nt">&lt;health-check</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;rate</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                            <span class="nt">&lt;seconds&gt;</span>5<span class="nt">&lt;/seconds&gt;</span>
+                            <span class="nt">&lt;milli-seconds&gt;</span>0<span class="nt">&lt;/milli-seconds&gt;</span>
+                        <span class="nt">&lt;/rate&gt;</span>
+                        <span class="nt">&lt;unacknowledged-counter-threshold&gt;</span>3<span class="nt">&lt;/unacknowledged-counter-threshold&gt;</span>
+                    <span class="nt">&lt;/health-check&gt;</span>
 
-                <span class="nt">&lt;container-not-running-counter-threshold&gt;</span>2<span class="nt">&lt;/container-not-running-counter-threshold&gt;</span>
-                <span class="nt">&lt;l1-rru-traffic-counter-threshold&gt;</span>6<span class="nt">&lt;/l1-rru-traffic-counter-threshold&gt;</span>
-            <span class="nt">&lt;/auto-repair&gt;</span>
+                    <span class="nt">&lt;container-not-running-counter-threshold&gt;</span>2<span class="nt">&lt;/container-not-running-counter-threshold&gt;</span>
+                    <span class="nt">&lt;l1-not-listening-to-ru-counter-threshold&gt;</span>6<span class="nt">&lt;/l1-not-listening-to-ru-counter-threshold&gt;</span>
+                    <span class="nt">&lt;l1-rru-traffic-counter-threshold&gt;</span>6<span class="nt">&lt;/l1-rru-traffic-counter-threshold&gt;</span>
+                <span class="nt">&lt;/auto-repair&gt;</span>
 
-            <span class="nt">&lt;distributed-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-                <span class="nt">&lt;name&gt;</span>du-1<span class="nt">&lt;/name&gt;</span>
-                <span class="nt">&lt;type&gt;</span>effnet<span class="nt">&lt;/type&gt;</span>
+                <span class="nt">&lt;distributed-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;name&gt;</span>du-1<span class="nt">&lt;/name&gt;</span>
+                    <span class="nt">&lt;type&gt;</span>effnet<span class="nt">&lt;/type&gt;</span>
 
-                <span class="nt">&lt;connection-details</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-                    <span class="nt">&lt;host&gt;</span>$SERVER_IP<span class="nt">&lt;/host&gt;</span>
-                    <span class="nt">&lt;port&gt;</span>22<span class="nt">&lt;/port&gt;</span>
-                    <span class="nt">&lt;username&gt;</span>$USER<span class="nt">&lt;/username&gt;</span>
-                <span class="nt">&lt;/connection-details&gt;</span>
+                    <span class="nt">&lt;connection-details</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;host&gt;</span>$SERVER_IP<span class="nt">&lt;/host&gt;</span>
+                        <span class="nt">&lt;port&gt;</span>22<span class="nt">&lt;/port&gt;</span>
+                        <span class="nt">&lt;username&gt;</span>$USER<span class="nt">&lt;/username&gt;</span>
+                    <span class="nt">&lt;/connection-details&gt;</span>
 
-                <span class="nt">&lt;ssh-timeout&gt;</span>30<span class="nt">&lt;/ssh-timeout&gt;</span>
+                    <span class="nt">&lt;ssh-timeout&gt;</span>30<span class="nt">&lt;/ssh-timeout&gt;</span>
 
-                <span class="nt">&lt;config</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-                    <span class="nt">&lt;cgi-plmn-id&gt;</span>$PLMN_ID<span class="nt">&lt;/cgi-plmn-id&gt;</span>
-                    <span class="nt">&lt;cgi-cell-id&gt;</span>000000000000000000000000000000000001<span class="nt">&lt;/cgi-cell-id&gt;</span>
-                    <span class="nt">&lt;pci&gt;</span>$PCI_ID<span class="nt">&lt;/pci&gt;</span>
-                    <span class="nt">&lt;tac&gt;</span>000001<span class="nt">&lt;/tac&gt;</span>
-                    <span class="nt">&lt;arfcn&gt;</span>$ARFCN_POINT_A<span class="nt">&lt;/arfcn&gt;</span>
-                    <span class="nt">&lt;frequency-band&gt;</span>$FREQ_BAND<span class="nt">&lt;/frequency-band&gt;</span>
-                    <span class="nt">&lt;plmns-id&gt;</span>$PLMN_ID<span class="nt">&lt;/plmns-id&gt;</span>
-                    <span class="nt">&lt;plmns-sst&gt;</span>1<span class="nt">&lt;/plmns-sst&gt;</span>
+                    <span class="nt">&lt;config</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;cgi-plmn-id&gt;</span>$PLMN_ID<span class="nt">&lt;/cgi-plmn-id&gt;</span>
+                        <span class="nt">&lt;cgi-cell-id&gt;</span>000000000000000000000000000000000001<span class="nt">&lt;/cgi-cell-id&gt;</span>
+                        <span class="nt">&lt;pci&gt;</span>$PCI_ID<span class="nt">&lt;/pci&gt;</span>
+                        <span class="nt">&lt;tac&gt;</span>000001<span class="nt">&lt;/tac&gt;</span>
+                        <span class="nt">&lt;arfcn&gt;</span>$ARFCN_POINT_A<span class="nt">&lt;/arfcn&gt;</span>
+                        <span class="nt">&lt;frequency-band&gt;</span>$FREQ_BAND<span class="nt">&lt;/frequency-band&gt;</span>
+                        <span class="nt">&lt;plmns-id&gt;</span>$PLMN_ID<span class="nt">&lt;/plmns-id&gt;</span>
+                        <span class="nt">&lt;plmns-sst&gt;</span>1<span class="nt">&lt;/plmns-sst&gt;</span>
 
-                    <span class="nt">&lt;l1-license-key&gt;</span>$L1_PHLUIDO_KEY<span class="nt">&lt;/l1-license-key&gt;</span>
-                    <span class="nt">&lt;l1-bbu-addr&gt;</span>10.10.0.1<span class="nt">&lt;/l1-bbu-addr&gt;</span>
-                    <span class="nt">&lt;l1-max-pusch-mod-order&gt;</span>6<span class="nt">&lt;/l1-max-pusch-mod-order&gt;</span>
-                    <span class="nt">&lt;l1-max-num-pdsch-layers&gt;</span>2<span class="nt">&lt;/l1-max-num-pdsch-layers&gt;</span>
-                    <span class="nt">&lt;l1-max-num-pusch-layers&gt;</span>1<span class="nt">&lt;/l1-max-num-pusch-layers&gt;</span>
-                    <span class="nt">&lt;l1-num-workers&gt;</span>8<span class="nt">&lt;/l1-num-workers&gt;</span>
-                    <span class="nt">&lt;l1-target-recv-delay-us&gt;</span>2500<span class="nt">&lt;/l1-target-recv-delay-us&gt;</span>
-                    <span class="nt">&lt;l1-pucch-format0-threshold&gt;</span>0.01<span class="nt">&lt;/l1-pucch-format0-threshold&gt;</span>
-                    <span class="nt">&lt;l1-timing-offset-threshold-nsec&gt;</span>10000<span class="nt">&lt;/l1-timing-offset-threshold-nsec&gt;</span>
-                <span class="nt">&lt;/config&gt;</span>
+                        <span class="nt">&lt;l1-license-key&gt;</span>$L1_PHLUIDO_KEY<span class="nt">&lt;/l1-license-key&gt;</span>
+                        <span class="nt">&lt;l1-bbu-addr&gt;</span>10.10.0.1<span class="nt">&lt;/l1-bbu-addr&gt;</span>
+                        <span class="nt">&lt;l1-max-pusch-mod-order&gt;</span>6<span class="nt">&lt;/l1-max-pusch-mod-order&gt;</span>
+                        <span class="nt">&lt;l1-max-num-pdsch-layers&gt;</span>2<span class="nt">&lt;/l1-max-num-pdsch-layers&gt;</span>
+                        <span class="nt">&lt;l1-max-num-pusch-layers&gt;</span>1<span class="nt">&lt;/l1-max-num-pusch-layers&gt;</span>
+                        <span class="nt">&lt;l1-num-workers&gt;</span>8<span class="nt">&lt;/l1-num-workers&gt;</span>
+                        <span class="nt">&lt;l1-target-recv-delay-us&gt;</span>2500<span class="nt">&lt;/l1-target-recv-delay-us&gt;</span>
+                        <span class="nt">&lt;l1-pucch-format0-threshold&gt;</span>0.01<span class="nt">&lt;/l1-pucch-format0-threshold&gt;</span>
+                        <span class="nt">&lt;l1-timing-offset-threshold-nsec&gt;</span>10000<span class="nt">&lt;/l1-timing-offset-threshold-nsec&gt;</span>
+                    <span class="nt">&lt;/config&gt;</span>
 
-                <span class="nt">&lt;enable-auto-repair&gt;</span>true<span class="nt">&lt;/enable-auto-repair&gt;</span>
+                    <span class="nt">&lt;enable-auto-repair&gt;</span>true<span class="nt">&lt;/enable-auto-repair&gt;</span>
 
-                <span class="nt">&lt;working-directory&gt;</span>/run<span class="nt">&lt;/working-directory&gt;</span>
-                <span class="nt">&lt;storage-directory&gt;</span>/var/log<span class="nt">&lt;/storage-directory&gt;</span>
-                <span class="nt">&lt;pcscd-socket&gt;</span>/run/pcscd/pcscd.comm<span class="nt">&lt;/pcscd-socket&gt;</span>
+                    <span class="nt">&lt;working-directory&gt;</span>/run<span class="nt">&lt;/working-directory&gt;</span>
+                    <span class="nt">&lt;storage-directory&gt;</span>/var/log<span class="nt">&lt;/storage-directory&gt;</span>
+                    <span class="nt">&lt;pcscd-socket&gt;</span>/run/pcscd/pcscd.comm<span class="nt">&lt;/pcscd-socket&gt;</span>
 
-                <span class="nt">&lt;enable-log-saving&gt;</span>false<span class="nt">&lt;/enable-log-saving&gt;</span>
-                <span class="nt">&lt;max-storage-disk-usage&gt;</span>80%<span class="nt">&lt;/max-storage-disk-usage&gt;</span>
+                    <span class="nt">&lt;enable-log-saving&gt;</span>false<span class="nt">&lt;/enable-log-saving&gt;</span>
+                    <span class="nt">&lt;max-storage-disk-usage&gt;</span>80%<span class="nt">&lt;/max-storage-disk-usage&gt;</span>
 
-                <span class="nt">&lt;enable-log-rotation&gt;</span>false<span class="nt">&lt;/enable-log-rotation&gt;</span>
-                <span class="nt">&lt;log-rotation-pattern&gt;</span>*.0<span class="nt">&lt;/log-rotation-pattern&gt;</span>
-                <span class="nt">&lt;log-rotation-count&gt;</span>1<span class="nt">&lt;/log-rotation-count&gt;</span>
+                    <span class="nt">&lt;enable-log-rotation&gt;</span>false<span class="nt">&lt;/enable-log-rotation&gt;</span>
+                    <span class="nt">&lt;log-rotation-pattern&gt;</span>*.0<span class="nt">&lt;/log-rotation-pattern&gt;</span>
+                    <span class="nt">&lt;log-rotation-count&gt;</span>1<span class="nt">&lt;/log-rotation-count&gt;</span>
 
-                <span class="nt">&lt;centralized-unit-host&gt;</span>$F1_CU_IP<span class="nt">&lt;/centralized-unit-host&gt;</span>
-                <span class="nt">&lt;centralized-unit-listening-port&gt;</span>44000<span class="nt">&lt;/centralized-unit-listening-port&gt;</span>
+                    <span class="nt">&lt;centralized-unit-host&gt;</span>$F1_CU_IP<span class="nt">&lt;/centralized-unit-host&gt;</span>
+                    <span class="nt">&lt;l1-listening-port&gt;</span>44000<span class="nt">&lt;/l1-listening-port&gt;</span>
 
-                <span class="nt">&lt;traffic-threshold</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-                    <span class="nt">&lt;uplink&gt;</span>10000<span class="nt">&lt;/uplink&gt;</span>
-                    <span class="nt">&lt;downlink&gt;</span>10000<span class="nt">&lt;/downlink&gt;</span>
-                <span class="nt">&lt;/traffic-threshold&gt;</span>
+                    <span class="nt">&lt;traffic-threshold</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;uplink&gt;</span>10000<span class="nt">&lt;/uplink&gt;</span>
+                        <span class="nt">&lt;downlink&gt;</span>10000<span class="nt">&lt;/downlink&gt;</span>
+                    <span class="nt">&lt;/traffic-threshold&gt;</span>
 
-                <span class="nt">&lt;du-image-tag&gt;</span>$DU_VERSION<span class="nt">&lt;/du-image-tag&gt;</span>
-                <span class="nt">&lt;l1-image-tag&gt;</span>$L1_VERSION<span class="nt">&lt;/l1-image-tag&gt;</span>
+                    <span class="nt">&lt;du-image-tag&gt;</span>$DU_VERSION<span class="nt">&lt;/du-image-tag&gt;</span>
+                    <span class="nt">&lt;l1-image-tag&gt;</span>$L1_VERSION<span class="nt">&lt;/l1-image-tag&gt;</span>
 
-                <span class="nt">&lt;du-extra-args&gt;</span>--cpuset-cpus=$CORE_SET_DU<span class="nt">&lt;/du-extra-args&gt;</span>
-                <span class="nt">&lt;l1-extra-args&gt;</span>--cpuset-cpus=$CORE_SET_DU<span class="nt">&lt;/l1-extra-args&gt;</span>
+                    <span class="nt">&lt;du-extra-args&gt;</span>--cpuset-cpus=$CORE_SET_DU<span class="nt">&lt;/du-extra-args&gt;</span>
+                    <span class="nt">&lt;l1-extra-args&gt;</span>--cpuset-cpus=$CORE_SET_DU<span class="nt">&lt;/l1-extra-args&gt;</span>
 
-                <span class="nt">&lt;du-base-config-file&gt;</span>/home/accelleran/5G/config/duEffnetConfig.json<span class="nt">&lt;/du-base-config-file&gt;</span>
+                    <span class="nt">&lt;du-extra-args&gt;&lt;/du-extra-args&gt;</span>
+                    <span class="nt">&lt;l1-extra-args&gt;&lt;/l1-extra-args&gt;</span>
 
-                <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>ru-1<span class="nt">&lt;/radio-unit&gt;</span>
-            <span class="nt">&lt;/distributed-unit&gt;</span>
+                    <span class="nt">&lt;du-base-config-file&gt;</span>/home/accelleran/5G/config/duEffnetConfig.json<span class="nt">&lt;/du-base-config-file&gt;</span>
 
-            <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-                <span class="nt">&lt;name&gt;</span>ru-1<span class="nt">&lt;/name&gt;</span>
-                <span class="nt">&lt;type&gt;</span>benetel650<span class="nt">&lt;/type&gt;</span>
+                    <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>ru-1<span class="nt">&lt;/radio-unit&gt;</span>
+                <span class="nt">&lt;/distributed-unit&gt;</span>
 
-                <span class="nt">&lt;connection-details</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-                    <span class="nt">&lt;host&gt;</span>10.10.0.100<span class="nt">&lt;/host&gt;</span>
-                    <span class="nt">&lt;port&gt;</span>22<span class="nt">&lt;/port&gt;</span>
-                    <span class="nt">&lt;username&gt;</span>root<span class="nt">&lt;/username&gt;</span>
-                <span class="nt">&lt;/connection-details&gt;</span>
-                <span class="nt">&lt;enable-ssh&gt;</span>false<span class="nt">&lt;/enable-ssh&gt;</span>
-                <span class="nt">&lt;ssh-timeout&gt;</span>30<span class="nt">&lt;/ssh-timeout&gt;</span>
-            <span class="nt">&lt;/radio-unit&gt;</span>
+                <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;name&gt;</span>ru-1<span class="nt">&lt;/name&gt;</span>
+                    <span class="nt">&lt;type&gt;</span>benetel650<span class="nt">&lt;/type&gt;</span>
+
+                    <span class="nt">&lt;connection-details</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;host&gt;</span>10.10.0.100<span class="nt">&lt;/host&gt;</span>
+                        <span class="nt">&lt;port&gt;</span>22<span class="nt">&lt;/port&gt;</span>
+                        <span class="nt">&lt;username&gt;</span>root<span class="nt">&lt;/username&gt;</span>
+                    <span class="nt">&lt;/connection-details&gt;</span>
+
+                    <span class="nt">&lt;enable-ssh&gt;</span>false<span class="nt">&lt;/enable-ssh&gt;</span>
+                    <span class="nt">&lt;ssh-timeout&gt;</span>30<span class="nt">&lt;/ssh-timeout&gt;</span>
+                <span class="nt">&lt;/radio-unit&gt;</span>
             <span class="nt">&lt;/cell-wrapper&gt;</span>
+
 EOF
 </code></pre></div>
 <blockquote>
