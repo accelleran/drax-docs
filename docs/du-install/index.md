@@ -1911,7 +1911,8 @@ RU Status Register description:
 
 The handshake command on the RU does only need to be performed in 1 situation. When at startup of the DU ( docker-compose up ) the traffic between the RU and the server is still going. You can find out by this:
 
-```ifstat -i enp1s0f0
+```
+ifstat -i enp1s0f0
      enp1s0f0     
  KB/s in  KB/s out
 71308.34  0.0
@@ -1926,7 +1927,8 @@ $ handshake
 
 After execution you will have 
 
-```ifstat -i enp1s0f0
+```
+ifstat -i enp1s0f0
      enp1s0f0     
  KB/s in  KB/s out
  0.0      0.0
