@@ -271,6 +271,11 @@ export L1_PHLUIDO_KEY="EB50-AF71-1864-80E2-B03F-EDB8-F9AF-5D75"
 export SERVER_RU_INT=enp1s0f0            # interface of the server to the RU. Fiber interface.
 export MAC_DU=11:22:33:44:55:66          # mac of the server interface to RU.
 export MAC_RU=aa:bb:cc:dd:ee:ff      # mac of the RU for ip 10.0.0.2. Use tcpdump to find.
+export RU_IP=10.10.0.2
+export RU_MGMT_IP=10.10.0.100
+
+
+export PATH=/home/ad/install_$CU_VERSION/accelleran/bin:./:$PATH
 
 
 EOF

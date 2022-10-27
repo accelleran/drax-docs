@@ -1527,24 +1527,14 @@ a trace like this appears
 ```
 	
 ``` bash
-$ cat /etc/networkd-dispatcher/routable.d/macs.sh 
+sudo tee /etc/networkd-dispatcher/routable.d/macs.sh <<EOF
 #!/bin/sh
-sudo arp -s 10.10.0.2 $MAC_RU -i $SERVER_RU_INT
+sudo arp -s $RU_IP $MAC_RU -i $SERVER_RU_INT
+EOF
+
 ```
 > Benetel650 does not answer arp requests. With this arp entry in the arp table the server knows to which mac address the ip packets with destination ip 10.10.0.2 
  should go
-
-run the script and check now the arp table like this
-
-``` bash
-$ arp -a | grep 10.10.0.2
-? (10.10.0.2) at $MAC_RU [ether] PERM on $SERVER_RU_INT
-```
-
-When the fiber port comes up at the server side
-```
-eno2             UP             10.10.0.1/24 fe80::266e:96ff:fe43:64e2/64 
-```
 
 the ```macs.sh``` script is executes automatically if it has the correct permissions. Set the correct permissions.
 
@@ -1552,6 +1542,24 @@ the ```macs.sh``` script is executes automatically if it has the correct permiss
 sudo chown root /etc/networkd-dispatcher/routable.d/macs.sh
 sudo chgrp root /etc/networkd-dispatcher/routable.d/macs.sh
 sudo chmod 755 /etc/networkd-dispatcher/routable.d/macs.sh
+```
+The macs.sh script runs when the interface to the RU goes UP. Run this to bring the RU interface UP
+
+``` bash
+sudo ip link set $SERVER_RU_INT down
+sleep 1
+sudo ip link set $SERVER_RU_INT up
+```
+
+now check if the entry for $RU_IP is in the arp table.
+``` bash
+$ arp -a | grep 10.10.
+? ($RU_IP) at $MAC_RU [ether] PERM on $SERVER_RU_INT
+```
+
+When the fiber port comes up at the server side
+```
+eno2             UP             10.10.0.1/24 fe80::266e:96ff:fe43:64e2/64 
 ```
 
 test the automatic execution of ```macs.sh``` by running
@@ -1607,8 +1615,9 @@ Create this script to program the mac address of the DU inside the RRU. Remember
 
 Here the value of ```$MAC_DU ``` need to be used.
 
-when the ```$MAC_DU``` contains the value of the mac address this script
+Run this on the bare metal host server to generate the script that will run in the RU to set the mac.
 ``` bash
+echo "
 registercontrol -w 0xC036B -x 0x88000088
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x$(echo $MAC_DU | cut -c1-2)
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x$(echo $MAC_DU | cut -c4-5)
@@ -1617,8 +1626,10 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x$(echo $MAC_DU | cut -c10-1
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0x$(echo $MAC_DU | cut -c13-14)
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0x$(echo $MAC_DU | cut -c16-17)
 registercontrol -w 0xC036B -x 0x88000488
+"
 ```
-translates into this 
+
+Something like this will get generated. Copy and Paste this generated script into the RU.
 ``` bash
 registercontrol -w 0xC036B -x 0x88000088
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x11
@@ -1629,6 +1640,13 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0x55
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0x66
 registercontrol -w 0xC036B -x 0x88000488
 ```
+Login in the RU
+
+``` bash
+ssh root@$RU_MGMT_IP
+```
+
+and paste the script here.
 
 You can read the EEPROM now and double check what you did:
 
@@ -2147,13 +2165,17 @@ watch -d kubernetes get pod
 
 
 ### scripts to steer cell and cell-wrapper
-Following script are delivered
+Following script are delivered. They are located in the ```install_$CU_VERSION/accelleran/bin``` directory.
+The $PATH variable is set accordingly.
 
-  * cell-start.sh
-  * cell-stop.sh
-  * cell-restart.sh
-  * cw-disable.sh
-  * cw-enable.sh
+  * ```cw-verify.sh```         - verifies if the cw.yaml file is parsed correctly after installation
+  * ```cw-enable.sh```         - will enable the cell-wrapper.
+  * ```cell-start.sh```       
+  * ```cell-stop.sh```
+  * ```cell-restart.sh```      
+  * ```cw-disable.sh```        - cell-wrapper will not restar the cell when it is defect.
+  * ```cw-debug-on.sh```       - turns on more logging
+  * ```cw-debug-off.sh```      - turns on normal logging
 
 The script do what there name says
 
