@@ -1660,7 +1660,26 @@ eeprog_cp60 -q -f -x -16 /dev/i2c-0 0x57 -x -r 26:6
 #### Set the Frequency of the Radio End 
 Create this script to program the Center Frequency in MHz of your B650 RRU. Remember to determine a valid frequency as indicated previously in the document, taking into account all the constraints and the relationship to the Offset Point A. If the Center Frequency you want to is for instance 3751,680 MHz then you can program the EEPROM of your B650 unit as follows:
 
+Run the below script on the bare metal host. It will product a script that needs to run on the RU.
+
 ```
+echo"
+registercontrol -w 0xC036B -x 0x88000088
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x174:0x01:0x3$(echo $FREQ_CENTER | cut -c1)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x175:0x01:0x3$(echo $FREQ_CENTER | cut -c2)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x176:0x01:0x3$(echo $FREQ_CENTER | cut -c3)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x177:0x01:0x3$(echo $FREQ_CENTER | cut -c4)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x178:0x01:0x2E
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x3$(echo $FREQ_CENTER | cut -c6)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x3$(echo $FREQ_CENTER | cut -c7)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x3$(echo $FREQ_CENTER | cut -c8)
+registercontrol -w 0xC036B -x 0x88000488
+"
+```
+
+The script that is produces looks like this.
+```
+echo"
 registercontrol -w 0xC036B -x 0x88000088
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x174:0x01:0x33
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x175:0x01:0x37
@@ -1671,7 +1690,11 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x36
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x38
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x30
 registercontrol -w 0xC036B -x 0x88000488
+"
+
 ```
+Verify the script if it has the ascii codes for the frequency digits.
+
 
 Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680, often the calculation stops at two digits after the comma, consider the last digit always as a zero
 
@@ -1680,7 +1703,12 @@ You may then want to double check what you did by reading the EEPROM:
 ```
 eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 372:8
 ```
+ Copy/Paste this script and run in in the RU.
+ssh to the RU and pasted it.
 
+``` bash
+ssh root@$RU_MGMT_IP
+```
 
 Once again, this is the 
 
@@ -1690,6 +1718,12 @@ Example for frequency 3751.68MHz (ARFCN=650112) you have set make sure to edit/c
 
 **Reboot the BNTL650 to make changes effective**
 
+When the RU comes online ( 5 minutes ) run the following to see what the new frequency shows.
+
+``` bash
+ssh root$RU_MGMT_IP
+radiocontrol -o G a
+```
 
 #### Set attenuation level
 This operation allows to temporary modify the attenuation of the transmitting channels of your B650 unit. Temporarily means that at the next reboot the Cell will default to the originally calibrated values, by default the transmission power is set to 25 dBm hence the attenuation is 15000 mdB (offset to the max TX Power). 
