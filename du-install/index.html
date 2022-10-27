@@ -2242,26 +2242,32 @@ However, as mentioned, that above is the management IP address, whereas for the 
 a trace like this appears 
 <div class="highlight"><pre><span></span><code><span class="m">21</span>:19:20.285848 aa:bb:cc:dd:ee:ff &gt; <span class="m">00</span>:1e:67:fd:f5:51, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length <span class="m">64</span>: <span class="m">10</span>.10.0.2.44000 &gt; <span class="m">10</span>.10.0.1.44000: UDP, length <span class="m">20</span>
 </code></pre></div></p>
-<div class="highlight"><pre><span></span><code>$ cat /etc/networkd-dispatcher/routable.d/macs.sh 
-<span class="c1">#!/bin/sh</span>
-sudo arp -s <span class="m">10</span>.10.0.2 <span class="nv">$MAC_RU</span> -i <span class="nv">$SERVER_RU_INT</span>
+<div class="highlight"><pre><span></span><code>sudo tee /etc/networkd-dispatcher/routable.d/macs.sh <span class="s">&lt;&lt;EOF</span>
+<span class="s">#!/bin/sh</span>
+<span class="s">sudo arp -s $RU_IP $MAC_RU -i $SERVER_RU_INT</span>
+<span class="s">EOF</span>
 </code></pre></div>
 <blockquote>
 <p>Benetel650 does not answer arp requests. With this arp entry in the arp table the server knows to which mac address the ip packets with destination ip 10.10.0.2 
  should go</p>
 </blockquote>
-<p>run the script and check now the arp table like this</p>
-<div class="highlight"><pre><span></span><code>$ arp -a <span class="p">|</span> grep <span class="m">10</span>.10.0.2
-? <span class="o">(</span><span class="m">10</span>.10.0.2<span class="o">)</span> at <span class="nv">$MAC_RU</span> <span class="o">[</span>ether<span class="o">]</span> PERM on <span class="nv">$SERVER_RU_INT</span>
-</code></pre></div>
-<p>When the fiber port comes up at the server side
-<div class="highlight"><pre><span></span><code>eno2             UP             10.10.0.1/24 fe80::266e:96ff:fe43:64e2/64 
-</code></pre></div></p>
 <p>the <code>macs.sh</code> script is executes automatically if it has the correct permissions. Set the correct permissions.</p>
-<div class="highlight"><pre><span></span><code>sudo chown root /etc/networkd-dispatcher/routable.d/macs.sh
+<p><div class="highlight"><pre><span></span><code>sudo chown root /etc/networkd-dispatcher/routable.d/macs.sh
 sudo chgrp root /etc/networkd-dispatcher/routable.d/macs.sh
 sudo chmod 755 /etc/networkd-dispatcher/routable.d/macs.sh
 </code></pre></div>
+The macs.sh script runs when the interface to the RU goes UP. Run this to bring the RU interface UP</p>
+<div class="highlight"><pre><span></span><code>sudo ip link <span class="nb">set</span> <span class="nv">$SERVER_RU_INT</span> down
+sleep <span class="m">1</span>
+sudo ip link <span class="nb">set</span> <span class="nv">$SERVER_RU_INT</span> up
+</code></pre></div>
+<p>now check if the entry for $RU_IP is in the arp table.
+<div class="highlight"><pre><span></span><code>$ arp -a <span class="p">|</span> grep <span class="m">10</span>.10.
+? <span class="o">(</span><span class="nv">$RU_IP</span><span class="o">)</span> at <span class="nv">$MAC_RU</span> <span class="o">[</span>ether<span class="o">]</span> PERM on <span class="nv">$SERVER_RU_INT</span>
+</code></pre></div></p>
+<p>When the fiber port comes up at the server side
+<div class="highlight"><pre><span></span><code>eno2             UP             10.10.0.1/24 fe80::266e:96ff:fe43:64e2/64 
+</code></pre></div></p>
 <p>test the automatic execution of <code>macs.sh</code> by running
 <div class="highlight"><pre><span></span><code>journalctl -f
 </code></pre></div></p>
@@ -2297,17 +2303,19 @@ Do this by altering file <code>/usr/sbin/radio_setup_ran650_b.sh</code> with fol
 <h4 id="mac-address-of-the-du">MAC Address of the DU<a class="headerlink" href="#mac-address-of-the-du" title="Permanent link">&para;</a></h4>
 <p>Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that. If the MAC address of the server port you use to connect to the Benetel B650 Radio End (the NIC Card port where the fiber originates from) is $MAC_DU 11:22:33:44:55:66 then you can program the EEPROM of your B650 unit as follows:</p>
 <p>Here the value of <code>$MAC_DU</code> need to be used.</p>
-<p>when the <code>$MAC_DU</code> contains the value of the mac address this script
-<div class="highlight"><pre><span></span><code>registercontrol -w 0xC036B -x 0x88000088
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x<span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c1-2<span class="k">)</span>
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x<span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c4-5<span class="k">)</span>
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1c:0x01:0x<span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c7-8<span class="k">)</span>
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x<span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c10-11<span class="k">)</span>
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0x<span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c13-14<span class="k">)</span>
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0x<span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c16-17<span class="k">)</span>
-registercontrol -w 0xC036B -x 0x88000488
-</code></pre></div>
-translates into this 
+<p>Run this on the bare metal host server to generate the script that will run in the RU to set the mac.
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span> <span class="s2">&quot;</span>
+<span class="s2">registercontrol -w 0xC036B -x 0x88000088</span>
+<span class="s2">eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c1-2<span class="k">)</span><span class="s2"></span>
+<span class="s2">eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c4-5<span class="k">)</span><span class="s2"></span>
+<span class="s2">eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1c:0x01:0x</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c7-8<span class="k">)</span><span class="s2"></span>
+<span class="s2">eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c10-11<span class="k">)</span><span class="s2"></span>
+<span class="s2">eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0x</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c13-14<span class="k">)</span><span class="s2"></span>
+<span class="s2">eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0x</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c16-17<span class="k">)</span><span class="s2"></span>
+<span class="s2">registercontrol -w 0xC036B -x 0x88000488</span>
+<span class="s2">&quot;</span>
+</code></pre></div></p>
+<p>Something like this will get generated. Copy and Paste this generated script into the RU.
 <div class="highlight"><pre><span></span><code>registercontrol -w 0xC036B -x 0x88000088
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x11
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x22
@@ -2316,7 +2324,11 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x44
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0x55
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0x66
 registercontrol -w 0xC036B -x 0x88000488
-</code></pre></div></p>
+</code></pre></div>
+Login in the RU</p>
+<div class="highlight"><pre><span></span><code>ssh root@<span class="nv">$RU_MGMT_IP</span>
+</code></pre></div>
+<p>and paste the script here.</p>
 <p>You can read the EEPROM now and double check what you did:</p>
 <div class="highlight"><pre><span></span><code>eeprog_cp60 -q -f -x -16 /dev/i2c-0 0x57 -x -r 26:6
 </code></pre></div>
@@ -2756,13 +2768,17 @@ helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
 <div class="highlight"><pre><span></span><code>watch -d kubernetes get pod
 </code></pre></div>
 <h3 id="scripts-to-steer-cell-and-cell-wrapper">scripts to steer cell and cell-wrapper<a class="headerlink" href="#scripts-to-steer-cell-and-cell-wrapper" title="Permanent link">&para;</a></h3>
-<p>Following script are delivered</p>
+<p>Following script are delivered. They are located in the <code>install_$CU_VERSION/accelleran/bin</code> directory.
+The $PATH variable is set accordingly.</p>
 <ul>
-<li>cell-start.sh</li>
-<li>cell-stop.sh</li>
-<li>cell-restart.sh</li>
-<li>cw-disable.sh</li>
-<li>cw-enable.sh</li>
+<li><code>cw-verify.sh</code>         - verifies if the cw.yaml file is parsed correctly after installation</li>
+<li><code>cw-enable.sh</code>         - will enable the cell-wrapper.</li>
+<li><code>cell-start.sh</code>       </li>
+<li><code>cell-stop.sh</code></li>
+<li><code>cell-restart.sh</code>      </li>
+<li><code>cw-disable.sh</code>        - cell-wrapper will not restar the cell when it is defect.</li>
+<li><code>cw-debug-on.sh</code>       - turns on more logging</li>
+<li><code>cw-debug-off.sh</code>      - turns on normal logging</li>
 </ul>
 <p>The script do what there name says</p>
 <h2 id="verify-good-operation-of-the-b650-all-releases">verify good operation of the B650 (all releases)<a class="headerlink" href="#verify-good-operation-of-the-b650-all-releases" title="Permanent link">&para;</a></h2>
