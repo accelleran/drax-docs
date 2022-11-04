@@ -582,6 +582,14 @@ This system release contains </p>
 </tr>
 </tbody>
 </table>
+<p>During the installation following variables will be used. These are the correct values they are set to for this release.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">INSTALL_VERSION</span><span class="o">=</span><span class="m">2022</span>.3.0
+<span class="nb">export</span> <span class="nv">RIC_VERSION</span><span class="o">=</span><span class="m">6</span>.0.0
+<span class="nb">export</span> <span class="nv">CU_VERSION</span><span class="o">=</span>R3.3.0_hoegaarden             <span class="c1"># build tag</span>
+<span class="nb">export</span> <span class="nv">L1_VERSION</span><span class="o">=</span>v8.7.1
+<span class="nb">export</span> <span class="nv">DU_VERSION</span><span class="o">=</span><span class="m">2022</span>-08-26-q2-release-0.4
+<span class="nb">export</span> <span class="nv">RU_VERSION</span><span class="o">=</span>RAN650-2V0.5.2                <span class="c1"># shipped with the UNIT.</span>
+</code></pre></div>
 <h2 id="prerequisites-preperations">Prerequisites / Preperations<a class="headerlink" href="#prerequisites-preperations" title="Permanent link">&para;</a></h2>
 <p>This installation guide assumes that that the following are to be taken as prerequisites and made available before proceding further:</p>
 <ul>
@@ -656,7 +664,7 @@ Furthermore this guide will refer to the IP address of the gateway as <code>$GAT
 In order to be able to execute the commands in this guide as-is you should add these variables to the environment as soon as they are known.
 Alternatively you can edit the configurations to set the correct IP addresses. </p>
 <blockquote>
-<p>NOTE: All IP's need to be in the same subnet.</p>
+<p>NOTE: All IP's need to be in the same subnet. The ip's and values used in the variables depicted below are example values.</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">NODE_IP</span><span class="o">=</span><span class="m">192</span>.168.88.4          <span class="c1"># replace 192.168.88.4 by the IP address of the node. ( The IP of the eth0 in the CU VM )</span>
 <span class="nb">export</span> <span class="nv">NODE_SUBNET</span><span class="o">=</span><span class="m">192</span>.168.88.0/24   <span class="c1"># the subnet that contains the $NODE_IP</span>
@@ -690,14 +698,6 @@ Alternatively you can edit the configurations to set the correct IP addresses. <
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">DOCKER_USER</span><span class="o">=</span>
 <span class="nb">export</span> <span class="nv">DOCKER_PASS</span><span class="o">=</span>
 <span class="nb">export</span> <span class="nv">DOCKER_EMAIL</span><span class="o">=</span>
-</code></pre></div></p>
-<p>RIC version. Accelleran will tell you which RIC version needs to be installed in this setup.
-<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">INSTALL_VERSION</span><span class="o">=</span><span class="m">2022</span>.3.0
-<span class="nb">export</span> <span class="nv">RIC_VERSION</span><span class="o">=</span><span class="m">6</span>.0.0
-<span class="nb">export</span> <span class="nv">CU_VERSION</span><span class="o">=</span>R3.3.0_hoegaarden             <span class="c1"># build tag</span>
-<span class="nb">export</span> <span class="nv">L1_VERSION</span><span class="o">=</span><span class="m">8</span>.7.1
-<span class="nb">export</span> <span class="nv">DU_VERSION</span><span class="o">=</span><span class="m">2022</span>-08-26-q2-release-0.4
-<span class="nb">export</span> <span class="nv">RU_VERSION</span><span class="o">=</span>RAN650-2V0.5.2                <span class="c1"># shipped with the UNIT.</span>
 </code></pre></div></p>
 <p>In order to perform many of the commands in this installation manual you need root privileges.
 Whenever a command has to be executed with root privileges it will be prefixed with <code>sudo</code>.</p>
