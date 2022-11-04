@@ -12,7 +12,7 @@
       - [In case of dual CPU](#in-case-of-dual-cpu)
       - [In case of 1 CPU server](#in-case-of-1-cpu-server)
   - [Prepare install directory and scripts](#prepare-install-directory-and-scripts)
-    - [Clone install scripts](#clone-install-scripts)
+    - [Get scripts](#get-scripts)
     - [Fill in variable values.](#fill-in-variable-values)
     - [Making variables boot safe](#making-variables-boot-safe)
     - [Verify the variables](#verify-the-variables)
@@ -214,7 +214,7 @@ We'll create an install directory in which we'll be working through this whole i
 cd ; mkdir -p ~/install_$CU_VERSION/ ; cd $_
 ```
 
-### Clone install scripts
+### Get scripts
 
 ``` bash
 cd ~/install_$CU_VERSION
