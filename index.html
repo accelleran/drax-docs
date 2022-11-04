@@ -381,8 +381,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#clone-install-scripts" class="md-nav__link">
-    Clone install scripts
+  <a href="#get-scripts" class="md-nav__link">
+    Get scripts
   </a>
   
 </li>
@@ -526,7 +526,7 @@
 </ul>
 </li>
 <li><a href="#prepare-install-directory-and-scripts">Prepare install directory and scripts</a><ul>
-<li><a href="#clone-install-scripts">Clone install scripts</a></li>
+<li><a href="#get-scripts">Get scripts</a></li>
 <li><a href="#fill-in-variable-values">Fill in variable values.</a></li>
 <li><a href="#making-variables-boot-safe">Making variables boot safe</a></li>
 <li><a href="#verify-the-variables">Verify the variables</a></li>
@@ -754,16 +754,20 @@ Assign first half to DU and last half to CU
 <p>We'll create an install directory in which we'll be working through this whole install procedure. </p>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span> <span class="p">;</span> mkdir -p ~/install_<span class="nv">$CU_VERSION</span>/ <span class="p">;</span> <span class="nb">cd</span> <span class="nv">$_</span>
 </code></pre></div>
-<h3 id="clone-install-scripts">Clone install scripts<a class="headerlink" href="#clone-install-scripts" title="Permanent link">&para;</a></h3>
+<h3 id="get-scripts">Get scripts<a class="headerlink" href="#get-scripts" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span> ~/install_<span class="nv">$CU_VERSION</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>git clone --branch <span class="nv">$INSTALL_VERSION</span> https://github.com/accelleran/drax-install
 </code></pre></div>
 <h3 id="fill-in-variable-values">Fill in variable values.<a class="headerlink" href="#fill-in-variable-values" title="Permanent link">&para;</a></h3>
-<p>All the variables mentioned above can be found in the file ~/install_$CU_VERSION/drax-install/install-vars.sh.
-Add the correct values to each variable. This is part of the design fase of you platform.</p>
+<p>All the variables mentioned above can be found in the file 
+<div class="highlight"><pre><span></span><code>~/install_$CU_VERSION/drax-install/install-vars.sh.
+</code></pre></div>
+Update this file with the correct values. 
+They values have been prepared in the section above.</p>
 <h3 id="making-variables-boot-safe">Making variables boot safe<a class="headerlink" href="#making-variables-boot-safe" title="Permanent link">&para;</a></h3>
-<p>After having done that run the install.sh script to make the </p>
+<p>After having done that run the install.sh script to make the values available in your shell.
+They values are boot safe so you only have to run them once.</p>
 <div class="highlight"><pre><span></span><code>. ~/install_<span class="nv">$CU_VERSION</span>/drax-install/install.sh
 </code></pre></div>
 <h3 id="verify-the-variables">Verify the variables<a class="headerlink" href="#verify-the-variables" title="Permanent link">&para;</a></h3>

@@ -1136,9 +1136,10 @@ Wait untill you can click reboot server</li>
 </code></pre></div>
 </p>
 </blockquote>
-<p>copy the .vars file to the VM. This will set all the variables in the shell of the VM.</p>
-<div class="highlight"><pre><span></span><code>scp <span class="nv">$HOME</span>/.vars <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>:.vars
-ssh <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span> <span class="s2">&quot;echo . .vars &gt;&gt; .profile&quot;</span>
+<p>copy the install directory from the HOST to this newly created VM</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> <span class="p">;</span> scp -r install_<span class="nv">$CU_VERSION</span>  <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>:
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> <span class="p">;</span> scp .profile  <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>:
 </code></pre></div>
 <p>ssh into the VM.</p>
 <div class="highlight"><pre><span></span><code>ssh <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>
