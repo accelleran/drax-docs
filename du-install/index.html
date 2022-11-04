@@ -2347,6 +2347,17 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x3$(echo $FREQ_CENTER | cut
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x3$(echo $FREQ_CENTER | cut -c7)
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x3$(echo $FREQ_CENTER | cut -c8)
 registercontrol -w 0xC036B -x 0x88000488
+
+registercontrol -w 0xC036B -x 0x88000088                     
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17C:0x01:0x3$(echo $FREQ_CENTER | cut -c1)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17D:0x01:0x3$(echo $FREQ_CENTER | cut -c2)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17E:0x01:0x3$(echo $FREQ_CENTER | cut -c3)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17F:0x01:0x3$(echo $FREQ_CENTER | cut -c4)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x180:0x01:0x2E
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x181:0x01:0x3$(echo $FREQ_CENTER | cut -c6)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x182:0x01:0x3$(echo $FREQ_CENTER | cut -c7)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x183:0x01:0x3$(echo $FREQ_CENTER | cut -c8)
+registercontrol -w 0xC036B -x 0x88000488
 &quot;
 </code></pre></div>
 <p>The script that is produces looks like this.
@@ -2361,9 +2372,21 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x36
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x38
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x30
 registercontrol -w 0xC036B -x 0x88000488
+
+registercontrol -w 0xC036B -x 0x88000088
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17C:0x01:0x33
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17D:0x01:0x37
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17E:0x01:0x35
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17F:0x01:0x31
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x180:0x01:0x2E
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x181:0x01:0x36
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x182:0x01:0x38
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x183:0x01:0x30
+registercontrol -w 0xC036B -x 0x88000488
+
 &quot;
-</code></pre></div>
-Verify the script if it has the ascii codes for the frequency digits.</p>
+</code></pre></div></p>
+<p>Verify the script if it has the ascii codes for the frequency digits.</p>
 <p>Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680, often the calculation stops at two digits after the comma, consider the last digit always as a zero</p>
 <p>You may then want to double check what you did by reading the EEPROM:</p>
 <p><div class="highlight"><pre><span></span><code>eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 372:8
