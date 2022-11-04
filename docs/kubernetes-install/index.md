@@ -534,11 +534,14 @@ Wait untill you can click reboot server
 > ```
 > 
 
-copy the .vars file to the VM. This will set all the variables in the shell of the VM.
+copy the install directory from the HOST to this newly created VM
 
 ``` bash
-scp $HOME/.vars $USER@$NODE_IP:.vars
-ssh $USER@$NODE_IP "echo . .vars >> .profile"
+cd ; scp -r install_$CU_VERSION  $USER@$NODE_IP:
+```
+
+``` bash
+cd ; scp .profile  $USER@$NODE_IP:
 ```
 
 ssh into the VM.

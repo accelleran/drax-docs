@@ -226,11 +226,16 @@ git clone --branch $INSTALL_VERSION https://github.com/accelleran/drax-install
 
 ### Fill in variable values.
 
-All the variables mentioned above can be found in the file ~/install_$CU_VERSION/drax-install/install-vars.sh.
-Add the correct values to each variable. This is part of the design fase of you platform.
+All the variables mentioned above can be found in the file 
+```
+~/install_$CU_VERSION/drax-install/install-vars.sh.
+```
+Update this file with the correct values. 
+They values have been prepared in the section above.
 
 ### Making variables boot safe
-After having done that run the install.sh script to make the 
+After having done that run the install.sh script to make the values available in your shell.
+They values are boot safe so you only have to run them once.
 
 ``` bash
 . ~/install_$CU_VERSION/drax-install/install.sh
