@@ -38,6 +38,16 @@ This system release contains
 | BNTL550      | 0.6.0                       |
 | cell wrapper | 1.0.0                       |
 
+During the installation following variables will be used. These are the correct values they are set to for this release.
+
+``` bash
+export INSTALL_VERSION=2022.3.0
+export RIC_VERSION=6.0.0
+export CU_VERSION=R3.3.0_hoegaarden             # build tag
+export L1_VERSION=v8.7.1
+export DU_VERSION=2022-08-26-q2-release-0.4
+export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.
+```
 
 ## Prerequisites / Preperations
 
@@ -94,7 +104,7 @@ Furthermore this guide will refer to the IP address of the gateway as `$GATEWAY_
 In order to be able to execute the commands in this guide as-is you should add these variables to the environment as soon as they are known.
 Alternatively you can edit the configurations to set the correct IP addresses. 
 
-> NOTE: All IP's need to be in the same subnet.
+> NOTE: All IP's need to be in the same subnet. The ip's and values used in the variables depicted below are example values.
 
 ``` bash
 export NODE_IP=192.168.88.4          # replace 192.168.88.4 by the IP address of the node. ( The IP of the eth0 in the CU VM )
@@ -135,16 +145,6 @@ Docker hub account. Request these 3 values to Accelleran.
 export DOCKER_USER=
 export DOCKER_PASS=
 export DOCKER_EMAIL=
-```
-
-RIC version. Accelleran will tell you which RIC version needs to be installed in this setup.
-``` bash
-export INSTALL_VERSION=2022.3.0
-export RIC_VERSION=6.0.0
-export CU_VERSION=R3.3.0_hoegaarden             # build tag
-export L1_VERSION=8.7.1
-export DU_VERSION=2022-08-26-q2-release-0.4
-export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.
 ```
 
 In order to perform many of the commands in this installation manual you need root privileges.
