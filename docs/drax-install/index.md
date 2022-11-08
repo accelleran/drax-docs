@@ -818,7 +818,7 @@ else
     echo "UPS Pods are not present. Doing nothing."
 fi
 
-if docker ps | grep xdp ; then
+if docker ps | grep xdpupsappl ; then
     echo "XDP Already running. Doing nothing."
 else
     echo "XDP not found. Starting...:"
