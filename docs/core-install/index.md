@@ -4,18 +4,6 @@ In order to have end-to-end connectivity a core network is required.
 If no core network is available, Open5GS can be installed in a virtual machine on the installation machine.
 If you already have a core you can skip this chapter.
 
-## Table of content
-
-- [Core Installation](#core-installation)
-  - [Table of content](#table-of-content)
-  - [Create a Network Bridge](#create-a-network-bridge)
-  - [Create a Virtual Machine](#create-a-virtual-machine)
-  - [Install Open5GS](#install-open5gs)
-    - [Configure Open5GS](#configure-open5gs)
-    - [open5gs GUI](#open5gs-gui)
-    - [Some scripts one often uses](#some-scripts-one-often-uses)
-      - [restart](#restart)
-      - [version](#version)
 
 ## Create a Network Bridge
 
