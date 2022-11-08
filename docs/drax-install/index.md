@@ -303,7 +303,7 @@ provisioner-dhcp:
 Here, change `eno1` to the intended interface on your machine.
 
 
-#### 4G : Pre-provisioning the list of E1000 DUs
+##### 4G : Pre-provisioning the list of E1000 DUs
 
 If you already have access to the Accelleran E1000 DUs that you wish to use with this dRAX installation, we can pre-provision the information regarding these during installation.
 This can also be done later, or if new E1000 DUs are added.
