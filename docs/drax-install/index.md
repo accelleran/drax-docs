@@ -150,8 +150,8 @@ kubectl create namespace $NS_DRAX
 This needs to be repeated for each namespace that you wish to use for dRAX, either for the RIC, 4G or 5G components, as per the table in [the Namespaces section](#namespaces).
 
 !!! warning
-If you choose to use specific namespaces, special care must be used throughout the remaining steps when executing the kubectl commands.
-For each one, it is important to specify the appropriate namespace using the -n option, example:
+    If you choose to use specific namespaces, special care must be used throughout the remaining steps when executing the kubectl commands.
+    For each one, it is important to specify the appropriate namespace using the -n option, example:
 
 ``` bash
 kubectl get pods -n $NS_DRAX
@@ -411,7 +411,7 @@ Install the RIC and Dashboard with Helm (if installing without dedicated namespa
 helm install ric acc-helm/ric --version $RIC_VERSION --values ric-values.yaml -n $NS_DRAX
 ```
 !!! info
-The installation may take up to 5 minutes, it is essential that you wait till the installation is completed and all the pods are in RUNNING or COMPLETE mode, please do **NOT** interrupt the installation by trying to regain control of the command line
+    The installation may take up to 5 minutes, it is essential that you wait till the installation is completed and all the pods are in RUNNING or COMPLETE mode, please do **NOT** interrupt the installation by trying to regain control of the command line
 
 To check if the installation was successful first use Helm:
 
