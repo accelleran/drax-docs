@@ -328,13 +328,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#table-of-content" class="md-nav__link">
-    Table of Content
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#introduction" class="md-nav__link">
     Introduction
   </a>
@@ -1081,118 +1074,6 @@
 
 
 <h1 id="ric-cu-installation">RIC &amp; CU Installation<a class="headerlink" href="#ric-cu-installation" title="Permanent link">&para;</a></h1>
-<h2 id="table-of-content">Table of Content<a class="headerlink" href="#table-of-content" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="#ric--cu-installation">RIC &amp; CU Installation</a></li>
-<li><a href="#table-of-content">Table of Content</a></li>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#software-and-hardware-prerequisites">Software and Hardware Prerequisites</a><ul>
-<li><a href="#software-requirements-have-been-installed-in-previous-chapter">Software Requirements have been installed in previous chapter.</a></li>
-<li><a href="#other-requirements">Other Requirements</a></li>
-<li><a href="#4g-specific-requirements">4G Specific requirements:</a></li>
-<li><a href="#limitations-">Limitations :</a></li>
-</ul>
-</li>
-<li><a href="#installation">Installation</a><ul>
-<li><a href="#introduction-1">Introduction</a></li>
-<li><a href="#plan-your-deployment">Plan your deployment</a></li>
-<li><a href="#plan-parameters">Plan parameters</a></li>
-<li><a href="#prepare-license-and-certificate">Prepare License and Certificate</a></li>
-<li><a href="#namespaces">Namespaces</a></li>
-<li><a href="#install-drax-for-the-first-time">Install dRAX for the first time</a></li>
-<li><a href="#install-helm">install helm</a></li>
-<li><a href="#add-accelleran-helm-chart-repo">Add Accelleran Helm Chart Repo</a></li>
-<li><a href="#update-helm-charts">Update Helm Charts</a></li>
-<li><a href="#create-namespaces-for-drax-optional">Create namespace(s) for dRAX (optional)</a></li>
-<li><a href="#configure-dockerhub-credentials-in-kubernetes">Configure DockerHub credentials in Kubernetes</a></li>
-<li><a href="#configure-license-in-kubernetes">Configure License in Kubernetes</a></li>
-<li><a href="#install-drax-ric-and-dashboard">Install dRAX RIC and Dashboard</a></li>
-<li><a href="#prepare-ric-values-configuration-file">Prepare RIC values configuration file</a></li>
-<li><a href="#enabling-5g-components">Enabling 5G components</a></li>
-<li><a href="#enabling-4g-components">Enabling 4G components</a><ul>
-<li><a href="#4g--prepare-keys-and-certificates-for-the-drax-provisioner">4G : Prepare keys and certificates for the dRAX Provisioner</a></li>
-<li><a href="#4g--create-configmaps-for-the-drax-provisioner">4G : Create configMaps for the dRAX Provisioner</a></li>
-<li><a href="#4g--prepare-the-values-configuration-file">4G : Prepare the values configuration file</a></li>
-</ul>
-</li>
-<li><a href="#4g--pre-provisioning-the-list-of-e1000-dus">4G : Pre-provisioning the list of E1000 DUs</a><ul>
-<li><a href="#4g--update-e1000-dus">4G : Update E1000 DUs</a></li>
-<li><a href="#4g--download-the-e1000-update-files">4G : Download the E1000 update files</a></li>
-<li><a href="#4g--update-software-of-e1000">4G : Update software of E1000</a></li>
-<li><a href="#4g--verify-the-update-of-e1000-on-the-unit-and-the-alignment-with-drax-version">4G : Verify the update of E1000 on the unit and the alignment with dRAX version</a></li>
-</ul>
-</li>
-<li><a href="#install-the-drax-ric-and-dashboard">Install the dRAX RIC and Dashboard</a></li>
-<li><a href="#install-drax-5g-components">Install dRAX 5G Components</a></li>
-<li><a href="#5g-cu-cp-installation">5G CU-CP Installation</a><ul>
-<li><a href="#required-parameters">Required Parameters</a></li>
-<li><a href="#optional-parameters">Optional Parameters</a></li>
-</ul>
-</li>
-<li><a href="#5g-cu-up-installation">5G CU-UP Installation</a><ul>
-<li><a href="#required-parameters-1">Required Parameters</a></li>
-<li><a href="#optional-parameters-1">Optional Parameters</a></li>
-</ul>
-</li>
-<li><a href="#optional--install-xapps">Optional : Install xApps</a></li>
-</ul>
-</li>
-<li><a href="#drax-configuration">dRAX Configuration</a><ul>
-<li><a href="#xapp-configuration">xApp Configuration</a></li>
-<li><a href="#4g-e1000-provisioning">4G E1000 Provisioning</a></li>
-<li><a href="#listing-currently-provisioned-e1000s">Listing currently provisioned E1000s</a></li>
-<li><a href="#provisioning-additional-accelleran-e1000-dus">Provisioning additional Accelleran E1000 DUs</a><ul>
-<li><a href="#determine-unique-identifier">Determine Unique Identifier</a></li>
-<li><a href="#prepare-configuration-file">Prepare configuration file</a></li>
-<li><a href="#push-new-configuration">Push new configuration</a></li>
-</ul>
-</li>
-<li><a href="#changing-the-name-of-an-e1000">Changing the name of an E1000</a></li>
-<li><a href="#4g-ran-configuration">4G RAN Configuration</a></li>
-<li><a href="#enb-configuration-via-enb-list">eNB Configuration via eNB list</a></li>
-<li><a href="#enb-configuration-via-dashboard">eNB Configuration via Dashboard</a></li>
-<li><a href="#5g-ran-configuration">5G RAN Configuration</a></li>
-<li><a href="#5g-cu-cp-configuration">5G CU-CP configuration</a></li>
-<li><a href="#5g-cu-up-configuration">5G CU-UP configuration</a></li>
-<li><a href="#install-xdp">Install XDP</a></li>
-</ul>
-</li>
-<li><a href="#verifying-the-drax-installation">Verifying the dRAX installation</a><ul>
-<li><a href="#monitoring-via-the-kubernetes-api">Monitoring via the Kubernetes API</a></li>
-<li><a href="#sctp-connections-setup">SCTP connections setup</a></li>
-<li><a href="#the-grafana-accelleran-drax-system-dashboard">The Grafana Accelleran dRAX System Dashboard</a></li>
-<li><a href="#4g-system-health-dashboard">4G system health dashboard</a></li>
-<li><a href="#5g-system-health-dashboard">5G system health dashboard</a></li>
-</ul>
-</li>
-<li><a href="#appendix-how-to-enabledisable-dhcp-for-the-ip-address-of-the-e1000-4g-du">Appendix: How to enable/disable DHCP for the IP address of the E1000 4G DU</a><ul>
-<li><a href="#how-to-configure-drax-for-a-cell">How to configure dRAX for a cell</a><ul>
-<li><a href="#introduction-2">Introduction</a></li>
-<li><a href="#how-to-enable-the-drax-provisioner">How to enable the dRAX Provisioner</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#appendix-drax-and-accelleran-e1000s-on-different-subnets">Appendix: dRAX and Accelleran E1000s on different subnets</a><ul>
-<li><a href="#prepare-conf-file">Prepare conf file</a></li>
-<li><a href="#create-docker-login-details">Create docker login details</a></li>
-<li><a href="#pull-the-image-from-dockerhub">Pull the image from DockerHub</a></li>
-<li><a href="#run-as-docker-container">Run as docker container</a></li>
-</ul>
-</li>
-<li><a href="#appendix-drax-provisioner---keys-and-certificates-generation">Appendix: dRAX Provisioner - Keys and Certificates Generation</a><ul>
-<li><a href="#create-the-certificates">Create the certificates</a></li>
-<li><a href="#create-the-serverkey">Create the server.key</a></li>
-<li><a href="#create-a-server-certificate">Create a server certificate</a></li>
-<li><a href="#create-a-self-signed-client-certificate">Create a self-signed client certificate</a></li>
-<li><a href="#sign-the-server-certificate-using-the-root-certificate-authority-key">Sign the server certificate using the root certificate authority key</a></li>
-<li><a href="#verify-the-certificates-work">Verify the certificates work</a></li>
-</ul>
-</li>
-<li><a href="#appendix-configure-4g-radio-controller">Appendix: Configure 4G Radio Controller</a></li>
-<li><a href="#appendix-license-error-codes">Appendix: License Error Codes</a></li>
-<li><a href="#appendix--remove-existing-deployments">Appendix : Remove existing deployments</a></li>
-</ul>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
 <p>This document contains only the minimal set of information to achieve a default installation of dRAX, with some assumptions made such as software and hardware prerequisites as well as Network Configuration.</p>
 <p>The first section gives a detailed overview on hardware, software and other requirements that are considered as default prerequisites to install and operate a dRAX installation.
