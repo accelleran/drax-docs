@@ -1214,9 +1214,9 @@ If neither $NS_DRAX nor $NS_4G_CU is specified, the CU will run in the "default"
 <p>This needs to be repeated for each namespace that you wish to use for dRAX, either for the RIC, 4G or 5G components, as per the table in <a href="#namespaces">the Namespaces section</a>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-</div>
 <p>If you choose to use specific namespaces, special care must be used throughout the remaining steps when executing the kubectl commands.
 For each one, it is important to specify the appropriate namespace using the -n option, example:</p>
+</div>
 <div class="highlight"><pre><span></span><code>kubectl get pods -n <span class="nv">$NS_DRAX</span>
 </code></pre></div>
 <h4 id="configure-dockerhub-credentials-in-kubernetes">Configure DockerHub credentials in Kubernetes<a class="headerlink" href="#configure-dockerhub-credentials-in-kubernetes" title="Permanent link">&para;</a></h4>
@@ -1390,8 +1390,8 @@ For example:</p>
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-</div>
 <p>The installation may take up to 5 minutes, it is essential that you wait till the installation is completed and all the pods are in RUNNING or COMPLETE mode, please do <strong>NOT</strong> interrupt the installation by trying to regain control of the command line</p>
+</div>
 <p>To check if the installation was successful first use Helm:</p>
 <div class="highlight"><pre><span></span><code>helm list
 <span class="c1">#NAME   NAMESPACE   REVISION    UPDATED                                 STATUS          CHART        APP VERSION</span>
@@ -1779,7 +1779,7 @@ tee startXdpAfterBoot.sh <span class="s">&lt;&lt;EOF</span>
 <span class="s">    echo &quot;UPS Pods are not present. Doing nothing.&quot;</span>
 <span class="s">fi</span>
 
-<span class="s">if docker ps | grep xdp ; then</span>
+<span class="s">if docker ps | grep xdpupsappl ; then</span>
 <span class="s">    echo &quot;XDP Already running. Doing nothing.&quot;</span>
 <span class="s">else</span>
 <span class="s">    echo &quot;XDP not found. Starting...:&quot;</span>
