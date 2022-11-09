@@ -2535,10 +2535,6 @@ phluido_l1  |
 <p>NOTE : type <code>ssh root@10.10.0.100 handshake</code> again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen</p>
 </blockquote>
 <h2 id="starting-ru-benetel-650-cell-wrapper-way">Starting RU Benetel 650 - cell wrapper way<a class="headerlink" href="#starting-ru-benetel-650-cell-wrapper-way" title="Permanent link">&para;</a></h2>
-<p>Go to the VM. In the VM a cell wrapper will get installed that controls the DU and RU ( cell ).
-Going inside the CU VM.
-<div class="highlight"><pre><span></span><code>ssh $USER@$NODE_IP 
-</code></pre></div></p>
 <h3 id="install-cell-wrapper">Install cell wrapper<a class="headerlink" href="#install-cell-wrapper" title="Permanent link">&para;</a></h3>
 <h4 id="on-the-host">On the HOST<a class="headerlink" href="#on-the-host" title="Permanent link">&para;</a></h4>
 <p>To make the CU VM have access to the DU host ( bare metal server ) some privileges need to be given.</p>
@@ -2546,7 +2542,11 @@ Going inside the CU VM.
 <span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$USER</span><span class="s2"> ALL=(ALL) NOPASSWD:ALL\n&quot;</span> <span class="p">|</span> sudo tee /etc/sudoers.d/<span class="nv">$USER</span>
 </code></pre></div>
 <h4 id="on-the-cu-vm">On the CU VM<a class="headerlink" href="#on-the-cu-vm" title="Permanent link">&para;</a></h4>
-<p>Add some prerequisites if it is necessary</p>
+<p>Go to the VM. In the VM a cell wrapper will get installed that controls the DU and RU ( cell ).
+Going inside the CU VM.
+<div class="highlight"><pre><span></span><code>ssh $USER@$NODE_IP 
+</code></pre></div>
+Add some prerequisites if it is necessary</p>
 <div class="highlight"><pre><span></span><code>sudo apt update 
 sudo apt install zip
 </code></pre></div>
