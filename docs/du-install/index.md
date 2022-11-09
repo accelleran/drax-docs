@@ -1941,11 +1941,6 @@ Perform these steps to get a running active cell.
 
 
 ## Starting RU Benetel 650 - cell wrapper way
-Go to the VM. In the VM a cell wrapper will get installed that controls the DU and RU ( cell ).
-Going inside the CU VM.
-``` 
-ssh $USER@$NODE_IP 
-```
 
 ### Install cell wrapper
 #### On the HOST
@@ -1957,6 +1952,11 @@ printf "$USER ALL=(ALL) NOPASSWD:ALL\n" | sudo tee /etc/sudoers.d/$USER
 ```
 
 #### On the CU VM
+Go to the VM. In the VM a cell wrapper will get installed that controls the DU and RU ( cell ).
+Going inside the CU VM.
+``` 
+ssh $USER@$NODE_IP 
+```
 Add some prerequisites if it is necessary
 
 ``` bash
