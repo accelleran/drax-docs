@@ -123,11 +123,12 @@ sudo systemctl restart open5gs-upfd
 To be able to reach the GUI from any IP address add these lines 
 
 ```
+[Service]
 Environment=HOSTNAME=0.0.0.0
 Environment=PORT=3000
 ```
 
-to the file ```/etc/systemd/system/multi-user.target.wants/open5gs-webui.service```
+to the file ```/etc/systemd/system/multi-user.target.wants/open5gs-webui.service``` under de ```[Service]``` section.
 
 and restart the service 
 
