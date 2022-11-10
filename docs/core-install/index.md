@@ -139,15 +139,15 @@ systemctl restart open5gs-webui.service
 ```
 now you will find that this service is listening on port 3000 on any ip
 
-```
+``` bash
 netstat -ano | grep 3000
 #tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      off (0.00/0/0)
-````
+```
 
 ### Provision a UE
 
 This can be done through command line
-```
+``` bash
 open5gs-dbctl add 001010000006309 00112233445566778899aabbccddeeff 84d4c9c08b4f482861e3a9c6c35bc4d8 internet
 ```
 

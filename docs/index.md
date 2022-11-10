@@ -39,6 +39,7 @@ This installation guide assumes that that the following are to be taken as prere
 		* Intel Xeon D-1541 or stronger 64-bit processor
 		* 64 GB DDR4 RAM
 		* 800 GB Hard Disk
+		* BIOS settings to most performance mode ( powersaving off, )
 	* VM within the Server, in the same subnet with at least :
 		* 8 assigned cores
 		* 32 GB assigned RAM
@@ -74,7 +75,7 @@ This installation guide assumes that that the following are to be taken as prere
 	* point_a_arfcn [ eg 648840 consistent with center freq, scs 30khz ]
 	* band [ eg 77 consistent with center frequency ]
     
-NOTE: while taking almost no active time to obtain the Phluido license code and the Effnet activation bundle, in order to do so we need to contact our technical partners and this may require up to a couple of working days so it is recommended to take the necessary actions to complete these steps first of all. Similarly, we must enable your dockerhub account to access and download the Accelleran software images, this also takes some time and can be done upfront
+> NOTE: while taking almost no active time to obtain the Phluido license code and the Effnet activation bundle, in order to do so we need to contact our technical partners and this may require up to a couple of working days so it is recommended to take the necessary actions to complete these steps first of all. Similarly, we must enable your dockerhub account to access and download the Accelleran software images, this also takes some time and can be done upfront
 
 
 ### Know the ip addresses, interfaces, user account
@@ -85,7 +86,9 @@ Furthermore this guide will refer to the IP address of the gateway as `$GATEWAY_
 In order to be able to execute the commands in this guide as-is you should add these variables to the environment as soon as they are known.
 Alternatively you can edit the configurations to set the correct IP addresses. 
 
-> NOTE: All IP's need to be in the same subnet. The ip's and values used in the variables depicted below are example values.
+> NOTE : All IP's need to be in the same subnet. The ip's and values used in the variables depicted below are example values.
+
+> NOTE : the USER of the CU VM and the bare metal HOST is assumed to be the same.   
 
 ``` bash
 export NODE_IP=192.168.88.4          # replace 192.168.88.4 by the IP address of the node. ( The IP of the eth0 in the CU VM )
@@ -99,11 +102,11 @@ export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. Good practi
 export F1_CU_IP=192.168.88.171    # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.
 export LOADBALANCER_IP_RANGE=192.168.88.160-192.168.88.171
 
-export USER=sj5g                  # username to log into linux
+export USER=sj5g                  # username to log into linux of HOST SERVER and CU VM
 export CU_HOSTNAME=cu-cab3        # the hostname the CU VM will get.
-export CU_VM_NAME=cu-cab3        # the hostname the CU VM will get.
+export CU_VM_NAME=cu-cab3         # the hostname the CU VM will get.
 export OPEN5GS_HOSTNAME=open5gs-cab3        # the hostname the CU VM will get.
-export OPEN5GS_VM_NAME=open5gs-cab3        # the hostname the oCU VM will get.
+export OPEN5GS_VM_NAME=open5gs-cab3         # the hostname the oCU VM will get.
 export L1_PHLUIDO_KEY="xxxx.xxxx.xxxx.xxxx.xxxx"
 ```
 
@@ -147,7 +150,7 @@ Depending on the server you will be using assign the cores to the DU and CU.
 
 > IMPORTANT : only comma seperated list is allowed. ( virt-install will be using it )
 
-#### In case of dual CPU
+##### In case of dual CPU
 ``` bash
 ubuntu@bbu3:~$ numactl --hardware
 available: 2 nodes (0-1)
@@ -170,7 +173,7 @@ export CORE_SET_CU=1,3,5,7,9,11,13,15
 export CORE_AMOUNT_CU=8
 ```
 
-#### In case of 1 CPU server
+##### In case of 1 CPU server
 ``` bash
 $ numactl --hardware
 available: 1 nodes (0)
@@ -208,7 +211,7 @@ git clone --branch $INSTALL_VERSION https://github.com/accelleran/drax-install
 ### Fill in variable values.
 
 All the variables mentioned above can be found in the file 
-```
+``` bash
 ~/install_$CU_VERSION/drax-install/install-vars.sh.
 ```
 Update this file with the correct values. 

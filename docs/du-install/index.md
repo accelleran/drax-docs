@@ -1988,6 +1988,7 @@ It will install the cell-wrapper the will take care of the cell's health.
 In this configuration the cell-wrapper will reboot the RU every night at 2:00 AM. ```<reboot>true</reboot>``` 
 
 
+
 ``` xml
 mkdir -p ~/install_$CU_VERSION/ 
 cd !$
