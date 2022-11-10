@@ -546,10 +546,11 @@ sudo systemctl restart open5gs-upfd
 </code></pre></div>
 <h3 id="open5gs-gui">open5gs GUI<a class="headerlink" href="#open5gs-gui" title="Permanent link">&para;</a></h3>
 <p>To be able to reach the GUI from any IP address add these lines </p>
-<div class="highlight"><pre><span></span><code>Environment=HOSTNAME=0.0.0.0
+<div class="highlight"><pre><span></span><code>[Service]
+Environment=HOSTNAME=0.0.0.0
 Environment=PORT=3000
 </code></pre></div>
-<p>to the file <code>/etc/systemd/system/multi-user.target.wants/open5gs-webui.service</code></p>
+<p>to the file <code>/etc/systemd/system/multi-user.target.wants/open5gs-webui.service</code> under de <code>[Service]</code> section.</p>
 <p>and restart the service </p>
 <p><div class="highlight"><pre><span></span><code>systemctl daemon-reload
 </code></pre></div>
