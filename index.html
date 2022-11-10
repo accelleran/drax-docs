@@ -569,6 +569,7 @@ This system release contains </p>
 <li>Intel Xeon D-1541 or stronger 64-bit processor</li>
 <li>64 GB DDR4 RAM</li>
 <li>800 GB Hard Disk</li>
+<li>BIOS settings to most performance mode ( powersaving off, )</li>
 </ul>
 </li>
 <li>VM within the Server, in the same subnet with at least :<ul>
@@ -624,7 +625,9 @@ This system release contains </p>
 </ul>
 </li>
 </ul>
+<blockquote>
 <p>NOTE: while taking almost no active time to obtain the Phluido license code and the Effnet activation bundle, in order to do so we need to contact our technical partners and this may require up to a couple of working days so it is recommended to take the necessary actions to complete these steps first of all. Similarly, we must enable your dockerhub account to access and download the Accelleran software images, this also takes some time and can be done upfront</p>
+</blockquote>
 <h3 id="know-the-ip-addresses-interfaces-user-account">Know the ip addresses, interfaces, user account<a class="headerlink" href="#know-the-ip-addresses-interfaces-user-account" title="Permanent link">&para;</a></h3>
 <p>Make sure Ubuntu (Server) 20.04 is installed as said both on the physical server and on the virtual machine and that both have access to the internet.
 They both must have a static IP address on a fixed port, in the same subnet
@@ -633,7 +636,8 @@ Furthermore this guide will refer to the IP address of the gateway as <code>$GAT
 In order to be able to execute the commands in this guide as-is you should add these variables to the environment as soon as they are known.
 Alternatively you can edit the configurations to set the correct IP addresses. </p>
 <blockquote>
-<p>NOTE: All IP's need to be in the same subnet. The ip's and values used in the variables depicted below are example values.</p>
+<p>NOTE : All IP's need to be in the same subnet. The ip's and values used in the variables depicted below are example values.</p>
+<p>NOTE : the USER of the CU VM and the bare metal HOST is assumed to be the same.   </p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">NODE_IP</span><span class="o">=</span><span class="m">192</span>.168.88.4          <span class="c1"># replace 192.168.88.4 by the IP address of the node. ( The IP of the eth0 in the CU VM )</span>
 <span class="nb">export</span> <span class="nv">NODE_SUBNET</span><span class="o">=</span><span class="m">192</span>.168.88.0/24   <span class="c1"># the subnet that contains the $NODE_IP</span>
@@ -646,11 +650,11 @@ Alternatively you can edit the configurations to set the correct IP addresses. <
 <span class="nb">export</span> <span class="nv">F1_CU_IP</span><span class="o">=</span><span class="m">192</span>.168.88.171    <span class="c1"># F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.</span>
 <span class="nb">export</span> <span class="nv">LOADBALANCER_IP_RANGE</span><span class="o">=</span><span class="m">192</span>.168.88.160-192.168.88.171
 
-<span class="nb">export</span> <span class="nv">USER</span><span class="o">=</span>sj5g                  <span class="c1"># username to log into linux</span>
+<span class="nb">export</span> <span class="nv">USER</span><span class="o">=</span>sj5g                  <span class="c1"># username to log into linux of HOST SERVER and CU VM</span>
 <span class="nb">export</span> <span class="nv">CU_HOSTNAME</span><span class="o">=</span>cu-cab3        <span class="c1"># the hostname the CU VM will get.</span>
-<span class="nb">export</span> <span class="nv">CU_VM_NAME</span><span class="o">=</span>cu-cab3        <span class="c1"># the hostname the CU VM will get.</span>
+<span class="nb">export</span> <span class="nv">CU_VM_NAME</span><span class="o">=</span>cu-cab3         <span class="c1"># the hostname the CU VM will get.</span>
 <span class="nb">export</span> <span class="nv">OPEN5GS_HOSTNAME</span><span class="o">=</span>open5gs-cab3        <span class="c1"># the hostname the CU VM will get.</span>
-<span class="nb">export</span> <span class="nv">OPEN5GS_VM_NAME</span><span class="o">=</span>open5gs-cab3        <span class="c1"># the hostname the oCU VM will get.</span>
+<span class="nb">export</span> <span class="nv">OPEN5GS_VM_NAME</span><span class="o">=</span>open5gs-cab3         <span class="c1"># the hostname the oCU VM will get.</span>
 <span class="nb">export</span> <span class="nv">L1_PHLUIDO_KEY</span><span class="o">=</span><span class="s2">&quot;xxxx.xxxx.xxxx.xxxx.xxxx&quot;</span>
 </code></pre></div>
 <p>In case a Benetel650 RU connected to the server with a fiber
@@ -685,7 +689,7 @@ Whenever a command has to be executed with root privileges it will be prefixed w
 <blockquote>
 <p>IMPORTANT : only comma seperated list is allowed. ( virt-install will be using it )</p>
 </blockquote>
-<h4 id="in-case-of-dual-cpu">In case of dual CPU<a class="headerlink" href="#in-case-of-dual-cpu" title="Permanent link">&para;</a></h4>
+<h5 id="in-case-of-dual-cpu">In case of dual CPU<a class="headerlink" href="#in-case-of-dual-cpu" title="Permanent link">&para;</a></h5>
 <p><div class="highlight"><pre><span></span><code>ubuntu@bbu3:~$ numactl --hardware
 available: <span class="m">2</span> nodes <span class="o">(</span><span class="m">0</span>-1<span class="o">)</span>
 node <span class="m">0</span> cpus: <span class="m">0</span> <span class="m">2</span> <span class="m">4</span> <span class="m">6</span> <span class="m">8</span> <span class="m">10</span> <span class="m">12</span> <span class="m">14</span>
@@ -704,7 +708,7 @@ assign all cores of 1 CPU to DU. The cores of the other CPU to CU VM). </p>
 <span class="nb">export</span> <span class="nv">CORE_SET_CU</span><span class="o">=</span><span class="m">1</span>,3,5,7,9,11,13,15
 <span class="nb">export</span> <span class="nv">CORE_AMOUNT_CU</span><span class="o">=</span><span class="m">8</span>
 </code></pre></div>
-<h4 id="in-case-of-1-cpu-server">In case of 1 CPU server<a class="headerlink" href="#in-case-of-1-cpu-server" title="Permanent link">&para;</a></h4>
+<h5 id="in-case-of-1-cpu-server">In case of 1 CPU server<a class="headerlink" href="#in-case-of-1-cpu-server" title="Permanent link">&para;</a></h5>
 <p><div class="highlight"><pre><span></span><code>$ numactl --hardware
 available: <span class="m">1</span> nodes <span class="o">(</span><span class="m">0</span><span class="o">)</span>
 node <span class="m">0</span> cpus: <span class="m">0</span> <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> <span class="m">10</span> <span class="m">11</span> <span class="m">12</span> <span class="m">13</span> <span class="m">14</span> <span class="m">15</span> <span class="m">16</span> <span class="m">17</span> <span class="m">18</span> <span class="m">19</span>
@@ -730,7 +734,7 @@ Assign first half to DU and last half to CU
 </code></pre></div>
 <h3 id="fill-in-variable-values">Fill in variable values.<a class="headerlink" href="#fill-in-variable-values" title="Permanent link">&para;</a></h3>
 <p>All the variables mentioned above can be found in the file 
-<div class="highlight"><pre><span></span><code>~/install_$CU_VERSION/drax-install/install-vars.sh.
+<div class="highlight"><pre><span></span><code>~/install_<span class="nv">$CU_VERSION</span>/drax-install/install-vars.sh.
 </code></pre></div>
 Update this file with the correct values. 
 They values have been prepared in the section above.</p>

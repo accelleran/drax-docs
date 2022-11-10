@@ -394,6 +394,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#provision-a-ue" class="md-nav__link">
+    Provision a UE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-if-open5gs-is-functional" class="md-nav__link">
+    Verify if open5gs is functional
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#some-scripts-one-often-uses" class="md-nav__link">
     Some scripts one often uses
   </a>
@@ -542,31 +556,28 @@ Environment=PORT=3000
 <div class="highlight"><pre><span></span><code>systemctl restart open5gs-webui.service
 </code></pre></div>
 now you will find that this service is listening on port 3000 on any ip</p>
-<p><div class="highlight"><pre><span></span><code>netstat -ano | grep 3000
-#tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      off (0.00/0/0)
-````
-
-### Provision a UE
-
-This can be done through command line
+<div class="highlight"><pre><span></span><code>netstat -ano <span class="p">|</span> grep <span class="m">3000</span>
+<span class="c1">#tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      off (0.00/0/0)</span>
 </code></pre></div>
-open5gs-dbctl add 001010000006309 00112233445566778899aabbccddeeff 84d4c9c08b4f482861e3a9c6c35bc4d8 internet
-<div class="highlight"><pre><span></span><code>or webgui
+<h3 id="provision-a-ue">Provision a UE<a class="headerlink" href="#provision-a-ue" title="Permanent link">&para;</a></h3>
+<p>This can be done through command line
+<div class="highlight"><pre><span></span><code>open5gs-dbctl add <span class="m">001010000006309</span> 00112233445566778899aabbccddeeff 84d4c9c08b4f482861e3a9c6c35bc4d8 internet
+</code></pre></div></p>
+<p>or webgui</p>
+<p align="center">
+  <img width="1025" height="531" src="2022-08-09_135057.png">
+  <img width="1024" height="542" src="2022-08-09_135124.png">
+  <img width="1026" height="544" src="2022-08-09_135146.png">
+</p>
 
-&lt;p align=&quot;center&quot;&gt;
-  &lt;img width=&quot;1025&quot; height=&quot;531&quot; src=&quot;2022-08-09_135057.png&quot;&gt;
-  &lt;img width=&quot;1024&quot; height=&quot;542&quot; src=&quot;2022-08-09_135124.png&quot;&gt;
-  &lt;img width=&quot;1026&quot; height=&quot;544&quot; src=&quot;2022-08-09_135146.png&quot;&gt;
-&lt;/p&gt;
-
-
-* use static ip address which you can map to the imsi. This makes debugging traffic much easier when using multiple UE&#39;s. 
-    ``` eg: imsi 235880000009834 gets ip address 10.0.0.34```
-### Verify if open5gs is functional
-open5gs listens on ngap interface
-``` bash
-netstat -ano | grep 38412
-# sctp                10.55.7.104:38412                               LISTEN      
+<ul>
+<li>use static ip address which you can map to the imsi. This makes debugging traffic much easier when using multiple UE's. 
+    <code>eg: imsi 235880000009834 gets ip address 10.0.0.34</code></li>
+</ul>
+<h3 id="verify-if-open5gs-is-functional">Verify if open5gs is functional<a class="headerlink" href="#verify-if-open5gs-is-functional" title="Permanent link">&para;</a></h3>
+<p>open5gs listens on ngap interface
+<div class="highlight"><pre><span></span><code>netstat -ano <span class="p">|</span> grep <span class="m">38412</span>
+<span class="c1"># sctp                10.55.7.104:38412                               LISTEN      </span>
 </code></pre></div></p>
 <p>5g configuration
 <div class="highlight"><pre><span></span><code>grep -e <span class="m">10</span>.55.7 -e m<span class="o">[</span>cn<span class="o">]</span>c  /etc/open5gs/* <span class="p">|</span> egrep -v :<span class="se">\s</span>*#
