@@ -492,6 +492,7 @@ Download the UHD images:
 
 ``` bash
 sudo uhd_images_downloader
+sudo /usr/lib/uhd/utils/uhd_images_downloader.py
 ```
 
 Check if the B210 is detecting using the following command:
