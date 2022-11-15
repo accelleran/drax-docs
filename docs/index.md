@@ -195,13 +195,13 @@ export CORE_AMOUNT_CU=10
 We'll create an install directory in which we'll be working through this whole install procedure. 
 
 ``` bash
-cd ; mkdir -p ~/install_$CU_VERSION/ ; cd $_
+cd ; mkdir -p ~/install/ ; cd $_
 ```
 
 ### Get scripts
 
 ``` bash
-cd ~/install_$CU_VERSION
+cd ~/install
 ```
 
 ``` bash
@@ -212,7 +212,7 @@ git clone --branch $INSTALL_VERSION https://github.com/accelleran/drax-install
 
 All the variables mentioned above can be found in the file 
 ``` bash
-~/install_$CU_VERSION/drax-install/install-vars.sh.
+vi ~/install/drax-install/install-vars.sh
 ```
 Update this file with the correct values. 
 They values have been prepared in the section above.
@@ -222,7 +222,7 @@ After having done that run the install.sh script to make the values available in
 They values are boot safe so you only have to run them once.
 
 ``` bash
-. ~/install_$CU_VERSION/drax-install/install.sh
+. ~/install/drax-install/install.sh
 ```
 
 ### Verify the variables

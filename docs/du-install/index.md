@@ -1947,8 +1947,8 @@ Perform these steps to get a running active cell.
 To make the CU VM have access to the DU host ( bare metal server ) some privileges need to be given.
 
 ``` bash
-usermod -aG sudo $USER
 printf "$USER ALL=(ALL) NOPASSWD:ALL\n" | sudo tee /etc/sudoers.d/$USER
+sudo usermod -aG sudo $USER
 ```
 
 #### On the CU VM
@@ -1990,7 +1990,7 @@ In this configuration the cell-wrapper will reboot the RU every night at 2:00 AM
 
 
 ``` xml
-mkdir -p ~/install_$CU_VERSION/ 
+mkdir -p ~/install_$INSTALL_VERSION/ 
 cd !$
 tee cw.yaml <<EOF 
 global:
@@ -2151,7 +2151,7 @@ helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
 Now you can see the kubernetes pods being created. Follow there progress with.
 
 ``` bash
-watch -d kubernetes get pod
+watch -d kubectl get pod
 
 ```
 
