@@ -2,7 +2,22 @@
 
 ## Introduction
 
-This guide describes the installation of the Accelleran dRAX base, 4G and 5G components, the Effnet DU, Phluido L1 and optionally a core network on a single server machine, however separating the RIC/CU (on a VM) and the DU/L1 (on the server) to increase stability and performances
+This guide describes the installation of the Accelleran dRAX base, 4G and 5G components, the Effnet DU, Phluido L1 and optionally a core network on a single server machine, however separating the RIC/CU (on a VM) and the DU/L1 (on the server) to increase stability and performances.
+
+This first page is the most important page of the install. This first pages holds all the elements needed to do the install in a minimum of time.  
+
+## Duration
+This install can be done in  4 hours up to 1 week depending on the experience of the engineer. This is an estimation done from experience. Why this is the case is not explained here. However a few points listed here without any more details.
+
+* Slight differences in hardware/firmware of each component.
+* The network the platform resides in.
+* The experience and view points of the engineer itself.
+* Network stability in which the platform resides.
+* Access to the platform.
+* ...
+  
+Because the install is done manually by an engineer it might be necessary that this engineer needs some support from accelleran.
+
 
 ## Releases
 This document is released together with the system release 2022.3.0. 
