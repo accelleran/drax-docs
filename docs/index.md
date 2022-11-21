@@ -123,6 +123,8 @@ export CU_VM_NAME=cu-cab3         # the hostname the CU VM will get.
 export OPEN5GS_HOSTNAME=open5gs-cab3        # the hostname the CU VM will get.
 export OPEN5GS_VM_NAME=open5gs-cab3         # the hostname the oCU VM will get.
 export L1_PHLUIDO_KEY="xxxx.xxxx.xxxx.xxxx.xxxx"
+
+export POD_NETWORK="10.244.0.0/16"
 ```
 
 In case a Benetel650 RU connected to the server with a fiber
