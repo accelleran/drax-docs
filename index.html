@@ -668,6 +668,7 @@ Alternatively you can edit the configurations to set the correct IP addresses. <
 <span class="nb">export</span> <span class="nv">E1_CU_IP</span><span class="o">=</span><span class="m">192</span>.168.88.170    <span class="c1"># E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.</span>
 <span class="nb">export</span> <span class="nv">F1_CU_IP</span><span class="o">=</span><span class="m">192</span>.168.88.171    <span class="c1"># F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.</span>
 <span class="nb">export</span> <span class="nv">LOADBALANCER_IP_RANGE</span><span class="o">=</span><span class="m">192</span>.168.88.160-192.168.88.171
+<span class="nb">export</span> <span class="nv">POD_NETWORK</span><span class="o">=</span><span class="s2">&quot;10.244.0.0/16&quot;</span>
 
 <span class="nb">export</span> <span class="nv">USER</span><span class="o">=</span>sj5g                  <span class="c1"># username to log into linux of HOST SERVER and CU VM</span>
 <span class="nb">export</span> <span class="nv">CU_HOSTNAME</span><span class="o">=</span>cu-cab3        <span class="c1"># the hostname the CU VM will get.</span>
@@ -675,8 +676,6 @@ Alternatively you can edit the configurations to set the correct IP addresses. <
 <span class="nb">export</span> <span class="nv">OPEN5GS_HOSTNAME</span><span class="o">=</span>open5gs-cab3        <span class="c1"># the hostname the CU VM will get.</span>
 <span class="nb">export</span> <span class="nv">OPEN5GS_VM_NAME</span><span class="o">=</span>open5gs-cab3         <span class="c1"># the hostname the oCU VM will get.</span>
 <span class="nb">export</span> <span class="nv">L1_PHLUIDO_KEY</span><span class="o">=</span><span class="s2">&quot;xxxx.xxxx.xxxx.xxxx.xxxx&quot;</span>
-
-<span class="nb">export</span> <span class="nv">POD_NETWORK</span><span class="o">=</span><span class="s2">&quot;10.244.0.0/16&quot;</span>
 </code></pre></div>
 <p>In case a Benetel650 RU connected to the server with a fiber
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">SERVER_RU_INT</span><span class="o">=</span>enp1s0f0            <span class="c1"># interface of the server to the RU. Fiber interface.</span>
