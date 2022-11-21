@@ -116,6 +116,7 @@ export CORE_IP=192.168.88.5       # replace 192.168.88.5 by the IP address of th
 export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.
 export F1_CU_IP=192.168.88.171    # F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.
 export LOADBALANCER_IP_RANGE=192.168.88.160-192.168.88.171
+export POD_NETWORK="10.244.0.0/16"
 
 export USER=sj5g                  # username to log into linux of HOST SERVER and CU VM
 export CU_HOSTNAME=cu-cab3        # the hostname the CU VM will get.
@@ -124,7 +125,6 @@ export OPEN5GS_HOSTNAME=open5gs-cab3        # the hostname the CU VM will get.
 export OPEN5GS_VM_NAME=open5gs-cab3         # the hostname the oCU VM will get.
 export L1_PHLUIDO_KEY="xxxx.xxxx.xxxx.xxxx.xxxx"
 
-export POD_NETWORK="10.244.0.0/16"
 ```
 
 In case a Benetel650 RU connected to the server with a fiber
