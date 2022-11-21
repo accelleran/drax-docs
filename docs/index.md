@@ -7,7 +7,7 @@ This guide describes the installation of the Accelleran dRAX base, 4G and 5G com
 This first page is the most important page of the install. This first pages holds all the elements needed to do the install in a minimum of time.  
 
 ## Duration
-This install can be done in  4 hours up to 1 week depending on the experience of the engineer. This is an estimation done from experience. Why this is the case is not explained here. However a few points listed here without any more details.
+This install can be done in  1 day up to 1 week depending on the experience of the engineer. This is an estimation done from experience. Why this is the case is not explained here. However a few points listed here without any more details.
 
 * Slight differences in hardware/firmware of each component.
 * The network the platform resides in.
