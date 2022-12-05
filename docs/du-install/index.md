@@ -1809,6 +1809,8 @@ do
      cd /home/root; radiocontrol -o D r 15 1
 done >> /tmp/dpd_reset_status &
 EOF
+chmod 777 /usr/sbin/dpd_reset.sh
+
 
 ```
 

@@ -562,10 +562,6 @@ sudo apt install containerd.io
 sudo apt install docker-compose
 ```
 
-rerun the .profile
-``` bash
-. profile
-```
 Add your user to the docker group to be able to run docker commands without sudo access.
 
 now all the variable values 
@@ -576,6 +572,11 @@ sudo usermod -aG docker $USER
 
 ``` bash
 sudo reboot
+```
+
+rerun the .profile to load install variables
+``` bash
+. $HOME/.profile
 ```
 
 To check if your installation is working you can try to run a test image in a container:
@@ -632,7 +633,13 @@ sudo apt update
 Accelleran dRAX currently supports Kubernetes up to version 1.20. The following command installs specifically this version:
 
 ``` bash
-sudo apt install -y kubelet=1.20.0-00 kubeadm=1.20.0-00 kubectl=1.20.0-00
+sudo apt install -y kubelet=1.20.0-00 
+```
+``` bash
+sudo apt install -y kubeadm=1.20.0-00 
+```
+``` bash
+sudo apt isntall -y kubectl=1.20.0-00
 ```
 ``` bash
 sudo apt-mark hold kubelet kubeadm kubectl
@@ -667,6 +674,8 @@ To make kubectl work for our non-root user, run the following commands:
 ``` bash
 mkdir -p "$HOME/.kube"
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+```
+``` bash
 sudo chown "$(id -u):$(id -g)" "$HOME/.kube/config"
 ```
 
@@ -775,6 +784,9 @@ sudo ip link delete cni0
 ```
 ``` bash
 sudo ip link delete flannel.1
+```
+``` bash
+sudo rm /etc/kubernetes/admin.conf
 ```
 
 
