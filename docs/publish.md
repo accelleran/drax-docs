@@ -29,6 +29,15 @@ mkdocs serve
 
 At this point you can start browsing the docs on your local machine
 
+With visual code you can do changes and they will reflect immediatly in the preview on the webbrowser
+
+
+To make the preview uploaded to git hub use
+```
+mkdocs gh-deploy
+```
+
+
 ## Formatting 
 This paragraph shows how the formatting has been accomplished
 
