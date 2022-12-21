@@ -43,12 +43,9 @@ Using a tmux window it is easy to generate the mkdocs with the extra formatting.
 ![image](https://user-images.githubusercontent.com/21971027/208913910-b314b3c7-9ba1-40af-b33b-e0d781408ef9.png)
 
 
-* git pull
-   gets the latest changes 
-* mkdocs serve -a 10.22.11.147:8000 
-   provides a preview at url ``` http://10.22.11.147:8000/drax-docs/du-install/ ```
-* mkdocs gh-deploy 
-   deploys it to github and is available at url ```https://accelleran.github.io/drax-docs/```
+* ```git pull``` : gets the latest changes 
+* ```mkdocs serve -a 10.22.11.147:8000``` provides a preview at url ``` http://10.22.11.147:8000/drax-docs/du-install/ ```
+* ```mkdocs gh-deploy``` deploys it to github and is available at url ```https://accelleran.github.io/drax-docs/```
 
 ## Formatting
 extra formatting has been added and is put here 
