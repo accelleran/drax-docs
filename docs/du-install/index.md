@@ -78,12 +78,11 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
-
-### Phluido isntall
-
-#### Obtain the Effnet and Phluido licenses
+### Obtain the Effnet and Phluido licenses
 In this phase we will need to act in parallel for the DU and the L1/RRU licenses, which depend on our partner company so it is essential to give priority and possibly anticipate these two steps as there is no specific effort involved from the user/customer perspective and they may require longer than one working day before we can proceed further.
 
+
+### Phluido isntall
 
 #### Phluido : Install a Low Latency Kernel
 
@@ -285,7 +284,7 @@ unzip accelleran-du-phluido-$DU_VERSION.zip
 bzcat accelleran-du-phluido/accelleran-du-phluido-$DU_VERSION/gnb_du_main_phluido-$DU_VERSION.tar.bz2 | docker image load
 ```
 
-#### docker compose file ( with CPU PINNING )
+### docker compose file ( with CPU PINNING )
  
  To achieve maximum stability and performance it is necessary to optimise the CPU load and this can be done by distributing the available CPUs among the components and assign different priorities to the most demanding processes. We split therefore the CPUs in two groups, one group of CPUs for the VM where the RIC/CU run and one group of CPUs for the containers that run L1 and DU. The CPU pinning allows for ceertain components to run only on certain CPUs, however it doesn't impede other processes to use the same CPUs, so the full optimisation of the CPU usage and the exclusive allocation of the CPUs are beyond the scope of this document, here we illustrate one possible split as an example.
  
@@ -388,7 +387,7 @@ EOF
 > 
 > ```
 
-#### set softirq priorities to realtime	
+### set softirq priorities to realtime	
 In a normal setup, the softirq processes will run at priority 20, equal to all user processes. Here they need to run at -2, which corresponds to real time priority. They are scheduled on all cores but will get strict priority over any other user processes. To adapt the priority of the ksoft, you can use spcific commands:
 
 to set to realtime priority 1 (lowest prio, but still "run to completion" before other default processes are executed):
@@ -424,7 +423,7 @@ The only thing remaining is now **prioritise the softirq processes**. One can us
 
 
 
-#### **FOR B210 RU ONLY** Install Phluido RRU ( docker )
+### **FOR B210 RU ONLY** Install Phluido RRU ( docker )
 
  Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):
 
