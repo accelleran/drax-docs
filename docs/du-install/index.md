@@ -150,6 +150,12 @@ System test completed, output written to file "sysTest.bin".
 ( The test takes around 90 seconds) This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components Once it is finsihed it produces a file sysTest.bin in the same directory Send this file to Accelleran, 
 to obtain the Phluido license key. Send this .bin file to phluido to receive a proper license.
 
+#### Install the Phluido L1 ( docker )
+ 
+``` bash
+ docker image load -i phluido_docker_$L1_VERSION.tar
+```
+
 ### Effnet Install
 #### Effnet License: Install and check your Yubikey 
 
@@ -269,12 +275,6 @@ Loading certificate to Yubico YubiKey CCID 00 00 (serial: 13134288)
 
 Which means that a license for the dongle with serial-number 13134288 was loaded to the dongle (i.e., it was bundled in the license-activation image).
 
-
-#### Install the Phluido L1 ( docker )
- 
-``` bash
- docker image load -i phluido_docker_$L1_VERSION.tar
-```
 
 
 #### Install Effnet DU ( docker )
