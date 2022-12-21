@@ -402,15 +402,15 @@
     Obtain the Effnet and Phluido licenses
   </a>
   
-    <nav class="md-nav" aria-label="Obtain the Effnet and Phluido licenses">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
-  <a href="#preparation-steps" class="md-nav__link">
-    Preparation steps
+  <a href="#phluido-isntall" class="md-nav__link">
+    Phluido isntall
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Phluido isntall">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#phluido-install-a-low-latency-kernel" class="md-nav__link">
@@ -425,6 +425,19 @@
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#effnet-install" class="md-nav__link">
+    Effnet Install
+  </a>
+  
+    <nav class="md-nav" aria-label="Effnet Install">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#effnet-license-install-and-check-your-yubikey" class="md-nav__link">
@@ -461,6 +474,11 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+        
           <li class="md-nav__item">
   <a href="#docker-compose-file-with-cpu-pinning" class="md-nav__link">
     docker compose file ( with CPU PINNING )
@@ -479,11 +497,6 @@
   <a href="#for-b210-ru-only-install-phluido-rru-docker" class="md-nav__link">
     FOR B210 RU ONLY Install Phluido RRU ( docker )
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -986,8 +999,8 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 </code></pre></div>
 <h3 id="obtain-the-effnet-and-phluido-licenses">Obtain the Effnet and Phluido licenses<a class="headerlink" href="#obtain-the-effnet-and-phluido-licenses" title="Permanent link">&para;</a></h3>
-<h4 id="preparation-steps">Preparation steps<a class="headerlink" href="#preparation-steps" title="Permanent link">&para;</a></h4>
 <p>In this phase we will need to act in parallel for the DU and the L1/RRU licenses, which depend on our partner company so it is essential to give priority and possibly anticipate these two steps as there is no specific effort involved from the user/customer perspective and they may require longer than one working day before we can proceed further.</p>
+<h3 id="phluido-isntall">Phluido isntall<a class="headerlink" href="#phluido-isntall" title="Permanent link">&para;</a></h3>
 <h4 id="phluido-install-a-low-latency-kernel">Phluido : Install a Low Latency Kernel<a class="headerlink" href="#phluido-install-a-low-latency-kernel" title="Permanent link">&para;</a></h4>
 <p>The PHY layer has very stringent latency requirements, therefore we install a low latency kernel:</p>
 <div class="highlight"><pre><span></span><code>sudo apt install linux-image-lowlatency
@@ -1031,6 +1044,7 @@ System test completed, output written to file &quot;sysTest.bin&quot;.
 </code></pre></div>
 <p>( The test takes around 90 seconds) This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components Once it is finsihed it produces a file sysTest.bin in the same directory Send this file to Accelleran, 
 to obtain the Phluido license key. Send this .bin file to phluido to receive a proper license.</p>
+<h3 id="effnet-install">Effnet Install<a class="headerlink" href="#effnet-install" title="Permanent link">&para;</a></h3>
 <h4 id="effnet-license-install-and-check-your-yubikey">Effnet License: Install and check your Yubikey<a class="headerlink" href="#effnet-license-install-and-check-your-yubikey" title="Permanent link">&para;</a></h4>
 <p>For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip</p>
 <p>if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed physically to a USB port:</p>
@@ -1118,7 +1132,7 @@ the dongle with the serial number 13134288 has not been activated, or the licens
 <div class="highlight"><pre><span></span><code>unzip accelleran-du-phluido-<span class="nv">$DU_VERSION</span>.zip
 bzcat accelleran-du-phluido/accelleran-du-phluido-<span class="nv">$DU_VERSION</span>/gnb_du_main_phluido-<span class="nv">$DU_VERSION</span>.tar.bz2 <span class="p">|</span> docker image load
 </code></pre></div>
-<h4 id="docker-compose-file-with-cpu-pinning">docker compose file ( with CPU PINNING )<a class="headerlink" href="#docker-compose-file-with-cpu-pinning" title="Permanent link">&para;</a></h4>
+<h3 id="docker-compose-file-with-cpu-pinning">docker compose file ( with CPU PINNING )<a class="headerlink" href="#docker-compose-file-with-cpu-pinning" title="Permanent link">&para;</a></h3>
 <p>To achieve maximum stability and performance it is necessary to optimise the CPU load and this can be done by distributing the available CPUs among the components and assign different priorities to the most demanding processes. We split therefore the CPUs in two groups, one group of CPUs for the VM where the RIC/CU run and one group of CPUs for the containers that run L1 and DU. The CPU pinning allows for ceertain components to run only on certain CPUs, however it doesn't impede other processes to use the same CPUs, so the full optimisation of the CPU usage and the exclusive allocation of the CPUs are beyond the scope of this document, here we illustrate one possible split as an example.</p>
 <p>First thing to find out is what resources are available on our system:
 These have been found during the preperation fase and shared over DU and CU. In this chapter the DU core are assigned.</p>
@@ -1206,7 +1220,7 @@ or other application using the libvirt API.
   &lt;features&gt;
 </code></pre></div>
 </blockquote>
-<h4 id="set-softirq-priorities-to-realtime">set softirq priorities to realtime<a class="headerlink" href="#set-softirq-priorities-to-realtime" title="Permanent link">&para;</a></h4>
+<h3 id="set-softirq-priorities-to-realtime">set softirq priorities to realtime<a class="headerlink" href="#set-softirq-priorities-to-realtime" title="Permanent link">&para;</a></h3>
 <p>In a normal setup, the softirq processes will run at priority 20, equal to all user processes. Here they need to run at -2, which corresponds to real time priority. They are scheduled on all cores but will get strict priority over any other user processes. To adapt the priority of the ksoft, you can use spcific commands:</p>
 <p>to set to realtime priority 1 (lowest prio, but still "run to completion" before other default processes are executed):
 <div class="highlight"><pre><span></span><code>ps -A <span class="p">|</span> grep ksoftirq <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span> <span class="p">|</span> xargs -L1 sudo chrt -p <span class="m">1</span>
@@ -1229,7 +1243,7 @@ The only thing remaining is now <strong>prioritise the softirq processes</strong
   <img width="500" height="300" src="htopPinning.png">
 </p>
 
-<h4 id="for-b210-ru-only-install-phluido-rru-docker"><strong>FOR B210 RU ONLY</strong> Install Phluido RRU ( docker )<a class="headerlink" href="#for-b210-ru-only-install-phluido-rru-docker" title="Permanent link">&para;</a></h4>
+<h3 id="for-b210-ru-only-install-phluido-rru-docker"><strong>FOR B210 RU ONLY</strong> Install Phluido RRU ( docker )<a class="headerlink" href="#for-b210-ru-only-install-phluido-rru-docker" title="Permanent link">&para;</a></h3>
 <p>Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):</p>
 <div class="highlight"><pre><span></span><code>docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
 </code></pre></div>
