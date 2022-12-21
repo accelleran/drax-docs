@@ -40,6 +40,12 @@ Extra formatting is put here aswell. ( not in github yet )
 
 Using a tmux window it is easy to generate the mkdocs with the extra formatting.
 
+start the tmux running 
+```
+cd /mnt/5g-backup/drax-docs
+tmux-drax-docs.sh
+```
+
 ![image](https://user-images.githubusercontent.com/21971027/208913910-b314b3c7-9ba1-40af-b33b-e0d781408ef9.png)
 
 
