@@ -11,11 +11,17 @@ clone the repo containing the .md files
 git clone  https://github.com/accelleran/drax-docs
 ```
 
+```
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
 install the tools
 ``` 
-pip3 install mkdocs-material
-pip3 install mike
-pip3 install mkdocs-section-index
+cd drax-docs
+poetry shell
+```
+``` 
+poetry install
 ```
 
 create a new site
@@ -53,25 +59,24 @@ tmux-drax-docs.sh
 * ```mkdocs serve -a 10.22.11.147:8000``` provides a preview at url ``` http://10.22.11.147:8000/drax-docs/du-install/ ```
 * ```mkdocs gh-deploy``` deploys it to github and is available at url ```https://accelleran.github.io/drax-docs/```
 
-## Formatting
-extra formatting has been added and is put here 
+## Formatting 
+This paragraph shows how the formatting has been accomplished
 
-some formatting changes in ``` drax-docs/mkdocs.yml```. eg: logos
+### for the logos
+file ``` drax-docs/mkdocs.yml```. 
 ```
-.
-.
-.
-
+:
+:
 theme:                                    
   logo: images/accelleran_logo.png        
   favicon: images/accelleran_favicon.png
-.
-.
-.
-
+:
+:
 ```
 
-some formatting changes in ``` drax-docs/docs/css/extra.css```. eg: widening menu tree view
+### for the menus
+file ``` drax-docs/docs/css/extra.css``` 
+
 ``` css
 .md-typeset img[align=middle], .md-typeset svg[align=middle] {                          
     display: block;                                                                     
