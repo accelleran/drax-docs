@@ -47,7 +47,8 @@ mkdocs gh-deploy
 
 
 ## Formatting 
-This paragraph shows how the formatting has been accomplished
+This paragraph shows how the formatting has been accomplished in case you want to change more formatting.
+These changes are also kept in github. 
 
 ### for the logos
 file ``` drax-docs/mkdocs.yml```. 
