@@ -15,7 +15,7 @@ git clone  https://github.com/accelleran/drax-docs
 curl -sSL https://install.python-poetry.org | python3 -
 ```
 
-install the tools
+install the tools ( python 3.9 is needed)
 ``` 
 cd drax-docs
 poetry shell
@@ -23,41 +23,11 @@ poetry shell
 ``` 
 poetry install
 ```
-
-create a new site
 ```
-cd drax-docs
-mkdocs new site
+mkdocs serve
 ```
 
-Then start the webservice on the ip address of this server. In our example 10.22.11.147
-
-```
-mkdocs serve -a 10.22.11.147:8000     
-```
-
-now you can browse using [http:10.22.11.147:8000](http://10.22.11.147:8000/drax-docs/)
-
-## Practically
-The drax-docs are cloned on the storage at ```/mnt/5g-backup/drax-docs``` and formatting is applied.
-Most of the servers have this mounted. You can also mount it on your local laptop.
-
-Extra formatting is put here aswell. ( not in github yet ) 
-
-Using a tmux window it is easy to generate the mkdocs with the extra formatting.
-
-start the tmux running 
-```
-cd /mnt/5g-backup/drax-docs
-tmux-drax-docs.sh
-```
-
-![image](https://user-images.githubusercontent.com/21971027/208913910-b314b3c7-9ba1-40af-b33b-e0d781408ef9.png)
-
-
-* ```git pull``` : gets the latest changes 
-* ```mkdocs serve -a 10.22.11.147:8000``` provides a preview at url ``` http://10.22.11.147:8000/drax-docs/du-install/ ```
-* ```mkdocs gh-deploy``` deploys it to github and is available at url ```https://accelleran.github.io/drax-docs/```
+At this point you can start browsing the docs on your local machine
 
 ## Formatting 
 This paragraph shows how the formatting has been accomplished
