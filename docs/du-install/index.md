@@ -79,9 +79,9 @@ sudo systemctl restart docker
 ```
 
 
-### Obtain the Effnet and Phluido licenses
+### Phluido isntall
 
-#### Preparation steps
+#### Obtain the Effnet and Phluido licenses
 In this phase we will need to act in parallel for the DU and the L1/RRU licenses, which depend on our partner company so it is essential to give priority and possibly anticipate these two steps as there is no specific effort involved from the user/customer perspective and they may require longer than one working day before we can proceed further.
 
 
@@ -151,6 +151,7 @@ System test completed, output written to file "sysTest.bin".
 ( The test takes around 90 seconds) This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components Once it is finsihed it produces a file sysTest.bin in the same directory Send this file to Accelleran, 
 to obtain the Phluido license key. Send this .bin file to phluido to receive a proper license.
 
+### Effnet Install
 #### Effnet License: Install and check your Yubikey 
 
 
