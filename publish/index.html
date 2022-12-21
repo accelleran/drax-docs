@@ -10,7 +10,7 @@
       
         <link rel="canonical" href="https://accelleran.github.io/drax-docs/publish/">
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../images/accelleran_favicon.png">
       <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
     
     
@@ -88,7 +88,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  <img src="../images/logo.png" alt="logo">
+  <img src="../images/accelleran_logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -246,7 +246,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  <img src="../images/logo.png" alt="logo">
+  <img src="../images/accelleran_logo.png" alt="logo">
 
     </a>
     dRAX - 2022.3.0 release
@@ -365,6 +365,63 @@ mkdocs new site
 <div class="highlight"><pre><span></span><code>mkdocs serve -a 10.22.11.147:8000     
 </code></pre></div>
 <p>now you can browse using <a href="http://10.22.11.147:8000/drax-docs/">http:10.22.11.147:8000</a></p>
+<h2 id="practically">Practically<a class="headerlink" href="#practically" title="Permanent link">&para;</a></h2>
+<p>The drax-docs are cloned on the storage at <code>/mnt/5g-backup/drax-docs</code> and formatting is applied.
+Most of the servers have this mounted. You can also mount it on your local laptop.</p>
+<p>Extra formatting is put here aswell. ( not in github yet ) </p>
+<p>Using a tmux window it is easy to generate the mkdocs with the extra formatting.</p>
+<p>start the tmux running 
+<div class="highlight"><pre><span></span><code>cd /mnt/5g-backup/drax-docs
+tmux-drax-docs.sh
+</code></pre></div></p>
+<p><img alt="image" src="https://user-images.githubusercontent.com/21971027/208913910-b314b3c7-9ba1-40af-b33b-e0d781408ef9.png" /></p>
+<ul>
+<li><code>git pull</code> : gets the latest changes </li>
+<li><code>mkdocs serve -a 10.22.11.147:8000</code> provides a preview at url <code>http://10.22.11.147:8000/drax-docs/du-install/</code></li>
+<li><code>mkdocs gh-deploy</code> deploys it to github and is available at url <code>https://accelleran.github.io/drax-docs/</code></li>
+</ul>
+<h2 id="formatting">Formatting<a class="headerlink" href="#formatting" title="Permanent link">&para;</a></h2>
+<p>extra formatting has been added and is put here </p>
+<p>some formatting changes in <code>drax-docs/mkdocs.yml</code>. eg: logos
+<div class="highlight"><pre><span></span><code>.
+.
+.
+
+theme:                                    
+  logo: images/accelleran_logo.png        
+  favicon: images/accelleran_favicon.png
+.
+.
+.
+</code></pre></div></p>
+<p>some formatting changes in <code>drax-docs/docs/css/extra.css</code>. eg: widening menu tree view
+<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">md-typeset</span><span class="w"> </span><span class="nt">img</span><span class="o">[</span><span class="nt">align</span><span class="o">=</span><span class="nt">middle</span><span class="o">],</span><span class="w"> </span><span class="p">.</span><span class="nc">md-typeset</span><span class="w"> </span><span class="nt">svg</span><span class="o">[</span><span class="nt">align</span><span class="o">=</span><span class="nt">middle</span><span class="o">]</span><span class="w"> </span><span class="p">{</span><span class="w">                          </span>
+<span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">block</span><span class="p">;</span><span class="w">                                                                     </span>
+<span class="w">    </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span><span class="w">                                                                     </span>
+<span class="p">}</span><span class="w">                                                                                       </span>
+<span class="p">.</span><span class="nc">md-grid</span><span class="w"> </span><span class="p">{</span><span class="w">                                                                              </span>
+<span class="w">        </span><span class="k">max-width</span><span class="p">:</span><span class="w"> </span><span class="mi">71</span><span class="kt">rem</span><span class="w">                                                                </span>
+<span class="p">}</span><span class="w">                                                                                       </span>
+
+<span class="p">.</span><span class="nc">md-sidebar</span><span class="w"> </span><span class="p">{</span><span class="w">                                                                           </span>
+<span class="w">        </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mf">22.1</span><span class="kt">rem</span><span class="w">                                                                  </span>
+<span class="p">}</span><span class="w">                                                                                       </span>
+
+<span class="p">@</span><span class="k">supports</span><span class="w"> </span><span class="nt">selector</span><span class="o">(</span><span class="p">::</span><span class="nd">-webkit-scrollbar</span><span class="o">)</span><span class="w"> </span><span class="p">{</span><span class="w">                                               </span>
+<span class="w">    </span><span class="p">.</span><span class="nc">md-sidebar__scrollwrap</span><span class="w"> </span><span class="p">{</span><span class="w">                                                           </span>
+<span class="w">        </span><span class="k">scrollbar-gutter</span><span class="p">:</span><span class="w"> </span><span class="kc">auto</span><span class="w">                                                          </span>
+<span class="w">    </span><span class="p">}</span><span class="w">                                                                                   </span>
+
+<span class="w">    </span><span class="o">[</span><span class="nt">dir</span><span class="o">=</span><span class="nt">ltr</span><span class="o">]</span><span class="w"> </span><span class="p">.</span><span class="nc">md-sidebar__inner</span><span class="w"> </span><span class="p">{</span><span class="w">                                                      </span>
+<span class="w">        </span><span class="k">padding-right</span><span class="p">:</span><span class="w"> </span><span class="nb">calc</span><span class="p">(</span><span class="mi">100</span><span class="kt">%</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">21.5</span><span class="kt">rem</span><span class="p">);</span><span class="w">                                            </span>
+<span class="w">        </span><span class="c">/* padding-right: 0%; */</span><span class="w">                                                        </span>
+<span class="w">    </span><span class="p">}</span><span class="w">                                                                                   </span>
+
+<span class="w">    </span><span class="o">[</span><span class="nt">dir</span><span class="o">=</span><span class="nt">rtl</span><span class="o">]</span><span class="w"> </span><span class="p">.</span><span class="nc">md-sidebar__inner</span><span class="w"> </span><span class="p">{</span><span class="w">                                                      </span>
+<span class="w">        </span><span class="k">padding-left</span><span class="p">:</span><span class="w"> </span><span class="nb">calc</span><span class="p">(</span><span class="mi">100</span><span class="kt">%</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">21.5</span><span class="kt">rem</span><span class="p">)</span><span class="w">                                              </span>
+<span class="w">    </span><span class="p">}</span><span class="w">                                                                                   </span>
+<span class="p">}</span><span class="w">                                                                                       </span>
+</code></pre></div></p>
 
 
 

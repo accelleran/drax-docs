@@ -10,7 +10,7 @@
       
         <link rel="canonical" href="https://accelleran.github.io/drax-docs/du-install/">
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../images/accelleran_favicon.png">
       <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
     
     
@@ -88,7 +88,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  <img src="../images/logo.png" alt="logo">
+  <img src="../images/accelleran_logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -248,7 +248,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  <img src="../images/logo.png" alt="logo">
+  <img src="../images/accelleran_logo.png" alt="logo">
 
     </a>
     dRAX - 2022.3.0 release
@@ -426,6 +426,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#install-the-phluido-l1-docker" class="md-nav__link">
+    Install the Phluido L1 ( docker )
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -456,13 +463,6 @@
           <li class="md-nav__item">
   <a href="#effnet-license-activate-the-yubikey" class="md-nav__link">
     Effnet License: activate the yubikey
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#install-the-phluido-l1-docker" class="md-nav__link">
-    Install the Phluido L1 ( docker )
   </a>
   
 </li>
@@ -1044,6 +1044,9 @@ System test completed, output written to file &quot;sysTest.bin&quot;.
 </code></pre></div>
 <p>( The test takes around 90 seconds) This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components Once it is finsihed it produces a file sysTest.bin in the same directory Send this file to Accelleran, 
 to obtain the Phluido license key. Send this .bin file to phluido to receive a proper license.</p>
+<h4 id="install-the-phluido-l1-docker">Install the Phluido L1 ( docker )<a class="headerlink" href="#install-the-phluido-l1-docker" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code> docker image load -i phluido_docker_<span class="nv">$L1_VERSION</span>.tar
+</code></pre></div>
 <h3 id="effnet-install">Effnet Install<a class="headerlink" href="#effnet-install" title="Permanent link">&para;</a></h3>
 <h4 id="effnet-license-install-and-check-your-yubikey">Effnet License: Install and check your Yubikey<a class="headerlink" href="#effnet-license-install-and-check-your-yubikey" title="Permanent link">&para;</a></h4>
 <p>For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip</p>
@@ -1125,9 +1128,6 @@ the dongle with the serial number 13134288 has not been activated, or the licens
 <div class="highlight"><pre><span></span><code>Loading certificate to Yubico YubiKey CCID <span class="m">00</span> <span class="m">00</span> <span class="o">(</span>serial: <span class="m">13134288</span><span class="o">)</span>
 </code></pre></div>
 <p>Which means that a license for the dongle with serial-number 13134288 was loaded to the dongle (i.e., it was bundled in the license-activation image).</p>
-<h4 id="install-the-phluido-l1-docker">Install the Phluido L1 ( docker )<a class="headerlink" href="#install-the-phluido-l1-docker" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code> docker image load -i phluido_docker_<span class="nv">$L1_VERSION</span>.tar
-</code></pre></div>
 <h4 id="install-effnet-du-docker">Install Effnet DU ( docker )<a class="headerlink" href="#install-effnet-du-docker" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code>unzip accelleran-du-phluido-<span class="nv">$DU_VERSION</span>.zip
 bzcat accelleran-du-phluido/accelleran-du-phluido-<span class="nv">$DU_VERSION</span>/gnb_du_main_phluido-<span class="nv">$DU_VERSION</span>.tar.bz2 <span class="p">|</span> docker image load
