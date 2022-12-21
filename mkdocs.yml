@@ -1,14 +1,18 @@
-site_name: dRAX
+site_name: dRAX - 2022.3.0 release
+
 site_url: https://accelleran.github.io/drax-docs/
-theme:
+theme: 
+  logo: images/accelleran_logo.png
+  favicon: images/accelleran_favicon.png
   name: material
   features:
     - navigation.instant
     - navigation.tracking
     - navigation.expand
-    - navigation.indexes
     - navigation.top
     - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
     - toc.integrate
 markdown_extensions:
   - admonition
@@ -16,11 +20,12 @@ markdown_extensions:
   - pymdownx.highlight
   - pymdownx.superfences
   - toc:
-      permalink: ⚓︎
+      permalink: true
 extra:
   version:
     provider: mike
 plugins:
+  - search:
   - mike:
       version_selector: true   # set to false to leave out the version selector
       css_dir: css             # the directory to put the version selector's CSS
@@ -33,7 +38,7 @@ extra_css:
   - css/extra.css
 nav:
     - 'index.md'
-    - 'core-install/index.md'
     - 'kubernetes-install/index.md'
     - 'drax-install/index.md'
     - 'du-install/index.md'
+    - 'core-install/index.md'
