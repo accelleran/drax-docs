@@ -29,7 +29,12 @@ mkdocs serve
 
 At this point you can start browsing the docs on your local machine
 
+![image](https://user-images.githubusercontent.com/21971027/208943432-3ed84619-7da0-4f22-be50-74ab8d1d78f0.png)
+
+
 With visual code you can do changes and they will reflect immediatly in the preview on the webbrowser
+
+![image](https://user-images.githubusercontent.com/21971027/208943521-f34ab04a-477c-4454-90bf-c2151990dfc6.png)
 
 
 To make the preview uploaded to git hub use
@@ -37,9 +42,13 @@ To make the preview uploaded to git hub use
 mkdocs gh-deploy
 ```
 
+![image](https://user-images.githubusercontent.com/21971027/208943676-be1ce5cc-17c9-485a-ae55-a96261232c30.png)
+
+
 
 ## Formatting 
-This paragraph shows how the formatting has been accomplished
+This paragraph shows how the formatting has been accomplished in case you want to change more formatting.
+These changes are also kept in github. 
 
 ### for the logos
 file ``` drax-docs/mkdocs.yml```. 
