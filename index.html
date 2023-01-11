@@ -724,7 +724,8 @@ node   <span class="m">0</span>   <span class="m">1</span>
  <span class="m">1</span>:  <span class="m">21</span>  <span class="m">10</span> 
 </code></pre></div>
 assign all cores of 1 CPU to DU. The cores of the other CPU to CU VM). </p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">CORE_SET_DU</span><span class="o">=</span><span class="m">0</span>,2,4,6,8,10,12,14
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">CORE_SET_L1</span><span class="o">=</span><span class="m">0</span>,2,4,6
+<span class="nb">export</span> <span class="nv">CORE_SET_DU</span><span class="o">=</span><span class="m">8</span>,10,12,14
 <span class="nb">export</span> <span class="nv">CORE_SET_CU</span><span class="o">=</span><span class="m">1</span>,3,5,7,9,11,13,15
 <span class="nb">export</span> <span class="nv">CORE_AMOUNT_CU</span><span class="o">=</span><span class="m">8</span>
 </code></pre></div>
@@ -739,7 +740,8 @@ node   <span class="m">0</span>
   <span class="m">0</span>:  <span class="m">10</span> 
 </code></pre></div>
 Assign first half to DU and last half to CU
-<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">CORE_SET_DU</span><span class="o">=</span><span class="m">0</span>,1,2,3,4,5,6,7,8,9
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">CORE_SET_L1</span><span class="o">=</span><span class="m">0</span>,1,2,3,4
+<span class="nb">export</span> <span class="nv">CORE_SET_DU</span><span class="o">=</span><span class="m">5</span>,6,7,8,9
 <span class="nb">export</span> <span class="nv">CORE_SET_CU</span><span class="o">=</span><span class="m">10</span>,11,12,13,14,15,16,17,18,19
 <span class="nb">export</span> <span class="nv">CORE_AMOUNT_CU</span><span class="o">=</span><span class="m">10</span>
 </code></pre></div></p>

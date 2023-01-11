@@ -352,49 +352,39 @@ https://squidfunk.github.io/mkdocs-material/setup/changing-the-logo-and-icons/</
 <p>clone the repo containing the .md files
 <div class="highlight"><pre><span></span><code>git clone  https://github.com/accelleran/drax-docs
 </code></pre></div></p>
-<p>install the tools
-<div class="highlight"><pre><span></span><code>pip3 install mkdocs-material
-pip3 install mike
-pip3 install mkdocs-section-index
-</code></pre></div></p>
-<p>create a new site
-<div class="highlight"><pre><span></span><code>cd drax-docs
-mkdocs new site
-</code></pre></div></p>
-<p>Then start the webservice on the ip address of this server. In our example 10.22.11.147</p>
-<div class="highlight"><pre><span></span><code>mkdocs serve -a 10.22.11.147:8000     
+<div class="highlight"><pre><span></span><code>curl -sSL https://install.python-poetry.org | python3 -
 </code></pre></div>
-<p>now you can browse using <a href="http://10.22.11.147:8000/drax-docs/">http:10.22.11.147:8000</a></p>
-<h2 id="practically">Practically<a class="headerlink" href="#practically" title="Permanent link">&para;</a></h2>
-<p>The drax-docs are cloned on the storage at <code>/mnt/5g-backup/drax-docs</code> and formatting is applied.
-Most of the servers have this mounted. You can also mount it on your local laptop.</p>
-<p>Extra formatting is put here aswell. ( not in github yet ) </p>
-<p>Using a tmux window it is easy to generate the mkdocs with the extra formatting.</p>
-<p>start the tmux running 
-<div class="highlight"><pre><span></span><code>cd /mnt/5g-backup/drax-docs
-tmux-drax-docs.sh
+<p>install the tools ( python 3.9 is needed)
+<div class="highlight"><pre><span></span><code>cd drax-docs
+poetry shell
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>poetry install
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>mkdocs serve
 </code></pre></div></p>
-<p><img alt="image" src="https://user-images.githubusercontent.com/21971027/208913910-b314b3c7-9ba1-40af-b33b-e0d781408ef9.png" /></p>
-<ul>
-<li><code>git pull</code> : gets the latest changes </li>
-<li><code>mkdocs serve -a 10.22.11.147:8000</code> provides a preview at url <code>http://10.22.11.147:8000/drax-docs/du-install/</code></li>
-<li><code>mkdocs gh-deploy</code> deploys it to github and is available at url <code>https://accelleran.github.io/drax-docs/</code></li>
-</ul>
+<p>At this point you can start browsing the docs on your local machine</p>
+<p><img alt="image" src="https://user-images.githubusercontent.com/21971027/208943432-3ed84619-7da0-4f22-be50-74ab8d1d78f0.png" /></p>
+<p>With visual code you can do changes and they will reflect immediatly in the preview on the webbrowser</p>
+<p><img alt="image" src="https://user-images.githubusercontent.com/21971027/208943521-f34ab04a-477c-4454-90bf-c2151990dfc6.png" /></p>
+<p>To make the preview uploaded to git hub use
+<div class="highlight"><pre><span></span><code>mkdocs gh-deploy
+</code></pre></div></p>
+<p><img alt="image" src="https://user-images.githubusercontent.com/21971027/208943676-be1ce5cc-17c9-485a-ae55-a96261232c30.png" /></p>
 <h2 id="formatting">Formatting<a class="headerlink" href="#formatting" title="Permanent link">&para;</a></h2>
-<p>extra formatting has been added and is put here </p>
-<p>some formatting changes in <code>drax-docs/mkdocs.yml</code>. eg: logos
-<div class="highlight"><pre><span></span><code>.
-.
-.
-
+<p>This paragraph shows how the formatting has been accomplished in case you want to change more formatting.
+These changes are also kept in github. </p>
+<h3 id="for-the-logos">for the logos<a class="headerlink" href="#for-the-logos" title="Permanent link">&para;</a></h3>
+<p>file <code>drax-docs/mkdocs.yml</code>. 
+<div class="highlight"><pre><span></span><code>:
+:
 theme:                                    
   logo: images/accelleran_logo.png        
   favicon: images/accelleran_favicon.png
-.
-.
-.
+:
+:
 </code></pre></div></p>
-<p>some formatting changes in <code>drax-docs/docs/css/extra.css</code>. eg: widening menu tree view
+<h3 id="for-the-menus">for the menus<a class="headerlink" href="#for-the-menus" title="Permanent link">&para;</a></h3>
+<p>file <code>drax-docs/docs/css/extra.css</code> </p>
 <div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">md-typeset</span><span class="w"> </span><span class="nt">img</span><span class="o">[</span><span class="nt">align</span><span class="o">=</span><span class="nt">middle</span><span class="o">],</span><span class="w"> </span><span class="p">.</span><span class="nc">md-typeset</span><span class="w"> </span><span class="nt">svg</span><span class="o">[</span><span class="nt">align</span><span class="o">=</span><span class="nt">middle</span><span class="o">]</span><span class="w"> </span><span class="p">{</span><span class="w">                          </span>
 <span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">block</span><span class="p">;</span><span class="w">                                                                     </span>
 <span class="w">    </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span><span class="w">                                                                     </span>
@@ -421,7 +411,7 @@ theme:
 <span class="w">        </span><span class="k">padding-left</span><span class="p">:</span><span class="w"> </span><span class="nb">calc</span><span class="p">(</span><span class="mi">100</span><span class="kt">%</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">21.5</span><span class="kt">rem</span><span class="p">)</span><span class="w">                                              </span>
 <span class="w">    </span><span class="p">}</span><span class="w">                                                                                   </span>
 <span class="p">}</span><span class="w">                                                                                       </span>
-</code></pre></div></p>
+</code></pre></div>
 
 
 

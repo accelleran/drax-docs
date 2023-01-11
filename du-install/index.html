@@ -1157,7 +1157,7 @@ cat &gt; docker-compose.yaml <span class="s">&lt;&lt; EOF</span>
 <span class="s">      - &quot;/etc/machine-id:/etc/machine-id:ro&quot;</span>
 <span class="s">    working_dir: &quot;/workdir&quot;</span>
 <span class="s">    network_mode: host</span>
-<span class="s">    cpuset: &quot;$CORE_SET_DU&quot;</span>
+<span class="s">    cpuset: &quot;$CORE_SET_L1&quot;</span>
 
 <span class="s">  du:</span>
 <span class="s">    image: gnb_du_main_phluido:$DU_VERSION</span>
@@ -2015,7 +2015,7 @@ tee docker-compose-B650.yml <span class="s">&lt;&lt;EOF</span>
 <span class="s">      - &quot;/etc/machine-id:/etc/machine-id:ro&quot;</span>
 <span class="s">    working_dir: &quot;/workdir&quot;</span>
 <span class="s">    network_mode: host</span>
-<span class="s">    cpuset: &quot;$CORE_SET_DU&quot;</span>
+<span class="s">    cpuset: &quot;$CORE_SET_L1&quot;</span>
 
 <span class="s">  du:</span>
 <span class="s">    image: gnb_du_main_phluido:2022-07-01-q2-pre-release</span>
@@ -2703,7 +2703,7 @@ netconf:
                     <span class="nt">&lt;l1-image-tag&gt;</span>$L1_VERSION<span class="nt">&lt;/l1-image-tag&gt;</span>
 
                     <span class="nt">&lt;du-extra-args&gt;</span>--cpuset-cpus=$CORE_SET_DU<span class="nt">&lt;/du-extra-args&gt;</span>
-                    <span class="nt">&lt;l1-extra-args&gt;</span>--cpuset-cpus=$CORE_SET_DU<span class="nt">&lt;/l1-extra-args&gt;</span>
+                    <span class="nt">&lt;l1-extra-args&gt;</span>--cpuset-cpus=$CORE_SET_L1<span class="nt">&lt;/l1-extra-args&gt;</span>
 
 
                     <span class="nt">&lt;du-base-config-file&gt;</span>/home/accelleran/5G/config/duEffnetConfig.json<span class="nt">&lt;/du-base-config-file&gt;</span>
