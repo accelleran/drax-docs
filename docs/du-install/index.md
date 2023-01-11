@@ -314,7 +314,7 @@ services:
       - "/etc/machine-id:/etc/machine-id:ro"
     working_dir: "/workdir"
     network_mode: host
-    cpuset: "$CORE_SET_DU"
+    cpuset: "$CORE_SET_L1"
 
   du:
     image: gnb_du_main_phluido:$DU_VERSION
@@ -1285,7 +1285,7 @@ services:
       - "/etc/machine-id:/etc/machine-id:ro"
     working_dir: "/workdir"
     network_mode: host
-    cpuset: "$CORE_SET_DU"
+    cpuset: "$CORE_SET_L1"
 
   du:
     image: gnb_du_main_phluido:2022-07-01-q2-pre-release
@@ -2117,7 +2117,7 @@ netconf:
                     <l1-image-tag>$L1_VERSION</l1-image-tag>
 
                     <du-extra-args>--cpuset-cpus=$CORE_SET_DU</du-extra-args>
-                    <l1-extra-args>--cpuset-cpus=$CORE_SET_DU</l1-extra-args>
+                    <l1-extra-args>--cpuset-cpus=$CORE_SET_L1</l1-extra-args>
 
 
                     <du-base-config-file>/home/accelleran/5G/config/duEffnetConfig.json</du-base-config-file>
