@@ -21,7 +21,7 @@ helm list
 
 ```
 
-In the above example, the installations are called after the **#NAME** field, that is `acc-5g-cu-cp` , acc-5g-cu-up and `ric`, so the required commands would be:
+In the above example, the installations are called after the #NAME field, that is `acc-5g-cu-cp` , `acc-5g-cu-up` and `ric`, so the required commands would be:
 
 ``` bash
 helm uninstall acc-5g-cu-cp
@@ -43,6 +43,7 @@ You can now continue with the re-installation
 You can proceed with the update of the new version once you verify the folowing simple prerequisites:
 
 1. you have a Kubernetes accelleran secret and a license secret, the commmand `kubectl get secrets` shall return among them these two secrets:
+
 ``` bash
 accelleran-license                                      Opaque                                1      237d
 accelleran-secret                                       kubernetes.io/dockerconfigjson        1      237d
@@ -77,8 +78,10 @@ Install the RIC and Dashboard with Helm (if installing without dedicated namespa
 helm install ric acc-helm/ric --version $RIC_VERSION --values ric-values.yaml -n $NS_DRAX
 ```
 
+
 !!! info
     The installation may take up to 5 minutes, it is essential that you wait till the installation is completed and all the pods are in RUNNING or COMPLETE mode, please do **NOT** interrupt the installation by trying to regain control of the command line
+
 
 To check if the installation was successful first use Helm:
 
