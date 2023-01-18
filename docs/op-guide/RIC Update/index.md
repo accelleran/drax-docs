@@ -1,14 +1,17 @@
-## Remove existing deployment
+## Remove an existing deployment
 
-This section is about upgrading your existing RIC to a newer Release, as a rule Accelleran will regularly issue quarterly Releases with new features, 
-bug fixes, etc and will therefore recommend to move forward to the new Release. The aim of this section is to take the minimal amount of steps to get 
-the system back to operational: if you do not have an already operational System please contact Accelleran as the full installation from ground zero is
-beyond the scope of this section.
+This section is about upgrading your existing RIC to a new Release, as a rule Accelleran will regularly issue quarterly Releases with new features, 
+bug fixes, etc and we will therefore recommend regularly to move forward to a new Release. The aim of this section is to take the minimal amount of steps to get the system back to operational: if you do not have an already operational System please contact Accelleran as the full installation from ground zero is beyond the scope of this section.
 
 Login first on the machine where your RIC is deployed (typically a VM) and locate the installation directory where your helm charts are (often a directory in your home with a name that reminds of the release you are on ex. Q3Rel or q3release)
 
 Note that a SW upgrade will not remove the existing data, so any configured components should remain once the update is completed. Particularly, of course, 
-if you wish to keep the previous configuration make sure the CU instance IDs are the same once you recreate them.
+if you wish to keep the previous configuration take note of the CU instance IDs, the E1 and F1 external IP addresses, and make sure they are the same once you recreate them. It is simple to infer these values by checking the Dashboard on the section **gNB Configuration** and clicking on the **show** button. The fields ate highlighted in the following picture:
+
+<p align="center">
+  <img width="400" height="300" src="images/cucp-services.png">
+</p>
+
 
 It may be that the previous versions used different names for the Helm deployments, so to check the correct names we can use the `helm list` command:
 
@@ -29,12 +32,19 @@ helm uninstall acc-5g-cu-up
 helm uninstall ric
 ```
 
-Please wait until all the pods and resources of the previous dRAX installation are deleted.
+Please wait until all the pods and resources of the previous dRAX installation are deleted. As a side note one could also uninstall the CUCP and CUUP using the uninstall button on the dashboard
 You can view them by:
 
 ``` bash
 watch kubectl get pods -A
 ```
+
+As a side note one could also uninstall the CUCP and CUUP using the uninstall button on the dashboard:
+
+<p align="center">
+  <img width="400" height="300" src="../../drax-install/images/dashboard-cu-config-page.png">
+</p>
+
 
 You can now continue with the re-installation
 
@@ -134,7 +144,7 @@ Accelleran's 5G Components are managed and installed via the Dashboard.
 From the dRAX Dashboard sidebar, select **New deployment** and then click **5G CU deployment**:
 
 <p align="center">
-  <img width="200" height="300" src="images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png">
+  <img width="200" height="300" src="../../drax-install/images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png">
 </p>
 
 
@@ -143,7 +153,7 @@ Here, you have the ability to deploy either a CU-CP or a CU-UP component.
 Therefore, you first have to pick one from the drop-down menu:
 
 <p align="center">
-  <img width="400" height="300" src="images/dashboard-deploy-a-new-cu-component.png">
+  <img width="400" height="300" src="../../drax-install/images/dashboard-deploy-a-new-cu-component.png">
 </p>
 
 
@@ -152,10 +162,10 @@ Therefore, you first have to pick one from the drop-down menu:
 When installing the 5G CU-CP component, there are a number of configuration parameters that should be filled in the **Deploy a new CU component** form once the CU-CP is chosen from the drop-down menu.
 
 The form with the deployment parameters is shown below:
-> NOTE : fill in the E1 and F1 address manually according to what's set in the Preperation section in the start of this installation document.
+> NOTE : if you intend to recover the previous CUCP configuration without painfully go through manual review and editing of the other configurations (du, cell wrapper, CUUP) remember to specify exactly the same instance ID previously used and fill in the optional values with the same previous E1 and F1 addresses manually
 > for F1 it will be the ip address we will also configure the DU with.
 
-![Deploy CU-CP form](images/dashboard-cu-cp-deployment-2.png)
+![Deploy CU-CP form](../../drax-install/images/dashboard-cu-cp-deployment-2.png)
 
 ###### Required Parameters
 
@@ -203,7 +213,7 @@ The optional parameters are:
 When deploying the 5G CU-UP component, there is only one required parameter in the **Deploy a new CU component** form.
 The form with the deployment parameters is shown below:
 
-![Deploy CU-UP form](images/dashboard-cu-up-deployment-2.png)
+![Deploy CU-UP form](../../drax-install/images/dashboard-cu-up-deployment-2.png)
 
 ###### Required Parameters
 
