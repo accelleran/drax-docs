@@ -9,7 +9,7 @@ Note that a SW upgrade will not remove the existing data, so any configured comp
 if you wish to keep the previous configuration take note of the CU instance IDs, the E1 and F1 external IP addresses, and make sure they are the same once you recreate them. It is simple to infer these values by checking the Dashboard on the section **gNB Configuration** and clicking on the **show** button. The fields ate highlighted in the following picture:
 
 <p align="center">
-  <img width="400" height="300" src="images/cucp-services.png">
+  <img width="500" height="300" src="cucp-services.png">
 </p>
 
 
@@ -71,7 +71,6 @@ kubernetes                                  ClusterIP      10.96.0.1        <non
 
 ric@ric-dell5:~$ kubectl get jobs
 No resources found in default namespace.
-
 ```
 
 #### Update Helm Charts
@@ -106,7 +105,7 @@ watch kubectl get pod
 ```
 
 You should see something like this. You can ignore the status of Jaeger in this release. It is not used at the moment.
-> ```
+>```
 > NAME                                                 READY   STATUS             RESTARTS   AGE
 > ric-acc-fiveg-pmcounters-6d47899ccc-k2w66            1/1     Running            0          56m
 > ric-acc-kafka-955b96786-lvkns                        2/2     Running            2          56m
