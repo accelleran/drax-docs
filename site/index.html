@@ -1,0 +1,923 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://accelleran.github.io/drax-docs/">
+      
+      <link rel="icon" href="images/accelleran_favicon.png">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
+    
+    
+      
+        <title>dRAX - 2022.3.0 release</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.20d9efc8.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="css/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#accelleran-cu-install-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+      
+  <img src="images/accelleran_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            dRAX - 2022.3.0 release
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Accelleran CU Install Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="." class="md-tabs__link md-tabs__link--active">
+      Accelleran CU Install Guide
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="kubernetes-install/" class="md-tabs__link">
+      CU installation ( VM & kubernetes )
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="drax-install/" class="md-tabs__link">
+      RIC & CU Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="du-install/" class="md-tabs__link">
+      DU Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="core-install/" class="md-tabs__link">
+      Core Installation
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+      
+  <img src="images/accelleran_logo.png" alt="logo">
+
+    </a>
+    dRAX - 2022.3.0 release
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Accelleran CU Install Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        Accelleran CU Install Guide
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duration" class="md-nav__link">
+    Duration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#releases" class="md-nav__link">
+    Releases
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites-preperations" class="md-nav__link">
+    Prerequisites / Preperations
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites / Preperations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#know-the-ip-addresses-interfaces-user-account" class="md-nav__link">
+    Know the ip addresses, interfaces, user account
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#know-the-5g-configuration" class="md-nav__link">
+    Know the 5G configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#know-which-cores-and-cpu-you-will-be-using" class="md-nav__link">
+    know which cores and cpu you will be using.
+  </a>
+  
+    <nav class="md-nav" aria-label="know which cores and cpu you will be using.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-case-of-dual-cpu" class="md-nav__link">
+    In case of dual CPU
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-case-of-1-cpu-server" class="md-nav__link">
+    In case of 1 CPU server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-install-directory-and-scripts" class="md-nav__link">
+    Prepare install directory and scripts
+  </a>
+  
+    <nav class="md-nav" aria-label="Prepare install directory and scripts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-scripts" class="md-nav__link">
+    Get scripts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fill-in-variable-values" class="md-nav__link">
+    Fill in variable values.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#making-variables-boot-safe" class="md-nav__link">
+    Making variables boot safe
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-the-variables" class="md-nav__link">
+    Verify the variables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-components-overview" class="md-nav__link">
+    network components overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#steps-to-take" class="md-nav__link">
+    Steps to take
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kubernetes-install/" class="md-nav__link">
+        CU installation ( VM & kubernetes )
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="drax-install/" class="md-nav__link">
+        RIC & CU Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="du-install/" class="md-nav__link">
+        DU Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="core-install/" class="md-nav__link">
+        Core Installation
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="accelleran-cu-install-guide">Accelleran CU Install Guide<a class="headerlink" href="#accelleran-cu-install-guide" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>This guide describes the installation of the Accelleran dRAX base, 4G and 5G components, the Effnet DU, Phluido L1 and optionally a core network on a single server machine, however separating the RIC/CU (on a VM) and the DU/L1 (on the server) to increase stability and performances.</p>
+<p>This first page is the most important page of the install. This first pages holds all the elements needed to do the install in a minimum of time.  </p>
+<h2 id="duration">Duration<a class="headerlink" href="#duration" title="Permanent link">&para;</a></h2>
+<p>This install can be done in  1 day up to 1 week depending on the experience of the engineer. This is an estimation done from experience. Why this is the case is not explained here. However a few points listed here without any more details.</p>
+<ul>
+<li>Slight differences in hardware/firmware of each component.</li>
+<li>The network the platform resides in.</li>
+<li>The experience and view points of the engineer itself.</li>
+<li>Network stability in which the platform resides.</li>
+<li>Access to the platform.</li>
+<li>...</li>
+</ul>
+<p>Because the install is done manually by an engineer it might be necessary that this engineer needs some support from accelleran.</p>
+<h2 id="releases">Releases<a class="headerlink" href="#releases" title="Permanent link">&para;</a></h2>
+<p>This document is released together with the system release 2022.3.0. 
+This system release contains </p>
+<table>
+<thead>
+<tr>
+<th>component</th>
+<th>version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RIC</td>
+<td>6.0.0</td>
+</tr>
+<tr>
+<td>CU CHART</td>
+<td>5.0.0</td>
+</tr>
+<tr>
+<td>CU APP</td>
+<td>R3.3.0_hoegaarden</td>
+</tr>
+<tr>
+<td>DU</td>
+<td>2022-08-26-q2-release-0.4</td>
+</tr>
+<tr>
+<td>L1</td>
+<td>8.4.2</td>
+</tr>
+<tr>
+<td>BNTL650</td>
+<td>0.5.2</td>
+</tr>
+<tr>
+<td>BNTL550</td>
+<td>0.6.0</td>
+</tr>
+<tr>
+<td>cell wrapper</td>
+<td>1.0.0</td>
+</tr>
+</tbody>
+</table>
+<p>During the installation following variables will be used. These are the correct values they are set to for this release.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">INSTALL_VERSION</span><span class="o">=</span><span class="m">2022</span>.3.0
+<span class="nb">export</span> <span class="nv">RIC_VERSION</span><span class="o">=</span><span class="m">6</span>.0.0
+<span class="nb">export</span> <span class="nv">CU_VERSION</span><span class="o">=</span>R3.3.0_hoegaarden             <span class="c1"># build tag</span>
+<span class="nb">export</span> <span class="nv">L1_VERSION</span><span class="o">=</span>v8.7.1
+<span class="nb">export</span> <span class="nv">DU_VERSION</span><span class="o">=</span><span class="m">2022</span>-08-26-q2-release-0.4
+<span class="nb">export</span> <span class="nv">RU_VERSION</span><span class="o">=</span>RAN650-2V0.5.2                <span class="c1"># shipped with the UNIT.</span>
+</code></pre></div>
+<h2 id="prerequisites-preperations">Prerequisites / Preperations<a class="headerlink" href="#prerequisites-preperations" title="Permanent link">&para;</a></h2>
+<p>This installation guide assumes that that the following are to be taken as prerequisites and made available before proceding further:</p>
+<ul>
+<li>
+<p>Hardware:</p>
+<ul>
+<li>Server with at least the following specifications:<ul>
+<li>Intel Xeon D-1541 or stronger 64-bit processor</li>
+<li>64 GB DDR4 RAM</li>
+<li>800 GB Hard Disk</li>
+<li>BIOS settings to most performance mode ( powersaving off, )</li>
+</ul>
+</li>
+<li>VM within the Server, in the same subnet with at least :<ul>
+<li>8 assigned cores</li>
+<li>32 GB assigned RAM</li>
+<li>200 GB assigned Disk space  <blockquote>
+<p>NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access to its libvirt XML configuration when needed, ex. to perform the CPU pinning. The User can alternately choose other VM management tools, however without further support from Accelleran. </p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Licenses:</p>
+<ul>
+<li>A dRAX license file: license.crt</li>
+<li>A Phluido license key (see the chapter on <a href="/drax-docs/du-install/">installing the DU</a> on how to get one)</li>
+<li>Effnet YubiKey </li>
+<li>Effnet yubikey license activation file: effnet-license-activation-2022-07-01.zip</li>
+<li>an active github account that has been enabled to access the necessary software images on accelleran github repository</li>
+<li>4G Only:  A server certificate: server.crt (see the chapter on <a href="/drax-docs/drax-install/">installing dRax</a> on how to get one)</li>
+<li>4G Only: A CA certificate: ca.crt (see the chapter on <a href="/drax-docs/drax-install/">installing dRax</a> on how to get one)</li>
+</ul>
+</li>
+<li>
+<p>Software:</p>
+<ul>
+<li>Ubuntu Server 20.04 OS both on the VM and on the Server ( ubuntu-20.04.4-live-server-amd64.iso )</li>
+<li>Effnet DU: accelleran-du-phluido-%Y-%m-%d-pre-release.zip</li>
+<li>Phluido L1: phluido_docker_xxxxx.tar</li>
+<li>effnet-license-activation-%Y-%m-%d.zip</li>
+<li>sysTest executable </li>
+</ul>
+</li>
+<li>
+<p>Linux Configuration:</p>
+<ul>
+<li>Linux bridge br0</li>
+<li>virsh installed</li>
+</ul>
+</li>
+<li>
+<p>5G configuration :</p>
+<ul>
+<li>plmn_identity [ eg 235 88 ]</li>
+<li>nr_cell_identity [ eg 1 any number ]</li>
+<li>nr_pci [ eg 1 not any number. Make sure to do the correct PCI planning in case of multiple cells. ]</li>
+<li>5gs_tac [ eg 1 ]</li>
+<li>center_frequency_band [ eg 3751.680 ]</li>
+<li>point_a_arfcn [ eg 648840 consistent with center freq, scs 30khz ]</li>
+<li>band [ eg 77 consistent with center frequency ]</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>NOTE: while taking almost no active time to obtain the Phluido license code and the Effnet activation bundle, in order to do so we need to contact our technical partners and this may require up to a couple of working days so it is recommended to take the necessary actions to complete these steps first of all. Similarly, we must enable your dockerhub account to access and download the Accelleran software images, this also takes some time and can be done upfront</p>
+</blockquote>
+<h3 id="know-the-ip-addresses-interfaces-user-account">Know the ip addresses, interfaces, user account<a class="headerlink" href="#know-the-ip-addresses-interfaces-user-account" title="Permanent link">&para;</a></h3>
+<p>Make sure Ubuntu (Server) 20.04 is installed as said both on the physical server and on the virtual machine and that both have access to the internet.
+They both must have a static IP address on a fixed port, in the same subnet
+This guide will refer to the VM static IP address as <code>$NODE_IP</code> and the interface it belongs to as <code>$NODE_INT</code>, and to  <code>$SERVER_IP</code> for the server static IP address.
+Furthermore this guide will refer to the IP address of the gateway as <code>$GATEWAY_IP</code>, the IP address of the core (see the section on <a href="/drax-docs/core-install/">Core Installation</a>) as <code>$CORE_IP</code> and the IP address of the CU (see the section on <a href="/drax-docs/du-install/">DU Installation</a>) as <code>$CU_IP</code>.
+In order to be able to execute the commands in this guide as-is you should add these variables to the environment as soon as they are known.
+Alternatively you can edit the configurations to set the correct IP addresses. </p>
+<blockquote>
+<p>NOTE : All IP's need to be in the same subnet. The ip's and values used in the variables depicted below are example values.</p>
+<p>NOTE : the USER of the CU VM and the bare metal HOST is assumed to be the same.   </p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">NODE_IP</span><span class="o">=</span><span class="m">192</span>.168.88.4          <span class="c1"># replace 192.168.88.4 by the IP address of the node. ( The IP of the eth0 in the CU VM )</span>
+<span class="nb">export</span> <span class="nv">NODE_SUBNET</span><span class="o">=</span><span class="m">192</span>.168.88.0/24   <span class="c1"># the subnet that contains the $NODE_IP</span>
+<span class="nb">export</span> <span class="nv">NODE_INT</span><span class="o">=</span>br0               <span class="c1"># he name of the network interface that has IP $NODE_IP</span>
+<span class="nb">export</span> <span class="nv">SERVER_IP</span><span class="o">=</span><span class="m">192</span>.168.88.3     <span class="c1"># The IP address of the linux bridge ( br0 )</span>
+<span class="nb">export</span> <span class="nv">SERVER_INT</span><span class="o">=</span>eno             <span class="c1"># The physical interface the server connects to the LAN.</span>
+<span class="nb">export</span> <span class="nv">GATEWAY_IP</span><span class="o">=</span><span class="m">192</span>.168.88.1    <span class="c1"># replace 192.168.88.1 by the IP address of the gateway</span>
+<span class="nb">export</span> <span class="nv">CORE_IP</span><span class="o">=</span><span class="m">192</span>.168.88.5       <span class="c1"># replace 192.168.88.5 by the IP address of the core</span>
+<span class="nb">export</span> <span class="nv">E1_CU_IP</span><span class="o">=</span><span class="m">192</span>.168.88.170    <span class="c1"># E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.</span>
+<span class="nb">export</span> <span class="nv">F1_CU_IP</span><span class="o">=</span><span class="m">192</span>.168.88.171    <span class="c1"># F1 ip address the CU listens on. Good practice to take the last in the LOADBALANCER_IP_RANGE and ending with an odd byte.</span>
+<span class="nb">export</span> <span class="nv">LOADBALANCER_IP_RANGE</span><span class="o">=</span><span class="m">192</span>.168.88.160-192.168.88.171
+<span class="nb">export</span> <span class="nv">POD_NETWORK</span><span class="o">=</span><span class="s2">&quot;10.244.0.0/16&quot;</span>
+
+<span class="nb">export</span> <span class="nv">USER</span><span class="o">=</span>sj5g                  <span class="c1"># username to log into linux of HOST SERVER and CU VM</span>
+<span class="nb">export</span> <span class="nv">CU_HOSTNAME</span><span class="o">=</span>cu-cab3        <span class="c1"># the hostname the CU VM will get.</span>
+<span class="nb">export</span> <span class="nv">CU_VM_NAME</span><span class="o">=</span>cu-cab3         <span class="c1"># the hostname the CU VM will get.</span>
+<span class="nb">export</span> <span class="nv">OPEN5GS_HOSTNAME</span><span class="o">=</span>open5gs-cab3        <span class="c1"># the hostname the CU VM will get.</span>
+<span class="nb">export</span> <span class="nv">OPEN5GS_VM_NAME</span><span class="o">=</span>open5gs-cab3         <span class="c1"># the hostname the oCU VM will get.</span>
+<span class="nb">export</span> <span class="nv">L1_PHLUIDO_KEY</span><span class="o">=</span><span class="s2">&quot;xxxx.xxxx.xxxx.xxxx.xxxx&quot;</span>
+</code></pre></div>
+<p>In case a Benetel650 RU connected to the server with a fiber
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">SERVER_RU_INT</span><span class="o">=</span>enp1s0f0            <span class="c1"># interface of the server to the RU. Fiber interface.</span>
+<span class="nb">export</span> <span class="nv">MAC_DU</span><span class="o">=</span><span class="m">11</span>:22:33:44:55:66          <span class="c1"># mac of the server interface to RU.</span>
+<span class="nb">export</span> <span class="nv">MAC_RU</span><span class="o">=</span>aa:bb:cc:dd:ee:ff      <span class="c1"># mac of the RU for ip 10.0.0.2. Use tcpdump to find.</span>
+</code></pre></div></p>
+<p>Kubernetes namespaces, listed here for completeness. We will use default.
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">NS_DRAX</span><span class="o">=</span>default
+<span class="nb">export</span> <span class="nv">NS_4G_CU</span><span class="o">=</span>default
+<span class="nb">export</span> <span class="nv">NS_5G_CU</span><span class="o">=</span>default
+</code></pre></div></p>
+<p>Docker hub account. Request these 3 values to Accelleran.
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">DOCKER_USER</span><span class="o">=</span>
+<span class="nb">export</span> <span class="nv">DOCKER_PASS</span><span class="o">=</span>
+<span class="nb">export</span> <span class="nv">DOCKER_EMAIL</span><span class="o">=</span>
+</code></pre></div></p>
+<p>In order to perform many of the commands in this installation manual you need root privileges.
+Whenever a command has to be executed with root privileges it will be prefixed with <code>sudo</code>.</p>
+<h3 id="know-the-5g-configuration">Know the 5G configuration<a class="headerlink" href="#know-the-5g-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">PLMN_ID</span><span class="o">=</span>001f01
+<span class="nb">export</span> <span class="nv">PCI_ID</span><span class="o">=</span><span class="m">201</span>             
+<span class="nb">export</span> <span class="nv">ARFCN_POINT_A</span><span class="o">=</span><span class="m">662664</span>
+<span class="nb">export</span> <span class="nv">FREQ_BAND</span><span class="o">=</span><span class="m">77</span>
+<span class="nb">export</span> <span class="nv">FREQ_CENTER</span><span class="o">=</span>
+</code></pre></div>
+<blockquote>
+<p>NOTE : for multiple cells bare in mind a correct PCI ID planning.</p>
+</blockquote>
+<h3 id="know-which-cores-and-cpu-you-will-be-using">know which cores and cpu you will be using.<a class="headerlink" href="#know-which-cores-and-cpu-you-will-be-using" title="Permanent link">&para;</a></h3>
+<p>Depending on the server you will be using assign the cores to the DU and CU.</p>
+<blockquote>
+<p>IMPORTANT : only comma seperated list is allowed. ( virt-install will be using it )</p>
+</blockquote>
+<h5 id="in-case-of-dual-cpu">In case of dual CPU<a class="headerlink" href="#in-case-of-dual-cpu" title="Permanent link">&para;</a></h5>
+<p><div class="highlight"><pre><span></span><code>ubuntu@bbu3:~$ numactl --hardware
+available: <span class="m">2</span> nodes <span class="o">(</span><span class="m">0</span>-1<span class="o">)</span>
+node <span class="m">0</span> cpus: <span class="m">0</span> <span class="m">2</span> <span class="m">4</span> <span class="m">6</span> <span class="m">8</span> <span class="m">10</span> <span class="m">12</span> <span class="m">14</span>
+node <span class="m">0</span> size: <span class="m">64037</span> MB
+node <span class="m">0</span> free: <span class="m">593</span> MB
+node <span class="m">1</span> cpus: <span class="m">1</span> <span class="m">3</span> <span class="m">5</span> <span class="m">7</span> <span class="m">9</span> <span class="m">11</span> <span class="m">13</span> <span class="m">15</span>
+node <span class="m">1</span> size: <span class="m">64509</span> MB
+node <span class="m">1</span> free: <span class="m">138</span> MB
+node distances:
+node   <span class="m">0</span>   <span class="m">1</span> 
+ <span class="m">0</span>:  <span class="m">10</span>  <span class="m">21</span> 
+ <span class="m">1</span>:  <span class="m">21</span>  <span class="m">10</span> 
+</code></pre></div>
+assign all cores of 1 CPU to DU. The cores of the other CPU to CU VM). </p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">CORE_SET_L1</span><span class="o">=</span><span class="m">0</span>,2,4,6
+<span class="nb">export</span> <span class="nv">CORE_SET_DU</span><span class="o">=</span><span class="m">8</span>,10,12,14
+<span class="nb">export</span> <span class="nv">CORE_SET_CU</span><span class="o">=</span><span class="m">1</span>,3,5,7,9,11,13,15
+<span class="nb">export</span> <span class="nv">CORE_AMOUNT_CU</span><span class="o">=</span><span class="m">8</span>
+</code></pre></div>
+<h5 id="in-case-of-1-cpu-server">In case of 1 CPU server<a class="headerlink" href="#in-case-of-1-cpu-server" title="Permanent link">&para;</a></h5>
+<p><div class="highlight"><pre><span></span><code>$ numactl --hardware
+available: <span class="m">1</span> nodes <span class="o">(</span><span class="m">0</span><span class="o">)</span>
+node <span class="m">0</span> cpus: <span class="m">0</span> <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> <span class="m">10</span> <span class="m">11</span> <span class="m">12</span> <span class="m">13</span> <span class="m">14</span> <span class="m">15</span> <span class="m">16</span> <span class="m">17</span> <span class="m">18</span> <span class="m">19</span>
+node <span class="m">0</span> size: <span class="m">31952</span> MB
+node <span class="m">0</span> free: <span class="m">4294</span> MB
+node distances:
+node   <span class="m">0</span> 
+  <span class="m">0</span>:  <span class="m">10</span> 
+</code></pre></div>
+Assign first half to DU and last half to CU
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">CORE_SET_L1</span><span class="o">=</span><span class="m">0</span>,1,2,3,4
+<span class="nb">export</span> <span class="nv">CORE_SET_DU</span><span class="o">=</span><span class="m">5</span>,6,7,8,9
+<span class="nb">export</span> <span class="nv">CORE_SET_CU</span><span class="o">=</span><span class="m">10</span>,11,12,13,14,15,16,17,18,19
+<span class="nb">export</span> <span class="nv">CORE_AMOUNT_CU</span><span class="o">=</span><span class="m">10</span>
+</code></pre></div></p>
+<h2 id="prepare-install-directory-and-scripts">Prepare install directory and scripts<a class="headerlink" href="#prepare-install-directory-and-scripts" title="Permanent link">&para;</a></h2>
+<p>We'll create an install directory in which we'll be working through this whole install procedure. </p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> <span class="p">;</span> mkdir -p ~/install/ <span class="p">;</span> <span class="nb">cd</span> <span class="nv">$_</span>
+</code></pre></div>
+<h3 id="get-scripts">Get scripts<a class="headerlink" href="#get-scripts" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> ~/install
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>git clone --branch <span class="nv">$INSTALL_VERSION</span> https://github.com/accelleran/drax-install
+</code></pre></div>
+<h3 id="fill-in-variable-values">Fill in variable values.<a class="headerlink" href="#fill-in-variable-values" title="Permanent link">&para;</a></h3>
+<p>All the variables mentioned above can be found in the file 
+<div class="highlight"><pre><span></span><code>vi ~/install/drax-install/install-vars.sh
+</code></pre></div>
+Update this file with the correct values. 
+They values have been prepared in the section above.</p>
+<h3 id="making-variables-boot-safe">Making variables boot safe<a class="headerlink" href="#making-variables-boot-safe" title="Permanent link">&para;</a></h3>
+<p>After having done that run the install.sh script to make the values available in your shell.
+They values are boot safe so you only have to run them once.</p>
+<div class="highlight"><pre><span></span><code>. ~/install/drax-install/install.sh
+</code></pre></div>
+<h3 id="verify-the-variables">Verify the variables<a class="headerlink" href="#verify-the-variables" title="Permanent link">&para;</a></h3>
+<p>log out and in again in this server and try
+<div class="highlight"><pre><span></span><code>env <span class="p">|</span> grep VERSION
+</code></pre></div>
+The variables will show containing the VERSION info.</p>
+<h2 id="network-components-overview">network components overview<a class="headerlink" href="#network-components-overview" title="Permanent link">&para;</a></h2>
+<p>Here a simplified diagram of all network components and the related ip addresses. 
+Before you continue installing fill in this simplified drawing with the ip address that apply for the configuration.</p>
+<blockquote>
+<p>NOTE : the CORE needs to be able to reach the GTP-0  and GTP-1 ips. In this example they are in the same subnet.</p>
+<p>NOTE : subnet in below example is 255.255.255.0</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>                                  ┌──────────────────────────────────────────────────────────────────────────┐
+                                  │                                                                          │
+                                  │ server                                                                   │
+                                  │                                                                          │
+                                  │ ┌──────────────────────────────────┐                                     │
+                                  │ │ VM CORE                          │                                     │
+                                  │ │ CORE_IP 192.168.88.5             │                                     │
+                                  │ │                                  │                                     │
+                                  │ │                                  │                                     │
+                                  │ │                                  │                                     │
+                                  │ │                                  │                                     │
+                                  │ │          enp1s0                  │                                     │
+                                  │ └─────────────────────────────┬────┘                                     │
+                                  │                               │                                          │
+                                  │                               │                                          │
+                                  │                               │                                          │
+                                  │                               │                                          │
+                                  │                               │                                          │
+       internet access            │                               │                                          │
+                                  │                               │                                          │
+    GATEWAY_IP 192.168.88.1       │                               ▼                                          │
+     ◄────────────────────────────┤ eno1  ───────────────► ( linux bridge br0 192.168.88.3 )                 │
+                                  │                               ▲                                          │
+                                  │                               │                                          │
+                                  │                               │                                          │
+                                  │                               │                                          │
+                                  │ ┌─────────────────────────────┴────────────────────────────────────────┐ │
+                                  │ │                           eth0                                       │ │
+                                  │ │ VM CU                                                                │ │
+                                  │ │ NODE_IP=192.168.88.4                                                 │ │
+                                  │ │                                                                      │ │
+                                  │ │                                                                      │ │
+                                  │ │       E1                 F1              GTP-0             GTP-1     │ │
+                                  │ │    E1_CU_IP           F1_CU_IP                                       │ │
+                                  │ │192.168.88.170     192.168.88.171    192.168.88.172    192.168.88.173 │ │
+                                  │ └──────────────────────────────────────────────────────────────────────┘ │
+                                  │                                                                          │
+                                  │                 ┌────────────────────┐                                   │
+                                  │                 │DU effnet container │                                   │
+                                  │                 │                    │                                   │
+                                  │                 │                    │                                   │
+                                  │                 │                    │                                   │
+                                  │                 └────────────────────┘                                   │
+                                  │                                                                          │
+                                  │                 ┌────────────────────┐                                   │
+                                  │                 │L1 phluido container│                                   │
+                                  │                 │                    │                                   │
+                                  │                 │                    │                                   │
+                                  │                 │                    │                                   │
+                                  │                 └────────────────────┘                                   │
+                                  │                             enp1s0f0 10.10.0.1/24                        │
+                                  └────────────────────────────┬─────────────────────────────────────────────┘
+                                                               │
+                                                               │ fiber
+                                                    ┌──────────┴───────────────────────────┐
+                                                    │ RU        eth0 10.10.0.100/24 mgmt   │
+                                                    │                10.10.0.2/24   traffic│
+                                                    │                                      │
+                                                    │                                      │
+                                                    │                                      │
+                                                    │                                      │
+                                                    └──────────────────────────────────────┘
+</code></pre></div>
+<h2 id="steps-to-take">Steps to take<a class="headerlink" href="#steps-to-take" title="Permanent link">&para;</a></h2>
+<p>The installation process is divided in a number of steps.
+Each of these steps is described in its own chapter.
+It is recommended to execute these steps in the following order as there are dependencies from one chapter to another.</p>
+<ul>
+<li><a href="/drax-docs/core-install/">Optional: Open5GS Installation</a></li>
+<li><a href="/drax-docs/kubernetes-install/">Kubernetes Installation</a></li>
+<li><a href="/drax-docs/drax-install/">dRax Installation</a></li>
+<li><a href="/drax-docs/du-install/">DU Installation</a></li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+      
+        
+        <a href="kubernetes-install/" class="md-footer__link md-footer__link--next" aria-label="Next: CU installation ( VM &amp; kubernetes )" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              CU installation ( VM & kubernetes )
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate"], "search": "assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.078830c0.min.js"></script>
+      
+    
+  </body>
+</html>

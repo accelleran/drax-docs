@@ -1,0 +1,3050 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://accelleran.github.io/drax-docs/du-install/">
+      
+      <link rel="icon" href="../images/accelleran_favicon.png">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
+    
+    
+      
+        <title>DU Installation - dRAX - 2022.3.0 release</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.20d9efc8.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#du-installation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+      
+  <img src="../images/accelleran_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            dRAX - 2022.3.0 release
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DU Installation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href=".." class="md-tabs__link">
+      Accelleran CU Install Guide
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../kubernetes-install/" class="md-tabs__link">
+      CU installation ( VM & kubernetes )
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../drax-install/" class="md-tabs__link">
+      RIC & CU Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      DU Installation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../core-install/" class="md-tabs__link">
+      Core Installation
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+      
+  <img src="../images/accelleran_logo.png" alt="logo">
+
+    </a>
+    dRAX - 2022.3.0 release
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Accelleran CU Install Guide
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubernetes-install/" class="md-nav__link">
+        CU installation ( VM & kubernetes )
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drax-install/" class="md-nav__link">
+        RIC & CU Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          DU Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        DU Installation
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables-needed-for-this-install" class="md-nav__link">
+    Variables needed for this install
+  </a>
+  
+    <nav class="md-nav" aria-label="Variables needed for this install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5g-variables" class="md-nav__link">
+    5G variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequency-variables" class="md-nav__link">
+    Frequency variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#licenses-and-files-needed-see-intro" class="md-nav__link">
+    licenses and files needed (see intro)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-installation-on-the-server" class="md-nav__link">
+    Docker installation on the Server
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker installation on the Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#obtain-the-effnet-and-phluido-licenses" class="md-nav__link">
+    Obtain the Effnet and Phluido licenses
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phluido-isntall" class="md-nav__link">
+    Phluido isntall
+  </a>
+  
+    <nav class="md-nav" aria-label="Phluido isntall">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phluido-install-a-low-latency-kernel" class="md-nav__link">
+    Phluido : Install a Low Latency Kernel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phluido-license-run-the-systest-utility-from-phluido" class="md-nav__link">
+    Phluido License: Run the sysTest utility from Phluido
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-the-phluido-l1-docker" class="md-nav__link">
+    Install the Phluido L1 ( docker )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#effnet-install" class="md-nav__link">
+    Effnet Install
+  </a>
+  
+    <nav class="md-nav" aria-label="Effnet Install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#effnet-license-install-and-check-your-yubikey" class="md-nav__link">
+    Effnet License: Install and check your Yubikey
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#effnet-license-create-a-pcscd-docker-image" class="md-nav__link">
+    Effnet License: Create a PCSCD Docker Image
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#effnet-license-activate-the-yubikey" class="md-nav__link">
+    Effnet License: activate the yubikey
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-effnet-du-docker" class="md-nav__link">
+    Install Effnet DU ( docker )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose-file-with-cpu-pinning" class="md-nav__link">
+    docker compose file ( with CPU PINNING )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-softirq-priorities-to-realtime" class="md-nav__link">
+    set softirq priorities to realtime
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-b210-ru-only-install-phluido-rru-docker" class="md-nav__link">
+    FOR B210 RU ONLY Install Phluido RRU ( docker )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-and-bring-on-air-the-usrp-b210-radio" class="md-nav__link">
+    Prepare and bring on air the USRP B210 Radio
+  </a>
+  
+    <nav class="md-nav" aria-label="Prepare and bring on air the USRP B210 Radio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dul1rru-configuration-and-docker-compose" class="md-nav__link">
+    DU/L1/RRU Configuration and docker compose
+  </a>
+  
+    <nav class="md-nav" aria-label="DU/L1/RRU Configuration and docker compose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#start-the-du" class="md-nav__link">
+    Start the DU
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-and-bring-on-air-the-benetel-650-radio" class="md-nav__link">
+    Prepare and bring on air the Benetel 650 Radio
+  </a>
+  
+    <nav class="md-nav" aria-label="Prepare and bring on air the Benetel 650 Radio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diagram" class="md-nav__link">
+    Diagram
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-installtion" class="md-nav__link">
+    Server installtion
+  </a>
+  
+    <nav class="md-nav" aria-label="Server installtion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dul1-configuration-and-docker-compose" class="md-nav__link">
+    DU/L1 Configuration and docker compose
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequency-offsets-point-a-calculation" class="md-nav__link">
+    Frequency, Offsets, Point A Calculation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-docker-compose" class="md-nav__link">
+    Create docker compose
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare-to-configure-the-benetel-650" class="md-nav__link">
+    Prepare to configure the Benetel 650
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-check" class="md-nav__link">
+    Version Check
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-the-physical-benetel-radio-end-release-v05x" class="md-nav__link">
+    Configure the physical Benetel Radio End - Release V0.5.x
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure the physical Benetel Radio End - Release V0.5.x">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cfr-enabled" class="md-nav__link">
+    CFR enabled
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mac-address-of-the-du" class="md-nav__link">
+    MAC Address of the DU
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-the-frequency-of-the-radio-end" class="md-nav__link">
+    Set the Frequency of the Radio End
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-attenuation-level" class="md-nav__link">
+    Set attenuation level
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-the-physical-benetel-radio-end-older-then-release-v070" class="md-nav__link">
+    Configure the physical Benetel Radio End - Older then Release V0.7.0
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure the physical Benetel Radio End - Older then Release V0.7.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-reset-dpd" class="md-nav__link">
+    auto reset dpd
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-ru-benetel-650-manual-way" class="md-nav__link">
+    Starting RU Benetel 650 - manual way
+  </a>
+  
+    <nav class="md-nav" aria-label="Starting RU Benetel 650 - manual way">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prepare-cell" class="md-nav__link">
+    prepare cell
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-cell" class="md-nav__link">
+    start cell
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-ru-benetel-650-cell-wrapper-way" class="md-nav__link">
+    Starting RU Benetel 650 - cell wrapper way
+  </a>
+  
+    <nav class="md-nav" aria-label="Starting RU Benetel 650 - cell wrapper way">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-cell-wrapper" class="md-nav__link">
+    Install cell wrapper
+  </a>
+  
+    <nav class="md-nav" aria-label="Install cell wrapper">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#on-the-host" class="md-nav__link">
+    On the HOST
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#on-the-cu-vm" class="md-nav__link">
+    On the CU VM
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scripts-to-steer-cell-and-cell-wrapper" class="md-nav__link">
+    scripts to steer cell and cell-wrapper
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-good-operation-of-the-b650-all-releases" class="md-nav__link">
+    verify good operation of the B650 (all releases)
+  </a>
+  
+    <nav class="md-nav" aria-label="verify good operation of the B650 (all releases)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gps" class="md-nav__link">
+    GPS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cell-status-report" class="md-nav__link">
+    Cell Status Report
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trace-traffic-between-ru-and-l1" class="md-nav__link">
+    Trace traffic between RU and L1.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cell-is-on" class="md-nav__link">
+    Cell is ON
+  </a>
+  
+    <nav class="md-nav" aria-label="Cell is ON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-if-the-l1-is-listening" class="md-nav__link">
+    Check if the L1 is listening
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show-the-traffic-between-rru-and-l1" class="md-nav__link">
+    Show the traffic between rru and l1
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debug-configuration" class="md-nav__link">
+    DEBUG Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fiber-port-not-showing-up" class="md-nav__link">
+    Fiber Port not showing up
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#l1-is-not-listening" class="md-nav__link">
+    L1 is not listening
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-sctp-connections" class="md-nav__link">
+    check SCTP connections
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-engineering-tips-and-tricks" class="md-nav__link">
+    Appendix: Engineering tips and tricks
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: Engineering tips and tricks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pcscd-debug" class="md-nav__link">
+    pcscd debug
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-ru-in-freerun-mode" class="md-nav__link">
+    Run RU in freerun mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custatus" class="md-nav__link">
+    custatus
+  </a>
+  
+    <nav class="md-nav" aria-label="custatus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    install
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use" class="md-nav__link">
+    use
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-install/" class="md-nav__link">
+        Core Installation
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="du-installation">DU Installation<a class="headerlink" href="#du-installation" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>The DU will be installed in several Docker containers that run on metal on the host machine. As mentioned in the introduction, a separate Virtual Machine will host the RIC and the CU and their relative pods will be handled by Kubernetes inside that VM. Here we focus on the steps to get DU and L1 up and running.</p>
+<h3 id="variables-needed-for-this-install">Variables needed for this install<a class="headerlink" href="#variables-needed-for-this-install" title="Permanent link">&para;</a></h3>
+<p>Before proceeding you may want to crosscheck and modify some paramters that caracterise each deployment and depends on the desired provisioning of the components. The parameters that should be considered for this purpose and can be safely modified are:</p>
+<h4 id="5g-variables">5G variables<a class="headerlink" href="#5g-variables" title="Permanent link">&para;</a></h4>
+<ul>
+<li>plmn_identity      [ eg 235 88 ] </li>
+<li>nr_cell_identity   [ eg 1  any number ]</li>
+<li>nr_pci             [ eg 1  not any number. Ask Accelleran to do the PCI planning ]</li>
+<li>5gs_tac            [ eg 1 ] </li>
+</ul>
+<h4 id="frequency-variables">Frequency variables<a class="headerlink" href="#frequency-variables" title="Permanent link">&para;</a></h4>
+<ul>
+<li>center_frequency_band   [ eg  3751.680 ] </li>
+<li>point_a_arfcn           [ 648840 consistent with center freq, scs 30khz ]</li>
+<li>band                    [ 77  consistent with center frequency ]</li>
+</ul>
+<h4 id="licenses-and-files-needed-see-intro">licenses and files needed (see intro)<a class="headerlink" href="#licenses-and-files-needed-see-intro" title="Permanent link">&para;</a></h4>
+<ul>
+<li>accelleran-du-phluido-%Y-%m-%d-release.zip</li>
+<li>phluido_docker_xxxx.tar</li>
+<li>effnet-license-activation-%Y-%m-%d.zip </li>
+<li>32 digit phluido license key, [ ex 2B2A-962F-783F-40B9-7064-2DE3-3906-9D2E ] </li>
+</ul>
+<p>For any other modification it is advisable to make contact with the Accelleran service desk as of course, if in principle every paramter in the confuguration file is up for modification, it is certainly not recommendable to proceed in that declaration as each front end may or may not work as a consequence and the analysis and recovery from error scenario will be less than intuitive</p>
+<h2 id="docker-installation-on-the-server">Docker installation on the Server<a class="headerlink" href="#docker-installation-on-the-server" title="Permanent link">&para;</a></h2>
+<p><strong>Make sure Docker and docker-compose have been installed and that docker can be run without superuser privileges, this is a prerequisite. DO NOT install Kubernetes where DU and L1 will run</strong></p>
+<p>Add the Docker APT repository:</p>
+<p><div class="highlight"><pre><span></span><code>curl -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="p">|</span> sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>echo &quot;deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable&quot; | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt update
+</code></pre></div></p>
+<p>Install the required packages:</p>
+<p><div class="highlight"><pre><span></span><code>sudo apt install docker-ce 
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install docker-ce-cli 
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install containerd.io 
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install docker-compose
+</code></pre></div></p>
+<p>Add your user to the docker group to be able to run docker commands without sudo access.
+You might have to reboot or log out and in again for this change to take effect.</p>
+<div class="highlight"><pre><span></span><code>sudo usermod -aG docker <span class="nv">$USER</span>
+</code></pre></div>
+<p>To check if your installation is working you can try to run a test image in a container:</p>
+<p><div class="highlight"><pre><span></span><code>sudo docker run hello-world
+</code></pre></div>
+Restart Docker and enable on boot:</p>
+<div class="highlight"><pre><span></span><code>sudo systemctl <span class="nb">enable</span> docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+</code></pre></div>
+<h3 id="obtain-the-effnet-and-phluido-licenses">Obtain the Effnet and Phluido licenses<a class="headerlink" href="#obtain-the-effnet-and-phluido-licenses" title="Permanent link">&para;</a></h3>
+<p>In this phase we will need to act in parallel for the DU and the L1/RRU licenses, which depend on our partner company so it is essential to give priority and possibly anticipate these two steps as there is no specific effort involved from the user/customer perspective and they may require longer than one working day before we can proceed further.</p>
+<h3 id="phluido-isntall">Phluido isntall<a class="headerlink" href="#phluido-isntall" title="Permanent link">&para;</a></h3>
+<h4 id="phluido-install-a-low-latency-kernel">Phluido : Install a Low Latency Kernel<a class="headerlink" href="#phluido-install-a-low-latency-kernel" title="Permanent link">&para;</a></h4>
+<p>The PHY layer has very stringent latency requirements, therefore we install a low latency kernel:</p>
+<div class="highlight"><pre><span></span><code>sudo apt install linux-image-lowlatency
+</code></pre></div>
+<p>make sure this line is present in the <code>/etc/default/grub</code> file. 
+It forces the GRUB to start a lowlatency kernel.
+<div class="highlight"><pre><span></span><code>$ cat /etc/default/grub | grep FLAV
+GRUB_FLAVOUR_ORDER=lowlatency
+</code></pre></div></p>
+<p>Create a sysctl configuration file to configure the low latency kernel:</p>
+<div class="highlight"><pre><span></span><code>sudo tee /etc/sysctl.d/10-phluido.conf <span class="s">&lt;&lt;EOF</span>
+<span class="s"># Improves scheduling responsiveness for Phluido L1</span>
+<span class="s">kernel.sched_min_granularity_ns = 100000</span>
+<span class="s">kernel.sched_wakeup_granularity_ns = 20000</span>
+<span class="s">kernel.sched_latency_ns = 500000</span>
+<span class="s">kernel.sched_rt_runtime_us = -1</span>
+<span class="s"># Message queue</span>
+<span class="s">fs.mqueue.msg_max = 64</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Remove the generic kernel to avoid the low latency kernel to be replaced by a generic kernel when updates are performed:</p>
+<div class="highlight"><pre><span></span><code>sudo apt remove linux-image-generic
+sudo apt autoremove
+</code></pre></div>
+<p>In order to avoid possible system performance degradation, CPU scaling must be disabled:</p>
+<p><div class="highlight"><pre><span></span><code>sudo apt install cpufrequtils
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>echo &#39;GOVERNOR=&quot;performance&quot;&#39; | sudo tee /etc/default/cpufrequtils
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo systemctl disable ondemand
+</code></pre></div></p>
+<p>Restart the machine to make the changes take effect:</p>
+<div class="highlight"><pre><span></span><code>sudo reboot
+</code></pre></div>
+<h4 id="phluido-license-run-the-systest-utility-from-phluido">Phluido License: Run the sysTest utility from Phluido<a class="headerlink" href="#phluido-license-run-the-systest-utility-from-phluido" title="Permanent link">&para;</a></h4>
+<p>to go to the directory where the Phluido sysTest utility is :</p>
+<div class="highlight"><pre><span></span><code>$ ./sysTest 
+Running system test...
+01234567890123456789012345678901
+System test completed, output written to file &quot;sysTest.bin&quot;.
+</code></pre></div>
+<p>( The test takes around 90 seconds) This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components Once it is finsihed it produces a file sysTest.bin in the same directory Send this file to Accelleran, 
+to obtain the Phluido license key. Send this .bin file to phluido to receive a proper license.</p>
+<h4 id="install-the-phluido-l1-docker">Install the Phluido L1 ( docker )<a class="headerlink" href="#install-the-phluido-l1-docker" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code> docker image load -i phluido_docker_<span class="nv">$L1_VERSION</span>.tar
+</code></pre></div>
+<h3 id="effnet-install">Effnet Install<a class="headerlink" href="#effnet-install" title="Permanent link">&para;</a></h3>
+<h4 id="effnet-license-install-and-check-your-yubikey">Effnet License: Install and check your Yubikey<a class="headerlink" href="#effnet-license-install-and-check-your-yubikey" title="Permanent link">&para;</a></h4>
+<p>For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip</p>
+<p>if you don't have yet the effnet license activation bundle, in order to obatin one you must comunicate to Accelleran the serial number of the Yubikey you intend to use so to be enabled for usage. You can obtain this information by using the following command on your server where the Yubikey has been installed physically to a USB port:</p>
+<p>To check if the server can see the key do (in this example Device004 is your key): 
+<div class="highlight"><pre><span></span><code>lsusb
+~$ lsusb
+Bus <span class="m">002</span> Device <span class="m">002</span>: ID <span class="m">8087</span>:8002 Intel Corp. 
+Bus <span class="m">002</span> Device <span class="m">001</span>: ID 1d6b:0002 Linux Foundation <span class="m">2</span>.0 root hub
+Bus <span class="m">001</span> Device <span class="m">002</span>: ID <span class="m">8087</span>:800a Intel Corp. 
+Bus <span class="m">001</span> Device <span class="m">001</span>: ID 1d6b:0002 Linux Foundation <span class="m">2</span>.0 root hub
+Bus <span class="m">004</span> Device <span class="m">003</span>: ID <span class="m">2500</span>:0020 Ettus Research LLC USRP B200
+Bus <span class="m">004</span> Device <span class="m">001</span>: ID 1d6b:0003 Linux Foundation <span class="m">3</span>.0 root hub
+**Bus <span class="m">003</span> Device <span class="m">004</span>: ID <span class="m">1050</span>:0407 Yubico.com Yubikey <span class="m">4</span> OTP+U2F+CCID**
+Bus <span class="m">003</span> Device <span class="m">029</span>: ID 2a70:9024 OnePlus AC2003
+Bus <span class="m">003</span> Device <span class="m">006</span>: ID 413c:a001 Dell Computer Corp. Hub
+Bus <span class="m">003</span> Device <span class="m">016</span>: ID 20ce:0023 Minicircuits Mini-Circuits
+Bus <span class="m">003</span> Device <span class="m">001</span>: ID 1d6b:0002 Linux Foundation <span class="m">2</span>.0 root hub
+</code></pre></div>
+Then you can find the serial number (yubikey-manager needed, install if it's not already):</p>
+<p><div class="highlight"><pre><span></span><code>sudo apt install yubikey-manager
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>ykman list --serials
+<span class="c1">#13134288</span>
+</code></pre></div></p>
+<h4 id="effnet-license-create-a-pcscd-docker-image">Effnet License: Create a PCSCD Docker Image<a class="headerlink" href="#effnet-license-create-a-pcscd-docker-image" title="Permanent link">&para;</a></h4>
+<p>The DU software needs access to a YubiKey that contains its license.
+The license in the YubiKey is shared by the PCSCD daemon, which itself can run in a Docker container to satisfy OS dependencies.
+Plug the YubiKey in a USB port of the machine.
+Then, create a Dockerfile named Dockerfile.pcscd for this Docker image:</p>
+<div class="highlight"><pre><span></span><code>mkdir -p pcscd 
+tee pcscd/Dockerfile.pcscd <span class="s">&lt;&lt;EOF</span>
+<span class="s">FROM ubuntu:20.04</span>
+
+<span class="s">RUN \</span>
+<span class="s">set -xe &amp;&amp; \</span>
+<span class="s">apt-get update &amp;&amp; \</span>
+<span class="s">DEBIAN_FRONTEND=&quot;noninteractive&quot; apt-get install -y \</span>
+<span class="s">    pcscd</span>
+
+<span class="s"># Cleanup</span>
+<span class="s">RUN \</span>
+<span class="s">set -xe &amp;&amp; \</span>
+<span class="s">apt-get clean &amp;&amp; \</span>
+<span class="s">rm -rf \</span>
+<span class="s">    /var/lib/apt/lists/* \</span>
+<span class="s">    /var/tmp/* \</span>
+<span class="s">    /tmp/*</span>
+
+<span class="s">ENTRYPOINT [&quot;/usr/sbin/pcscd&quot;, &quot;--foreground&quot;]</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>The Docker image can now be built and started with:</p>
+<p><div class="highlight"><pre><span></span><code>docker build --rm -t pcscd_yubikey - &lt;pcscd/Dockerfile.pcscd
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>docker run --restart always -id --privileged --name pcscd_yubikey_c -v /run/pcscd:/run/pcscd pcscd_yubikey
+</code></pre></div></p>
+<p>You can verify it is running correct with the command:</p>
+<div class="highlight"><pre><span></span><code>docker container ls --filter <span class="nv">name</span><span class="o">=</span>pcscd_yubikey_c
+</code></pre></div>
+<p>If every step was performed correctly this command should produce output similar to:</p>
+<div class="highlight"><pre><span></span><code>CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+df4f41eb70c9        pcscd_yubikey       <span class="s2">&quot;/usr/sbin/pcscd --f…&quot;</span>   <span class="m">1</span> minute ago        Up <span class="m">1</span> minute                             pcscd_yubikey_c
+</code></pre></div>
+<h4 id="effnet-license-activate-the-yubikey">Effnet License: activate the yubikey<a class="headerlink" href="#effnet-license-activate-the-yubikey" title="Permanent link">&para;</a></h4>
+<p>In order to activate the license dongles unzip the received license activation bundle effnet-license-activation-yyyy-mm-dd.zip (as mentioned the date may differ on each case so let's use the generic format) and then you need to load the included Docker image into your docker-daemon, i.e.</p>
+<div class="highlight"><pre><span></span><code>bunzip2 --stdout license-activation-yyyy-mm-dd.tar.bz2 <span class="p">|</span> docker load
+</code></pre></div>
+<p>Then run the image mapping the folder containing the <code>pcscd</code> daemon socket into
+the container:</p>
+<div class="highlight"><pre><span></span><code>docker run -it -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-yyyy-mm-dd
+</code></pre></div>
+<p>If you get warnings similar to:</p>
+<div class="highlight"><pre><span></span><code>WARNING: No dongle with serial-number <span class="m">13134288</span> found
+</code></pre></div>
+<p>It means that a dongle for the bundled license was not found, i.e. in this case
+the dongle with the serial number 13134288 has not been activated, or the licens bundle file you have received is not the correct one, contact Accelleran in such case</p>
+<p>Successful activation of a license-dongle should produce an output similar to:</p>
+<div class="highlight"><pre><span></span><code>Loading certificate to Yubico YubiKey CCID <span class="m">00</span> <span class="m">00</span> <span class="o">(</span>serial: <span class="m">13134288</span><span class="o">)</span>
+</code></pre></div>
+<p>Which means that a license for the dongle with serial-number 13134288 was loaded to the dongle (i.e., it was bundled in the license-activation image).</p>
+<h4 id="install-effnet-du-docker">Install Effnet DU ( docker )<a class="headerlink" href="#install-effnet-du-docker" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>unzip accelleran-du-phluido-<span class="nv">$DU_VERSION</span>.zip
+bzcat accelleran-du-phluido/accelleran-du-phluido-<span class="nv">$DU_VERSION</span>/gnb_du_main_phluido-<span class="nv">$DU_VERSION</span>.tar.bz2 <span class="p">|</span> docker image load
+</code></pre></div>
+<h3 id="docker-compose-file-with-cpu-pinning">docker compose file ( with CPU PINNING )<a class="headerlink" href="#docker-compose-file-with-cpu-pinning" title="Permanent link">&para;</a></h3>
+<p>To achieve maximum stability and performance it is necessary to optimise the CPU load and this can be done by distributing the available CPUs among the components and assign different priorities to the most demanding processes. We split therefore the CPUs in two groups, one group of CPUs for the VM where the RIC/CU run and one group of CPUs for the containers that run L1 and DU. The CPU pinning allows for ceertain components to run only on certain CPUs, however it doesn't impede other processes to use the same CPUs, so the full optimisation of the CPU usage and the exclusive allocation of the CPUs are beyond the scope of this document, here we illustrate one possible split as an example.</p>
+<p>First thing to find out is what resources are available on our system:
+These have been found during the preperation fase and shared over DU and CU. In this chapter the DU core are assigned.</p>
+<p>In this specific example, there are two banks of 4 cores, each capable of hyperthreading, so in total we can count on 16 CPUs, let's then set 8 CPUs aside to run the VM for kubernetes and CU, and the other 8 CPUs to run L1/L2 so that they never compete for the same CPU. The assumption is that the rest of the processes on the system (very light load) is equally spread over all cores. If a large number of cores is available, probably the core with a higher number will be mostly free and can be then dedicated to L1 and DU, as mentioned there is no specific rule. For the sake of argument let's assign the even cores to the L1 and DU equally, so the Docker compose looks as follows:</p>
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install-<span class="nv">$DU_VERSION</span>/ 
+<span class="nb">cd</span> !$
+cat &gt; docker-compose.yaml <span class="s">&lt;&lt; EOF</span>
+<span class="s">version: &quot;2&quot;</span>
+<span class="s">services:</span>
+
+<span class="s">  phluido_l1:</span>
+<span class="s">    image: phluido_l1:$L1_VERSION</span>
+<span class="s">    container_name: phluido_l1</span>
+<span class="s">    tty: true</span>
+<span class="s">    privileged: true</span>
+<span class="s">    ipc: shareable</span>
+<span class="s">    shm_size: 2gb</span>
+<span class="s">    command: /config.cfg</span>
+<span class="s">    volumes:</span>
+<span class="s">      - &quot;$PWD/l1-config-0.cfg:/config.cfg:ro&quot;</span>
+<span class="s">      - &quot;$PWD/logs-0/l1:/workdir&quot;</span>
+<span class="s">      - &quot;/etc/machine-id:/etc/machine-id:ro&quot;</span>
+<span class="s">    working_dir: &quot;/workdir&quot;</span>
+<span class="s">    network_mode: host</span>
+<span class="s">    cpuset: &quot;$CORE_SET_L1&quot;</span>
+
+<span class="s">  du:</span>
+<span class="s">    image: gnb_du_main_phluido:$DU_VERSION</span>
+<span class="s">    volumes:</span>
+<span class="s">      - &quot;$PWD/du-config-0.json:/config.json:ro&quot;</span>
+<span class="s">      - &quot;$PWD/logs-0/du:/workdir&quot;</span>
+<span class="s">      - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm</span>
+<span class="s">    ipc: container:phluido_l1</span>
+<span class="s">    tty: true</span>
+<span class="s">    privileged: true</span>
+<span class="s">    depends_on:</span>
+<span class="s">      - phluido_l1</span>
+<span class="s">    entrypoint: [&quot;/bin/sh&quot;, &quot;-c&quot;, &quot;sleep 2 &amp;&amp; exec /gnb_du_main_phluido /config.json&quot;]</span>
+<span class="s">    working_dir: &quot;/workdir&quot;</span>
+<span class="s">    extra_hosts:</span>
+<span class="s">      - &quot;cu:$F1_CU_IP&quot;</span>
+<span class="s">      - &quot;du:$SERVER_IP&quot;</span>
+<span class="s">    network_mode: host</span>
+<span class="s">    cpuset: &quot;$CORE_SET_DU&quot;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p><strong>Notes: </strong>
+1) the version has to be changed to '2' as version 3 does not support cpuset option
+2) the ip address for the cu is the one of the f1 external ip interface of the relative cucp service
+3) the DU ip address is the one of the server where the DU runs</p>
+<blockquote>
+<p>NOTE : verify the cpu pinning of the VM's are different then those we used in above compose file.
+We then need to take care of the CPUs that the VMs hosted on this server are intended to use. Earlier in the installation the CPU pinning has been done during creation. :
+<div class="highlight"><pre><span></span><code>virsh edit <span class="nv">$CU_VM_NAME</span>
+virsh edit <span class="nv">$OPEN5GS_VM_NAME</span>
+</code></pre></div>
+Other ways of creating a VM may not produce a configuration file in xml format, making things more difficult. We also recommend to identify the xml configuration file by searching the directory:</p>
+<div class="highlight"><pre><span></span><code>/etc/libvirt/qemu/
+</code></pre></div>
+<p>But we definitely discourage the direct editing of such file as it will reset to default at the first reboot</p>
+<p>Once done, you can check the content of the xml configuration file, that in this case will show we decided to assign the odd CPUs to the VM:</p>
+<div class="highlight"><pre><span></span><code>ubuntu@bbu3:~$ sudo cat /etc/libvirt/qemu/Ubuntu123.xml
+&lt;!--
+WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
+OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+  virsh edit Ubuntu123
+or other application using the libvirt API.
+--&gt;
+
+&lt;domain <span class="nv">type</span><span class="o">=</span><span class="s1">&#39;kvm&#39;</span>&gt;
+  &lt;name&gt;Ubuntu123&lt;/name&gt;
+  &lt;uuid&gt;f18a2a01-7b67-4f00-ad11-5920ec2b6f16&lt;/uuid&gt;
+  &lt;metadata&gt;
+    &lt;libosinfo:libosinfo xmlns:libosinfo<span class="o">=</span><span class="s2">&quot;http://libosinfo.org/xmlns/libvirt/domain/1.0&quot;</span>&gt;
+      &lt;libosinfo:os <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;http://ubuntu.com/ubuntu/20.04&quot;</span>/&gt;
+    &lt;/libosinfo:libosinfo&gt;
+  &lt;/metadata&gt;
+  &lt;memory <span class="nv">unit</span><span class="o">=</span><span class="s1">&#39;KiB&#39;</span>&gt;33554432&lt;/memory&gt;
+  &lt;currentMemory <span class="nv">unit</span><span class="o">=</span><span class="s1">&#39;KiB&#39;</span>&gt;33554432&lt;/currentMemory&gt;
+  &lt;vcpu <span class="nv">placement</span><span class="o">=</span><span class="s1">&#39;static&#39;</span> <span class="nv">cpuset</span><span class="o">=</span><span class="s1">&#39;1,3,5,7,9,11,13,15&#39;</span>&gt;8&lt;/vcpu&gt;
+  &lt;os&gt;
+    &lt;<span class="nb">type</span> <span class="nv">arch</span><span class="o">=</span><span class="s1">&#39;x86_64&#39;</span> <span class="nv">machine</span><span class="o">=</span><span class="s1">&#39;pc-q35-4.2&#39;</span>&gt;hvm&lt;/type&gt;
+    &lt;bootmenu <span class="nv">enable</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span>/&gt;
+  &lt;/os&gt;
+  &lt;features&gt;
+</code></pre></div>
+</blockquote>
+<h3 id="set-softirq-priorities-to-realtime">set softirq priorities to realtime<a class="headerlink" href="#set-softirq-priorities-to-realtime" title="Permanent link">&para;</a></h3>
+<p>In a normal setup, the softirq processes will run at priority 20, equal to all user processes. Here they need to run at -2, which corresponds to real time priority. They are scheduled on all cores but will get strict priority over any other user processes. To adapt the priority of the ksoft, you can use spcific commands:</p>
+<p>to set to realtime priority 1 (lowest prio, but still "run to completion" before other default processes are executed):
+<div class="highlight"><pre><span></span><code>ps -A <span class="p">|</span> grep ksoftirq <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span> <span class="p">|</span> xargs -L1 sudo chrt -p <span class="m">1</span>
+</code></pre></div></p>
+<blockquote>
+<p>NOTE: to revert the priority to "other policy":</p>
+<div class="highlight"><pre><span></span><code>ps -A <span class="p">|</span> grep ksoftirq <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span> <span class="p">|</span> xargs -L1 sudo chrt --other -p <span class="m">0</span>
+</code></pre></div>
+</blockquote>
+<p>finally to check all the priorities set:</p>
+<div class="highlight"><pre><span></span><code>ps -A <span class="p">|</span> grep ksoftirq <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span> <span class="p">|</span> xargs -L1 chrt -p
+</code></pre></div>
+<p>Use htop to verify the priorities of the softirq processes. 
+The only thing remaining is now <strong>prioritise the softirq processes</strong>. One can use <strong>htop</strong> and work out the options to show priority and CPU ID </p>
+<div class="highlight"><pre><span></span><code>* Press F2 for ```Setup```, navigate to ```Columns```,  add ```PRIORITY```
+
+* Press F2 for ```Setup```, navigate to ```Display Options```, unselect ```Hide kernel threads```
+</code></pre></div>
+<p align="center">
+  <img width="500" height="300" src="htopPinning.png">
+</p>
+
+<h3 id="for-b210-ru-only-install-phluido-rru-docker"><strong>FOR B210 RU ONLY</strong> Install Phluido RRU ( docker )<a class="headerlink" href="#for-b210-ru-only-install-phluido-rru-docker" title="Permanent link">&para;</a></h3>
+<p>Load the Phluido RRU Docker image (this step does not have to be taken when using Benetel RUs):</p>
+<div class="highlight"><pre><span></span><code>docker build -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/docker/Dockerfile.rru -t phluido_rru:v0.8.1 Phluido5GL1/Phluido5GL1_v0.8.1
+</code></pre></div>
+<h2 id="prepare-and-bring-on-air-the-usrp-b210-radio">Prepare and bring on air the USRP B210 Radio<a class="headerlink" href="#prepare-and-bring-on-air-the-usrp-b210-radio" title="Permanent link">&para;</a></h2>
+<p>This section is exclusively applicable to the user/customer that intends to use the Ettus USRP B210 Radio End with our Accellleran 5G end to end solution, if you do not have such radio end the informations included in this section may be misleading and bring to undefined error scenarios. Please contact Accelleran if your Radio End is not included in any section of this user guide</p>
+<p>Create the UDEV rules for the B210:</p>
+<div class="highlight"><pre><span></span><code>sudo tee /etc/udev/rules.d/uhd-usrp.rules <span class="s">&lt;&lt;EOF</span>
+<span class="s">#</span>
+<span class="s"># Copyright 2011,2015 Ettus Research LLC</span>
+<span class="s"># Copyright 2018 Ettus Research, a National Instruments Company</span>
+<span class="s">#</span>
+<span class="s"># SPDX-License-Identifier: GPL-3.0-or-later</span>
+<span class="s">#</span>
+
+<span class="s">#USRP1</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;fffe&quot;, ATTRS{idProduct}==&quot;0002&quot;, MODE:=&quot;0666&quot;</span>
+
+<span class="s">#B100</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;2500&quot;, ATTRS{idProduct}==&quot;0002&quot;, MODE:=&quot;0666&quot;</span>
+
+<span class="s">#B200</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;2500&quot;, ATTRS{idProduct}==&quot;0020&quot;, MODE:=&quot;0666&quot;</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;2500&quot;, ATTRS{idProduct}==&quot;0021&quot;, MODE:=&quot;0666&quot;</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;2500&quot;, ATTRS{idProduct}==&quot;0022&quot;, MODE:=&quot;0666&quot;</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;3923&quot;, ATTRS{idProduct}==&quot;7813&quot;, MODE:=&quot;0666&quot;</span>
+<span class="s">SUBSYSTEMS==&quot;usb&quot;, ATTRS{idVendor}==&quot;3923&quot;, ATTRS{idProduct}==&quot;7814&quot;, MODE:=&quot;0666&quot;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Connect the B210 to the machine.
+Make sure it is enumerated as USB3 by executing:</p>
+<div class="highlight"><pre><span></span><code>lsusb -d <span class="m">2500</span>:0020 -v <span class="p">|</span> grep -F bcdUSB
+</code></pre></div>
+<p>This should print:</p>
+<div class="highlight"><pre><span></span><code>bcdUSB               3.00
+</code></pre></div>
+<p>Add the Ettus Research APT repositories:</p>
+<div class="highlight"><pre><span></span><code>sudo add-apt-repository ppa:ettusresearch/uhd
+sudo apt update
+</code></pre></div>
+<p>Install the software required by the B210:</p>
+<div class="highlight"><pre><span></span><code>sudo apt install libuhd-dev uhd-host libuhd3.15.0
+</code></pre></div>
+<p>Download the UHD images:</p>
+<div class="highlight"><pre><span></span><code>sudo uhd_images_downloader
+sudo /usr/lib/uhd/utils/uhd_images_downloader.py
+</code></pre></div>
+<p>Check if the B210 is detecting using the following command:</p>
+<div class="highlight"><pre><span></span><code>uhd_find_devices
+</code></pre></div>
+<p>This should output something similar to:</p>
+<div class="highlight"><pre><span></span><code>[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
+--------------------------------------------------
+-- UHD Device 0
+--------------------------------------------------
+Device Address:
+    serial: 3218C86
+    name: MyB210
+    product: B210
+    type: b200
+</code></pre></div>
+<p>Burn the correct EEPROM for the B210:</p>
+<div class="highlight"><pre><span></span><code>/usr/lib/uhd/utils/usrp_burn_mb_eeprom* --values<span class="o">=</span><span class="s1">&#39;name=B210-#4&#39;</span>
+</code></pre></div>
+<p>If everything goes well this should output something similar to:</p>
+<div class="highlight"><pre><span></span><code>Creating USRP device from address:
+[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
+[INFO] [B200] Detected Device: B210
+[INFO] [B200] Loading FPGA image: /usr/share/uhd/images/usrp_b210_fpga.bin...
+[INFO] [B200] Operating over USB 3.
+[INFO] [B200] Detecting internal GPSDO....
+[INFO] [GPS] No GPSDO found
+[INFO] [B200] Initialize CODEC control...
+[INFO] [B200] Initialize Radio control...
+[INFO] [B200] Performing register loopback test...
+[INFO] [B200] Register loopback test passed
+[INFO] [B200] Performing register loopback test...
+[INFO] [B200] Register loopback test passed
+[INFO] [B200] Setting master clock rate selection to &#39;automatic&#39;.
+[INFO] [B200] Asking for clock rate 16.000000 MHz...
+[INFO] [B200] Actually got clock rate 16.000000 MHz.
+
+Fetching current settings from EEPROM...
+    EEPROM [&quot;name&quot;] is &quot;MyB210&quot;
+
+Setting EEPROM [&quot;name&quot;] to &quot;B210-#4&quot;...
+Power-cycle the USRP device for the changes to take effect.
+
+Done
+</code></pre></div>
+<p>Check if the current EEPROM was flashed by executing:</p>
+<div class="highlight"><pre><span></span><code>uhd_find_devices
+</code></pre></div>
+<p>The output should look like:</p>
+<div class="highlight"><pre><span></span><code>[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
+--------------------------------------------------
+-- UHD Device 0
+--------------------------------------------------
+Device Address:
+    serial: 3218C86
+    name: B210-#4
+    product: B210
+    type: b200
+</code></pre></div>
+<h3 id="dul1rru-configuration-and-docker-compose">DU/L1/RRU Configuration and docker compose<a class="headerlink" href="#dul1rru-configuration-and-docker-compose" title="Permanent link">&para;</a></h3>
+<p>Before starting the configuration of the components it is important to avoid confusion so please create a folder file and move in all the configuration files you find for the L1, RRU and the DU configuration and remove the docker-compose as well:
+<div class="highlight"><pre><span></span><code>mkdir accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/cfg
+mv accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/*.cfg accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/cfg/
+mkdir accelleran-du-phluido/accelleran-du-phluido-2022-01-31/json
+mv accelleran-du-phluido/accelleran-du-phluido-2022-01-31/*.json accelleran-du-phluido/accelleran-du-phluido-2022-01-31/json/
+rm accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose.yml
+</code></pre></div></p>
+<p>Create a configuration file for the Phluido RRU:
+<strong> only for B210 </strong></p>
+<div class="highlight"><pre><span></span><code>tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg <span class="s">&lt;&lt;EOF</span>
+<span class="s">/******************************************************************</span>
+<span class="s">*</span>
+<span class="s">* This file is subject to the terms and conditions defined in</span>
+<span class="s">* file &#39;LICENSE.txt&#39;, which is part of this source code package.</span>
+<span class="s">*</span>
+<span class="s">******************************************************************/</span>
+
+<span class="s">//BBU IPv4 address.</span>
+<span class="s">bbuFronthaulServerAddr = &quot;127.0.0.1&quot;;</span>
+
+<span class="s">// Number of slots in one subframe.</span>
+<span class="s">numSubframeSlots = 2;</span>
+
+<span class="s">//Number of TX antennas for fronthaul data exchange.</span>
+<span class="s">numTxAntennas = 1;</span>
+<span class="s">//Number of RX antennas for fronthaul data exchange.</span>
+<span class="s">numRxAntennas = 1;</span>
+
+<span class="s">/// Frequency [kHz] for TX &quot;point A&quot; (see NR definition).</span>
+<span class="s">txFreqPointA_kHz = 3301680;</span>
+<span class="s">/// Frequency [kHz] for RX &quot;point A&quot; (see NR definition).</span>
+<span class="s">rxFreqPointA_kHz = 3301680;</span>
+
+<span class="s">/// Number of PRBs for both downlink and uplink. Must match the L2-L3 configuration.</span>
+<span class="s">numPrbs = 51;</span>
+
+<span class="s">uhdClockMode = 0;</span>
+
+<span class="s">uhdSendAdvance_ns = 8000;</span>
+
+<span class="s">/// Parameters used for PhluidoPrototypeBPP.</span>
+<span class="s">bppMode = 10;</span>
+<span class="s">uhdSamplingRate_kHz = 23040;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Create a configuration file for the Phluido L1.
+Make sure to set the value <code>LicenseKey</code> option to the received Phluido license key. This key has been delivered by Phluido upon receipt of the .bin file generated by the sysTest you have performed at start of this installation.</p>
+<p><div class="highlight"><pre><span></span><code>tee l1-config.cfg <span class="s">&lt;&lt;EOF</span>
+<span class="s">/******************************************************************</span>
+<span class="s"> *</span>
+<span class="s"> * This file is subject to the terms and conditions defined in</span>
+<span class="s"> * file &#39;LICENSE&#39;.</span>
+<span class="s"> *</span>
+<span class="s"> ******************************************************************/</span>
+
+<span class="s">// Enables verbose binary logging. WARNING: very CPU intensive and creates potentially huge output files. Use with caution.</span>
+<span class="s">//logLevel_verbose    = &quot;DEBUG&quot;;</span>
+
+<span class="s">bbuFronthaulServerMode = 1;</span>
+<span class="s">bbuFronthaulServerAddr = &quot;10.10.0.1&quot;</span>
+<span class="s">bbuFronthaulServerPort = 44000;</span>
+<span class="s">/// BBU fronthaul server &quot;busy poll&quot; for the receive socket, in microseconds, used as value for the relevant (SOL_SOCKET,SO_BUSY_POLL) socket option.</span>
+
+<span class="s">numWorkers = 4;</span>
+
+
+
+<span class="s">// Enable 64-QAM support for PUSCH (license-specific)</span>
+<span class="s">maxPuschModOrder = 6;</span>
+
+<span class="s">maxNumPdschLayers = 2;</span>
+<span class="s">maxNumPuschLayers = 1;</span>
+<span class="s">maxNumPrachDetectionSymbols = 1;</span>
+
+<span class="s">targetRecvDelay_us = 2500;</span>
+<span class="s">//targetCirPosition = 0.0078125;</span>
+
+<span class="s">// License key</span>
+<span class="s">//LicenseKey = &quot;2B2A-962F-783F-40B9-7064-2DE3-3906-9D2E&quot;</span>
+
+<span class="s">EOF</span>
+</code></pre></div>
+**IMPORTANT: After this replace the LicenseKey value with the effective license sequence you obtained from Accelleran </p>
+<p>Create a configuration file for the Effnet DU:</p>
+<ul>
+<li>nr_cell_identity  ( in binary format eg 3 fill in ...00011 )</li>
+<li>nr_pci            ( decimal format eg 51 fill in 51 )</li>
+<li>plmn_identity     ( eg 235 88 fill in 235f88. fill in 2 times in this file)</li>
+<li>arfcn             ( decimal format calculated from the center frequency, see chapter ) </li>
+<li>nr_frequency_band ( 77 or 78 )</li>
+<li>5gs_tac           ( 3 byte array. eg 1 fill in 000001 ) </li>
+</ul>
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install-<span class="nv">$DU_VERSION</span>/ 
+<span class="nb">cd</span> !$
+tee du-config.json <span class="s">&lt;&lt;EOF</span>
+<span class="s">{</span>
+<span class="s">    &quot;configuration&quot;: {</span>
+<span class="s">        &quot;du_address&quot;: &quot;du&quot;,</span>
+<span class="s">        &quot;cu_address&quot;: &quot;cu&quot;,</span>
+<span class="s">        &quot;gtp_listen_address&quot;: &quot;du&quot;,</span>
+<span class="s">        &quot;f1c_bind_address&quot;: &quot;du&quot;,</span>
+<span class="s">        &quot;vphy_listen_address&quot;: &quot;127.0.0.1&quot;,</span>
+<span class="s">        &quot;vphy_port&quot;: 13337,</span>
+<span class="s">        &quot;vphy_tick_multiplier&quot;: 1,</span>
+<span class="s">        &quot;gnb_du_id&quot;: 38209903575,</span>
+<span class="s">        &quot;gnb_du_name&quot;: &quot;cab-03-cell&quot;,</span>
+<span class="s">        &quot;phy_control&quot;: {</span>
+<span class="s">            &quot;crnti_range&quot;: {</span>
+<span class="s">                &quot;min&quot;: 42000,</span>
+<span class="s">                &quot;max&quot;: 42049</span>
+<span class="s">            }</span>
+<span class="s">        },</span>
+<span class="s">        &quot;rrc_version&quot;: {</span>
+<span class="s">            &quot;x&quot;: 15,</span>
+<span class="s">            &quot;y&quot;: 6,</span>
+<span class="s">            &quot;z&quot;: 0</span>
+<span class="s">        },</span>
+<span class="s">        &quot;served_cells_list&quot;: [</span>
+<span class="s">            {</span>
+<span class="s">                &quot;served_cell_information&quot;: {</span>
+<span class="s">                    &quot;nr_cgi&quot;: {</span>
+<span class="s">                        &quot;plmn_identity&quot;: &quot;235f88&quot;,</span>
+<span class="s">                        &quot;nr_cell_identity&quot;: &quot;000000000000000000000000000000000011&quot;</span>
+<span class="s">                    },</span>
+<span class="s">                    &quot;nr_pci&quot;: 2,</span>
+<span class="s">                    &quot;5gs_tac&quot;: &quot;000001&quot;,</span>
+<span class="s">                    &quot;ran_area_code&quot;: 1,</span>
+<span class="s">                    &quot;served_plmns&quot;: [</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;plmn_identity&quot;: &quot;235f88&quot;,</span>
+<span class="s">                            &quot;tai_slice_support_list&quot;: [</span>
+<span class="s">                                {</span>
+<span class="s">                                    &quot;sst&quot;: 1</span>
+<span class="s">                                }</span>
+<span class="s">                            ]</span>
+<span class="s">                        }</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;nr_mode_info&quot;: {</span>
+<span class="s">                        &quot;nr_freq_info&quot;: {</span>
+<span class="s">                            &quot;nr_arfcn&quot;: 662664,</span>
+<span class="s">                            &quot;frequency_band_list&quot;: [</span>
+<span class="s">                                {</span>
+<span class="s">                                    &quot;nr_frequency_band&quot;: 77</span>
+<span class="s">                                }</span>
+<span class="s">                            ]</span>
+<span class="s">                        },</span>
+<span class="s">                        &quot;transmission_bandwidth&quot;: {</span>
+<span class="s">                            &quot;bandwidth_mhz&quot;: 40,</span>
+<span class="s">                            &quot;scs_khz&quot;: 30,</span>
+<span class="s">                            &quot;nrb&quot;: 106</span>
+<span class="s">                        },</span>
+<span class="s">                        &quot;pattern&quot;: {</span>
+<span class="s">                            &quot;periodicity_in_slots&quot;: 10,</span>
+<span class="s">                            &quot;downlink&quot;: {</span>
+<span class="s">                                &quot;slots&quot;: 7,</span>
+<span class="s">                                &quot;symbols&quot;: 6</span>
+<span class="s">                            },</span>
+<span class="s">                            &quot;uplink&quot;: {</span>
+<span class="s">                                &quot;slots&quot;: 2,</span>
+<span class="s">                                &quot;symbols&quot;: 4</span>
+<span class="s">                            }</span>
+<span class="s">                        }</span>
+<span class="s">                    },</span>
+<span class="s">                    &quot;measurement_timing_configuration&quot;: [</span>
+<span class="s">                        222,</span>
+<span class="s">                        173,</span>
+<span class="s">                        190,</span>
+<span class="s">                        239</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;dmrs_type_a_position&quot;: &quot;pos2&quot;,</span>
+<span class="s">                    &quot;intra_freq_reselection&quot;: &quot;allowed&quot;,</span>
+<span class="s">                    &quot;ssb_pattern&quot;: &quot;1000000000000000000000000000000000000000000000000000000000000000&quot;,</span>
+<span class="s">                    &quot;ssb_periodicity_serving_cell_ms&quot;: 20,</span>
+<span class="s">                    &quot;prach_configuration_index&quot;: 202,</span>
+<span class="s">                    &quot;ssb_pbch_scs&quot;: 30,</span>
+<span class="s">                    &quot;offset_point_a&quot;: 6,</span>
+<span class="s">                    &quot;k_ssb&quot;: 0,</span>
+<span class="s">                    &quot;coreset_zero_index&quot;: 3,</span>
+<span class="s">                    &quot;search_space_zero_index&quot;: 2,</span>
+<span class="s">                    &quot;ra_response_window_slots&quot;: 20,</span>
+<span class="s">                    &quot;sr_slot_periodicity&quot;: 40,</span>
+<span class="s">                    &quot;sr_slot_offset&quot;: 7,</span>
+<span class="s">                    &quot;search_space_other_si&quot;: 1,</span>
+<span class="s">                    &quot;paging_search_space&quot;: 1,</span>
+<span class="s">                    &quot;ra_search_space&quot;: 1,</span>
+<span class="s">                    &quot;bwps&quot;: [</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;id&quot;: 0,</span>
+<span class="s">                            &quot;start_crb&quot;: 0,</span>
+<span class="s">                            &quot;num_rb&quot;: 106,</span>
+<span class="s">                            &quot;scs&quot;: 30,</span>
+<span class="s">                            &quot;cyclic_prefix&quot;: &quot;normal&quot;</span>
+<span class="s">                        }</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;coresets&quot;: [</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;id&quot;: 1,</span>
+<span class="s">                            &quot;bwp_id&quot;: 0,</span>
+<span class="s">                            &quot;fd_resources&quot;: &quot;111100000000000000000000000000000000000000000&quot;,</span>
+<span class="s">                            &quot;duration&quot;: 2,</span>
+<span class="s">                            &quot;interleaved&quot;: {</span>
+<span class="s">                                &quot;reg_bundle_size&quot;: 6,</span>
+<span class="s">                                &quot;interleaver_size&quot;: 2</span>
+<span class="s">                            },</span>
+<span class="s">                            &quot;precoder_granularity&quot;: &quot;same_as_reg_bundle&quot;</span>
+<span class="s">                        }</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;search_spaces&quot;: [</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;id&quot;: 1,</span>
+<span class="s">                            &quot;control_resource_set_id&quot;: 0,</span>
+<span class="s">                            &quot;common&quot;: {}</span>
+<span class="s">                        },</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;id&quot;: 2,</span>
+<span class="s">                            &quot;control_resource_set_id&quot;: 1,</span>
+<span class="s">                            &quot;ue_specific&quot;: {</span>
+<span class="s">                                &quot;dci_formats&quot;: &quot;formats0-1-And-1-1&quot;</span>
+<span class="s">                            }</span>
+<span class="s">                        }</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;maximum_ru_power_dbm&quot;: 53.0,</span>
+<span class="s">                    &quot;num_tx_antennas&quot;: 2,</span>
+<span class="s">                    &quot;trs&quot;: {</span>
+<span class="s">                        &quot;periodicity_and_offset&quot;: {</span>
+<span class="s">                            &quot;period&quot;: 80,</span>
+<span class="s">                            &quot;offset&quot;: 1</span>
+<span class="s">                        },</span>
+<span class="s">                        &quot;symbol_pair&quot;: &quot;four_eight&quot;,</span>
+<span class="s">                        &quot;subcarrier_location&quot;: 1</span>
+<span class="s">                    },</span>
+<span class="s">                    &quot;csi_rs&quot;: {</span>
+<span class="s">                        &quot;periodicity_and_offset&quot;: {</span>
+<span class="s">                            &quot;period&quot;: 40,</span>
+<span class="s">                            &quot;offset&quot;: 15</span>
+<span class="s">                        }</span>
+<span class="s">                    },</span>
+<span class="s">                    &quot;harq_processes_for_pdsch&quot;: 16,</span>
+<span class="s">                    &quot;minimum_k1_delay&quot;: 1,</span>
+<span class="s">                    &quot;minimum_k2_delay&quot;: 3,</span>
+<span class="s">                    &quot;force_rlc_buffer_size&quot;: 2500000</span>
+<span class="s">                }</span>
+<span class="s">            }</span>
+<span class="s">        ]</span>
+<span class="s">    }</span>
+<span class="s">}</span>
+
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Before creating the <code>docker-compose.yml</code> file, make sure to set the <code>$CU_IP</code> environment variable where you will store the F1 IP address of the CUCP that you have already deployed using the dRAX Dashboard (section <a href="../drax-install/images/dashboard-cu-cp-deployment.png">CUCP Installation</a> )
+This IP address can be determined by executing the following command:</p>
+<p><div class="highlight"><pre><span></span><code>kubectl get services <span class="p">|</span> grep f1
+</code></pre></div>
+The CUCP F1 SCTP interface external address is the second IP address and should be in the IP pool that was assigned to MetalLB in <a href="../drax-install/">dRax Installation</a>.</p>
+<p>Now, create a docker-compose configuration file:</p>
+<p><strong> remove the rru: when NOT using a b210. eg when using a b650 </strong></p>
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install-<span class="nv">$DU_VERSION</span>/ 
+<span class="nb">cd</span> !$
+tee docker-compose.yml <span class="s">&lt;&lt;EOF</span>
+<span class="s">version: &quot;2&quot;</span>
+
+<span class="s">services:</span>
+<span class="s">  phluido_l1:</span>
+<span class="s">    image: phluido_l1:v0.8.4.2</span>
+<span class="s">    container_name: phluido_l1</span>
+<span class="s">    tty: true</span>
+<span class="s">    privileged: true</span>
+<span class="s">    ipc: shareable</span>
+<span class="s">    shm_size: 2gb</span>
+<span class="s">    command: /config.cfg</span>
+<span class="s">    volumes:</span>
+<span class="s">      - &quot;$PWD/l1-config.cfg:/config.cfg:ro&quot;</span>
+<span class="s">      - &quot;/run/logs-du/l1:/workdir&quot;</span>
+<span class="s">      - &quot;/etc/machine-id:/etc/machine-id:ro&quot;</span>
+<span class="s">    working_dir: &quot;/workdir&quot;</span>
+<span class="s">    network_mode: host</span>
+<span class="s">    cpuset: &quot;0,2,4,6,8,10,12,14&quot;</span>
+
+<span class="s">  du:</span>
+<span class="s">    image: gnb_du_main_phluido:2022-07-01-q2-pre-release</span>
+<span class="s">    volumes:</span>
+<span class="s">      - &quot;$PWD/du-config.json:/config.json:ro&quot;</span>
+<span class="s">      - &quot;/run/logs-du/du:/workdir&quot;</span>
+<span class="s">      - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm</span>
+<span class="s">    ipc: container:phluido_l1</span>
+<span class="s">    tty: true</span>
+<span class="s">    privileged: true</span>
+<span class="s">    depends_on:</span>
+<span class="s">      - phluido_l1</span>
+<span class="s">    entrypoint: [&quot;/bin/sh&quot;, &quot;-c&quot;, &quot;sleep 4 &amp;&amp; exec /gnb_du_main_phluido /config.json&quot;]</span>
+<span class="s">    working_dir: &quot;/workdir&quot;</span>
+<span class="s">    extra_hosts:</span>
+<span class="s">      - &quot;cu:$F1_CU_IP&quot;</span>
+<span class="s">      - &quot;du:$SERVER_IP&quot;</span>
+<span class="s">    cpuset: &quot;0,2,4,6,8,10,12,14&quot;</span>
+
+<span class="s">  phluido_rru:</span>
+<span class="s">    image: phluido_rru:v0.8.4.2</span>
+<span class="s">    tty: true</span>
+<span class="s">    privileged: true</span>
+<span class="s">    depends_on:</span>
+<span class="s">      - du</span>
+<span class="s">      - phluido_l1</span>
+<span class="s">    network_mode: host</span>
+<span class="s">    volumes:</span>
+<span class="s">      - &quot;$PWD/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg:/config.cfg:ro&quot;</span>
+<span class="s">      - &quot;$PWD/logs/rru:/workdir&quot;</span>
+<span class="s">    entrypoint: [&quot;/bin/sh&quot;, &quot;-c&quot;, &quot;sleep 20 &amp;&amp; exec /PhluidoRRU_NR /config.cfg&quot;]</span>
+<span class="s">    working_dir: &quot;/workdir&quot;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<h4 id="start-the-du">Start the DU<a class="headerlink" href="#start-the-du" title="Permanent link">&para;</a></h4>
+<p>Start the DU by running the following command:</p>
+<div class="highlight"><pre><span></span><code>docker-compose up -f accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose.yml
+</code></pre></div>
+<p>If all goes well this will produce output similar to:</p>
+<div class="highlight"><pre><span></span><code>Starting phluido_l1 ... done
+Recreating accelleran-du-phluido-2022-01-31_du_1 ... done
+Recreating accelleran-du-phluido-2022-01-31_phluido_rru_1 ... done
+Attaching to phluido_l1, accelleran-du-phluido-2022-01-31_du_1, accelleran-du-phluido-2022-01-31_phluido_rru_1
+phluido_l1  | Reading configuration from config file &quot;/config.cfg&quot;...
+phluido_l1  | *******************************************************************************************************
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  Phluido 5G-NR virtualized L1 implementation                                                        *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  Copyright (c) 2014-2020 Phluido Inc.                                                               *
+phluido_l1  | *  All rights reserved.                                                                               *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  The User shall not, and shall not permit others to:                                                *
+phluido_l1  | *   - integrate Phluido Software within its own products;                                             *
+phluido_l1  | *   - mass produce products that are designed, developed or derived from Phluido Software;            *
+phluido_l1  | *   - sell products which use Phluido Software;                                                       *
+phluido_l1  | *   - modify, correct, adapt, translate, enhance or otherwise prepare derivative works or             *
+phluido_l1  | *     improvements to Phluido Software;                                                               *
+phluido_l1  | *   - rent, lease, lend, sell, sublicense, assign, distribute, publish, transfer or otherwise         *
+phluido_l1  | *     make available the PHLUIDO Solution or any portion thereof to any third party;                  *
+phluido_l1  | *   - reverse engineer, disassemble and/or decompile Phluido Software.                                *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS&#39;&#39; AND ANY EXPRESS OR IMPLIED WARRANTIES,           *
+phluido_l1  | *  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A         *
+phluido_l1  | *  PARTICULAR PURPOSE ARE DISCLAIMED.                                                                 *
+phluido_l1  | *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,              *
+phluido_l1  | *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF                 *
+phluido_l1  | *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)             *
+phluido_l1  | *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR           *
+phluido_l1  | *  TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS                 *
+phluido_l1  | *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                                       *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *******************************************************************************************************
+phluido_l1  |
+phluido_l1  | Copyright information already accepted on 2020-11-27, 08:56:08.
+phluido_l1  | Starting Phluido 5G-NR L1 software...
+phluido_l1  |   PHAPI version       = 0.5 (12/10/2020)
+phluido_l1  |   L1 SW version       = 0.8.1
+phluido_l1  |   L1 SW internal rev  = r3852
+phluido_l1  | Parsed configuration parameters:
+phluido_l1  |     LicenseKey = XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX
+phluido_l1  |     maxNumPrachDetectionSymbols = 1
+phluido_l1  |     maxNumPdschLayers = 2
+phluido_l1  |     maxNumPuschLayers = 1
+phluido_l1  |     maxPuschModOrder = 6
+phluido_l1  |
+phluido_rru_1  | linux; GNU C++ version 7.3.0; Boost_106501; UHD_003.010.003.000-0-unknown
+phluido_rru_1  |
+phluido_rru_1  | Logs will be written to file &quot;phluidoRru.log&quot;.
+phluido_rru_1  | -- Detected Device: B210
+phluido_rru_1  | -- Operating over USB 3.
+phluido_rru_1  | -- Initialize CODEC control...
+phluido_rru_1  | -- Initialize Radio control...
+phluido_rru_1  | -- Performing register loopback test... pass
+phluido_rru_1  | -- Performing register loopback test... pass
+phluido_rru_1  | -- Performing CODEC loopback test... pass
+phluido_rru_1  | -- Performing CODEC loopback test... pass
+phluido_rru_1  | -- Setting master clock rate selection to &#39;automatic&#39;.
+phluido_rru_1  | -- Asking for clock rate 16.000000 MHz...
+phluido_rru_1  | -- Actually got clock rate 16.000000 MHz.
+phluido_rru_1  | -- Performing timer loopback test... pass
+phluido_rru_1  | -- Performing timer loopback test... pass
+phluido_rru_1  | -- Setting master clock rate selection to &#39;manual&#39;.
+phluido_rru_1  | -- Asking for clock rate 23.040000 MHz...
+phluido_rru_1  | -- Actually got clock rate 23.040000 MHz.
+phluido_rru_1  | -- Performing timer loopback test... pass
+phluido_rru_1  | -- Performing timer loopback test... pass
+</code></pre></div>
+<h2 id="prepare-and-bring-on-air-the-benetel-650-radio">Prepare and bring on air the Benetel 650 Radio<a class="headerlink" href="#prepare-and-bring-on-air-the-benetel-650-radio" title="Permanent link">&para;</a></h2>
+<p>This section is exclusively applicable to the user/customer that intends to use the Benetel B650 Radio End with our Accellleran 5G end to end solution, if you do not have such radio end the informations included in this section may be misleading and bring to undefined error scenarios. Please contact Accelleran if your Radio End is not included in any section of this user guide</p>
+<h4 id="diagram">Diagram<a class="headerlink" href="#diagram" title="Permanent link">&para;</a></h4>
+<p>In the picture below we schematically show what will be run on the server by Docker and how the RRU is linked to the server itself: as mentioned early in this case the two components run by Docker are the L1 and the DU, while the RRU is supposedly served by a dedicated NIC Card capable of handling a 10 Gbps fiber link. If this is not your case please consult the section dedicted to Ettus B210 bring up or contact Accelleran for further information </p>
+<div class="highlight"><pre><span></span><code>  10.10.0.100:ssh
+  +-------------+
+  |             |
+  |             |             +-----------+         +-----------+
+  |             |             |           |         |           |
+  |     RU      +----fiber----+   L1      |         |    DU     |
+  |             |             |           |         |           |
+  |             |             +-----------+         +-----------+
+  |             |
+  +-------------+
+aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
+
+  10.10.0.2:44000              10.10.0.1:44000
+
+             eth0              enp45s0f0
+
+      port FIBER1
+</code></pre></div>
+<h3 id="server-installtion">Server installtion<a class="headerlink" href="#server-installtion" title="Permanent link">&para;</a></h3>
+<h4 id="dul1-configuration-and-docker-compose">DU/L1 Configuration and docker compose<a class="headerlink" href="#dul1-configuration-and-docker-compose" title="Permanent link">&para;</a></h4>
+<p>Differently from the Ettus B210, Benetel runs the RRU software on board, therefore we only need to prepare 2 software components in the server, that is, 2 Containers, Effnet DU and Phluido L1.</p>
+<p>Create the configuration file for the Phluido L1 component the <code>PhluidoL1_NR_Benetel.cfg</code> file delivered by effnet
+Make sure to set the value <code>LicenseKey</code> option to the received Phluido license key:</p>
+<p><div class="highlight"><pre><span></span><code>mkdir -p ~/install-<span class="nv">$DU_VERSION</span>/ 
+<span class="nb">cd</span> !$
+tee PhluidoL1_NR_Benetel.cfg <span class="s">&lt;&lt;EOF</span>
+<span class="s">/******************************************************************</span>
+<span class="s"> *</span>
+<span class="s"> * This file is subject to the terms and conditions defined in</span>
+<span class="s"> * file &#39;LICENSE&#39;.</span>
+<span class="s"> *</span>
+<span class="s"> ******************************************************************/</span>
+<span class="s">//Enables verbose binary logging. WARNING: very CPU intensive and creates potentially huge output files. Use with caution.</span>
+<span class="s">//</span>
+<span class="s">// DEVEL:       1.2G/67 </span>
+<span class="s">// DEBUG:       953M/67 </span>
+<span class="s">// INFORMATIVE: 29K/67 </span>
+<span class="s">// default:     26K/67 </span>
+<span class="s">// CRITICAL:    0/393 </span>
+<span class="s">// WARNING:     0/393        (x/y x=log size in L1.encr.log file, y=log size in L1.open.log file. In a time of 1 minute )</span>
+
+<span class="s">//logLevel_verbose    = &quot;WARNING&quot;;     </span>
+<span class="s">//bbuFronthaulServerMode = 1;</span>
+<span class="s">bbuFronthaulServerAddr = &quot;10.10.0.1&quot;;</span>
+
+<span class="s">// Enable 64-QAM support for PUSCH (license-specific).</span>
+<span class="s">maxPuschModOrder = 6;</span>
+<span class="s">maxNumPdschLayers = 2;</span>
+<span class="s">maxNumPuschLayers = 1;</span>
+
+<span class="s">cccServerPort = 44444;</span>
+<span class="s">cccInterfaceMode = 1;</span>
+<span class="s">kpiOutputFormat = 2;</span>
+
+<span class="s">targetRecvDelay_us = 2500;</span>
+
+<span class="s">numWorkers = 6; // shall be less or equal to the number of cores assigned to L1 with the CPU pinning</span>
+<span class="s">//License key put here please the effective 32 digits sequence you received for this deployment</span>
+
+<span class="s">LicenseKey = &quot;$L1_PHLUIDO_KEY&quot;;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+**IMPORTANT: After this replace the LicenseKey value with the effective license sequence you obtained from Accelleran, all the other parameters shall not be modified </p>
+<p>Create a configuration file for the Effnet DU:</p>
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install-<span class="nv">$DU_VERSION</span>/ 
+<span class="nb">cd</span> !$
+tee b650_config_40mhz.json <span class="s">&lt;&lt;EOF</span>
+<span class="s">{</span>
+<span class="s">    &quot;configuration&quot;: {</span>
+<span class="s">        &quot;du_address&quot;: &quot;du&quot;,</span>
+<span class="s">        &quot;cu_address&quot;: &quot;cu&quot;,</span>
+<span class="s">        &quot;f1c_bind_address&quot;: &quot;du&quot;,</span>
+<span class="s">        &quot;gtp_listen_address&quot;: &quot;du&quot;,</span>
+<span class="s">        &quot;vphy_listen_address&quot;: &quot;127.0.0.1&quot;,</span>
+<span class="s">        &quot;vphy_port&quot;: 13337,</span>
+<span class="s">        &quot;vphy_tick_multiplier&quot;: 1,</span>
+<span class="s">        &quot;gnb_du_id&quot;: 38209903575,</span>
+<span class="s">        &quot;gnb_du_name&quot;: &quot;This is the dell two HO setup cell one&quot;,</span>
+<span class="s">        &quot;phy_control&quot;: {</span>
+<span class="s">            &quot;crnti_range&quot;: {</span>
+<span class="s">                &quot;min&quot;: 42000,</span>
+<span class="s">                &quot;max&quot;: 42049</span>
+<span class="s">            }</span>
+<span class="s">        },</span>
+<span class="s">        &quot;rrc_version&quot;: {</span>
+<span class="s">            &quot;x&quot;: 15,</span>
+<span class="s">            &quot;y&quot;: 6,</span>
+<span class="s">            &quot;z&quot;: 0</span>
+<span class="s">        },</span>
+<span class="s">        &quot;served_cells_list&quot;: [</span>
+<span class="s">            {</span>
+<span class="s">                &quot;served_cell_information&quot;: {</span>
+<span class="s">                    &quot;nr_cgi&quot;: {</span>
+<span class="s">                        &quot;plmn_identity&quot;: &quot;001f01&quot;,</span>
+<span class="s">                        &quot;nr_cell_identity&quot;: &quot;000000000000000000000000000000000001&quot;</span>
+<span class="s">                    },</span>
+<span class="s">                    &quot;nr_pci&quot;: 51,</span>
+<span class="s">                    &quot;5gs_tac&quot;: &quot;000001&quot;,</span>
+<span class="s">                    &quot;ran_area_code&quot;: 1,</span>
+<span class="s">                    &quot;served_plmns&quot;: [</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;plmn_identity&quot;: &quot;001f01&quot;,</span>
+<span class="s">                            &quot;tai_slice_support_list&quot;: [</span>
+<span class="s">                                {</span>
+<span class="s">                                    &quot;sst&quot;: 1</span>
+<span class="s">                                }</span>
+<span class="s">                            ]</span>
+<span class="s">                        }</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;nr_mode_info&quot;: {</span>
+<span class="s">                        &quot;nr_freq_info&quot;: {</span>
+<span class="s">                            &quot;nr_arfcn&quot;: 648840,</span>
+<span class="s">                            &quot;frequency_band_list&quot;: [</span>
+<span class="s">                                {</span>
+<span class="s">                                    &quot;nr_frequency_band&quot;: 78</span>
+<span class="s">                                }</span>
+<span class="s">                            ]</span>
+<span class="s">                        },</span>
+<span class="s">                        &quot;transmission_bandwidth&quot;: {</span>
+<span class="s">                            &quot;bandwidth_mhz&quot;: 40,</span>
+<span class="s">                            &quot;scs_khz&quot;: 30,</span>
+<span class="s">                            &quot;nrb&quot;: 106</span>
+<span class="s">                        },</span>
+<span class="s">                        &quot;pattern&quot;: {</span>
+<span class="s">                            &quot;periodicity_in_slots&quot;: 10,</span>
+<span class="s">                            &quot;downlink&quot;: {</span>
+<span class="s">                                &quot;slots&quot;: 7,</span>
+<span class="s">                                &quot;symbols&quot;: 6</span>
+<span class="s">                            },</span>
+<span class="s">                            &quot;uplink&quot;: {</span>
+<span class="s">                                &quot;slots&quot;: 2,</span>
+<span class="s">                                &quot;symbols&quot;: 4</span>
+<span class="s">                            }</span>
+<span class="s">                        }</span>
+<span class="s">                    },</span>
+<span class="s">                   &quot;measurement_timing_configuration&quot;: [</span>
+<span class="s">                        222,</span>
+<span class="s">                        173,</span>
+<span class="s">                        190,</span>
+<span class="s">                        239</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;dmrs_type_a_position&quot;: &quot;pos2&quot;,</span>
+<span class="s">                    &quot;intra_freq_reselection&quot;: &quot;allowed&quot;,</span>
+<span class="s">                    &quot;ssb_pattern&quot;: &quot;1000000000000000000000000000000000000000000000000000000000000000&quot;,</span>
+<span class="s">                    &quot;ssb_periodicity_serving_cell_ms&quot;: 20,</span>
+<span class="s">                    &quot;prach_configuration_index&quot;: 202,</span>
+<span class="s">                    &quot;ssb_pbch_scs&quot;: 30,</span>
+<span class="s">                    &quot;offset_point_a&quot;: 6,</span>
+<span class="s">                    &quot;k_ssb&quot;: 0,</span>
+<span class="s">                    &quot;coreset_zero_index&quot;: 3,</span>
+<span class="s">                    &quot;search_space_zero_index&quot;: 2,</span>
+<span class="s">                    &quot;ra_response_window_slots&quot;: 20,</span>
+<span class="s">                    &quot;sr_slot_periodicity&quot;: 40,</span>
+<span class="s">                    &quot;sr_slot_offset&quot;: 7,</span>
+<span class="s">                    &quot;search_space_other_si&quot;: 1,</span>
+<span class="s">                    &quot;paging_search_space&quot;: 1,</span>
+<span class="s">                    &quot;ra_search_space&quot;: 1,</span>
+<span class="s">                    &quot;bwps&quot;: [</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;id&quot;: 0,</span>
+<span class="s">                            &quot;start_crb&quot;: 0,</span>
+<span class="s">                            &quot;num_rb&quot;: 106,</span>
+<span class="s">                            &quot;scs&quot;: 30,</span>
+<span class="s">                            &quot;cyclic_prefix&quot;: &quot;normal&quot;</span>
+<span class="s">                        }</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;coresets&quot;: [</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;id&quot;: 1,</span>
+<span class="s">                            &quot;bwp_id&quot;: 0,</span>
+<span class="s">                            &quot;fd_resources&quot;: &quot;111100000000000000000000000000000000000000000&quot;,</span>
+<span class="s">                            &quot;duration&quot;: 2,</span>
+<span class="s">                            &quot;interleaved&quot;: {</span>
+<span class="s">                                &quot;reg_bundle_size&quot;: 6,</span>
+<span class="s">                                &quot;interleaver_size&quot;: 2</span>
+<span class="s">                            },</span>
+<span class="s">                            &quot;precoder_granularity&quot;: &quot;same_as_reg_bundle&quot;</span>
+<span class="s">                        }</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;search_spaces&quot;: [</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;id&quot;: 1,</span>
+<span class="s">                            &quot;control_resource_set_id&quot;: 0,</span>
+<span class="s">                            &quot;common&quot;: {}</span>
+<span class="s">                        },</span>
+<span class="s">                        {</span>
+<span class="s">                            &quot;id&quot;: 2,</span>
+<span class="s">                            &quot;control_resource_set_id&quot;: 1,</span>
+<span class="s">                            &quot;ue_specific&quot;: {</span>
+<span class="s">                                &quot;dci_formats&quot;: &quot;formats0-1-And-1-1&quot;</span>
+<span class="s">                            }</span>
+<span class="s">                        }</span>
+<span class="s">                    ],</span>
+<span class="s">                    &quot;maximum_ru_power_dbm&quot;: 35.0,</span>
+<span class="s">                    &quot;num_tx_antennas&quot;: 2,</span>
+<span class="s">                    &quot;trs&quot;: {</span>
+<span class="s">                        &quot;periodicity_and_offset&quot;: {</span>
+<span class="s">                            &quot;period&quot;: 80,</span>
+<span class="s">                            &quot;offset&quot;: 1</span>
+<span class="s">                        },</span>
+<span class="s">                        &quot;symbol_pair&quot;: &quot;four_eight&quot;,</span>
+<span class="s">                        &quot;subcarrier_location&quot;: 1</span>
+<span class="s">                    },</span>
+<span class="s">                    &quot;periodic_srs_periodicity&quot;: 64,</span>
+<span class="s">                    &quot;csi_rs&quot;: {</span>
+<span class="s">                        &quot;periodicity_and_offset&quot;: {</span>
+<span class="s">                            &quot;period&quot;: 40,</span>
+<span class="s">                            &quot;offset&quot;: 15</span>
+<span class="s">                        }</span>
+<span class="s">                    },</span>
+<span class="s">                    &quot;force_rlc_buffer_size&quot;: 8388608,</span>
+<span class="s">                    &quot;harq_processes_for_pdsch&quot;: 16,</span>
+<span class="s">                    &quot;minimum_k1_delay&quot;: 1,</span>
+<span class="s">                    &quot;minimum_k2_delay&quot;: 3</span>
+<span class="s">                }</span>
+<span class="s">            }</span>
+<span class="s">        ]</span>
+<span class="s">    }</span>
+<span class="s">}</span>
+
+<span class="s">EOF</span>
+</code></pre></div>
+<h4 id="frequency-offsets-point-a-calculation">Frequency, Offsets, Point A Calculation<a class="headerlink" href="#frequency-offsets-point-a-calculation" title="Permanent link">&para;</a></h4>
+<p>This section is essential to proceed correctly and determine the exact parameters that will allow the Benetel Radio to go on air correctly and the UEs to be able to see the cell and attempt an attach so it is particularly important to proceed carefully on this point. there are currently several limitations on the Frequencies that go beyond the simple definition of 5G NR Band:</p>
+<ul>
+<li>the selected frequency should be above 3700 MHz </li>
+<li>the selected band can be B77 or B78</li>
+<li>the selected frequency must be devisable by 3.84</li>
+<li>the K_ssb must be 0</li>
+<li>the offset to point A must be 6</li>
+<li>all the subcarriers shal be 30 KHz</li>
+</ul>
+<p>Let's proceed with an example:</p>
+<p>We want to set a center frequency of 3750 MHz, this is not devisable by 3.84, the first next frequencies that meet this condition are 3747,84 (976<em>3.84) 3751.68 (977</em>3,84) so let's consider first 3747,84 MHz and verify the conditions on the K_ssb and Offset to Point A with this online tool (link at:  (https://www.sqimway.com/nr_refA.php) ) </p>
+<ul>
+<li>We remember to set the Band 78, SCs at 30 KHz, the Bandwidth at 40 MHz and the ARFCN of the center frequency 3747,84 which is 649856 and when we hit the <strong>RUN</strong> button we obtain:</li>
+</ul>
+<p align="center">
+  <img width="600" height="800" src="Freq3747dot84.png">
+</p>
+<p>This Frequency, however does not meet the <strong>GSCN Synchronisation requirements</strong> as in fact the Offset to Point A of the first channel is 2 and the K_ssb is 16, this will cause the UE to listen on the wrong channel so the SIBs will never be seen and therefore the cell is "invisible"</p>
+<ul>
+<li>We then repeat the exercise with the higher center frequency 3751,68 MHz, which yelds a center frequency ARFCN of 650112 and a point A ARFCN of 648840 and giving another run we will see that now the K_ssb and the Offset to Point A are correct:</li>
+</ul>
+<p align="center">
+  <img width="600" height="800" src="Freq3751dot68.png">
+</p>
+<p>With these information at hand we are going to determine:</p>
+<ul>
+<li>point A frequency : 3732.60  ( arfcn : 648840 ) - edit du configuration in the appropriate json file</li>
+<li>center Frequency  : 3751.68  ( arfcn : 650112 ) - edit RU configuration directly on the Benetel Radio End (see next sections)</li>
+</ul>
+<h4 id="create-docker-compose">Create docker compose<a class="headerlink" href="#create-docker-compose" title="Permanent link">&para;</a></h4>
+<p>Before creating the <code>docker-compose.yml</code> file, make sure to set the <code>$CU_IP</code> environment variable where you will store the F1 IP address of the CUCP that you have already deployed using the dRAX Dashboard (section <a href="../drax-install/images/dashboard-cu-cp-deployment.png">CUCP Installation</a> )
+This IP address can be determined by executing the following command:</p>
+<p><div class="highlight"><pre><span></span><code>kubectl get services <span class="p">|</span> grep f1
+</code></pre></div>
+The CUCP F1 SCTP interface external address is the second IP address and should be in the IP pool that was assigned to MetalLB in <a href="../drax-install/">dRax Installation</a>.</p>
+<p>Now, create a docker-compose configuration file:</p>
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install-<span class="nv">$DU_VERSION</span>/ 
+<span class="nb">cd</span> !$
+tee docker-compose-B650.yml <span class="s">&lt;&lt;EOF</span>
+<span class="s">version: &quot;2&quot;</span>
+<span class="s">services:</span>
+
+<span class="s">  phluido_l1:</span>
+<span class="s">    image: phluido_l1:v0.8.4.2</span>
+<span class="s">    container_name: phluido_l1</span>
+<span class="s">    tty: true</span>
+<span class="s">    privileged: true</span>
+<span class="s">    ipc: shareable</span>
+<span class="s">    shm_size: 2gb</span>
+<span class="s">    command: /config.cfg</span>
+<span class="s">    volumes:</span>
+<span class="s">      - &quot;$PWD/PhluidoL1_NR_Benetel.cfg:/config.cfg:ro&quot;</span>
+<span class="s">      - &quot;/run/logs-du/l1:/workdir&quot;</span>
+<span class="s">      - &quot;/etc/machine-id:/etc/machine-id:ro&quot;</span>
+<span class="s">    working_dir: &quot;/workdir&quot;</span>
+<span class="s">    network_mode: host</span>
+<span class="s">    cpuset: &quot;$CORE_SET_L1&quot;</span>
+
+<span class="s">  du:</span>
+<span class="s">    image: gnb_du_main_phluido:2022-07-01-q2-pre-release</span>
+<span class="s">    volumes:</span>
+<span class="s">      - &quot;$PWD/b650_config_40mhz.json:/config.json:ro&quot;</span>
+<span class="s">      - &quot;/run/logs-du/du:/workdir&quot;</span>
+<span class="s">      - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm</span>
+<span class="s">    ipc: container:phluido_l1</span>
+<span class="s">    tty: true</span>
+<span class="s">    privileged: true</span>
+<span class="s">    depends_on:</span>
+<span class="s">      - phluido_l1</span>
+<span class="s">    entrypoint: [&quot;/bin/sh&quot;, &quot;-c&quot;, &quot;sleep 2 &amp;&amp; exec /gnb_du_main_phluido /config.json&quot;]</span>
+<span class="s">    working_dir: &quot;/workdir&quot;</span>
+<span class="s">    extra_hosts:</span>
+<span class="s">      - &quot;cu:$F1_CU_IP&quot;</span>
+<span class="s">      - &quot;du:$SERVER_IP&quot;</span>
+<span class="s">    network_mode: host</span>
+<span class="s">    cpuset: &quot;$CORE_SET_DU&quot;</span>
+
+<span class="s">EOF</span>    
+</code></pre></div>
+<h3 id="prepare-to-configure-the-benetel-650">Prepare to configure the Benetel 650<a class="headerlink" href="#prepare-to-configure-the-benetel-650" title="Permanent link">&para;</a></h3>
+<p>The benetel is connected with a fiber to the server. 
+1. The port on the physical B650 RRU is labeled <code>port FIBER1</code>
+2. The port on the server is one of these listed below.</p>
+<div class="highlight"><pre><span></span><code>$ lshw <span class="p">|</span> grep SFP -C <span class="m">5</span>
+WARNING: you should run this program as super-user.
+             capabilities: pci normal_decode bus_master cap_list
+             configuration: <span class="nv">driver</span><span class="o">=</span>pcieport
+             resources: irq:29 ioport:f000<span class="o">(</span><span class="nv">size</span><span class="o">=</span><span class="m">4096</span><span class="o">)</span> memory:f8000000-f86fffff
+           *-network:0 DISABLED
+                description: Ethernet interface
+                product: 82599ES <span class="m">10</span>-Gigabit SFI/SFP+ Network Connection
+                vendor: Intel Corporation
+                physical id: <span class="m">0</span>
+                bus info: pci@0000:2d:00.0
+                logical name: enp45s0f0
+                version: <span class="m">01</span>
+--
+                capabilities: bus_master cap_list rom ethernet physical fibre 10000bt-fd
+                configuration: <span class="nv">autonegotiation</span><span class="o">=</span>off <span class="nv">broadcast</span><span class="o">=</span>yes <span class="nv">driver</span><span class="o">=</span>ixgbe <span class="nv">driverversion</span><span class="o">=</span><span class="m">5</span>.1.0-k <span class="nv">firmware</span><span class="o">=</span>0x2b2c0001 <span class="nv">latency</span><span class="o">=</span><span class="m">0</span> <span class="nv">link</span><span class="o">=</span>no <span class="nv">multicast</span><span class="o">=</span>yes
+                resources: irq:202 memory:f8000000-f807ffff ioport:f020<span class="o">(</span><span class="nv">size</span><span class="o">=</span><span class="m">32</span><span class="o">)</span> memory:f8200000-f8203fff memory:f8080000-f80fffff memory:f8204000-f8303fff memory:f8304000-f8403fff
+           *-network:1 DISABLED
+                description: Ethernet interface
+                product: 82599ES <span class="m">10</span>-Gigabit SFI/SFP+ Network Connection
+                vendor: Intel Corporation
+                physical id: <span class="m">0</span>.1
+                bus info: pci@0000:2d:00.1
+                logical name: enp45s0f1
+                version: <span class="m">01</span>
+</code></pre></div>
+<p>by setting both network devices to UP you find out which one is connected.
+In this example it's enp45s0f0. This port is the one we connected the fiber to.</p>
+<div class="highlight"><pre><span></span><code>:ad@5GCN:~$ sudo ip link <span class="nb">set</span> dev enp45s0f0 up
+:ad@5GCN:~$ sudo ip link <span class="nb">set</span> dev enp45s0f1 up
+:ad@5GCN:~$ ip -br a
+    :
+enp45s0f0        UP             fe80::6eb3:11ff:fe08:a4e0/64 
+enp45s0f1        DOWN           
+    :
+</code></pre></div>
+<p>configure the static ip 10.10.0.1 of port enp45s0f0 on your server netplan (typically <code>/etc/netplan/50-cloud-init.yaml</code>) as follows: </p>
+<div class="highlight"><pre><span></span><code>network:
+    ethernets:
+       enp45s0f0:
+          dhcp4: <span class="nb">false</span>
+          dhcp6: <span class="nb">false</span>
+          optional: <span class="nb">true</span>
+          addresses:
+              - <span class="m">10</span>.10.0.1/24
+          mtu: <span class="m">9000</span>
+</code></pre></div>
+<p>To apply this configuration you can use</p>
+<div class="highlight"><pre><span></span><code>sudo netplan apply 
+</code></pre></div>
+<p>Double check the result</p>
+<div class="highlight"><pre><span></span><code>$ ip -br a <span class="p">|</span> grep enp45
+enp45s0f0        UP             <span class="m">10</span>.10.0.1/24 fe80::6eb3:11ff:fe08:a4e0/64 
+enp45s0f1        DOWN           
+</code></pre></div>
+<p>The default ip of the benetel radio is <code>10.10.0.100</code>. This is the MGMT ip. We can ssh to it as root@10.10.0.100 without password
+We can anyway find that IP out using nmap </p>
+<div class="highlight"><pre><span></span><code>$ nmap <span class="m">10</span>.10.0.0/24
+
+Starting Nmap <span class="m">7</span>.60 <span class="o">(</span> https://nmap.org <span class="o">)</span> at <span class="m">2021</span>-09-21 <span class="m">10</span>:15 CEST
+Nmap scan report <span class="k">for</span> <span class="m">10</span>.10.0.1
+Host is up <span class="o">(</span><span class="m">0</span>.000040s latency<span class="o">)</span>.
+Not shown: <span class="m">996</span> closed ports
+PORT     STATE SERVICE
+<span class="m">22</span>/tcp   open  ssh
+<span class="m">111</span>/tcp  open  rpcbind
+<span class="m">5900</span>/tcp open  vnc
+<span class="m">9100</span>/tcp open  jetdirect
+
+Nmap scan report <span class="k">for</span> <span class="m">10</span>.10.0.100
+Host is up <span class="o">(</span><span class="m">0</span>.0053s latency<span class="o">)</span>.
+Not shown: <span class="m">998</span> closed ports
+PORT    STATE SERVICE
+<span class="m">22</span>/tcp  open  ssh
+<span class="m">111</span>/tcp open  rpcbind
+
+Nmap <span class="k">done</span>: <span class="m">256</span> IP addresses <span class="o">(</span><span class="m">2</span> hosts up<span class="o">)</span> scanned <span class="k">in</span> <span class="m">3</span>.10 seconds
+</code></pre></div>
+<p>A route is added also in the routing table automatically</p>
+<p><div class="highlight"><pre><span></span><code>$ route -n <span class="p">|</span> grep <span class="m">10</span>.10.0.0
+<span class="m">10</span>.10.0.0       <span class="m">0</span>.0.0.0         <span class="m">255</span>.255.255.0   U     <span class="m">0</span>      <span class="m">0</span>        <span class="m">0</span> enp45s0f0
+<span class="sb">````</span>
+
+now you can ssh to the benetel
+
+<span class="sb">```</span> bash
+$ ssh root@10.10.0.100
+
+Last login: Fri Feb  <span class="m">7</span> <span class="m">16</span>:45:59 <span class="m">2020</span> from <span class="m">10</span>.10.0.1
+root@benetelru:~# ls -l
+-rwxrwxrwx    <span class="m">1</span> root     root          <span class="m">1572</span> Sep <span class="m">10</span>  <span class="m">2021</span> DPLL3_1PPS_REGISTER_PATCH.txt
+drwxrwxrwx    <span class="m">2</span> root     root             <span class="m">0</span> Feb  <span class="m">7</span> <span class="m">16</span>:44 adrv9025
+-rwxrwxrwx    <span class="m">1</span> root     root          <span class="m">1444</span> Feb  <span class="m">7</span> <span class="m">16</span>:40 dev_struct.dat
+-rwxrwxrwx    <span class="m">1</span> root     root         <span class="m">17370</span> Sep <span class="m">10</span>  <span class="m">2021</span> dpdModelReadback.txt
+-rwxrwxrwx    <span class="m">1</span> root     root          <span class="m">5070</span> Feb  <span class="m">7</span> <span class="m">17</span>:00 dpdModelcoefficients.txt
+-rwxrwxrwx    <span class="m">1</span> root     root         <span class="m">24036</span> Sep <span class="m">10</span>  <span class="m">2021</span> eeprog_cp60
+-rwxrwxrwx    <span class="m">1</span> root     root       <span class="m">1825062</span> Feb  <span class="m">7</span> <span class="m">15</span>:58 madura_log_file.txt
+-rw-------    <span class="m">1</span> root     root          <span class="m">1230</span> Feb  <span class="m">7</span>  <span class="m">2020</span> nohup.out
+-rwxr-xr-x    <span class="m">1</span> root     root            <span class="m">57</span> Feb  <span class="m">7</span>  <span class="m">2020</span> nohup_handshake
+-rwxrwxrwx    <span class="m">1</span> root     root           <span class="m">571</span> Feb  <span class="m">7</span>  <span class="m">2020</span> progBenetelDuMAC_CATB
+-rwxr-xr-x    <span class="m">1</span> root     root       <span class="m">1121056</span> Feb  <span class="m">7</span> <span class="m">16</span>:24 quickRadioControl
+-rwxrwxrwx    <span class="m">1</span> root     root       <span class="m">1151488</span> Sep <span class="m">10</span>  <span class="m">2021</span> radiocontrol_prv-nk-cliupdate
+-rwxrwxrwx    <span class="m">1</span> root     root         <span class="m">22904</span> Aug <span class="m">24</span>  <span class="m">2021</span> registercontrol
+-rwxrwxrwx    <span class="m">1</span> root     root           <span class="m">164</span> Feb  <span class="m">7</span> <span class="m">16</span>:35 removeResetRU_CATB
+-rwxrwxrwx    <span class="m">1</span> root     root           <span class="m">163</span> Feb  <span class="m">7</span>  <span class="m">2020</span> reportRuStatus
+-rwxrwxrwx    <span class="m">1</span> root     root           <span class="m">162</span> Feb  <span class="m">7</span> <span class="m">16</span>:35 resetRU_CATB
+-rwxr-xr-x    <span class="m">1</span> root     root            <span class="m">48</span> Feb  <span class="m">7</span> <span class="m">15</span>:57 runSync
+-rwxrwxrwx    <span class="m">1</span> root     root         <span class="m">21848</span> Sep <span class="m">10</span>  <span class="m">2021</span> smuconfig
+-rwxrwxrwx    <span class="m">1</span> root     root         <span class="m">17516</span> Sep <span class="m">10</span>  <span class="m">2021</span> statmon
+-rwxrwxrwx    <span class="m">1</span> root     root         <span class="m">23248</span> Sep <span class="m">10</span>  <span class="m">2021</span> syncmon
+-rwxr-xr-x    <span class="m">1</span> root     root           <span class="m">182</span> Feb  <span class="m">7</span> <span class="m">16</span>:41 trialHandshake
+root@benetelru:~# 
+</code></pre></div>
+However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RU has a different MAC on 10.10.0.2 for instance <code>aa:bb:cc:dd:ee:ff</code> and we can put this on the Server where the DU runs in the file: /etc/networkd-dispatcher/routable.d/macs.sh</p>
+<p>Add mac entry script in routable.d. </p>
+<p>To find out the $MAC_RU ( the mac address of the RU interface ) use 
+<div class="highlight"><pre><span></span><code>sudo tcpdump -i <span class="nv">$SERVER_RU_INT</span> port <span class="m">44000</span> -en
+</code></pre></div>
+a trace like this appears 
+<div class="highlight"><pre><span></span><code><span class="m">21</span>:19:20.285848 aa:bb:cc:dd:ee:ff &gt; <span class="m">00</span>:1e:67:fd:f5:51, ethertype IPv4 <span class="o">(</span>0x0800<span class="o">)</span>, length <span class="m">64</span>: <span class="m">10</span>.10.0.2.44000 &gt; <span class="m">10</span>.10.0.1.44000: UDP, length <span class="m">20</span>
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>sudo tee /etc/networkd-dispatcher/routable.d/macs.sh <span class="s">&lt;&lt;EOF</span>
+<span class="s">#!/bin/sh</span>
+<span class="s">sudo arp -s $RU_IP $MAC_RU -i $SERVER_RU_INT</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<blockquote>
+<p>Benetel650 does not answer arp requests. With this arp entry in the arp table the server knows to which mac address the ip packets with destination ip 10.10.0.2 
+ should go</p>
+</blockquote>
+<p>the <code>macs.sh</code> script is executes automatically if it has the correct permissions. Set the correct permissions.</p>
+<p><div class="highlight"><pre><span></span><code>sudo chown root /etc/networkd-dispatcher/routable.d/macs.sh
+sudo chgrp root /etc/networkd-dispatcher/routable.d/macs.sh
+sudo chmod 755 /etc/networkd-dispatcher/routable.d/macs.sh
+</code></pre></div>
+The macs.sh script runs when the interface to the RU goes UP. Run this to bring the RU interface UP</p>
+<div class="highlight"><pre><span></span><code>sudo ip link <span class="nb">set</span> <span class="nv">$SERVER_RU_INT</span> down
+sleep <span class="m">1</span>
+sudo ip link <span class="nb">set</span> <span class="nv">$SERVER_RU_INT</span> up
+</code></pre></div>
+<p>now check if the entry for $RU_IP is in the arp table.
+<div class="highlight"><pre><span></span><code>$ arp -a <span class="p">|</span> grep <span class="m">10</span>.10.
+? <span class="o">(</span><span class="nv">$RU_IP</span><span class="o">)</span> at <span class="nv">$MAC_RU</span> <span class="o">[</span>ether<span class="o">]</span> PERM on <span class="nv">$SERVER_RU_INT</span>
+</code></pre></div></p>
+<p>When the fiber port comes up at the server side
+<div class="highlight"><pre><span></span><code>eno2             UP             10.10.0.1/24 fe80::266e:96ff:fe43:64e2/64 
+</code></pre></div></p>
+<p>test the automatic execution of <code>macs.sh</code> by running
+<div class="highlight"><pre><span></span><code>journalctl -f
+</code></pre></div></p>
+<p>and plugging in the fiber. Each time it is plugged in you will see the the execution of the <code>arp</code> which has been put in the macs.sh script above.</p>
+<h3 id="version-check">Version Check<a class="headerlink" href="#version-check" title="Permanent link">&para;</a></h3>
+<p>finding out the version and commit hash of the benetel650</p>
+<p>commit hash
+<div class="highlight"><pre><span></span><code>root@benetelru:~# registercontrol -v
+Lightweight HPS-to-FPGA Control Program Version : V1.2.0
+
+****BENETEL PRODUCT VERSIONING BLOCK****
+This Build Was Created Locally. Please Use Git Pipeline!
+Project ID NUMBER:  0
+Git # Number:       f6366d7adf84933ab2b242a345bd63c07fedb9e5
+Build ID:       0
+Version Number:     0.0.1
+Build Date:         2/12/2021
+Build Time H:M:S:   18:20:3
+****BENETEL PRODUCT VERSIONING BLOCK END****
+</code></pre></div>
+The version which is referred to. This is version 0.3. 
+Depending on the version different configuration commands apply.
+<div class="highlight"><pre><span></span><code>root@benetelru:~# cat /etc/benetel-rootfs-version 
+RAN650-2V0.3
+</code></pre></div></p>
+<h3 id="configure-the-physical-benetel-radio-end-release-v05x">Configure the physical Benetel Radio End - Release V0.5.x<a class="headerlink" href="#configure-the-physical-benetel-radio-end-release-v05x" title="Permanent link">&para;</a></h3>
+<p>There are several parameters that can be checked and modified by reading writing the EEPROM, for this we recommend to make use of the original Benetel Software User Guide for RANx50-02 CAT-B O-RUs, in case of doubt ask for clarification to Accelleran Customer Support . Here we just present two of the most used parameters, that will need an adjustment for each deployment.</p>
+<h4 id="cfr-enabled">CFR enabled<a class="headerlink" href="#cfr-enabled" title="Permanent link">&para;</a></h4>
+<p>By default the RU ships with CFR enabled. What still needs to be done is set register <code>0366</code> to value <code>0xFFF</code>. 
+Do this by altering file <code>/usr/sbin/radio_setup_ran650_b.sh</code> with following line.</p>
+<div class="highlight"><pre><span></span><code>    registercontrol -w c0366 -x 0xFFF &gt;&gt; <span class="si">${</span><span class="nv">LOG_RAD_STAT_FP</span><span class="si">}</span>
+</code></pre></div>
+<h4 id="mac-address-of-the-du">MAC Address of the DU<a class="headerlink" href="#mac-address-of-the-du" title="Permanent link">&para;</a></h4>
+<p>Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that. If the MAC address of the server port you use to connect to the Benetel B650 Radio End (the NIC Card port where the fiber originates from) is $MAC_DU 11:22:33:44:55:66 then you can program the EEPROM of your B650 unit as follows:</p>
+<p>Here the value of <code>$MAC_DU</code> need to be used.</p>
+<p>Run this on the bare metal host server to generate the script that will run in the RU to set the mac.
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span> <span class="s2">&quot;</span>
+<span class="s2">registercontrol -w 0xC036B -x 0x88000088</span>
+<span class="s2">eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c1-2<span class="k">)</span><span class="s2"></span>
+<span class="s2">eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c4-5<span class="k">)</span><span class="s2"></span>
+<span class="s2">eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1c:0x01:0x</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c7-8<span class="k">)</span><span class="s2"></span>
+<span class="s2">eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c10-11<span class="k">)</span><span class="s2"></span>
+<span class="s2">eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0x</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c13-14<span class="k">)</span><span class="s2"></span>
+<span class="s2">eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0x</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$MAC_DU</span> <span class="p">|</span> cut -c16-17<span class="k">)</span><span class="s2"></span>
+<span class="s2">registercontrol -w 0xC036B -x 0x88000488</span>
+<span class="s2">&quot;</span>
+</code></pre></div></p>
+<p>Something like this will get generated. Copy and Paste this generated script into the RU.
+<div class="highlight"><pre><span></span><code>registercontrol -w 0xC036B -x 0x88000088
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x11
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x22
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1c:0x01:0x33
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x44
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0x55
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0x66
+registercontrol -w 0xC036B -x 0x88000488
+</code></pre></div>
+Login in the RU</p>
+<div class="highlight"><pre><span></span><code>ssh root@<span class="nv">$RU_MGMT_IP</span>
+</code></pre></div>
+<p>and paste the script here.</p>
+<p>You can read the EEPROM now and double check what you did:</p>
+<div class="highlight"><pre><span></span><code>eeprog_cp60 -q -f -x -16 /dev/i2c-0 0x57 -x -r 26:6
+</code></pre></div>
+<p>!! Finally, <strong>reboot</strong>  your Radio End to make the changes effective</p>
+<h4 id="set-the-frequency-of-the-radio-end">Set the Frequency of the Radio End<a class="headerlink" href="#set-the-frequency-of-the-radio-end" title="Permanent link">&para;</a></h4>
+<p>Create this script to program the Center Frequency in MHz of your B650 RRU. Remember to determine a valid frequency as indicated previously in the document, taking into account all the constraints and the relationship to the Offset Point A. If the Center Frequency you want to is for instance 3751,680 MHz then you can program the EEPROM of your B650 unit as follows:</p>
+<p>Run the below script on the bare metal host. It will product a script that needs to run on the RU.</p>
+<div class="highlight"><pre><span></span><code>echo&quot;
+registercontrol -w 0xC036B -x 0x88000088
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x174:0x01:0x3$(echo $FREQ_CENTER | cut -c1)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x175:0x01:0x3$(echo $FREQ_CENTER | cut -c2)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x176:0x01:0x3$(echo $FREQ_CENTER | cut -c3)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x177:0x01:0x3$(echo $FREQ_CENTER | cut -c4)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x178:0x01:0x2E
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x3$(echo $FREQ_CENTER | cut -c6)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x3$(echo $FREQ_CENTER | cut -c7)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x3$(echo $FREQ_CENTER | cut -c8)
+registercontrol -w 0xC036B -x 0x88000488
+
+registercontrol -w 0xC036B -x 0x88000088                     
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17C:0x01:0x3$(echo $FREQ_CENTER | cut -c1)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17D:0x01:0x3$(echo $FREQ_CENTER | cut -c2)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17E:0x01:0x3$(echo $FREQ_CENTER | cut -c3)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17F:0x01:0x3$(echo $FREQ_CENTER | cut -c4)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x180:0x01:0x2E
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x181:0x01:0x3$(echo $FREQ_CENTER | cut -c6)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x182:0x01:0x3$(echo $FREQ_CENTER | cut -c7)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x183:0x01:0x3$(echo $FREQ_CENTER | cut -c8)
+registercontrol -w 0xC036B -x 0x88000488
+&quot;
+</code></pre></div>
+<p>The script that is produces looks like this.
+<div class="highlight"><pre><span></span><code>echo&quot;
+registercontrol -w 0xC036B -x 0x88000088
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x174:0x01:0x33
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x175:0x01:0x37
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x176:0x01:0x35
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x177:0x01:0x31
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x178:0x01:0x2E
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x36
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x38
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x30
+registercontrol -w 0xC036B -x 0x88000488
+
+registercontrol -w 0xC036B -x 0x88000088
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17C:0x01:0x33
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17D:0x01:0x37
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17E:0x01:0x35
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17F:0x01:0x31
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x180:0x01:0x2E
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x181:0x01:0x36
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x182:0x01:0x38
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x183:0x01:0x30
+registercontrol -w 0xC036B -x 0x88000488
+
+&quot;
+</code></pre></div></p>
+<p>Verify the script if it has the ascii codes for the frequency digits.</p>
+<p>Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680, often the calculation stops at two digits after the comma, consider the last digit always as a zero</p>
+<p>You may then want to double check what you did by reading the EEPROM:</p>
+<p><div class="highlight"><pre><span></span><code>eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 372:8
+</code></pre></div>
+ Copy/Paste this script and run in in the RU.
+ssh to the RU and pasted it.</p>
+<div class="highlight"><pre><span></span><code>ssh root@<span class="nv">$RU_MGMT_IP</span>
+</code></pre></div>
+<p>Once again, this is the </p>
+<p><strong>CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above</strong></p>
+<p>Example for frequency 3751.68MHz (ARFCN=650112) you have set make sure to edit/check the pointA frequency ARFCN value back in the DU config json file in the server (in this example PointA_ARFCN=648840)</p>
+<p><strong>Reboot the BNTL650 to make changes effective</strong></p>
+<p>When the RU comes online ( 5 minutes ) run the following to see what the new frequency shows.</p>
+<div class="highlight"><pre><span></span><code>ssh root<span class="nv">$RU_MGMT_IP</span>
+radiocontrol -o G a
+</code></pre></div>
+<h4 id="set-attenuation-level">Set attenuation level<a class="headerlink" href="#set-attenuation-level" title="Permanent link">&para;</a></h4>
+<p>This operation allows to temporary modify the attenuation of the transmitting channels of your B650 unit. Temporarily means that at the next reboot the Cell will default to the originally calibrated values, by default the transmission power is set to 25 dBm hence the attenuation is 15000 mdB (offset to the max TX Power). </p>
+<p>To adjust this power for the transmitter the user must edit the attenuation setting:</p>
+<ul>
+<li>For increasing the power the attenuation must be reduced</li>
+<li>For decreasing the power, the attenuation must be increased</li>
+</ul>
+<p><strong>IMPORTANT NOTE: As of now, channel 2 and 4 are off and are not up for modification please do not try and modify those attenuation parameters</strong></p>
+<p>So if we want, for instance, to REDUCE the Tx Power by 5 dB, we will then INCREASE the attenuation by 5000 mdB. Let's consider that each cell is calibrated individually so the first thing to do is to take note of the default values and offset from there to obtained the desired TX Power per channel</p>
+<p>So here are the steps:</p>
+<ol>
+<li>
+<p>read current attenuations
+<div class="highlight"><pre><span></span><code>~# radiocontrol -o G a
+
+Benetel radiocontrol Version          : 0.9.0
+Madura API Version                    : 5.1.0.21
+Madura ARM FW version                 : 5.0.0.32
+Madura ARM DPD FW version             : 5.0.0.32
+Madura Stream version                 : 8.0.0.5
+Madura Product ID                     : 0x84
+Madura Device Revision                : 0xb0
+Tx1 Attenuation (mdB)                 : 16100
+Tx2 Attenuation (mdB)                 : 40000
+Tx3 Attenuation (mdB)                 : 15800
+Tx4 Attenuation (mdB)                 : 40000
+PLL1 Frequency (Hz)                   : 0 
+PLL2 Frequency (Hz)                   : 3751680000 
+Front-end Control                     : 0x2aa491
+Madura Deframer 0                     : 0x87
+Madura Framer 0                       : 0xa
+Internal Temperature (degC)           : 47
+External Temperature (degC)           : 42.789063
+RX1 Power Level (dBFS)                : -60.750000
+RX2 Power Level (dBFS)                : -60.750000
+RX3 Power Level (dBFS)                : -60.750000
+RX4 Power Level (dBFS)                : -60.750000
+ORX1 Peak/Mean Power Level (dBFS)     : -10.839418/-22.709361
+ORX2 Peak/Mean Power Level (dBFS)     : -inf/-inf
+ORX3 Peak/Mean Power Level (dBFS)     : -10.748048/-21.656226
+ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
+</code></pre></div>
+We can then conclude that our Antenna has been originally calibrated to have +1100 mdB on channel 1 and +800 mdB to obtain exactly 25 dBm Tx power on those chanels, so that we will then offset our 5000 dBm of extra attenuation and therefore the new attenuation levels are Tx1=16100+5000=21100 mdB and Tx2=15800+5000=20800mdB</p>
+</li>
+<li>
+<p>set attenuation for antenna 1
+<div class="highlight"><pre><span></span><code>/usr/bin/radiocontrol -o A 21100 1
+</code></pre></div></p>
+</li>
+<li>
+<p>set attenuation for antenna 3
+<div class="highlight"><pre><span></span><code>/usr/bin/radiocontrol -o A 20800 4
+</code></pre></div>
+<strong>yes the 4 at the end seems to be correct</strong>
+<strong>Bear in mind these settings will stay as long as you don't reboot the Radio and default back to the original calibration values once you reboot the unit</strong></p>
+</li>
+<li>
+<p>assess the new status of your radio:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code>~# radiocontrol -o G a
+
+Benetel radiocontrol Version          : 0.9.0
+Madura API Version                    : 5.1.0.21
+Madura ARM FW version                 : 5.0.0.32
+Madura ARM DPD FW version             : 5.0.0.32
+Madura Stream version                 : 8.0.0.5
+Madura Product ID                     : 0x84
+Madura Device Revision                : 0xb0
+Tx1 Attenuation (mdB)                 : 21100
+Tx2 Attenuation (mdB)                 : 40000
+Tx3 Attenuation (mdB)                 : 20800
+Tx4 Attenuation (mdB)                 : 40000
+PLL1 Frequency (Hz)                   : 0 
+PLL2 Frequency (Hz)                   : 3751680000 
+Front-end Control                     : 0x2aa491
+Madura Deframer 0                     : 0x87
+Madura Framer 0                       : 0xa
+Internal Temperature (degC)           : 47
+External Temperature (degC)           : 42.789063
+RX1 Power Level (dBFS)                : -60.750000
+RX2 Power Level (dBFS)                : -60.750000
+RX3 Power Level (dBFS)                : -60.750000
+RX4 Power Level (dBFS)                : -60.750000
+ORX1 Peak/Mean Power Level (dBFS)     : -10.839418/-22.709361
+ORX2 Peak/Mean Power Level (dBFS)     : -inf/-inf
+ORX3 Peak/Mean Power Level (dBFS)     : -10.748048/-21.656226
+ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
+</code></pre></div>
+<h3 id="configure-the-physical-benetel-radio-end-older-then-release-v070">Configure the physical Benetel Radio End - Older then Release V0.7.0<a class="headerlink" href="#configure-the-physical-benetel-radio-end-older-then-release-v070" title="Permanent link">&para;</a></h3>
+<h4 id="auto-reset-dpd">auto reset dpd<a class="headerlink" href="#auto-reset-dpd" title="Permanent link">&para;</a></h4>
+<p>For releases older then V0.7.0 the dpd has to get reset every 30 minutes. This is not yet built inside and has to get created manually. These 3 steps need to be done.</p>
+<ul>
+<li>
+<p>create these 2 files by copy/past the below
+<div class="highlight"><pre><span></span><code>cat <span class="s">&lt;&lt;EOF &gt; /lib/systemd/system/dpd_reset.service</span>
+<span class="s">[Unit]</span>
+<span class="s">Description=Start DPD reset every 30 mins</span>
+<span class="s">After=eth0ipset.service</span>
+
+<span class="s">[Service]</span>
+<span class="s">Type=forking</span>
+<span class="s">ExecStart=/bin/sh /usr/sbin/dpd_reset.sh </span>
+
+<span class="s">[Install]</span>
+<span class="s">WantedBy=multi-user.target</span>
+
+<span class="s">EOF</span>
+
+cat <span class="s">&lt;&lt;EOF &gt; /usr/sbin/dpd_reset.sh</span>
+<span class="s">#! /bin/sh</span>
+<span class="s">while true </span>
+<span class="s">do </span>
+<span class="s">    sleep 1800</span>
+<span class="s">    date &#39;+%Y-%m-%d %H:%M:%S ##########&#39;</span>
+<span class="s">     cd /home/root; radiocontrol -o D r 15 1</span>
+<span class="s">done &gt;&gt; /tmp/dpd_reset_status &amp;</span>
+<span class="s">EOF</span>
+chmod <span class="m">777</span> /usr/sbin/dpd_reset.sh
+</code></pre></div></p>
+</li>
+<li>
+<p>enable the service that just has been defined.
+<div class="highlight"><pre><span></span><code>systemctl enable dpd_reset.service
+</code></pre></div></p>
+</li>
+<li>and start the service
+<div class="highlight"><pre><span></span><code>systemctl start dpd_reset.service
+</code></pre></div></li>
+</ul>
+<h2 id="starting-ru-benetel-650-manual-way">Starting RU Benetel 650 - manual way<a class="headerlink" href="#starting-ru-benetel-650-manual-way" title="Permanent link">&para;</a></h2>
+<h3 id="prepare-cell">prepare cell<a class="headerlink" href="#prepare-cell" title="Permanent link">&para;</a></h3>
+<p>When the CELL is OFF this traffic can be in this state shown below.</p>
+<div class="highlight"><pre><span></span><code>ifstat -i $SERVER_RU_INT
+     enp1s0f0     
+ KB/s in  KB/s out
+71308.34  0.0
+71318.21  0.0
+</code></pre></div>
+<p>In this case execute</p>
+<div class="highlight"><pre><span></span><code>$ ssh root@10.10.0.100 handshake
+</code></pre></div>
+<p>After execution you will have </p>
+<div class="highlight"><pre><span></span><code>ifstat -i $SERVER_RU_INT
+     enp1s0f0     
+ KB/s in  KB/s out
+ 0.0      0.0
+ 0.0      0.0
+</code></pre></div>
+<p>In this traffic state the dell is ready to start.</p>
+<h3 id="start-cell">start cell<a class="headerlink" href="#start-cell" title="Permanent link">&para;</a></h3>
+<p>Bring the components up with docker compose</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> ~/install-<span class="nv">$DU_VERSION</span>/  
+docker-compose up -f docker-compose-B650.yml
+</code></pre></div>
+<p>If all goes well this will produce output similar to:</p>
+<div class="highlight"><pre><span></span><code>Starting phluido_l1 ... done
+Recreating accelleran-du-phluido-2022-01-31_du_1 ... done
+Attaching to phluido_l1, accelleran-du-phluido-2022-01-31_du_1
+phluido_l1  | Reading configuration from config file &quot;/config.cfg&quot;...
+phluido_l1  | *******************************************************************************************************
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  Phluido 5G-NR virtualized L1 implementation                                                        *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  Copyright (c) 2014-2020 Phluido Inc.                                                               *
+phluido_l1  | *  All rights reserved.                                                                               *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  The User shall not, and shall not permit others to:                                                *
+phluido_l1  | *   - integrate Phluido Software within its own products;                                             *
+phluido_l1  | *   - mass produce products that are designed, developed or derived from Phluido Software;            *
+phluido_l1  | *   - sell products which use Phluido Software;                                                       *
+phluido_l1  | *   - modify, correct, adapt, translate, enhance or otherwise prepare derivative works or             *
+phluido_l1  | *     improvements to Phluido Software;                                                               *
+phluido_l1  | *   - rent, lease, lend, sell, sublicense, assign, distribute, publish, transfer or otherwise         *
+phluido_l1  | *     make available the PHLUIDO Solution or any portion thereof to any third party;                  *
+phluido_l1  | *   - reverse engineer, disassemble and/or decompile Phluido Software.                                *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS&#39;&#39; AND ANY EXPRESS OR IMPLIED WARRANTIES,           *
+phluido_l1  | *  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A         *
+phluido_l1  | *  PARTICULAR PURPOSE ARE DISCLAIMED.                                                                 *
+phluido_l1  | *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,              *
+phluido_l1  | *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF                 *
+phluido_l1  | *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)             *
+phluido_l1  | *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR           *
+phluido_l1  | *  TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS                 *
+phluido_l1  | *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                                       *
+phluido_l1  | *                                                                                                     *
+phluido_l1  | *******************************************************************************************************
+phluido_l1  |
+phluido_l1  | Copyright information already accepted on 2020-11-27, 08:56:08.
+phluido_l1  | Starting Phluido 5G-NR L1 software...
+phluido_l1  |   PHAPI version       = 0.5 (12/10/2020)
+phluido_l1  |   L1 SW version       = 0.8.1
+phluido_l1  |   L1 SW internal rev  = r3852
+phluido_l1  | Parsed configuration parameters:
+phluido_l1  |     LicenseKey = XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX
+phluido_l1  |     maxNumPrachDetectionSymbols = 1
+phluido_l1  |     maxNumPdschLayers = 2
+phluido_l1  |     maxNumPuschLayers = 1
+phluido_l1  |     maxPuschModOrder = 6
+phluido_l1  |
+</code></pre></div>
+<p>Perform these steps to get a running active cell.
+* When the RU is still sending traffic use  <code>ssh root@10.10.0.100 handshake</code> to stop this traffic. 
+* Start L1 and DU (run docker-compose up inside the install directory ).
+* Use wireshark to follow the CPlane traffic, at this point following sequence:
+<div class="highlight"><pre><span></span><code>     DU                                        CU
+      |  F1SetupRequest---&gt;                     |
+      |                    &lt;---F1SetupResponse  |
+      |                                 |
+      |           &lt;---GNBCUConfigurationUpdate  |
+      |                                         |
+</code></pre></div></p>
+<blockquote>
+<p>The L1 starts listening on ip:port 10.10.0.1:44000</p>
+</blockquote>
+<ul>
+<li>After less than 30 seconds communication between rru and du starts. The related fiber port will report around 100 Mbytes/second of traffic in both directions</li>
+</ul>
+<div class="highlight"><pre><span></span><code>     DU                                        CU
+      |  GNBCUConfigurationUpdateAck---&gt;        |
+      |                                         |
+</code></pre></div>
+<blockquote>
+<p>NOTE : type <code>ssh root@10.10.0.100 handshake</code> again to stop the traffic. Make sure you stop the handshake explicitly at the end of your session else, even when stopping the DU/L1 manually, the RRU will keep the link alive and the next docker-compose up will find a cell busy transmitting on the fiber and the synchronization will not happen</p>
+</blockquote>
+<h2 id="starting-ru-benetel-650-cell-wrapper-way">Starting RU Benetel 650 - cell wrapper way<a class="headerlink" href="#starting-ru-benetel-650-cell-wrapper-way" title="Permanent link">&para;</a></h2>
+<h3 id="install-cell-wrapper">Install cell wrapper<a class="headerlink" href="#install-cell-wrapper" title="Permanent link">&para;</a></h3>
+<h4 id="on-the-host">On the HOST<a class="headerlink" href="#on-the-host" title="Permanent link">&para;</a></h4>
+<p>To make the CU VM have access to the DU host ( bare metal server ) some privileges need to be given.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$USER</span><span class="s2"> ALL=(ALL) NOPASSWD:ALL\n&quot;</span> <span class="p">|</span> sudo tee /etc/sudoers.d/<span class="nv">$USER</span>
+sudo usermod -aG sudo <span class="nv">$USER</span>
+</code></pre></div>
+<h4 id="on-the-cu-vm">On the CU VM<a class="headerlink" href="#on-the-cu-vm" title="Permanent link">&para;</a></h4>
+<p>Go to the VM. In the VM a cell wrapper will get installed that controls the DU and RU ( cell ).
+Going inside the CU VM.
+<div class="highlight"><pre><span></span><code>ssh $USER@$NODE_IP 
+</code></pre></div>
+Add some prerequisites if it is necessary</p>
+<div class="highlight"><pre><span></span><code>sudo apt update 
+sudo apt install zip
+</code></pre></div>
+<p>Create a public/private key pair and add it to kubernetes</p>
+<p><div class="highlight"><pre><span></span><code>ssh-keygen -t ed25519 -f id_ed25519 -C cell-wrapper
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>kubectl create secret generic cw-private --from-file<span class="o">=</span><span class="nv">private</span><span class="o">=</span>id_ed25519
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>kubectl create secret generic cw-public --from-file<span class="o">=</span><span class="nv">public</span><span class="o">=</span>id_ed25519.pub
+</code></pre></div></p>
+<p>and copy the public key to the bare metal server ( DU host )
+<div class="highlight"><pre><span></span><code>ssh-copy-id -i id_ed25519.pub ad@$SERVER_IP
+</code></pre></div></p>
+<p>Create a .yaml file containing the configuration. Also fill in the values you have prepared on the first page of the install guide.</p>
+<p>It will install the cell-wrapper the will take care of the cell's health. 
+In this configuration the cell-wrapper will reboot the RU every night at 2:00 AM. <code>&lt;reboot&gt;true&lt;/reboot&gt;</code> </p>
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install_$INSTALL_VERSION/ 
+cd !$
+tee cw.yaml <span class="err">&lt;</span><span class="nt">&lt;EOF</span> 
+<span class="err">global:</span>
+
+  <span class="err">instanceId:</span> <span class="err">&quot;cw&quot;</span>
+  <span class="err">natsUrl:</span> <span class="err">&quot;$NODE_IP&quot;</span>
+  <span class="err">natsPort:</span> <span class="err">&quot;31100&quot;</span>
+
+  <span class="err">redisHostname:</span> <span class="err">&quot;$NODE_IP&quot;</span>
+  <span class="err">redisPort:</span> <span class="err">&quot;32220&quot;</span>
+
+<span class="err">redis:</span>
+  <span class="err">backup:</span>
+    <span class="err">enabled:</span> <span class="err">true</span>
+    <span class="err">deleteAfterDay:</span> <span class="err">7</span>
+  <span class="err">jobs:</span>
+    <span class="err">deleteExistingData:</span> <span class="err">true</span>
+
+<span class="err">nats:</span>
+  <span class="err">enabled:</span> <span class="err">false</span>
+
+<span class="err">#jobs:</span>
+<span class="err">#</span>  <span class="err">-</span> <span class="err">name:</span> <span class="err">reboot-ru-1</span>
+<span class="err">#</span>    <span class="err">schedule:</span> <span class="err">&quot;0</span> <span class="err">2</span> <span class="err">*</span> <span class="err">*</span> <span class="err">*&quot;</span>
+<span class="err">#</span>    <span class="err">rpc:</span> <span class="err">|</span>
+<span class="err">#</span>      <span class="err">&lt;cell-wrapper</span> <span class="na">xmlns=</span><span class="s">&quot;http://accelleran.com/ns/yang/accelleran-granny&quot;</span> <span class="err">#</span><span class="na">xmlns:xc=</span><span class="s">&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot;</span> <span class="na">xc:operation=</span><span class="s">&quot;replace&quot;</span><span class="nt">&gt;</span>
+#        <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;replace&quot;</span><span class="nt">&gt;</span>
+#          <span class="nt">&lt;name&gt;</span>vi su-1<span class="nt">&lt;/name&gt;</span>
+#          <span class="nt">&lt;reboot&gt;</span>true<span class="nt">&lt;/reboot&gt;</span>
+#        <span class="nt">&lt;/radio-unit&gt;</span>
+#      <span class="nt">&lt;/cell-wrapper&gt;</span>
+
+netconf:
+  netconfService:
+    nodePort: 31832
+
+  configOnBoot:
+    enabled: true
+    deleteExistingConfig: true
+    host: &#39;localhost&#39;
+    config: |
+            <span class="nt">&lt;cell-wrapper</span> <span class="na">xmlns=</span><span class="s">&quot;http://accelleran.com/ns/yang/accelleran-granny&quot;</span> <span class="na">xmlns:xc=</span><span class="s">&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot;</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;admin-state&gt;</span>unlocked<span class="nt">&lt;/admin-state&gt;</span>
+
+                <span class="nt">&lt;ssh-key-pair</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;public-key&gt;</span>/home/accelleran/5G/ssh/public<span class="nt">&lt;/public-key&gt;</span>
+                    <span class="nt">&lt;private-key&gt;</span>/home/accelleran/5G/ssh/private<span class="nt">&lt;/private-key&gt;</span>
+                <span class="nt">&lt;/ssh-key-pair&gt;</span>
+
+                <span class="nt">&lt;auto-repair</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;enable&gt;</span>true<span class="nt">&lt;/enable&gt;</span>
+
+                    <span class="nt">&lt;health-check</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;rate</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                            <span class="nt">&lt;seconds&gt;</span>5<span class="nt">&lt;/seconds&gt;</span>
+                            <span class="nt">&lt;milli-seconds&gt;</span>0<span class="nt">&lt;/milli-seconds&gt;</span>
+                        <span class="nt">&lt;/rate&gt;</span>
+                        <span class="nt">&lt;unacknowledged-counter-threshold&gt;</span>3<span class="nt">&lt;/unacknowledged-counter-threshold&gt;</span>
+                    <span class="nt">&lt;/health-check&gt;</span>
+
+                    <span class="nt">&lt;container-not-running-counter-threshold&gt;</span>2<span class="nt">&lt;/container-not-running-counter-threshold&gt;</span>
+                    <span class="nt">&lt;l1-not-listening-to-ru-counter-threshold&gt;</span>6<span class="nt">&lt;/l1-not-listening-to-ru-counter-threshold&gt;</span>
+                    <span class="nt">&lt;l1-rru-traffic-counter-threshold&gt;</span>6<span class="nt">&lt;/l1-rru-traffic-counter-threshold&gt;</span>
+                <span class="nt">&lt;/auto-repair&gt;</span>
+
+                <span class="nt">&lt;distributed-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;name&gt;</span>du-1<span class="nt">&lt;/name&gt;</span>
+                    <span class="nt">&lt;type&gt;</span>effnet<span class="nt">&lt;/type&gt;</span>
+
+                    <span class="nt">&lt;connection-details</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;host&gt;</span>$SERVER_IP<span class="nt">&lt;/host&gt;</span>
+                        <span class="nt">&lt;port&gt;</span>22<span class="nt">&lt;/port&gt;</span>
+                        <span class="nt">&lt;username&gt;</span>$USER<span class="nt">&lt;/username&gt;</span>
+                    <span class="nt">&lt;/connection-details&gt;</span>
+
+                    <span class="nt">&lt;ssh-timeout&gt;</span>30<span class="nt">&lt;/ssh-timeout&gt;</span>
+
+                    <span class="nt">&lt;config</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;cgi-plmn-id&gt;</span>$PLMN_ID<span class="nt">&lt;/cgi-plmn-id&gt;</span>
+                        <span class="nt">&lt;cgi-cell-id&gt;</span>000000000000000000000000000000000001<span class="nt">&lt;/cgi-cell-id&gt;</span>
+                        <span class="nt">&lt;pci&gt;</span>$PCI_ID<span class="nt">&lt;/pci&gt;</span>
+                        <span class="nt">&lt;tac&gt;</span>000001<span class="nt">&lt;/tac&gt;</span>
+                        <span class="nt">&lt;arfcn&gt;</span>$ARFCN_POINT_A<span class="nt">&lt;/arfcn&gt;</span>
+                        <span class="nt">&lt;frequency-band&gt;</span>$FREQ_BAND<span class="nt">&lt;/frequency-band&gt;</span>
+                        <span class="nt">&lt;plmns-id&gt;</span>$PLMN_ID<span class="nt">&lt;/plmns-id&gt;</span>
+                        <span class="nt">&lt;plmns-sst&gt;</span>1<span class="nt">&lt;/plmns-sst&gt;</span>
+
+                        <span class="nt">&lt;l1-license-key&gt;</span>$L1_PHLUIDO_KEY<span class="nt">&lt;/l1-license-key&gt;</span>
+                        <span class="nt">&lt;l1-bbu-addr&gt;</span>10.10.0.1<span class="nt">&lt;/l1-bbu-addr&gt;</span>
+                        <span class="nt">&lt;l1-max-pusch-mod-order&gt;</span>6<span class="nt">&lt;/l1-max-pusch-mod-order&gt;</span>
+                        <span class="nt">&lt;l1-max-num-pdsch-layers&gt;</span>2<span class="nt">&lt;/l1-max-num-pdsch-layers&gt;</span>
+                        <span class="nt">&lt;l1-max-num-pusch-layers&gt;</span>1<span class="nt">&lt;/l1-max-num-pusch-layers&gt;</span>
+                        <span class="nt">&lt;l1-num-workers&gt;</span>8<span class="nt">&lt;/l1-num-workers&gt;</span>
+                        <span class="nt">&lt;l1-target-recv-delay-us&gt;</span>2500<span class="nt">&lt;/l1-target-recv-delay-us&gt;</span>
+                        <span class="nt">&lt;l1-pucch-format0-threshold&gt;</span>0.01<span class="nt">&lt;/l1-pucch-format0-threshold&gt;</span>
+                        <span class="nt">&lt;l1-timing-offset-threshold-nsec&gt;</span>10000<span class="nt">&lt;/l1-timing-offset-threshold-nsec&gt;</span>
+                    <span class="nt">&lt;/config&gt;</span>
+
+                    <span class="nt">&lt;enable-auto-repair&gt;</span>true<span class="nt">&lt;/enable-auto-repair&gt;</span>
+
+                    <span class="nt">&lt;working-directory&gt;</span>/run<span class="nt">&lt;/working-directory&gt;</span>
+                    <span class="nt">&lt;storage-directory&gt;</span>/var/log<span class="nt">&lt;/storage-directory&gt;</span>
+                    <span class="nt">&lt;pcscd-socket&gt;</span>/run/pcscd/pcscd.comm<span class="nt">&lt;/pcscd-socket&gt;</span>
+
+                    <span class="nt">&lt;enable-log-saving&gt;</span>false<span class="nt">&lt;/enable-log-saving&gt;</span>
+                    <span class="nt">&lt;max-storage-disk-usage&gt;</span>80%<span class="nt">&lt;/max-storage-disk-usage&gt;</span>
+
+                    <span class="nt">&lt;enable-log-rotation&gt;</span>false<span class="nt">&lt;/enable-log-rotation&gt;</span>
+                    <span class="nt">&lt;log-rotation-pattern&gt;</span>*.0<span class="nt">&lt;/log-rotation-pattern&gt;</span>
+                    <span class="nt">&lt;log-rotation-count&gt;</span>1<span class="nt">&lt;/log-rotation-count&gt;</span>
+
+                    <span class="nt">&lt;centralized-unit-host&gt;</span>$F1_CU_IP<span class="nt">&lt;/centralized-unit-host&gt;</span>
+                    <span class="nt">&lt;l1-listening-port&gt;</span>44000<span class="nt">&lt;/l1-listening-port&gt;</span>
+
+                    <span class="nt">&lt;traffic-threshold</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;uplink&gt;</span>10000<span class="nt">&lt;/uplink&gt;</span>
+                        <span class="nt">&lt;downlink&gt;</span>10000<span class="nt">&lt;/downlink&gt;</span>
+                    <span class="nt">&lt;/traffic-threshold&gt;</span>
+
+                    <span class="nt">&lt;du-image-tag&gt;</span>$DU_VERSION<span class="nt">&lt;/du-image-tag&gt;</span>
+                    <span class="nt">&lt;l1-image-tag&gt;</span>$L1_VERSION<span class="nt">&lt;/l1-image-tag&gt;</span>
+
+                    <span class="nt">&lt;du-extra-args&gt;</span>--cpuset-cpus=$CORE_SET_DU<span class="nt">&lt;/du-extra-args&gt;</span>
+                    <span class="nt">&lt;l1-extra-args&gt;</span>--cpuset-cpus=$CORE_SET_L1<span class="nt">&lt;/l1-extra-args&gt;</span>
+
+
+                    <span class="nt">&lt;du-base-config-file&gt;</span>/home/accelleran/5G/config/duEffnetConfig.json<span class="nt">&lt;/du-base-config-file&gt;</span>
+
+                    <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>ru-1<span class="nt">&lt;/radio-unit&gt;</span>
+                <span class="nt">&lt;/distributed-unit&gt;</span>
+
+                <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;name&gt;</span>ru-1<span class="nt">&lt;/name&gt;</span>
+                    <span class="nt">&lt;type&gt;</span>benetel650<span class="nt">&lt;/type&gt;</span>
+
+                    <span class="nt">&lt;connection-details</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;host&gt;</span>10.10.0.100<span class="nt">&lt;/host&gt;</span>
+                        <span class="nt">&lt;port&gt;</span>22<span class="nt">&lt;/port&gt;</span>
+                        <span class="nt">&lt;username&gt;</span>root<span class="nt">&lt;/username&gt;</span>
+                    <span class="nt">&lt;/connection-details&gt;</span>
+
+                    <span class="nt">&lt;enable-ssh&gt;</span>false<span class="nt">&lt;/enable-ssh&gt;</span>
+                    <span class="nt">&lt;ssh-timeout&gt;</span>30<span class="nt">&lt;/ssh-timeout&gt;</span>
+                <span class="nt">&lt;/radio-unit&gt;</span>
+            <span class="nt">&lt;/cell-wrapper&gt;</span>
+
+EOF
+</code></pre></div>
+<blockquote>
+<p>NOTE : uncomment the <code>jobs:</code> part if the RU should restart every night at 2am.</p>
+</blockquote>
+<p>Install using helm.
+<div class="highlight"><pre><span></span><code>helm repo update
+helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
+</code></pre></div></p>
+<p>Now you can see the kubernetes pods being created. Follow there progress with.</p>
+<div class="highlight"><pre><span></span><code>watch -d kubectl get pod
+</code></pre></div>
+<h3 id="scripts-to-steer-cell-and-cell-wrapper">scripts to steer cell and cell-wrapper<a class="headerlink" href="#scripts-to-steer-cell-and-cell-wrapper" title="Permanent link">&para;</a></h3>
+<p>Following script are delivered. They are located in the <code>install_$CU_VERSION/accelleran/bin</code> directory.
+The $PATH variable is set accordingly.</p>
+<ul>
+<li><code>cw-verify.sh</code>         - verifies if the cw.yaml file is parsed correctly after installation</li>
+<li><code>cw-enable.sh</code>         - will enable the cell-wrapper.</li>
+<li><code>cell-start.sh</code>       </li>
+<li><code>cell-stop.sh</code></li>
+<li><code>cell-restart.sh</code>      </li>
+<li><code>cw-disable.sh</code>        - cell-wrapper will not restar the cell when it is defect.</li>
+<li><code>cw-debug-on.sh</code>       - turns on more logging</li>
+<li><code>cw-debug-off.sh</code>      - turns on normal logging</li>
+</ul>
+<p>The script do what there name says</p>
+<h2 id="verify-good-operation-of-the-b650-all-releases">verify good operation of the B650 (all releases)<a class="headerlink" href="#verify-good-operation-of-the-b650-all-releases" title="Permanent link">&para;</a></h2>
+<h4 id="gps">GPS<a class="headerlink" href="#gps" title="Permanent link">&para;</a></h4>
+<p>See if GPS is locked
+<div class="highlight"><pre><span></span><code>root@benetelru:~# syncmon
+DPLL0 State (SyncE/Ethernet clock): LOCKED
+DPLL1 State (FPGA clocks): FREERUN
+DPLL2 State (FPGA clocks): FREERUN
+DPLL3 State (RF/PTP clock): LOCKED
+
+CLK0 SyncE LIVE: OK
+CLK0 SyncE STICKY: LOS + No Activity
+CLK2 10MHz LIVE: LOS + No Activity
+CLK2 10MHz STICKY: LOS + No Activity
+CLK5 GPS LIVE: OK
+CLK5 GPS STICKY: LOS and Frequency Offset
+CLK6 EXT 1PPS LIVE: LOS and Frequency Offset
+CLK6 EXT 1PPS STICKY: LOS and Frequency Offset
+</code></pre></div></p>
+<h4 id="cell-status-report">Cell Status Report<a class="headerlink" href="#cell-status-report" title="Permanent link">&para;</a></h4>
+<p>Verify if the boot sequence ended up correctly, by checking the radio status, the ouput shall mention explicitly the up time and the succesful bringup
+<div class="highlight"><pre><span></span><code>&gt; NOTE : this file is not present the first minute after reboot.
+
+root@benetelru:~# cat /tmp/radio_status 
+[INFO] Platform: RAN650_B
+[INFO] Radio bringup begin
+[INFO] Load EEPROM Data
+[INFO] Tx1 Attenuation set to 15000 mdB
+[INFO] Tx3 Attenuation set to 15730 mdB
+[INFO] Operating Frequency set to 3774.720 MHz
+[INFO] Waiting for Sync
+[INFO] Sync completed
+[INFO] Start Radio Configuration
+[INFO] Initialize RF IC
+[INFO] Disabled CFR for Antenna 1
+[INFO] Disabled CFR for Antenna 3
+[INFO] Move platform to TDD mode
+[INFO] Set CP60 as TDD control master
+[INFO] Enable TX on FEM
+[INFO] FEM to full MIMO1_3 mode
+[INFO] DPD Tx1 configuration
+[INFO] DPD Tx3 configuration
+[INFO] Set attn at 3774.720 MHz
+[INFO] Reg 0xC0366 to 0x3FF
+[INFO] Tuning the UE TA to reduce timing_offset
+[INFO] The O-RU is ready for System Integration
+[INFO] Radio bringup complete
+ 15:54:47 up 4 min,  load average: 0.09, 0.19, 0.08
+ ```
+
+### RU Status Report
+some important registers must be checked to determine if the boot sequence has completed correctly:
+
+```bash
+root@benetelru:~# reportRuStatus 
+
+[INFO] Sync status is: 
+Register 0xc0367, Value : 0x1
+-------------------------------
+
+[INFO] RU Status information is: 
+Register 0xc0306, Value : 0x470800
+-------------------------------
+
+[INFO] Fill level of Reception Window is: 
+Register 0xc0308, Value : 0x6c12
+-------------------------------
+
+[INFO] Sample Count is: 
+Register 0xc0311, Value : 0x56f49
+-------------------------------
+
+
+============================================================
+RU Status Register description:
+============================================================
+[31:19] not used                                                        
+[18]    set to 1 if handshake is successful                             
+[17]    set to 1 when settling time (fronthaul) has  completed 
+[16]    set to 1 if symbolndex=0 was captured                           
+[15]    set to 1 if payload format is invalid                           
+[14]    set to 1 if symbol index error has been detected                
+[13:12] not used                                                        
+[11]    set to 1 if DU MAC address is correct                           
+[10:2]  not used                                                        
+[1]     Reception Window Buffer is empty                                
+[0]     Reception Window Buffer is full                                 
+------------------------------------------------------------
+===========================================================
+[NOTE] Max buffer  depth is 53424 (112 symbols, 2 antennas)
+===========================================================
+</code></pre></div></p>
+<p>Handshake messages are sent by the RU every second. When phluido L1 is starting or running it will Listen on port 44000 and reply to these messages.</p>
+<p>Login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):</p>
+<div class="highlight"><pre><span></span><code>tcpdump -i enp45s0f0 -c 5 port 44000 -en
+19:22:47.096453 02:00:5e:01:01:01 &gt; 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 &gt; 10.10.0.1.44000: UDP, length 20
+</code></pre></div>
+<p>The above shows that 10.10.0.2 (U plane default IP address of the B650 Cell)  is sending a Handshake message from the MAC address 02:00:5e:01:01:01 (default MAC address of the B650 Uplane interface) to 10.10.0.1 (Server Fiber interface IP address) on MAC 6c:b3:11:08:a4:e0 (the MAC address of that fiber interface)</p>
+<p>Such initial message may repeat a certain number of times, this is normal.</p>
+<h3 id="trace-traffic-between-ru-and-l1">Trace traffic between RU and L1.<a class="headerlink" href="#trace-traffic-between-ru-and-l1" title="Permanent link">&para;</a></h3>
+<p>As said, the first packet goes out from the Radio End to the DU, this is the handshake packet. The second packet is the Handshake response of the DU and we have to make sure that as described the MAC address used in such response from the DU has been set correctly so that the DATA Interface MAC address of the Radio End is used (by default in the Benetel Radio this MAC address is <code>02:00:5e:01:01:01</code>) When data flows the udp packet lengths are 3874. 
+Remember we increased the MTU size to 9000. Without increasing the L1 would crash on the fragmented udp packets.</p>
+<div class="highlight"><pre><span></span><code>$ tcpdump -i enp45s0f0 -c 20 port 44000 -en
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on enp45s0f0, link-type EN10MB (Ethernet), capture size 262144 bytes
+19:22:47.096453 02:00:5e:01:01:01 &gt; 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 &gt; 10.10.0.1.44000: UDP, length 20
+19:22:47.106677 6c:b3:11:08:a4:e0 &gt; 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 54: 10.10.0.1.44000 &gt; 10.10.0.2.44000: UDP, length 12
+19:23:14.596247 02:00:5e:01:01:01 &gt; 6c:b3:11:08:a4:e0, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 &gt; 10.10.0.1.44000: UDP, length 12
+19:23:14.596621 6c:b3:11:08:a4:e0 &gt; 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 3874: 10.10.0.1.44000 &gt; 10.10.0.2.44000: UDP, length 3832
+19:23:14.596631 6c:b3:11:08:a4:e0 &gt; 02:00:5e:01:01:01, ethertype IPv4 (0x0800), length 3874: 10.10.0.1.44000 &gt; 10.10.0.2.44000: UDP, length 3832
+</code></pre></div>
+<h3 id="cell-is-on">Cell is ON<a class="headerlink" href="#cell-is-on" title="Permanent link">&para;</a></h3>
+<h4 id="check-if-the-l1-is-listening">Check if the L1 is listening<a class="headerlink" href="#check-if-the-l1-is-listening" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>$ while true ; do sleep 1 ; netstat -ano | grep 44000 ;echo $RANDOM; done
+udp        0 118272 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
+1427
+udp        0  16896 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
+11962
+udp        0  42240 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
+16780
+udp        0      0 10.10.0.1:44000         0.0.0.0:*                           off (0.00/0/0)
+502
+</code></pre></div>
+<h4 id="show-the-traffic-between-rru-and-l1">Show the traffic between rru and l1<a class="headerlink" href="#show-the-traffic-between-rru-and-l1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>$ ifstat -i enp45s0f0
+    enp45s0f0     
+ KB/s in  KB/s out
+71320.01  105959.7
+71313.36  105930.1
+</code></pre></div>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="debug-configuration">DEBUG Configuration<a class="headerlink" href="#debug-configuration" title="Permanent link">&para;</a></h3>
+<ul>
+<li>To enable the L1 and DU logs to get saved after a cellwrapper intervention, install the cellwrapper with these settings.
+<div class="highlight"><pre><span></span><code>&lt;enable-log-saving&gt;true&lt;/enable-log-saving&gt;
+</code></pre></div></li>
+</ul>
+<h3 id="fiber-port-not-showing-up">Fiber Port not showing up<a class="headerlink" href="#fiber-port-not-showing-up" title="Permanent link">&para;</a></h3>
+<p>https://www.serveradminz.com/blog/unsupported-sfp-linux/</p>
+<h3 id="l1-is-not-listening">L1 is not listening<a class="headerlink" href="#l1-is-not-listening" title="Permanent link">&para;</a></h3>
+<p>Check if L1 is listening on port 44000 by typing</p>
+<div class="highlight"><pre><span></span><code>$ netstat -ano | grep 44000
+</code></pre></div>
+<p>If nothing is shown L1 is not listening. In this case do a trace on the F1 port like this.</p>
+<p><div class="highlight"><pre><span></span><code>tcpdump -i any port 38472
+18:26:30.940491 IP 10.244.0.208.38472 &gt; bare-metal-node-cab-3.59910: sctp (1) [HB REQ] 
+18:26:30.940491 IP 10.244.0.208.38472 &gt; bare-metal-node-cab-3.maas.56153: sctp (1) [HB REQ] 
+18:26:30.940530 IP bare-metal-node-cab-3.59910 &gt; 10.244.0.208.38472: sctp (1) [HB ACK] 
+18:26:30.940532 IP bare-metal-node-cab-3.59910 &gt; 10.244.0.208.38472: sctp (1) [HB ACK] 
+</code></pre></div>
+you should see the HB REQ and ACK messages. If not Check 
+ * the docker-compose.yml file if the cu ip address matches the following bullet
+ * check <code>kubectl get services</code> if the F1 service is running with the that maches previous bullet </p>
+<h3 id="check-sctp-connections">check SCTP connections<a class="headerlink" href="#check-sctp-connections" title="Permanent link">&para;</a></h3>
+<p>There are 3 UDP ports you can check. When the system starts up it will setup 3 SCTP connections on following ports in the order mentioned here :</p>
+<ul>
+<li>38462 - E1 SCTP connection - SCTP between DU and CU</li>
+<li>38472 - F1 SCTP connection - SCTP between CU UP and CU CP</li>
+<li>38412 - NGAP SCTP connection - SCTP between CU CP and CORE</li>
+</ul>
+<h2 id="appendix-engineering-tips-and-tricks">Appendix: Engineering tips and tricks<a class="headerlink" href="#appendix-engineering-tips-and-tricks" title="Permanent link">&para;</a></h2>
+<h3 id="pcscd-debug">pcscd debug<a class="headerlink" href="#pcscd-debug" title="Permanent link">&para;</a></h3>
+<p>It occurs rarely that the du software throws
+<div class="highlight"><pre><span></span><code>DU license check failed
+</code></pre></div>
+when this happens you have to recreate the docker container and try again.
+If this does not help increase the pcscd logging.</p>
+<p>change 
+<div class="highlight"><pre><span></span><code>ENTRYPOINT [&quot;/usr/sbin/pcscd&quot;, &quot;--foreground&quot;]
+</code></pre></div></p>
+<p>into</p>
+<div class="highlight"><pre><span></span><code>ENTRYPOINT [&quot;/usr/sbin/pcscd&quot;, &quot;-d --foreground&quot;]
+</code></pre></div>
+<p>and  use <code>docker logs</code> on the container to see more logging about what pcscd is doing</p>
+<h3 id="run-ru-in-freerun-mode">Run RU in freerun mode<a class="headerlink" href="#run-ru-in-freerun-mode" title="Permanent link">&para;</a></h3>
+<p>This is the mode where it does not need a GPS sync. By default a benetel only boots when a GPS signal is present which the RU can be synced with.
+The boot process indicated this with ``Waiting for Sync<code>in the</code>/tmp/logs/radio_status``` file
+The following steps make the benetel boot without needing GPS signal.</p>
+<p>At boottime you kill the syncmon process
+<div class="highlight"><pre><span></span><code>killall syncmon
+</code></pre></div></p>
+<p>and set the sync-state to succesfull manually </p>
+<div class="highlight"><pre><span></span><code>echo 0 &gt; /var/syncmon/sync-state
+</code></pre></div>
+<p>Now the boot process will continue. Wait at least a minute.</p>
+<h3 id="custatus">custatus<a class="headerlink" href="#custatus" title="Permanent link">&para;</a></h3>
+<h4 id="install">install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h4>
+<ul>
+<li>unzip custatus.zip so you get create a directory <code>$HOME/5g-engineering/utilities/custatus</code></li>
+<li><code>sudo apt install tmux</code></li>
+<li>create the <code>.tmux.conf</code> file with following content.
+<div class="highlight"><pre><span></span><code>cat $HOME/.tmux.conf 
+set -g mouse on
+bind q killw
+</code></pre></div>
+add this line in $HOME/.profile
+<div class="highlight"><pre><span></span><code>export PATH=$HOME/5g-engineering/utilities/custatus:$PATH
+</code></pre></div></li>
+</ul>
+<h4 id="use">use<a class="headerlink" href="#use" title="Permanent link">&para;</a></h4>
+<p>to start 
+<div class="highlight"><pre><span></span><code>custatus.sh tmux
+</code></pre></div></p>
+<p>to quit 
+* type "CTRL-b" followed by "q"</p>
+<blockquote>
+<p>NOTE : you might need to quit the first time you have started. 
+Start a second time and see the difference.</p>
+</blockquote>
+<h4 id="example">example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h4>
+<p><img alt="image" src="https://user-images.githubusercontent.com/21971027/148368394-44fd92b2-d803-44ce-b20f-08475fb382cc.png" /></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../drax-install/" class="md-footer__link md-footer__link--prev" aria-label="Previous: RIC &amp; CU Installation" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              RIC & CU Installation
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../core-install/" class="md-footer__link md-footer__link--next" aria-label="Next: Core Installation" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Core Installation
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate"], "search": "../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.078830c0.min.js"></script>
+      
+    
+  </body>
+</html>
