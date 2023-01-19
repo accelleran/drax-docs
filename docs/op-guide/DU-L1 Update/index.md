@@ -86,7 +86,7 @@ Deleted: sha256:476e931831a5b24b95ff7587cca09bde9d1d7c0329fbc44ac64793b28fb809d0
 Deleted: sha256:9f32931c9d28f10104a8eb1330954ba90e76d92b02c5256521ba864feec14009
 
 ```
-#### Effnet License: Load the new image and start PCSCD license daemon and the Cell Wrapper 
+#### Effnet License: Load the new image and restart PCSCD license daemon and the Cell Wrapper 
 
 Now you can proceed on loading the new image. Unzip the effnet software bundle, and execute a docker load as follows:
 ``` bash
@@ -113,6 +113,17 @@ Now login to your RIC VM, locate the directory where your Cell Wrapper yaml conf
 ``` bash
 helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
 ```
+
+If you have done your job correctly, wait for a few minutes and observe your system go back to life and your Cell will go back on air, this can be seen of course in your Dashboard:
+
+
+
+
+
+``` bash
+
+```
+
 
 1929  docker image ls | grep effnet
  1930  docker image rm e0e2f6c480f1
