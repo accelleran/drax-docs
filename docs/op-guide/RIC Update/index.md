@@ -239,5 +239,98 @@ The optional parameters are:
 | NETCONF Server Port     | The NETCONF server used for configuring the 5G CU-UP component is exposed on the host machine on a random port. You can override this and set a predefined port. NOTE: The exposed port has to be in the Kubernetes NodePort range. |
 | Version                 | This is the version of the 5G CU component. By default, the latest stable version compatible with the dRAX version is installed. Other versions can be specified, but compatibility is not guaranteed |
 
-Now the installation of CU is done. To see the pods and services execute following steps. Here is what to expect.
+Now the installation of CU is done. Verify that all pods are up and running before taking any further step:
 
+``` bash
+watch kubectl get pod
+```
+The output may differ from case to case but it is important to stay till all the pods are either **RUNNING** or **COMPLETE**
+
+```
+NAME                                                     READY   STATUS             RESTARTS   AGE
+acc-5g-cu-cp-cucp-01-amf-controller-5cb5d654fd-p75n9     1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-cu-up-controller-75859656cd-t9shf   1/1     Running            0          7m14s
+acc-5g-cu-cp-cucp-01-ds-ctrl-0                           1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-ds-ctrl-1                           1/1     Running            0          6m39s
+acc-5g-cu-cp-cucp-01-ds-ctrl-10                          1/1     Running            0          6m18s
+acc-5g-cu-cp-cucp-01-ds-ctrl-11                          1/1     Running            0          6m16s
+acc-5g-cu-cp-cucp-01-ds-ctrl-12                          1/1     Running            0          6m15s
+acc-5g-cu-cp-cucp-01-ds-ctrl-13                          1/1     Running            0          6m14s
+acc-5g-cu-cp-cucp-01-ds-ctrl-14                          1/1     Running            0          6m13s
+acc-5g-cu-cp-cucp-01-ds-ctrl-15                          1/1     Running            0          6m11s
+acc-5g-cu-cp-cucp-01-ds-ctrl-2                           1/1     Running            0          6m36s
+acc-5g-cu-cp-cucp-01-ds-ctrl-3                           1/1     Running            0          6m34s
+acc-5g-cu-cp-cucp-01-ds-ctrl-4                           1/1     Running            0          6m31s
+acc-5g-cu-cp-cucp-01-ds-ctrl-5                           1/1     Running            0          6m29s
+acc-5g-cu-cp-cucp-01-ds-ctrl-6                           1/1     Running            0          6m27s
+acc-5g-cu-cp-cucp-01-ds-ctrl-7                           1/1     Running            0          6m25s
+acc-5g-cu-cp-cucp-01-ds-ctrl-8                           1/1     Running            0          6m23s
+acc-5g-cu-cp-cucp-01-ds-ctrl-9                           1/1     Running            0          6m20s
+acc-5g-cu-cp-cucp-01-du-controller-8477b5f5c8-69j26      1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-e1-cp-0                             1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-f1-ap-0                             1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-f1-ap-1                             1/1     Running            0          6m48s
+acc-5g-cu-cp-cucp-01-f1-ap-2                             1/1     Running            0          6m43s
+acc-5g-cu-cp-cucp-01-gnb-controller-7d666fdfdd-lps9c     1/1     Running            0          7m14s
+acc-5g-cu-cp-cucp-01-netconf-8974d4495-f5mln             1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-ng-ap-0                             1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-pm-controller-7869f89778-hf228      1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-res-mgr-cd6c87484-2v8s4             1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-rr-ctrl-0                           1/1     Running            0          7m15s
+acc-5g-cu-cp-cucp-01-rr-ctrl-1                           1/1     Running            0          6m43s
+acc-5g-cu-cp-cucp-01-rr-ctrl-2                           1/1     Running            0          6m41s
+acc-5g-cu-cp-cucp-01-sctp-f46df5cfb-4kzxh                1/1     Running            0          7m15s
+acc-5g-cu-up-cuup-01-cu-up-0                             1/1     Running            0          6m54s
+acc-5g-cu-up-cuup-01-cu-up-1                             1/1     Running            0          6m54s
+acc-5g-cu-up-cuup-01-e1-sctp-up-868897844f-xh4rx         1/1     Running            0          6m54s
+acc-5g-cu-up-cuup-01-netconf-6746749b49-kdqbq            1/1     Running            0          6m54s
+acc-5g-cu-up-cuup-01-pm-controller-up-57f874bbdb-ttg5k   1/1     Running            0          6m54s
+acc-5g-cu-up-cuup-01-res-mgr-up-589689966c-9txd8         1/1     Running            0          6m54s
+busybox                                                  1/1     Running            2          160m
+ric-acc-fiveg-pmcounters-6d47899ccc-k2w66                1/1     Running            0          71m
+ric-acc-kafka-955b96786-lvkns                            2/2     Running            2          71m
+ric-acc-kminion-57648f8c49-g89cj                         1/1     Running            1          71m
+ric-acc-service-monitor-8766845b8-fv9md                  1/1     Running            1          71m
+ric-acc-service-orchestrator-869996756d-kfdfp            1/1     Running            1          71m
+ric-cassandra-0                                          1/1     Running            1          71m
+ric-cassandra-1                                          1/1     Running            5          69m
+ric-dash-front-back-end-85db9b456c-r2l6v                 1/1     Running            1          71m
+ric-fluent-bit-loki-jpzfc                                1/1     Running            1          71m
+.
+.
+.
+.
+```
+
+One last important step is to perform a reboot of the VM, in order to ensure that at the next start the XDP is deployed, you don't have to worry about this any further than checking if your crontab has indeed an entry to restart XDP at reboot:
+
+``` bash
+crontab -l
+# Edit this file to introduce tasks to be run by cron.
+# 
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+# 
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').
+# 
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+# 
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+# 
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+# 
+# For more information see the manual pages of crontab(5) and cron(8)
+# 
+# m h  dom mon dow   command
+@reboot /home/ric/startXdpAfterBoot>>/tmp/xdp_bootscript_response
+
+```
+
+The last line will answer the question
