@@ -7,8 +7,8 @@ by Kubernetes inside that VM. Here we focus on the steps to update the DU and br
 We don't modify the parameters and the configuration in this section and we assume this is done previously
 
 #### licenses and files needed
-* accelleran-du-phluido-%Y-%m-%d-release.zip
-* effnet-license-activation-%Y-%m-%d.zip 
+* accelleran-du-phluido-yyyy-mm-dd-release.zip
+* effnet-license-activation-yyyy-mm-dd.zip 
 
 For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, at this point your Accelleran point of contact already made sure you received the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
 
@@ -37,12 +37,12 @@ sudo apt install yubikey-manager
 ykman list --serials
 #13134288
 ```
-#### Effnet License: Stop the running containers and the Cell Wrapper 
+#### Effnet DU Update: Stop the running containers and the Cell Wrapper 
 
 The first thing to do is to stop the running containers and prevent the Cell Wrapper from continuisly attempting to restart the components. For the Cell Wrapper simply login to your machine where the RIC is running and do:
 
 ``` bash
- 
+ helm uninstall cw
 ```
 Regarding the rest, the DU software needs access to a YubiKey that contains its license.The license in the YubiKey is shared by the PCSCD daemon, which itself can run in a Docker container to satisfy OS dependencies. the first thing to do is to stop the daemon and verify there is no Docker Container running any DU instance (the cell wrapper has been previously disabed or uninstalled) 
 
@@ -86,7 +86,7 @@ Deleted: sha256:476e931831a5b24b95ff7587cca09bde9d1d7c0329fbc44ac64793b28fb809d0
 Deleted: sha256:9f32931c9d28f10104a8eb1330954ba90e76d92b02c5256521ba864feec14009
 
 ```
-#### Effnet License: Load the new image and restart PCSCD license daemon and the Cell Wrapper 
+#### Effnet DU Update: Load the new image and restart PCSCD license daemon and the Cell Wrapper 
 
 Now you can proceed on loading the new image. Unzip the effnet software bundle, and execute a docker load as follows:
 ``` bash
@@ -116,7 +116,9 @@ helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
 
 If you have done your job correctly, wait for a few minutes and observe your system go back to life and your Cell will go back on air, this can be seen of course in your Dashboard:
 
-
+<p align="center">
+  <img width="500" height="300" src="cellonair.png">
+</p>
 
 
 
@@ -124,18 +126,68 @@ If you have done your job correctly, wait for a few minutes and observe your sys
 
 ```
 
+## PHLUIDO L1 UPDATE
 
-1929  docker image ls | grep effnet
- 1930  docker image rm e0e2f6c480f1
- 1931  docker container ls | grep effnet
+This section is dedicated to users who inted to update their licensed Phluido L1 only. The L1 will be installed in a Docker container that run on metal 
+on the host machine. As presented above in the DU Update session, most of the actions must be repeated to udpate the L1.
 
-rm -rf effnet-license-activation-2023-01-13
- 1958  docker image ls | grep effnet
- 1959  unzip effnet-license-activation-2023-01-16.zip 
- 1960  cd effnet-license-activation-2023-01-16/
- 1961  history
- 1962  docker container ls --filter name=pcscd_yubikey_c
- 1963  ykman list -s
- 1964  docker run -it -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-2023-01-16
- 1965  bunzip2 --stdout effnet-license-activation-2023-01-16.tar.bz2 | docker load
- 1966  docker run -it -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-2023-01-16
+We don't modify the parameters and the configuration in this section and we assume this is done previously
+
+#### licenses and files needed
+* phluido_docker_xxxx.tar
+
+
+For the 32 digit phluido license key, [ ex 2B2A-962F-783F-40B9-7064-2DE3-3906-9D2E ] at this point your Accelleran point of contact already made sure you received the correct and valid license key.
+
+#### Phluido L1 Update: Stop the running containers and the Cell Wrapper 
+
+The first thing to do is to stop the running containers and prevent the Cell Wrapper from continuisly attempting to restart the components. For the Cell Wrapper simply login to your machine where the RIC is running and do:
+
+ ``` bash
+ helm uninstall cw
+```
+
+Check and kill the relevant running container:
+
+``` bash
+
+docker ps | grep phluido
+516a9be070d3   gnb_du_main_phluido:yyyy-mm-dd-version  "/bin/sh -c 'sleep 2…"   30 seconds ago   Up 30 seconds             gnb_du_main_phluido
+bcaf36e5834b   phluido_l1:v8.7.1                               "/PhluidoUL1_NR /con…"   30 seconds ago   Up 30 seconds             phluido_l1
+ 
+ docker kill 516a9be070d3 bcaf36e5834b (you better kill DU now as well)
+ 
+```
+Verify one last time that docker ps will return no running processes and remove the L1 docker image:
+
+``` bash
+docker image ls | grep l1
+phluido_l1                    vx.y.z                                                   914588d807ee   7 weeks ago    70.4MB
+docker image rm 914588d807ee
+Untagged: phluido_l1:vx.y.z
+Deleted: sha256:914588d807eec74cfb773720cd7ffb1107cb1793dc3b1e44e77d85bb83f88d4b
+Deleted: sha256:3209e659de2ba51e007b1b58404f27640124bb4d756b9f820f5eace37c1b0c13
+Deleted: sha256:2046d83cbb593a780ce8f987b5a8b96a307919316bbeb75568fdfcaab4e2ee10
+Deleted: sha256:a4e25480be6bd70ea8f073f5af661a58e498b79f81d4d17a004bcbe54c7bd14d
+ 
+```
+#### Phluido L1 Update: Load the new image and restart the Cell Wrapper 
+
+Now you can proceed on loading the new image. Execute a docker load as follows:
+``` bash
+ docker image load -i phluido_docker_v.x.y.z.tar
+```
+Verify that the docker image has been loaded:
+``` bash
+docker image ls | grep l1
+phluido_l1            v.x.y.z                           b8c7c94d8215   1 minute ago   70MB
+
+Now login to your RIC VM, locate the directory where your Cell Wrapper yaml configuration file is (typically named "cw.yml") and redeploy it:
+
+``` bash
+helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
+```
+
+If you have done your job correctly, wait for a few minutes and observe your system go back to life and your Cell will go back on air
+
+
