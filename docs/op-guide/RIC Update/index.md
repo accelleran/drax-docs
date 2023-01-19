@@ -88,8 +88,7 @@ helm install ric acc-helm/ric --version $RIC_VERSION --values ric-values.yaml -n
 ```
 
 !!! info
-  The installation may take up to 5 minutes, it is essential that you wait till the installation is completed and all the pods are in RUNNING or COMPLETE mode, please do **NOT** interrupt the installation by trying to regain control of the command line
-
+    The installation may take up to 5 minutes, it is essential that you wait till the installation is completed and all the pods are in RUNNING or COMPLETE mode, please do **NOT** interrupt the installation by trying to regain control of the command line
 
 To check if the installation was successful first use Helm:
 
@@ -301,8 +300,8 @@ ric-fluent-bit-loki-jpzfc                                1/1     Running        
 .
 .
 ```
-
-One last important step is to perform a reboot of the VM, in order to ensure that at the next start the XDP is deployed, you don't have to worry about this any further than checking if your crontab has indeed an entry to restart XDP at reboot:
+!!! warning
+    One last important step is to perform a reboot of the VM, in order to ensure that at the next start the XDP is deployed, you don't have to worry about this any further than checking if your crontab has indeed an entry to restart XDP at reboot:
 
 ``` bash
 crontab -l
