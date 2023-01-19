@@ -1,4 +1,4 @@
-## EFFNET DU INSTALLATION
+## EFFNET DU UPDATE
 
 This section is dedicated to users who inted to update their licensed Effnet DU only. The DU will be installed in a Docker container that run on metal 
 on the host machine. As mentioned in the introduction, a separate Virtual Machine will host the RIC and the CU and their relative pods will be handled
@@ -10,8 +10,7 @@ We don't modify the parameters and the configuration in this section and we assu
 * accelleran-du-phluido-%Y-%m-%d-release.zip
 * effnet-license-activation-%Y-%m-%d.zip 
 
-For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact 
-will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
+For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, at this point your Accelleran point of contact already made sure you received the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip
 
 To check if the server can see the key do (in this example Device004 is your key): 
 ``` bash
@@ -38,28 +37,82 @@ sudo apt install yubikey-manager
 ykman list --serials
 #13134288
 ```
-#### Effnet License: Stop the PCSCD Docker Daemon
+#### Effnet License: Stop the running containers and the Cell Wrapper 
 
-The DU software needs access to a YubiKey that contains its license.
-The license in the YubiKey is shared by the PCSCD daemon, which itself can run in a Docker container to satisfy OS dependencies. the first thing to do is 
-to stop the daemon and verify there is no Docker Container running any DU instance (the cell wrapper has been previously disabed or uninstalled) 
+The first thing to do is to stop the running containers and prevent the Cell Wrapper from continuisly attempting to restart the components. For the Cell Wrapper simply login to your machine where the RIC is running and do:
 
- rm -rf effnet-license-activation-2023-01-13
+``` bash
+ 
+```
+Regarding the rest, the DU software needs access to a YubiKey that contains its license.The license in the YubiKey is shared by the PCSCD daemon, which itself can run in a Docker container to satisfy OS dependencies. the first thing to do is to stop the daemon and verify there is no Docker Container running any DU instance (the cell wrapper has been previously disabed or uninstalled) 
 
+Optional step: Remove the existing installation directory and its zip archive:
+
+``` bash
+rm accelleran-du-phluido-yyyy-mm-dd-version.zip 
+rm -rf accelleran-du-phluido-yyyy-mm-dd-version
+```
+Check and kill the relevant running containers:
+
+``` bash
  docker container ls --filter name=pcscd_yubikey_c
- 1853  docker ps
- 1854  docker kill 769ff29e51d3
- 1855  docker ps
- 1856  docker build --rm -t pcscd_yubikey - <pcscd/Dockerfile.pcscd
- 1857  cd
- 1858  docker build --rm -t pcscd_yubikey - <pcscd/Dockerfile.pcscd
- 1859  docker run --restart always -id --privileged --name pcscd_yubikey_c -v /run/pcscd:/run/pcscd pcscd_yubikey
+ CONTAINER ID   IMAGE           COMMAND                  CREATED        STATUS      PORTS     NAMES
+8f6cd6af4333   pcscd_yubikey   "/usr/sbin/pcscd --f…"   4 months ago   Up 3 days             pcscd_yubikey_c
+docker kill 8f6cd6af4333 (CONTAINER_ID)
 
+docker ps | grep effnet 
+docker ps | grep phluido
+516a9be070d3   gnb_du_main_phluido:yyyy-mm-dd-version  "/bin/sh -c 'sleep 2…"   30 seconds ago   Up 30 seconds             gnb_du_main_phluido
+bcaf36e5834b   phluido_l1:v8.7.1                               "/PhluidoUL1_NR /con…"   30 seconds ago   Up 30 seconds             phluido_l1
+ 
+ docker kill 516a9be070d3 bcaf36e5834b (you better kill L1 now as well)
+ 
+```
+Verify one last time that docker ps will return no running processes and remove the DU docker image:
 
+``` bash
+ 
+docker image ls | grep gnb_du
+gnb_du_main_phluido           yyyy-mm-dd-version                          f7d7f75d7294   2 months ago   137MB
+docker image rm f7d7f75d7294
+Untagged: gnb_du_main_phluido:yyyy-mm-dd-version
+Deleted: sha256:f65f9f66f7227b47b9205a30171822bc5e0affecce2ed90297efa74728cbceb7
+Deleted: sha256:e561bbd172ba022fb1e2544f890b6db10ecb6817f3fb0c2f62f7db3e2edecc30
+Deleted: sha256:b33bd2a555a1ad76656e47e3383026fda2029e2f93062f40cf5af2eff399f691
+Deleted: sha256:b3cba33e6be01e7c59b44298fb6da156644cb9d5646a1158ce48cd6294af155f
+Deleted: sha256:bf2537d1f5f6f7b597e313b86695f5d7cbeb11b2753dafbb879c596b35e993eb
+Deleted: sha256:0770b7f116f8627ec336a62e65a1f79e344df7ae721eb3e06e11edca85d3d1e7
+Deleted: sha256:476e931831a5b24b95ff7587cca09bde9d1d7c0329fbc44ac64793b28fb809d0
+Deleted: sha256:9f32931c9d28f10104a8eb1330954ba90e76d92b02c5256521ba864feec14009
 
+```
+#### Effnet License: Load the new image and start PCSCD license daemon and the Cell Wrapper 
 
- 1906  docker container ls --filter name=pcscd_yubikey_c
+Now you can proceed on loading the new image. Unzip the effnet software bundle, and execute a docker load as follows:
+``` bash
+ unzip accelleran-du-phluido-yyyy-mm-dd-version.zip 
+ bzcat accelleran-du-phluido-yyyy-mm-dd-version/gnb_du_main_phluido-yyyy-mm-dd-version.tar.bz2  | docker image load
+```
+Don't forget to start the license daemon again:
+``` bash
+docker build --rm -t pcscd_yubikey - <pcscd/Dockerfile.pcscd
+docker run --restart always -id --privileged --name pcscd_yubikey_c -v /run/pcscd:/run/pcscd pcscd_yubikey
+docker container ls --filter name=pcscd_yubikey_c
+```
+Verify that the docker image has been loaded and the license daemon is running again:
+``` bash
+docker image ls | grep gnb_du
+gnb_du_main_phluido           yyyy-mm-dd-version                           b8c7c94d8215   1 minute ago   87MB
 
+docker container ls --filter name=pcscd_yubikey_c
+CONTAINER ID   IMAGE           COMMAND                  CREATED        STATUS      PORTS     NAMES
+8f6cd6af4333   pcscd_yubikey   "/usr/sbin/pcscd --f…"   4 months ago   Up 1 minute             pcscd_yubikey_c
+```
+Now login to your RIC VM, locate the directory where your Cell Wrapper yaml configuration file is (typically named "cw.yml") and redeploy it:
+
+``` bash
+helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
+```
 
 1929  docker image ls | grep effnet
  1930  docker image rm e0e2f6c480f1
