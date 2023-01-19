@@ -145,6 +145,26 @@ netstat -ano | grep 3000
 #tcp        0      0 0.0.0.0:3000            0.0.0.0:*               LISTEN      off (0.00/0/0)
 ```
 
+### making iptables persistent
+
+Add this table to make the UE reach the internet
+```
+sudo iptables -t nat -A POSTROUTING -s 10.45.0.0/16 ! -o ogstun -j MASQUERADE
+```
+
+Add this iptable rule to be able to ping the UE from the core.
+```
+sudo iptables -I INPUT -i ogstun -j ACCEPT
+```
+
+To make these rules boot safe do
+```
+sudo apt-get install iptables-persistent
+sudo netfilter-persistent save
+sudo systemctl enable netfilter-persistent
+```
+
+
 ### Provision a UE
 
 This can be done through command line
