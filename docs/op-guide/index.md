@@ -4,42 +4,30 @@ new op guide
 
 ## Introduction
 
-This guide describes the installation of the Accelleran dRAX base, 4G and 5G components, the Effnet DU, Phluido L1 and optionally a core network on a single server machine, however separating the RIC/CU (on a VM) and the DU/L1 (on the server) to increase stability and performances.
+This guide describes how to operate the Accelleran ORAN 5G  Platform and its RIC , CU, DU and L1 components. The scope of this document is therefore to cover only the operationa aspects of our platform, including the configuration and the routinary and periodic update of it. 
 
-This first page is the most important page of the install. This first pages holds all the elements needed to do the install in a minimum of time.  
-
-## Duration
-This install can be done in  1 day up to 1 week depending on the experience of the engineer. This is an estimation done from experience. Why this is the case is not explained here. However a few points listed here without any more details.
-
-* Slight differences in hardware/firmware of each component.
-* The network the platform resides in.
-* The experience and view points of the engineer itself.
-* Network stability in which the platform resides.
-* Access to the platform.
-* ...
-  
-Because the install is done manually by an engineer it might be necessary that this engineer needs some support from accelleran.
-
+This of course means that the installation and initial configuration of the System has been already made by Accelleran Customer Support and there is no need to worry about how to prepare the server, install and initialise the components, and so on.
 
 ## Releases
-This document is released together with the system release 2022.3.0. 
+This document is released together with the system release 2022.3.1. 
 This system release contains 
 
 | component    | version                     |
 |--------------|-----------------------------|
-| RIC          | 6.0.0                       |
-| CU CHART     | 5.0.0                       |
-| CU APP       | R3.3.0_hoegaarden           |
-| DU           | 2022-08-26-q2-release-0.4   |
-| L1           | 8.4.2                       |
-| BNTL650      | 0.5.2                       |
+| RIC          | 6.1.0                       |
+| CU CHART     | 5.1.0                       |
+| CU APP       | R3.3.2_hoegaarden           |
+| DU           | 2022-08-26-q3-release-0.2   |
+| L1           | 8.7.4                       |
+| BNTL650      | 0.5.3                       |
 | BNTL550      | 0.6.0                       |
-| cell wrapper | 1.0.0                       |
+| cell wrapper | 1.1.0                       |
 
 
 ## network components overview
-Here a simplified diagram of all network components and the related ip addresses. 
-Before you continue installing fill in this simplified drawing with the ip address that apply for the configuration.
+Here a simplified diagram of all network components and the related ip addresses, the effective network diagram can be rather different from case to case, here we intedn to illustrate the principles and the default standard setup configuration, as an example.
+
+Before you continue you may want to derive the real schema and fill in this simplified drawing with the actual components and ip address that apply for your configuration.
 
 > NOTE : the CORE needs to be able to reach the GTP-0  and GTP-1 ips. In this example they are in the same subnet.
 
@@ -121,7 +109,10 @@ Each of these steps is described in its own chapter.
 
 * [RIC Update](/RIC Update/)
 * [DU and L1 Update](/drax-docs/op-guide/DU-L1 Update/)
-* 
-
-* [dRax Installation](/drax-docs/drax-install/)
-* [DU Installation](/drax-docs/du-install/)
+* [CU Configuration](/drax-docs/drax-install/)
+* [Appendix A]
+* [Appendix B]
+* [Configure and bring Benetel 550 on air]
+* [Configure and bring Benetel 650 on air]
+* [Configure and bring Ettus B210 on air]
+* [Configure and bring Ettus X310 on air]
