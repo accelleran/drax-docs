@@ -119,6 +119,9 @@ Before you continue installing fill in this simplified drawing with the ip addre
 The Operational User Guide is divided mainly in three different subjects: System Configuration, Start/Stop of the System, Components Update.
 Each of these steps is described in its own chapter.
 
-* [Kubernetes Installation](/drax-docs/op-guide/DU-L1 Update/)
+* [RIC Update](/RIC Update/)
+* [DU and L1 Update](/drax-docs/op-guide/DU-L1 Update/)
+* 
+
 * [dRax Installation](/drax-docs/drax-install/)
 * [DU Installation](/drax-docs/du-install/)
