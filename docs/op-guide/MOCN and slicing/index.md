@@ -34,8 +34,42 @@ Don't forget of course to double check the services and make sure your E1 destin
   <img width="600" height="400" src="dashboard-cucp-E1services.png">
 </p>
 
-## DU MOCN Configuration 
+## Effnet DU MOCN Configuration 
 
+the following only applies to the Effnet DU. What we did so far for the CUCP adn the CUUP must be faithfully reflected on the DU confgiration, where we also need to pick one PLMNID as a primary PLMNID. For some Cores,we need to make sure the slice differentiators are consistent as well, here we will ignore them. A DU configuration (extract) that is consistent with the above CU confgiration is:
+
+"served_cell_information": {
+                    "nr_cgi": {
+                        "plmn_identity": "001f01",
+                        "nr_cell_identity": "000000000000000000000000000000000001"
+                    },
+                    "nr_pci": 42,
+                    "5gs_tac": "000001",
+                    "ran_area_code": 1,
+                    "served_plmns": [
+                        {
+                            "plmn_identity": "001f01",
+                            "tai_slice_support_list": [
+                                {
+                                    "sst": 1
+                                }
+                            ]
+                        },
+                        {
+                            "plmn_identity": "001f02",
+                            "tai_slice_support_list": [
+                                {
+                                    "sst": 1
+                                }
+                            ]
+                        }
+                    ],
+
+Locate the file du-config.json and modify it accordingly 
+
+## Open5gs MOCN Configuration 
+
+If you opted for two separate Cores, therefore two different AMFs at two different IPs serving one PLMNID each, simply configure one PLMNID for each Core 
 
 
 # Slice Configuration for Effnet Phluido Benetel Solution
