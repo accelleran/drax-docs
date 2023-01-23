@@ -38,6 +38,8 @@ Don't forget of course to double check the services and make sure your E1 destin
 
 the following only applies to the Effnet DU. What we did so far for the CUCP adn the CUUP must be faithfully reflected on the DU confgiration, where we also need to pick one PLMNID as a primary PLMNID. For some Cores,we need to make sure the slice differentiators are consistent as well, here we will ignore them. A DU configuration (extract) that is consistent with the above CU confgiration is:
 
+
+``` bash
 "served_cell_information": {
                     "nr_cgi": {
                         "plmn_identity": "001f01",
@@ -63,7 +65,8 @@ the following only applies to the Effnet DU. What we did so far for the CUCP adn
                                 }
                             ]
                         }
-                    ],
+                    ]
+``` 
 
 Locate the file du-config.json and modify it accordingly 
 
