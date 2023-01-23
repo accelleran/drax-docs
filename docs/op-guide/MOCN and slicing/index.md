@@ -31,7 +31,7 @@ Foresee the creation of one CU UP component for each PLMNID to be served and con
 Don't forget of course to double check the services and make sure your E1 destination address is consistently set on each CUUP:
 
 <p align="center">
-  <img width="600" height="400" src="dashboard-cucp-services.png">
+  <img width="600" height="400" src="dashboard-cucp-E1services.png">
 </p>
 
 ## DU MOCN Configuration 
