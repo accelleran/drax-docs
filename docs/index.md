@@ -23,26 +23,26 @@ Because the install is done manually by an engineer it might be necessary that t
 This document is released together with the system release 2022.3.0. 
 This system release contains 
 
-| component    | version                     |
-|--------------|-----------------------------|
-| RIC          | 6.0.0                       |
-| CU CHART     | 5.0.0                       |
-| CU APP       | R3.3.0_hoegaarden           |
-| DU           | 2022-08-26-q2-release-0.4   |
-| L1           | 8.4.2                       |
-| BNTL650      | 0.5.2                       |
-| BNTL550      | 0.6.0                       |
-| cell wrapper | 1.0.0                       |
+| component    | version                         |
+|--------------|---------------------------------|
+| RIC          | 6.1.0                           |
+| CU CHART     | 5.1.0                           |
+| CU APP       | R3.3.2_hoegaarden               |
+| cell wrapper | 1.1.0                           |
+| DU           | 2022-12-23-q3-patch-release-02  |
+| L1           | 8.7.4                           |
+| BNTL650      | 0.5.3                           |
+| BNTL550      | 0.6.0                           |
 
 During the installation following variables will be used. These are the correct values they are set to for this release.
 
 ``` bash
-export INSTALL_VERSION=2022.3.0
-export RIC_VERSION=6.0.0
-export CU_VERSION=R3.3.0_hoegaarden             # build tag
-export L1_VERSION=v8.7.1
-export DU_VERSION=2022-08-26-q2-release-0.4
-export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.
+export INSTALL_VERSION=2023.3.1
+export RIC_VERSION=6.1.0
+export CU_VERSION=R3.3.2_hoegaarden             # build tag
+export L1_VERSION=v8.7.4
+export DU_VERSION=2022-12-23-q3-release-2
+export RU_VERSION=RAN650-2V0.5.3                # shipped with the UNIT.
 ```
 
 ## Prerequisites / Preperations
@@ -224,6 +224,7 @@ cd ~/install
 ```
 
 ``` bash
+export INSTALL_VERSION=2023.3.1
 git clone --branch $INSTALL_VERSION https://github.com/accelleran/drax-install
 ```
 
