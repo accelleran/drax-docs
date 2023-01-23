@@ -1,4 +1,3 @@
-# Install Guide
 
 # Accelleran Install Guide 
 
