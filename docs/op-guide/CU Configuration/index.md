@@ -40,4 +40,5 @@ The 5G CU-UP has a number of configuration parameters as seen below:
 * Supported PLMN Slices; Expand the table by clicking the (+) sign. You can now Add Rows or Delete Rows to add multiple PLMN IDs. For each PLMN ID, you can Add Rows to add slices or Delete Rows to delete slices. Each slice is defined by the Slice Type and Slice Differentiator.
 
 ** IMPORTANT **  Do not attempt to modify slices and PLMNs unless you are aware of the target Scenario you want to achieve: slice configuration and multiple PLMN (MOCN) configurations are rather complex to handle and require that CU, DU and Core are configured coherently in order fro such Scenarios to be functional.We recommend to consult the relative sections of this document and contact your Core Network Supplier and Accelleran to tailor a solution for your specific case. 
+
 ![5G CU-UP Configuration parameters](../../drax-install/images/dashboard-cu-up-config.png)
