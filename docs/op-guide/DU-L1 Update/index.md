@@ -58,14 +58,14 @@ Check and kill the relevant running containers:
  docker container ls --filter name=pcscd_yubikey_c
  CONTAINER ID   IMAGE           COMMAND                  CREATED        STATUS      PORTS     NAMES
 8f6cd6af4333   pcscd_yubikey   "/usr/sbin/pcscd --f…"   4 months ago   Up 3 days             pcscd_yubikey_c
+
 docker kill 8f6cd6af4333 (CONTAINER_ID)
 
-docker ps | grep effnet 
 docker ps | grep phluido
 516a9be070d3   gnb_du_main_phluido:yyyy-mm-dd-version  "/bin/sh -c 'sleep 2…"   30 seconds ago   Up 30 seconds             gnb_du_main_phluido
 bcaf36e5834b   phluido_l1:v8.7.1                               "/PhluidoUL1_NR /con…"   30 seconds ago   Up 30 seconds             phluido_l1
  
- docker kill 516a9be070d3 bcaf36e5834b (you better kill L1 now as well)
+docker kill 516a9be070d3 bcaf36e5834b (you better kill L1 now as well)
  
 ```
 Verify one last time that docker ps will return no running processes and remove the DU docker image:
@@ -74,6 +74,7 @@ Verify one last time that docker ps will return no running processes and remove 
  
 docker image ls | grep gnb_du
 gnb_du_main_phluido           yyyy-mm-dd-version                          f7d7f75d7294   2 months ago   137MB
+
 docker image rm f7d7f75d7294
 Untagged: gnb_du_main_phluido:yyyy-mm-dd-version
 Deleted: sha256:f65f9f66f7227b47b9205a30171822bc5e0affecce2ed90297efa74728cbceb7
@@ -101,6 +102,7 @@ docker container ls --filter name=pcscd_yubikey_c
 ```
 Verify that the docker image has been loaded and the license daemon is running again:
 ``` bash
+
 docker image ls | grep gnb_du
 gnb_du_main_phluido           yyyy-mm-dd-version                           b8c7c94d8215   1 minute ago   87MB
 
@@ -182,7 +184,7 @@ Verify that the docker image has been loaded:
 docker image ls | grep l1
 phluido_l1            v.x.y.z                           b8c7c94d8215   1 minute ago   70MB
 
-Now login to your RIC VM, locate the directory where your Cell Wrapper yaml configuration file is (typically named "cw.yml") and redeploy it:
+Now login to your RIC VM, locate the directory where your Cell Wrapper yaml configuration file is (typically named "cw.yaml") and redeploy it:
 
 ``` bash
 helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
