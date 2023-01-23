@@ -1,10 +1,10 @@
 new op guide
 
-# Accelleran CU Install Guide 
+# Accelleran Operational User Guide 
 
 ## Introduction
 
-This guide describes how to operate the Accelleran ORAN 5G  Platform and its RIC , CU, DU and L1 components. The scope of this document is therefore to cover only the operationa aspects of our platform, including the configuration and the routinary and periodic update of it. 
+This guide describes how to operate the Accelleran ORAN 5G  Platform and its RIC , CU, DU and L1 components. The scope of this document is therefore to cover only the operational aspects of our platform, including the configuration and the routinary and periodic update of it. 
 
 This of course means that the installation and initial configuration of the System has been already made by Accelleran Customer Support and there is no need to worry about how to prepare the server, install and initialise the components, and so on.
 
