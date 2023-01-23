@@ -15,7 +15,7 @@ picture...
 - B650 is an outdoor IP 67 waterproof device, 4x4 MIMO that requires external antennas to operate. As of today only two ports marked as Port 1 and Port 3 are operating and it is mandatory and necessary to connect those exits with appropriate antennas before operating the unit
 - B650 need GPS signal to operate and complete the synchronisation phase and it will not operate unless this signal is made available
 
-- Both component may be operated without synchronisation in the so called Freerun Mode (check also the Appendix B) however in such case Accelleran will not provide any support and it is defitely not worth evne trying the freerun mode if more than one Cell and/or more than one UEs are part of the deployment. The freerun mode is only useful for some quick sanity check in case the infrastructure to provide the synchronisation signal is not yet in place
+- Both component may be operated without synchronisation in the so called Freerun Mode (check also the Appendix A) however in such case Accelleran will not provide any support and it is defitely not worth evne trying the freerun mode if more than one Cell and/or more than one UEs are part of the deployment. The freerun mode is only useful for some quick sanity check in case the infrastructure to provide the synchronisation signal is not yet in place
 
 #### Diagram
 
