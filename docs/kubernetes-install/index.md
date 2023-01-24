@@ -27,7 +27,7 @@ adapt your netplan file assuming that $SERVER_INT holds the physical interface n
 that connects to the network.
 
 ```
-env | grep SERVER_INT
+env | grep -e SERVER_INT -e SERVER_IP -e GATEWAY_IP
 ```
 
 open netplan and change the variable $SERVER_INT with the correct value.
