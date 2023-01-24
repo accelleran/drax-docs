@@ -154,7 +154,9 @@ This needs to be repeated for each namespace that you wish to use for dRAX, eith
     For each one, it is important to specify the appropriate namespace using the -n option, example:
 
 ``` bash
+set -x
 kubectl get pods -n $NS_DRAX
+set +x
 ```
 
 #### Configure DockerHub credentials in Kubernetes
@@ -460,6 +462,13 @@ You should see something like this. You can ignore the status of Jaeger in this 
 > ```
 
 ### Install dRAX 5G Components
+> NOTE : when you can't reach the VM from the server the browser is running you can add some iptables in the DU server.
+> ``` bash
+> sudo iptables -A PREROUTING -t nat -p tcp --dport 31315 -j DNAT --to $NODE_IP:31315
+> sudo iptables -A FORWARD -p tcp -d $NODE_IP --dport 31315 -j ACCEPT
+> ```
+> use URL ```http://<external-ip-du-server>:31315/``` to access the drax dashboard
+>
 
 Accelleran's 5G Components are managed and installed via the Dashboard.
 From the dRAX Dashboard sidebar, select **New deployment** and then click **5G CU deployment**:
@@ -754,6 +763,12 @@ The 5G CU-CP components have a number of parameters that you can set as can be s
 * GNB CU-CP name: A friendly name of the 5G CU-CP component
 * AMF NG interface IP Address: You can click on the (+) sign in the table to expand it like on the figure below. You can now Add Rows to add multiple AMF NG interface IP addresses, or delete them using the Delete Row field. Edit the **NG Destination IP Address** to be the AMF NG IP address of your setup. This IP is the $CORE_IP.
 
+The values can be displayed like this
+``` bash
+env | grep -e CORE_IP -e PLMN 
+#CORE_IP=192.168.88.5
+#PLMN_ID=253.88
+```
 Click the **Submit** button to send the configuration.
 
 ![5G CU-CP Configuration parameters](images/dashboard-cu-cp-config.png)
@@ -766,6 +781,11 @@ The 5G CU-UP has a number of configuration parameters as seen below:
 * GNB CU-UP name: The 3GPP friendly name of the CU-UP component,
 * E1 Links: You can Add Row or Delete Rows using the button. Here we add the E1 IP address of the CU-CP component that this CU-UP component will connect to. Enter the E1 IP under **E1 Destination IP Address.** This IP is the $E1_CU_IP . 
 * Supported PLMN Slices; Expand the table by clicking the (+) sign. You can now Add Rows or Delete Rows to add multiple PLMN IDs. For each PLMN ID, you can Add Rows to add slices or Delete Rows to delete slices. Each slice is defined by the Slice Type and Slice Differentiator.
+
+Show the values that have been prepared like this.
+``` bash
+env | grep -e E1 -e PLMN
+```
 
 ![5G CU-UP Configuration parameters](images/dashboard-cu-up-config.png)
 
