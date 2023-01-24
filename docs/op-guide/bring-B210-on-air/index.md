@@ -99,10 +99,10 @@ bppMode = 10;
 uhdSamplingRate_kHz = 23040;
 ```
 
-the paramters that are worth modifying are the frequency of Point A (Tx and Rx) 
+The paramters that are worth modifying are the frequency of Point A (Tx and Rx) 
 
 Locate your configuration files for the Phluido L1 (l1-config.cfg, same folder of the RRU Config File)
-
+```
 This file may require a check of the BBU Fronthaul Server Address, whaich has been already preconfigured by Accelleran, the other options shall not be modified as they may lead to a non functioning setup
 
 /******************************************************************
@@ -305,13 +305,13 @@ Locate the json configuration file for the Effnet DU (du-config.json) and consid
 
 ```
 
-Make sure to set the correct CUCP F1 IP address according to the CU Configuration you made upfront using the dRAX Dashboard (section [CU Configuration](../../drax-install/images/dashboard-cu-cp-deployment.png) )
+Make sure to set the correct CUCP F1 IP address according to the CU Configuration you made upfront using the dRAX Dashboard (section [CU Configuration](../../drax-install/images/dashboard-cu-cp-deployment-2.png) )
 This IP address can be determined by executing the following command:
 
 ``` bash
 kubectl get services | grep f1
 ```
-The CUCP F1 SCTP interface external address is the second IP address and should be in the IP pool that was assigned to MetalLB in [dRax Installation](../../drax-install/index.md).
+The CUCP F1 SCTP interface external address is the second IP address 
 
 Now, locate the docker-compose.yml configuration file (typically and for the sake of argument accelleran-du-phluido/accelleran-du-phluido-yyyy-dd-mm) and double check the F1 CU IP Parameter:
 ```
