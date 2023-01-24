@@ -109,6 +109,7 @@ Each of these steps is described in its own chapter.
 
 * [RIC Update](/RIC Update/)
 * [DU and L1 Update](/drax-docs/op-guide/DU-L1 Update/)
+* [DU and L1 Update](/drax-docs/drax-install/)
 * [CU Configuration](/drax-docs/drax-install/)
 * [Appendix A]
 * [Appendix B]
