@@ -41,7 +41,7 @@ export INSTALL_VERSION=2023.3.1
 export RIC_VERSION=6.1.0
 export CU_VERSION=R3.3.2_hoegaarden             # build tag
 export L1_VERSION=v8.7.4
-export DU_VERSION=2022-12-23-q3-release-2
+export DU_VERSION=2022-12-23-q3-patch-release-02
 export RU_VERSION=RAN650-2V0.5.3                # shipped with the UNIT.
 ```
 
