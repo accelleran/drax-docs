@@ -1,9 +1,11 @@
 This section is exclusively applicable to the user/customer that intends to use the Ettus USRP B210 Radio End with our Accellleran 5G end to end solution, if you do not have such radio end the informations included in this section may be misleading and bring to undefined error scenarios. Please contact Accelleran if your Radio End is not included in any section of this user guide
 
-Create the UDEV rules for the B210:
+The focus of this document is purely operationa, the assumption here is that Accelleran has already installed and preconfigured your setup to be able to use an Ettus B210 Radio End in this case and therefore the installation and configuration of all the necessary SW and components already happened and should not be a concern. However some sanity checks will be necessary to self determnine if it is all set and ready. If not, please contact your Accelleran Support
+
+Verify the UDEV rules for the B210:
 
 ``` bash
-sudo tee /etc/udev/rules.d/uhd-usrp.rules <<EOF
+sudo cat /etc/udev/rules.d/uhd-usrp.rules 
 #
 # Copyright 2011,2015 Ettus Research LLC
 # Copyright 2018 Ettus Research, a National Instruments Company
@@ -23,7 +25,7 @@ SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0021", MODE:="066
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="2500", ATTRS{idProduct}=="0022", MODE:="0666"
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="3923", ATTRS{idProduct}=="7813", MODE:="0666"
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="3923", ATTRS{idProduct}=="7814", MODE:="0666"
-EOF
+
 ```
 
 Connect the B210 to the machine.
@@ -39,87 +41,11 @@ This should print:
 bcdUSB               3.00
 ```
 
-Add the Ettus Research APT repositories:
-
-``` bash
-sudo add-apt-repository ppa:ettusresearch/uhd
-sudo apt update
-```
-
-Install the software required by the B210:
-
-``` bash
-sudo apt install libuhd-dev uhd-host libuhd3.15.0
-```
-
-Download the UHD images:
-
-``` bash
-sudo uhd_images_downloader
-sudo /usr/lib/uhd/utils/uhd_images_downloader.py
-```
-
 Check if the B210 is detecting using the following command:
 
 ``` bash
 uhd_find_devices
 ```
-
-This should output something similar to:
-
-```
-[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
---------------------------------------------------
--- UHD Device 0
---------------------------------------------------
-Device Address:
-    serial: 3218C86
-    name: MyB210
-    product: B210
-    type: b200
-```
-
-Burn the correct EEPROM for the B210:
-
-``` bash
-/usr/lib/uhd/utils/usrp_burn_mb_eeprom* --values='name=B210-#4'
-```
-
-If everything goes well this should output something similar to:
-
-```
-Creating USRP device from address:
-[INFO] [UHD] linux; GNU C++ version 7.5.0; Boost_106501; UHD_3.15.0.0-release
-[INFO] [B200] Detected Device: B210
-[INFO] [B200] Loading FPGA image: /usr/share/uhd/images/usrp_b210_fpga.bin...
-[INFO] [B200] Operating over USB 3.
-[INFO] [B200] Detecting internal GPSDO....
-[INFO] [GPS] No GPSDO found
-[INFO] [B200] Initialize CODEC control...
-[INFO] [B200] Initialize Radio control...
-[INFO] [B200] Performing register loopback test...
-[INFO] [B200] Register loopback test passed
-[INFO] [B200] Performing register loopback test...
-[INFO] [B200] Register loopback test passed
-[INFO] [B200] Setting master clock rate selection to 'automatic'.
-[INFO] [B200] Asking for clock rate 16.000000 MHz...
-[INFO] [B200] Actually got clock rate 16.000000 MHz.
-
-Fetching current settings from EEPROM...
-    EEPROM ["name"] is "MyB210"
-
-Setting EEPROM ["name"] to "B210-#4"...
-Power-cycle the USRP device for the changes to take effect.
-
-Done
-```
-
-Check if the current EEPROM was flashed by executing:
-
-``` bash
-uhd_find_devices
-```
-
 The output should look like:
 
 ```
@@ -135,17 +61,7 @@ Device Address:
 ```
 ### DU/L1/RRU Configuration and docker compose
 
-Before starting the configuration of the components it is important to avoid confusion so please create a folder file and move in all the configuration files you find for the L1, RRU and the DU configuration and remove the docker-compose as well:
-``` bash
-mkdir accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/cfg
-mv accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/*.cfg accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/cfg/
-mkdir accelleran-du-phluido/accelleran-du-phluido-2022-01-31/json
-mv accelleran-du-phluido/accelleran-du-phluido-2022-01-31/*.json accelleran-du-phluido/accelleran-du-phluido-2022-01-31/json/
-rm accelleran-du-phluido/accelleran-du-phluido-2022-01-31/docker-compose.yml
-```
-
-Create a configuration file for the Phluido RRU:
-** only for B210 **
+Locate your configuration files for the Phluido RRU:
 
 ``` bash
 tee accelleran-du-phluido/accelleran-du-phluido-2022-01-31/phluido/PhluidoRRU_NR_EffnetTDD_B210.cfg <<EOF
@@ -395,7 +311,7 @@ tee du-config.json <<EOF
 EOF
 ```
 
-Before creating the `docker-compose.yml` file, make sure to set the `$CU_IP` environment variable where you will store the F1 IP address of the CUCP that you have already deployed using the dRAX Dashboard (section [CUCP Installation](../drax-install/images/dashboard-cu-cp-deployment.png) )
+Make sure to set the correct CUCP F1 IP address according to the CU Confgiuration you made upfront using the dRAX Dashboard (section [CU Configuration](../drax-install/images/dashboard-cu-cp-deployment.png) )
 This IP address can be determined by executing the following command:
 
 ``` bash
