@@ -132,6 +132,11 @@ echo 'GOVERNOR="performance"' | sudo tee /etc/default/cpufrequtils
 sudo systemctl disable ondemand
 ```
 
+Check if the server will boot in the new lowlatency kernel. The lowlatency should be the first one in the menu list.
+``` bash
+cat /boot/grub/grub.cfg | grep "menuentry "
+```
+
 Restart the machine to make the changes take effect:
 
 ``` bash
@@ -281,7 +286,7 @@ Which means that a license for the dongle with serial-number 13134288 was loaded
 
 ``` bash
 unzip accelleran-du-phluido-$DU_VERSION.zip
-bzcat accelleran-du-phluido/accelleran-du-phluido-$DU_VERSION/gnb_du_main_phluido-$DU_VERSION.tar.bz2 | docker image load
+bzcat accelleran-du-phluido-$DU_VERSION/gnb_du_main_phluido-$DU_VERSION.tar.bz2 | docker image load
 ```
 
 ### docker compose file ( with CPU PINNING )
