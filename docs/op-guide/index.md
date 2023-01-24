@@ -1,4 +1,3 @@
-new op guide
 
 # Accelleran Operational User Guide 
 
@@ -108,10 +107,10 @@ The Operational User Guide is divided mainly in three different subjects: System
 Each of these steps is described in its own chapter.
 
 
-* [Appendix A]
-* [Appendix B]
+* [Appendix A](/drax-docs/op-guide/appendix-a)
+* [Appendix B](/drax-docs/op-guide/appendix-b)
 * [Configure and bring Ettus B210 on air](/drax-docs/op-guide/bring-B210-on-air)
-* [Configure and bring Ettus X310 on air] (TBD)
+<!-- [Configure and bring Ettus X310 on air] (TBD)-->
 * [Configure and bring Benetel 550 on air](/drax-docs/op-guide/bring-Benetel-550-on-air)
 * [Configure and bring Benetel 650 on air](/drax-docs/op-guide/bring-Benetel-650-on-air)
 * [CU Configuration]("/drax-docs/op-guide/cu-configuration/")
