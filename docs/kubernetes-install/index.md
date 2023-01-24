@@ -26,6 +26,11 @@ create a linux bridge using netplan
 adapt your netplan file assuming that $SERVER_INT holds the physical interface name of your server
 that connects to the network.
 
+```
+env | grep SERVER_INT
+```
+
+open netplan and change the variable $SERVER_INT with the correct value.
 
 ``` bash
 network:
