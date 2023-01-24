@@ -357,7 +357,7 @@ EOF
 > Other ways of creating a VM may not produce a configuration file in xml format, making things more difficult. We also recommend to identify the xml configuration file by searching the directory:
 > 
 > ``` bash
-> /etc/libvirt/qemu/
+> ls /etc/libvirt/qemu/
 > ```
 > 
 > But we definitely discourage the direct editing of such file as it will reset to default at the first reboot
@@ -365,7 +365,7 @@ EOF
 > Once done, you can check the content of the xml configuration file, that in this case will show we decided to assign the odd CPUs to the VM:
 > 
 > ``` bash
-> ubuntu@bbu3:~$ sudo cat /etc/libvirt/qemu/Ubuntu123.xml
+> ubuntu@bbu3:~$ sudo cat /etc/libvirt/qemu/Ubuntu123.xml 
 > <!--
 > WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
 > OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
@@ -391,6 +391,11 @@ EOF
 >   <features>
 > 
 > ```
+> The following command is also a way to find a quick peak on the cpu settings for this VM
+> ```
+> virsh dumpxml $CU_VM_NAME | grep cpu
+>```
+	
 
 ### set softirq priorities to realtime	
 In a normal setup, the softirq processes will run at priority 20, equal to all user processes. Here they need to run at -2, which corresponds to real time priority. They are scheduled on all cores but will get strict priority over any other user processes. To adapt the priority of the ksoft, you can use spcific commands:
