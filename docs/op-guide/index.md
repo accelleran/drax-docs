@@ -107,13 +107,17 @@ Before you continue you may want to derive the real schema and fill in this simp
 The Operational User Guide is divided mainly in three different subjects: System Configuration, Start/Stop of the System, Components Update.
 Each of these steps is described in its own chapter.
 
-* [RIC Update](RIC Update/)
-* [DU and L1 Update](/drax-docs/op-guide/)
-* [CU Configuration]("/drax-docs/op-guide/DU-L1 Update/")
-* [CU Configuration](/drax-docs/drax-install/)
+
 * [Appendix A]
 * [Appendix B]
-* [Configure and bring Benetel 550 on air]
-* [Configure and bring Benetel 650 on air]
-* [Configure and bring Ettus B210 on air]
-* [Configure and bring Ettus X310 on air]
+* [Configure and bring Ettus B210 on air](/drax-docs/op-guide/bring-B210-on-air)
+* [Configure and bring Ettus X310 on air] (TBD)
+* [Configure and bring Benetel 550 on air](/drax-docs/op-guide/bring-Benetel-550-on-air)
+* [Configure and bring Benetel 650 on air](/drax-docs/op-guide/bring-Benetel-650-on-air)
+* [CU Configuration]("/drax-docs/op-guide/cu-configuration/")
+* [Handover Configuration](/drax-docs/op-guide/handover-configuration)
+* [MOCN and Slicing](/drax-docs/op-guide/mocn-and-slicing)
+* [DU and L1 Update](/drax-docs/op-guide/du-l1-update)
+* [RIC Update](/drax-docs/op-guide/ric-update/)
+
+
