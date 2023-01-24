@@ -26,223 +26,14 @@ aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
       port FIBER1
 ```
 
-### Server installtion
-             
-#### DU/L1 Configuration and docker compose
-
-Differently from the Ettus B210, Benetel runs the RRU software on board, therefore we only need to prepare 2 software components in the server, that is, 2 Containers, Effnet DU and Phluido L1.
-
-Create the configuration file for the Phluido L1 component the `PhluidoL1_NR_Benetel.cfg` file delivered by effnet
-Make sure to set the value `LicenseKey` option to the received Phluido license key:
-
-``` bash
-mkdir -p ~/install-$DU_VERSION/ 
-cd !$
-tee PhluidoL1_NR_Benetel.cfg <<EOF
-/******************************************************************
- *
- * This file is subject to the terms and conditions defined in
- * file 'LICENSE'.
- *
- ******************************************************************/
-//Enables verbose binary logging. WARNING: very CPU intensive and creates potentially huge output files. Use with caution.
-//
-// DEVEL:       1.2G/67 
-// DEBUG:       953M/67 
-// INFORMATIVE: 29K/67 
-// default:     26K/67 
-// CRITICAL:    0/393 
-// WARNING:     0/393        (x/y x=log size in L1.encr.log file, y=log size in L1.open.log file. In a time of 1 minute )
-
-//logLevel_verbose    = "WARNING";     
-//bbuFronthaulServerMode = 1;
-bbuFronthaulServerAddr = "10.10.0.1";
-
-// Enable 64-QAM support for PUSCH (license-specific).
-maxPuschModOrder = 6;
-maxNumPdschLayers = 2;
-maxNumPuschLayers = 1;
-
-cccServerPort = 44444;
-cccInterfaceMode = 1;
-kpiOutputFormat = 2;
-
-targetRecvDelay_us = 2500;
-
-numWorkers = 6; // shall be less or equal to the number of cores assigned to L1 with the CPU pinning
-//License key put here please the effective 32 digits sequence you received for this deployment
-
-LicenseKey = "$L1_PHLUIDO_KEY";
-EOF
-
-```
-**IMPORTANT: After this replace the LicenseKey value with the effective license sequence you obtained from Accelleran, all the other parameters shall not be modified 
-
-
-Create a configuration file for the Effnet DU:
-
-``` bash
-mkdir -p ~/install-$DU_VERSION/ 
-cd !$
-tee b650_config_40mhz.json <<EOF
-{
-    "configuration": {
-        "du_address": "du",
-        "cu_address": "cu",
-        "f1c_bind_address": "du",
-        "gtp_listen_address": "du",
-        "vphy_listen_address": "127.0.0.1",
-        "vphy_port": 13337,
-        "vphy_tick_multiplier": 1,
-        "gnb_du_id": 38209903575,
-        "gnb_du_name": "This is the dell two HO setup cell one",
-        "phy_control": {
-            "crnti_range": {
-                "min": 42000,
-                "max": 42049
-            }
-        },
-        "rrc_version": {
-            "x": 15,
-            "y": 6,
-            "z": 0
-        },
-        "served_cells_list": [
-            {
-                "served_cell_information": {
-                    "nr_cgi": {
-                        "plmn_identity": "001f01",
-                        "nr_cell_identity": "000000000000000000000000000000000001"
-                    },
-                    "nr_pci": 51,
-                    "5gs_tac": "000001",
-                    "ran_area_code": 1,
-                    "served_plmns": [
-                        {
-                            "plmn_identity": "001f01",
-                            "tai_slice_support_list": [
-                                {
-                                    "sst": 1
-                                }
-                            ]
-                        }
-                    ],
-                    "nr_mode_info": {
-                        "nr_freq_info": {
-                            "nr_arfcn": 648840,
-                            "frequency_band_list": [
-                                {
-                                    "nr_frequency_band": 78
-                                }
-                            ]
-                        },
-                        "transmission_bandwidth": {
-                            "bandwidth_mhz": 40,
-                            "scs_khz": 30,
-                            "nrb": 106
-                        },
-                        "pattern": {
-                            "periodicity_in_slots": 10,
-                            "downlink": {
-                                "slots": 7,
-                                "symbols": 6
-                            },
-                            "uplink": {
-                                "slots": 2,
-                                "symbols": 4
-                            }
-                        }
-                    },
-                   "measurement_timing_configuration": [
-                        222,
-                        173,
-                        190,
-                        239
-                    ],
-                    "dmrs_type_a_position": "pos2",
-                    "intra_freq_reselection": "allowed",
-                    "ssb_pattern": "1000000000000000000000000000000000000000000000000000000000000000",
-                    "ssb_periodicity_serving_cell_ms": 20,
-                    "prach_configuration_index": 202,
-                    "ssb_pbch_scs": 30,
-                    "offset_point_a": 6,
-                    "k_ssb": 0,
-                    "coreset_zero_index": 3,
-                    "search_space_zero_index": 2,
-                    "ra_response_window_slots": 20,
-                    "sr_slot_periodicity": 40,
-                    "sr_slot_offset": 7,
-                    "search_space_other_si": 1,
-                    "paging_search_space": 1,
-                    "ra_search_space": 1,
-                    "bwps": [
-                        {
-                            "id": 0,
-                            "start_crb": 0,
-                            "num_rb": 106,
-                            "scs": 30,
-                            "cyclic_prefix": "normal"
-                        }
-                    ],
-                    "coresets": [
-                        {
-                            "id": 1,
-                            "bwp_id": 0,
-                            "fd_resources": "111100000000000000000000000000000000000000000",
-                            "duration": 2,
-                            "interleaved": {
-                                "reg_bundle_size": 6,
-                                "interleaver_size": 2
-                            },
-                            "precoder_granularity": "same_as_reg_bundle"
-                        }
-                    ],
-                    "search_spaces": [
-                        {
-                            "id": 1,
-                            "control_resource_set_id": 0,
-                            "common": {}
-                        },
-                        {
-                            "id": 2,
-                            "control_resource_set_id": 1,
-                            "ue_specific": {
-                                "dci_formats": "formats0-1-And-1-1"
-                            }
-                        }
-                    ],
-                    "maximum_ru_power_dbm": 35.0,
-                    "num_tx_antennas": 2,
-                    "trs": {
-                        "periodicity_and_offset": {
-                            "period": 80,
-                            "offset": 1
-                        },
-                        "symbol_pair": "four_eight",
-                        "subcarrier_location": 1
-                    },
-                    "periodic_srs_periodicity": 64,
-                    "csi_rs": {
-                        "periodicity_and_offset": {
-                            "period": 40,
-                            "offset": 15
-                        }
-                    },
-                    "force_rlc_buffer_size": 8388608,
-                    "harq_processes_for_pdsch": 16,
-                    "minimum_k1_delay": 1,
-                    "minimum_k2_delay": 3
-                }
-            }
-        ]
-    }
-}
-
-EOF
-```
-
 #### Frequency, Offsets, Point A Calculation
-This section is essential to proceed correctly and determine the exact parameters that will allow the Benetel Radio to go on air correctly and the UEs to be able to see the cell and attempt an attach so it is particularly important to proceed carefully on this point. there are currently several limitations on the Frequencies that go beyond the simple definition of 5G NR Band:
+
+During your testing activity you may need to adjust the TX/Rx frequency of your End to End System and to do so you need to take into account that more than one component requires adjustments in its configuration:
+
+- The RU requires the Center Frequency in MHz, both on RX and TX to be witten in the EEPROM
+- The DU requires the Offset to Point A as ARFCN
+
+This goal of this section is to proceed correctly and determine the exact parameters that will allow the Benetel Radio to go on air  and the UEs to be able to see the cell and attempt an attach so it is particularly important to proceed carefully on this point. There are currently several limitations on the Frequencies that go beyond the simple definition of 5G NR Band:
 
 - the selected frequency should be above 3700 MHz 
 - the selected band can be B77 or B78
@@ -256,82 +47,31 @@ Let's proceed with an example:
 We want to set a center frequency of 3750 MHz, this is not devisable by 3.84, the first next frequencies that meet this condition are 3747,84 (976*3.84) 3751.68 (977*3,84) so let's consider first 3747,84 MHz and verify the conditions on the K_ssb and Offset to Point A with this online tool (link at:  (https://www.sqimway.com/nr_refA.php) ) 
 
 - We remember to set the Band 78, SCs at 30 KHz, the Bandwidth at 40 MHz and the ARFCN of the center frequency 3747,84 which is 649856 and when we hit the **RUN** button we obtain:
+
 <p align="center">
-  <img width="600" height="800" src="Freq3747dot84.png">
+  <img width="600" height="800" src="../../du-install/Freq3747dot84.png">
 </p>
+
 This Frequency, however does not meet the **GSCN Synchronisation requirements** as in fact the Offset to Point A of the first channel is 2 and the K_ssb is 16, this will cause the UE to listen on the wrong channel so the SIBs will never be seen and therefore the cell is "invisible"
 
 - We then repeat the exercise with the higher center frequency 3751,68 MHz, which yelds a center frequency ARFCN of 650112 and a point A ARFCN of 648840 and giving another run we will see that now the K_ssb and the Offset to Point A are correct:
+
 <p align="center">
-  <img width="600" height="800" src="Freq3751dot68.png">
+  <img width="600" height="800" src="../../du-install/Freq3751dot68.png">
 </p>
+
 With these information at hand we are going to determine:
 
 * point A frequency : 3732.60  ( arfcn : 648840 ) - edit du configuration in the appropriate json file
 * center Frequency  : 3751.68  ( arfcn : 650112 ) - edit RU configuration directly on the Benetel Radio End (see next sections)
 
-#### Create docker compose
-
-Before creating the `docker-compose.yml` file, make sure to set the `$CU_IP` environment variable where you will store the F1 IP address of the CUCP that you have already deployed using the dRAX Dashboard (section [CUCP Installation](../drax-install/images/dashboard-cu-cp-deployment.png) )
-This IP address can be determined by executing the following command:
-
-``` bash
-kubectl get services | grep f1
-```
-The CUCP F1 SCTP interface external address is the second IP address and should be in the IP pool that was assigned to MetalLB in [dRax Installation](../drax-install/index.md).
-
-Now, create a docker-compose configuration file:
-
-``` bash
-mkdir -p ~/install-$DU_VERSION/ 
-cd !$
-tee docker-compose-B650.yml <<EOF
-version: "2"
-services:
-
-  phluido_l1:
-    image: phluido_l1:v0.8.4.2
-    container_name: phluido_l1
-    tty: true
-    privileged: true
-    ipc: shareable
-    shm_size: 2gb
-    command: /config.cfg
-    volumes:
-      - "$PWD/PhluidoL1_NR_Benetel.cfg:/config.cfg:ro"
-      - "/run/logs-du/l1:/workdir"
-      - "/etc/machine-id:/etc/machine-id:ro"
-    working_dir: "/workdir"
-    network_mode: host
-    cpuset: "$CORE_SET_DU"
-
-  du:
-    image: gnb_du_main_phluido:2022-07-01-q2-pre-release
-    volumes:
-      - "$PWD/b650_config_40mhz.json:/config.json:ro"
-      - "/run/logs-du/du:/workdir"
-      - /run/pcscd/pcscd.comm:/run/pcscd/pcscd.comm
-    ipc: container:phluido_l1
-    tty: true
-    privileged: true
-    depends_on:
-      - phluido_l1
-    entrypoint: ["/bin/sh", "-c", "sleep 2 && exec /gnb_du_main_phluido /config.json"]
-    working_dir: "/workdir"
-    extra_hosts:
-      - "cu:$F1_CU_IP"
-      - "du:$SERVER_IP"
-    network_mode: host
-    cpuset: "$CORE_SET_DU"
-    
-EOF    
-```
+At this point, you need to redeploy the Cell Wrapper with the modified ARFCN and write the new Tx and Rx Frequencies on the RU EEPROM. If you are uncertain on how to proceed, but you have calculated the correct frequencies and ARFCN please contact Accelleran to proceed on those modifications
 
 ### Prepare to configure the Benetel 650
 
 The benetel is connected with a fiber to the server. 
 1. The port on the physical B650 RRU is labeled ```port FIBER1```
-2. The port on the server is one of these listed below.
+2. The port on the server, depending on where you inserted the Fiber SFP+ Connector is one of these listed below.
 
 ``` bash
 $ lshw | grep SFP -C 5
@@ -367,33 +107,7 @@ In this example it's enp45s0f0. This port is the one we connected the fiber to.
 ``` bash
 :ad@5GCN:~$ sudo ip link set dev enp45s0f0 up
 :ad@5GCN:~$ sudo ip link set dev enp45s0f1 up
-:ad@5GCN:~$ ip -br a
-	:
-enp45s0f0        UP             fe80::6eb3:11ff:fe08:a4e0/64 
-enp45s0f1        DOWN           
-	:
 ```
-
-configure the static ip 10.10.0.1 of port enp45s0f0 on your server netplan (typically `/etc/netplan/50-cloud-init.yaml`) as follows: 
-
-``` bash
-network:
-    ethernets:
-       enp45s0f0:
-          dhcp4: false
-          dhcp6: false
-          optional: true
-          addresses:
-              - 10.10.0.1/24
-          mtu: 9000
-```
-
-To apply this configuration you can use
-
-``` bash
-sudo netplan apply 
-```
-
 Double check the result
 
 ``` bash
@@ -428,15 +142,7 @@ PORT    STATE SERVICE
 Nmap done: 256 IP addresses (2 hosts up) scanned in 3.10 seconds
 
 ```
-
-A route is added also in the routing table automatically
-
-``` bash
-$ route -n | grep 10.10.0.0
-10.10.0.0       0.0.0.0         255.255.255.0   U     0      0        0 enp45s0f0
-````
-
-now you can ssh to the benetel
+Now you can ssh to the benetel
 
 ``` bash
 $ ssh root@10.10.0.100
@@ -466,54 +172,21 @@ drwxrwxrwx    2 root     root             0 Feb  7 16:44 adrv9025
 -rwxr-xr-x    1 root     root           182 Feb  7 16:41 trialHandshake
 root@benetelru:~# 
 ```
-However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RU has a different MAC on 10.10.0.2 for instance ```aa:bb:cc:dd:ee:ff ``` and we can put this on the Server where the DU runs in the file: /etc/networkd-dispatcher/routable.d/macs.sh
+However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RU has a different MAC on 10.10.0.2 for instance ```70:b3:d5:e1:53:f0 ``` 
 
-Add mac entry script in routable.d. 
+now check if the entry for 10.10.0.2 is in the arp table.
 
-To find out the $MAC_RU ( the mac address of the RU interface ) use 
-```bash
-sudo tcpdump -i $SERVER_RU_INT port 44000 -en
-```
-a trace like this appears 
-```bash
-21:19:20.285848 aa:bb:cc:dd:ee:ff > 00:1e:67:fd:f5:51, ethertype IPv4 (0x0800), length 64: 10.10.0.2.44000 > 10.10.0.1.44000: UDP, length 20
-```
-	
-``` bash
-sudo tee /etc/networkd-dispatcher/routable.d/macs.sh <<EOF
-#!/bin/sh
-sudo arp -s $RU_IP $MAC_RU -i $SERVER_RU_INT
-EOF
-
-```
-> Benetel650 does not answer arp requests. With this arp entry in the arp table the server knows to which mac address the ip packets with destination ip 10.10.0.2 
- should go
-
-the ```macs.sh``` script is executes automatically if it has the correct permissions. Set the correct permissions.
-
-```
-sudo chown root /etc/networkd-dispatcher/routable.d/macs.sh
-sudo chgrp root /etc/networkd-dispatcher/routable.d/macs.sh
-sudo chmod 755 /etc/networkd-dispatcher/routable.d/macs.sh
-```
-The macs.sh script runs when the interface to the RU goes UP. Run this to bring the RU interface UP
-
-``` bash
-sudo ip link set $SERVER_RU_INT down
-sleep 1
-sudo ip link set $SERVER_RU_INT up
-```
-
-now check if the entry for $RU_IP is in the arp table.
 ``` bash
 $ arp -a | grep 10.10.
-? ($RU_IP) at $MAC_RU [ether] PERM on $SERVER_RU_INT
+? (10.10.0.100) at 70:b3:d5:e1:53:b1 [ether] on br0
+? (10.10.0.2) at 70:b3:d5:e1:53:f0 [ether] PERM on enp45s0f0
 ```
 
-When the fiber port comes up at the server side
-```
-eno2             UP             10.10.0.1/24 fe80::266e:96ff:fe43:64e2/64 
-```
+If not, add it using the onboard script:
+
+``` bash
+/etc/networkd-dispatcher/routable.d/macs.sh'
+``` 
 
 test the automatic execution of ```macs.sh``` by running
 ```

@@ -9,7 +9,7 @@ Note that a SW upgrade will not remove the existing data, so any configured comp
 if you wish to keep the previous configuration take note of the CU instance IDs, the E1 and F1 external IP addresses, and make sure they are the same once you recreate them. It is simple to infer these values by checking the Dashboard on the section **gNB Configuration** and clicking on the **show** button. The fields ate highlighted in the following picture:
 
 <p align="center">
-  <img width="500" height="300" src="cucp-services.png">
+  <img width="800" height="300" src="cucp-services.png">
 </p>
 
 
@@ -42,7 +42,7 @@ watch kubectl get pods -A
 As a side note one could also uninstall the CUCP and CUUP using the uninstall button on the dashboard:
 
 <p align="center">
-  <img width="400" height="300" src="../../drax-install/images/dashboard-cu-config-page.png">
+  <img width="700" height="350" src="../../drax-install/images/dashboard-cu-config-page.png">
 </p>
 
 
@@ -150,7 +150,7 @@ Here, you have the ability to deploy either a CU-CP or a CU-UP component.
 Therefore, you first have to pick one from the drop-down menu:
 
 <p align="center">
-  <img width="400" height="300" src="../../drax-install/images/dashboard-deploy-a-new-cu-component.png">
+  <img width="300" height="200" src="../../drax-install/images/dashboard-deploy-a-new-cu-component.png">
 </p>
 
 
@@ -162,7 +162,9 @@ The form with the deployment parameters is shown below:
 > NOTE : if you intend to recover the previous CUCP configuration without painfully go through manual review and editing of the other configurations (du, cell wrapper, CUUP) remember to specify exactly the same instance ID previously used and fill in the optional values with the same previous E1 and F1 addresses manually
 > for F1 it will be the ip address we will also configure the DU with.
 
+
 ![Deploy CU-CP form](../../drax-install/images/dashboard-cu-cp-deployment-2.png)
+
 
 ###### Required Parameters
 
@@ -186,7 +188,7 @@ The required parameters are:
 
 Once the deployment parameters are set, click the submit button to deploy the 5G CU-CP.
 
-###### Optional Parameters
+#### Optional Parameters
 
 The optional parameters are auto-discovered and auto-filled by dRAX.
 As such they do not need to be changed.
@@ -212,7 +214,8 @@ The form with the deployment parameters is shown below:
 
 ![Deploy CU-UP form](../../drax-install/images/dashboard-cu-up-deployment-2.png)
 
-###### Required Parameters
+
+#### Required Parameters
 
 The required deployment parameter is:
 
