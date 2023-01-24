@@ -76,7 +76,7 @@ sudo apt install qemu
 sudo apt install qemu-kvm
 ```
 ``` bash
-sudo apt install libvirt_daemon_system
+sudo apt install libvirt-daemon-system
 ```
 ``` bash
 sudo apt install bridge-utils
