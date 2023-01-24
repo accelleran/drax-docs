@@ -91,9 +91,10 @@ Below a command line that creates a VM with the correct settings.
 
 > IMPORTANT ! the $CORE_SET_CU can only be a comma seperated list. 
 
-Verify the content of these 3 variables
+Verify the content of these 3 variables and the existence of the .iso file
 ``` bash
 env | grep -e CU_VM_NAME -e CORE_AMOUNT_CU -e CORE_SET_CU
+ls ubuntu-20.04.4-live-server-amd64.iso
 ```
 
 ```bash
@@ -503,19 +504,35 @@ wait like around 5 minutes for the installation to complete
                                [ View full log ]
                                [ Reboot Now    ]
 ```
-Wait untill you can click reboot server
+Wait untill on top you see Install complete and you can click reboot server.
 
-> NOTE : if after some minutes the server has not rebooted yet you have to reboot it  forcefully like this. Most likely the cdrom fails to unmount.
+> NOTE : if after some minutes the server has not rebooted yet you have to reboot it forcefully like this. 
+> Most likely the cdrom fails to unmount. 
 >
 > ``` 
 > virsh reset $CU_VM_NAME 
 > ```
 > 
 
-copy the install directory from the HOST to this newly created VM
+put the newly created VM into autostart mode and start it when not done already.  
 
 ``` bash
-cd ; scp -r install_$CU_VERSION  $USER@$NODE_IP:
+virsh autostart $CU_VM_NAME
+virsh start $CU_VM_NAME
+```
+make cu accesible without password
+``` bash
+ssh-keygen
+```
+press enter for untill command finishes.
+
+``` bash
+ssh-copy-id $USER@$NODE_IP
+```
+
+copy the install directory from the HOST to this newly created VM
+``` bash
+cd ; scp -r install  $USER@$NODE_IP:
 ```
 
 ``` bash
@@ -539,6 +556,11 @@ make sure all available disk space is being used inside the VM.
 lsblk
 sudo lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 lsblk
+```
+
+See how much diskspace is available with
+``` bash
+df -h 
 ```
 
 Every heading that follows has to be done inside this VM.
@@ -584,10 +606,6 @@ sudo usermod -aG docker $USER
 sudo reboot
 ```
 
-rerun the .profile to load install variables
-``` bash
-. $HOME/.profile
-```
 
 To check if your installation is working you can try to run a test image in a container:
 
@@ -646,11 +664,10 @@ Accelleran dRAX currently supports Kubernetes up to version 1.20. The following 
 sudo apt install -y kubelet=1.20.0-00 
 ```
 ``` bash
-sudo apt install -y kubeadm=1.20.0-00 
+sudo apt install -y kubeadm=1.20.0-00         # also installs kubectl.
 ```
-``` bash
-sudo apt isntall -y kubectl=1.20.0-00
-```
+
+Prevent from kubectl being automatically upgraded or updated or installed.
 ``` bash
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
@@ -670,9 +687,15 @@ This guide assumes we will use Flannel as the CNI-based Pod network for this Kub
 We store it again as an environment variable for later use, and of course if you wish to use a different subnet, change the command accordingly:
 
 
+verify 2 veriables 
+``` bash
+env | grep -e POD_NETWORK -e NODE_IP
+```
+
 The following command initializes the cluster on this node:
 
 ``` bash
+export POD_NETWORK=10.244.0.0/16
 sudo kubeadm init --pod-network-cidr=$POD_NETWORK --apiserver-advertise-address=$NODE_IP
 ```
 
@@ -696,6 +719,11 @@ Prepare the Manifest file:
 ``` bash
 curl -sSOJ https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 sed -i '/net-conf.json/,/}/{ s#10.244.0.0/16#'"$POD_NETWORK"'#; }' kube-flannel.yml
+```
+
+Check POD_NETWORK change
+``` bash
+cat kube-flannel.yml | grep net-conf -A 3
 ```
 
 Apply the Manifest file:
