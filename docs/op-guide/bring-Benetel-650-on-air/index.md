@@ -142,39 +142,38 @@ PORT    STATE SERVICE
 Nmap done: 256 IP addresses (2 hosts up) scanned in 3.10 seconds
 
 ```
-Now you can ssh to the benetel
+Now you can ssh to the benetel and take a note of the MAC address of eth0
 
 ``` bash
 $ ssh root@10.10.0.100
 
 Last login: Fri Feb  7 16:45:59 2020 from 10.10.0.1
-root@benetelru:~# ls -l
--rwxrwxrwx    1 root     root          1572 Sep 10  2021 DPLL3_1PPS_REGISTER_PATCH.txt
-drwxrwxrwx    2 root     root             0 Feb  7 16:44 adrv9025
--rwxrwxrwx    1 root     root          1444 Feb  7 16:40 dev_struct.dat
--rwxrwxrwx    1 root     root         17370 Sep 10  2021 dpdModelReadback.txt
--rwxrwxrwx    1 root     root          5070 Feb  7 17:00 dpdModelcoefficients.txt
--rwxrwxrwx    1 root     root         24036 Sep 10  2021 eeprog_cp60
--rwxrwxrwx    1 root     root       1825062 Feb  7 15:58 madura_log_file.txt
--rw-------    1 root     root          1230 Feb  7  2020 nohup.out
--rwxr-xr-x    1 root     root            57 Feb  7  2020 nohup_handshake
--rwxrwxrwx    1 root     root           571 Feb  7  2020 progBenetelDuMAC_CATB
--rwxr-xr-x    1 root     root       1121056 Feb  7 16:24 quickRadioControl
--rwxrwxrwx    1 root     root       1151488 Sep 10  2021 radiocontrol_prv-nk-cliupdate
--rwxrwxrwx    1 root     root         22904 Aug 24  2021 registercontrol
--rwxrwxrwx    1 root     root           164 Feb  7 16:35 removeResetRU_CATB
--rwxrwxrwx    1 root     root           163 Feb  7  2020 reportRuStatus
--rwxrwxrwx    1 root     root           162 Feb  7 16:35 resetRU_CATB
--rwxr-xr-x    1 root     root            48 Feb  7 15:57 runSync
--rwxrwxrwx    1 root     root         21848 Sep 10  2021 smuconfig
--rwxrwxrwx    1 root     root         17516 Sep 10  2021 statmon
--rwxrwxrwx    1 root     root         23248 Sep 10  2021 syncmon
--rwxr-xr-x    1 root     root           182 Feb  7 16:41 trialHandshake
-root@benetelru:~# 
-```
-However, as mentioned, that above is the management IP address, whereas for the data interface the Benetel RU has a different MAC on 10.10.0.2 for instance ```70:b3:d5:e1:53:f0 ``` 
+root@benetelru:~# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500  metric 1
+        inet 10.10.0.100  netmask 255.0.0.0  broadcast 10.255.255.255
+        inet6 fe80::72b3:d5ff:fee1:53f0  prefixlen 64  scopeid 0x20<link>
+        ether 70:b3:d5:e1:53:f0  txqueuelen 1000  (Ethernet)
+        RX packets 592176468  bytes 2292234808711 (2.0 TiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 15055976324  bytes 39324296373628 (35.7 TiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device memory 0xff200000-ff2002ff  
 
-now check if the entry for 10.10.0.2 is in the arp table.
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536  metric 1
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 960716  bytes 58604916 (55.8 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 960716  bytes 58604916 (55.8 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+root@benetelru:~# 
+
+```
+However, as you can see above the MAC address in this example is ```70:b3:d5:e1:53:f0 ``` and since for the data interface the Benetel RU has a different IP on 10.10.0.2 we need to add explicitly this rule to the arp table 
+
+So let's now check if the entry for 10.10.0.2 is in the arp table and refers to the correct MAC address:
 
 ``` bash
 $ arp -a | grep 10.10.
@@ -187,76 +186,19 @@ If not, add it using the onboard script:
 ``` bash
 /etc/networkd-dispatcher/routable.d/macs.sh'
 ``` 
-
-test the automatic execution of ```macs.sh``` by running
-```
-journalctl -f
-```
-
-and plugging in the fiber. Each time it is plugged in you will see the the execution of the ```arp``` which has been put in the macs.sh script above.
 	
-### Version Check
-finding out the version and commit hash of the benetel650
-
-commit hash
-```
-root@benetelru:~# registercontrol -v
-Lightweight HPS-to-FPGA Control Program Version : V1.2.0
-
-****BENETEL PRODUCT VERSIONING BLOCK****
-This Build Was Created Locally. Please Use Git Pipeline!
-Project ID NUMBER: 	0
-Git # Number: 		f6366d7adf84933ab2b242a345bd63c07fedb9e5
-Build ID: 		0
-Version Number: 	0.0.1
-Build Date: 		2/12/2021
-Build Time H:M:S: 	18:20:3
-****BENETEL PRODUCT VERSIONING BLOCK END****
-```
-The version which is referred to. This is version 0.3. 
-Depending on the version different configuration commands apply.
-```
-root@benetelru:~# cat /etc/benetel-rootfs-version 
-RAN650-2V0.3
-```
-
-
 ### Configure the physical Benetel Radio End - Release V0.5.x
 
 There are several parameters that can be checked and modified by reading writing the EEPROM, for this we recommend to make use of the original Benetel Software User Guide for RANx50-02 CAT-B O-RUs, in case of doubt ask for clarification to Accelleran Customer Support . Here we just present two of the most used parameters, that will need an adjustment for each deployment.
 
-#### CFR enabled 
-By default the RU ships with CFR enabled. What still needs to be done is set register ```0366``` to value ```0xFFF```. 
-Do this by altering file ```/usr/sbin/radio_setup_ran650_b.sh``` with following line.
-
-``` bash
-    registercontrol -w c0366 -x 0xFFF >> ${LOG_RAD_STAT_FP}
-```
-
-
-
 #### MAC Address of the DU
 
-Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that. If the MAC address of the server port you use to connect to the Benetel B650 Radio End (the NIC Card port where the fiber originates from) is $MAC_DU 11:22:33:44:55:66 then you can program the EEPROM of your B650 unit as follows:
+Accelleran has already configured and tested your Benetel Radio, so you should not worry about this section unless for some reasons you decide to change ports, replace NIC cards and or/ recofngure your server so that the MAC addresses of reference have changed or even the same Benetel Radios get replaced. In all the other cases you don't need to do this.
 
-Here the value of ```$MAC_DU ``` need to be used.
+Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that. If the MAC address of the server port you use to connect to the Benetel B650 Radio End (the NIC Card port where the fiber originates from) is 11:22:33:44:55:66 then you can program the EEPROM of your B650 unit as follows:
 
-Run this on the bare metal host server to generate the script that will run in the RU to set the mac.
-``` bash
-echo "
-registercontrol -w 0xC036B -x 0x88000088
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x$(echo $MAC_DU | cut -c1-2)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x$(echo $MAC_DU | cut -c4-5)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1c:0x01:0x$(echo $MAC_DU | cut -c7-8)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1d:0x01:0x$(echo $MAC_DU | cut -c10-11)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0x$(echo $MAC_DU | cut -c13-14)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0x$(echo $MAC_DU | cut -c16-17)
-registercontrol -w 0xC036B -x 0x88000488
-"
+Something like this will be your script content:
 ```
-
-Something like this will get generated. Copy and Paste this generated script into the RU.
-``` bash
 registercontrol -w 0xC036B -x 0x88000088
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1a:0x01:0x11
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1b:0x01:0x22
@@ -266,13 +208,7 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1e:0x01:0x55
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x1f:0x01:0x66
 registercontrol -w 0xC036B -x 0x88000488
 ```
-Login in the RU
-
-``` bash
-ssh root@$RU_MGMT_IP
-```
-
-and paste the script here.
+Login in the RU and copy and paste this in a shell script into the RU and run it
 
 You can read the EEPROM now and double check what you did:
 
@@ -284,66 +220,40 @@ eeprog_cp60 -q -f -x -16 /dev/i2c-0 0x57 -x -r 26:6
 
 
 #### Set the Frequency of the Radio End 
-Create this script to program the Center Frequency in MHz of your B650 RRU. Remember to determine a valid frequency as indicated previously in the document, taking into account all the constraints and the relationship to the Offset Point A. If the Center Frequency you want to is for instance 3751,680 MHz then you can program the EEPROM of your B650 unit as follows:
+Create this script to program the Center Frequency in MHz of your B650 RRU. Remember to determine a valid frequency and configure the DU as indicated previously in the document, taking into account all the constraints and the relationship to the Offset Point A. If the Center Frequency you want to set is for instance 3751,680 MHz then you can program the EEPROM of your B650 unit as follows:
 
-Run the below script on the bare metal host. It will product a script that needs to run on the RU.
+Create the below shell script on the bare metal host, you can see the last digit of each line is one digit of the frequency yo want to set, it is essential that the frequency is expressed in MHz with 3 digits after the comma ex 3751.680 and passed as argument to the script (both TX and RX Frequencies are set at the same value) so please double check this before programming the EEPROM
 
 ```
-echo"
+#!/bin/bash
+  
+if [ -z "$1" ]; then
+  echo "Please provide an input value as an argument"
+  exit 1
+fi
+
 registercontrol -w 0xC036B -x 0x88000088
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x174:0x01:0x3$(echo $FREQ_CENTER | cut -c1)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x175:0x01:0x3$(echo $FREQ_CENTER | cut -c2)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x176:0x01:0x3$(echo $FREQ_CENTER | cut -c3)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x177:0x01:0x3$(echo $FREQ_CENTER | cut -c4)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x174:0x01:0x3$(echo $1 | cut -c1)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x175:0x01:0x3$(echo $1 | cut -c2)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x176:0x01:0x3$(echo $1 | cut -c3)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x177:0x01:0x3$(echo $1 | cut -c4)
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x178:0x01:0x2E
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x3$(echo $FREQ_CENTER | cut -c6)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x3$(echo $FREQ_CENTER | cut -c7)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x3$(echo $FREQ_CENTER | cut -c8)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x3$(echo $1 | cut -c6)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x3$(echo $1 | cut -c7)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x3$(echo $1 | cut -c8)
 registercontrol -w 0xC036B -x 0x88000488
 
 registercontrol -w 0xC036B -x 0x88000088                     
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17C:0x01:0x3$(echo $FREQ_CENTER | cut -c1)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17D:0x01:0x3$(echo $FREQ_CENTER | cut -c2)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17E:0x01:0x3$(echo $FREQ_CENTER | cut -c3)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17F:0x01:0x3$(echo $FREQ_CENTER | cut -c4)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17C:0x01:0x3$(echo $1 | cut -c1)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17D:0x01:0x3$(echo $1 | cut -c2)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17E:0x01:0x3$(echo $1 | cut -c3)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17F:0x01:0x3$(echo $1 | cut -c4)
 eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x180:0x01:0x2E
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x181:0x01:0x3$(echo $FREQ_CENTER | cut -c6)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x182:0x01:0x3$(echo $FREQ_CENTER | cut -c7)
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x183:0x01:0x3$(echo $FREQ_CENTER | cut -c8)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x181:0x01:0x3$(echo $1 | cut -c6)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x182:0x01:0x3$(echo $1 | cut -c7)
+eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x183:0x01:0x3$(echo $1 | cut -c8)
 registercontrol -w 0xC036B -x 0x88000488
-"
 ```
-
-The script that is produces looks like this.
-```
-echo"
-registercontrol -w 0xC036B -x 0x88000088
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x174:0x01:0x33
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x175:0x01:0x37
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x176:0x01:0x35
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x177:0x01:0x31
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x178:0x01:0x2E
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x179:0x01:0x36
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17A:0x01:0x38
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17B:0x01:0x30
-registercontrol -w 0xC036B -x 0x88000488
-
-registercontrol -w 0xC036B -x 0x88000088
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17C:0x01:0x33
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17D:0x01:0x37
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17E:0x01:0x35
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x17F:0x01:0x31
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x180:0x01:0x2E
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x181:0x01:0x36
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x182:0x01:0x38
-eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x183:0x01:0x30
-registercontrol -w 0xC036B -x 0x88000488
-
-"
-```
-
-Verify the script if it has the ascii codes for the frequency digits.
-
 
 Each byte 0x33,0x37,0x35, ... is the ascii value of a numbers 3751,680, often the calculation stops at two digits after the comma, consider the last digit always as a zero
 
@@ -353,15 +263,8 @@ You may then want to double check what you did by reading the EEPROM:
 eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 372:8
 ```
  Copy/Paste this script and run in in the RU.
-ssh to the RU and pasted it.
 
-``` bash
-ssh root@$RU_MGMT_IP
-```
-
-Once again, this is the 
-
-**CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above**
+Once again, this is the **CENTER FREQUENCY IN MHz that we calculated in the previous sections, and has to go hand in hand with the point A Frequency as discussed above**
 
 Example for frequency 3751.68MHz (ARFCN=650112) you have set make sure to edit/check the pointA frequency ARFCN value back in the DU config json file in the server (in this example PointA_ARFCN=648840)
 
@@ -370,12 +273,12 @@ Example for frequency 3751.68MHz (ARFCN=650112) you have set make sure to edit/c
 When the RU comes online ( 5 minutes ) run the following to see what the new frequency shows.
 
 ``` bash
-ssh root$RU_MGMT_IP
+ssh root@10.10.0.100
 radiocontrol -o G a
 ```
 
 #### Set attenuation level
-This operation allows to temporary modify the attenuation of the transmitting channels of your B650 unit. Temporarily means that at the next reboot the Cell will default to the originally calibrated values, by default the transmission power is set to 25 dBm hence the attenuation is 15000 mdB (offset to the max TX Power). 
+This operation allows to temporarily modify the attenuation of the transmitting channels of your B650 unit. Temporarily means that at the next reboot the Cell will default to the originally calibrated values, by default the transmission power is set to 35 dBm hence the attenuation is 15000 mdB (offset to the max TX Power). 
 
 To adjust this power for the transmitter the user must edit the attenuation setting:
 
@@ -416,13 +319,13 @@ RX1 Power Level (dBFS)                : -60.750000
 RX2 Power Level (dBFS)                : -60.750000
 RX3 Power Level (dBFS)                : -60.750000
 RX4 Power Level (dBFS)                : -60.750000
-ORX1 Peak/Mean Power Level (dBFS)     : -10.839418/-22.709361
+ORX1 Peak/Mean Power Level (dBFS)     : -4.839418/-15.709361
 ORX2 Peak/Mean Power Level (dBFS)     : -inf/-inf
-ORX3 Peak/Mean Power Level (dBFS)     : -10.748048/-21.656226
+ORX3 Peak/Mean Power Level (dBFS)     : -5.248048/-15.656226
 ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
 
 ```
-We can then conclude that our Antenna has been originally calibrated to have +1100 mdB on channel 1 and +800 mdB to obtain exactly 25 dBm Tx power on those chanels, so that we will then offset our 5000 dBm of extra attenuation and therefore the new attenuation levels are Tx1=16100+5000=21100 mdB and Tx2=15800+5000=20800mdB
+We can then conclude that our Antenna has been originally calibrated to have 16100 mdB of attenuation on channel 1 and 15800 mdB on channel 3 to obtain exactly 35 dBm Tx power on those chanels, so that we will then offset our 5000 dBm of extra attenuation and therefore the new attenuation levels are Tx1=16100+5000=21100 mdB and Tx2=15800+5000=20800mdB
 
 2. set attenuation for antenna 1
 ```
@@ -432,7 +335,7 @@ We can then conclude that our Antenna has been originally calibrated to have +11
 ```
 /usr/bin/radiocontrol -o A 20800 4
 ```
-**yes the 4 at the end seems to be correct**
+**yes the 4 at the end is correct**
 **Bear in mind these settings will stay as long as you don't reboot the Radio and default back to the original calibration values once you reboot the unit**
 
 4. assess the new status of your radio:
@@ -462,70 +365,26 @@ RX1 Power Level (dBFS)                : -60.750000
 RX2 Power Level (dBFS)                : -60.750000
 RX3 Power Level (dBFS)                : -60.750000
 RX4 Power Level (dBFS)                : -60.750000
-ORX1 Peak/Mean Power Level (dBFS)     : -10.839418/-22.709361
+ORX1 Peak/Mean Power Level (dBFS)     : -10.439418/-21.609361
 ORX2 Peak/Mean Power Level (dBFS)     : -inf/-inf
-ORX3 Peak/Mean Power Level (dBFS)     : -10.748048/-21.656226
+ORX3 Peak/Mean Power Level (dBFS)     : -10.048048/-21.246226
 ORX4 Peak/Mean Power Level (dBFS)     : -inf/-inf
 
 ```
 
-### Configure the physical Benetel Radio End - Older then Release V0.7.0
-
-#### auto reset dpd
-
-For releases older then V0.7.0 the dpd has to get reset every 30 minutes. This is not yet built inside and has to get created manually. These 3 steps need to be done.
-
-* create these 2 files by copy/past the below
-``` bash
-cat <<EOF > /lib/systemd/system/dpd_reset.service
-[Unit]
-Description=Start DPD reset every 30 mins
-After=eth0ipset.service
-
-[Service]
-Type=forking
-ExecStart=/bin/sh /usr/sbin/dpd_reset.sh 
-
-[Install]
-WantedBy=multi-user.target
-
-EOF
-
-cat <<EOF > /usr/sbin/dpd_reset.sh
-#! /bin/sh
-while true 
-do 
-    sleep 1800
-    date '+%Y-%m-%d %H:%M:%S ##########'
-     cd /home/root; radiocontrol -o D r 15 1
-done >> /tmp/dpd_reset_status &
-EOF
-chmod 777 /usr/sbin/dpd_reset.sh
-
-
-```
-
-* enable the service that just has been defined.
-```
-systemctl enable dpd_reset.service
-```
-* and start the service
-```
-systemctl start dpd_reset.service
-```
 
 
 
 
 ## Starting RU Benetel 650 - manual way
 
-### prepare cell
+### Prepare cell
 
 
-When the CELL is OFF this traffic can be in this state shown below.
+Let us assume the server RU interface 10.10.0.1 is enp1s0f0: even if the CELL is OFF after a previous run the traffic can be in the wrong state shown below 
 
 ```
-ifstat -i $SERVER_RU_INT
+ifstat -i enp1s0f0
      enp1s0f0     
  KB/s in  KB/s out
 71308.34  0.0
@@ -541,24 +400,21 @@ $ ssh root@10.10.0.100 handshake
 After execution you will have 
 
 ```
-ifstat -i $SERVER_RU_INT
+ifstat -i enp1s0f0
      enp1s0f0     
  KB/s in  KB/s out
  0.0      0.0
  0.0      0.0
 ```
 
-In this traffic state the dell is ready to start.
+Now the Cell is ready to start.
 
 ### start cell
 Bring the components up with docker compose
 
 ``` bash
-cd ~/install-$DU_VERSION/  
 docker-compose up -f docker-compose-B650.yml
 ```
-
-If all goes well this will produce output similar to:
 
 ```
 Starting phluido_l1 ... done
@@ -611,7 +467,7 @@ phluido_l1  |
 Perform these steps to get a running active cell.
 * When the RU is still sending traffic use  ```ssh root@10.10.0.100 handshake``` to stop this traffic. 
 * Start L1 and DU (run docker-compose up inside the install directory ).
-* Use wireshark to follow the CPlane traffic, at this point following sequence:
+* Use wireshark to follow the CPlane traffic, you will see this sequence of events:
 ```
      DU                                        CU
       |  F1SetupRequest--->                     |
@@ -636,237 +492,11 @@ Perform these steps to get a running active cell.
 
 ## Starting RU Benetel 650 - cell wrapper way
 
-### Install cell wrapper
-#### On the HOST
-To make the CU VM have access to the DU host ( bare metal server ) some privileges need to be given.
+Just reboot the RRU, as a default deployment the Cell Wrapper is runinng in the background already and will automatically perform the start sequence of the DU and L1 once the Benetel Radio has completed the bring up
 
-``` bash
-printf "$USER ALL=(ALL) NOPASSWD:ALL\n" | sudo tee /etc/sudoers.d/$USER
-sudo usermod -aG sudo $USER
-```
+## verify good operation of the B650 (all releases) 
 
-#### On the CU VM
-Go to the VM. In the VM a cell wrapper will get installed that controls the DU and RU ( cell ).
-Going inside the CU VM.
-``` 
-ssh $USER@$NODE_IP 
-```
-Add some prerequisites if it is necessary
-
-``` bash
-sudo apt update 
-sudo apt install zip
-```
-
-Create a public/private key pair and add it to kubernetes
-
-``` bash
-ssh-keygen -t ed25519 -f id_ed25519 -C cell-wrapper
-```
-``` bash
-kubectl create secret generic cw-private --from-file=private=id_ed25519
-```
-``` bash
-kubectl create secret generic cw-public --from-file=public=id_ed25519.pub
-```
-
-and copy the public key to the bare metal server ( DU host )
-```
-ssh-copy-id -i id_ed25519.pub ad@$SERVER_IP
-```
-
-
-Create a .yaml file containing the configuration. Also fill in the values you have prepared on the first page of the install guide.
-
-It will install the cell-wrapper the will take care of the cell's health. 
-In this configuration the cell-wrapper will reboot the RU every night at 2:00 AM. ```<reboot>true</reboot>``` 
-
-
-
-``` xml
-mkdir -p ~/install_$INSTALL_VERSION/ 
-cd !$
-tee cw.yaml <<EOF 
-global:
-
-  instanceId: "cw"
-  natsUrl: "$NODE_IP"
-  natsPort: "31100"
-
-  redisHostname: "$NODE_IP"
-  redisPort: "32220"
-
-redis:
-  backup:
-    enabled: true
-    deleteAfterDay: 7
-  jobs:
-    deleteExistingData: true
-
-nats:
-  enabled: false
-
-#jobs:
-#  - name: reboot-ru-1
-#    schedule: "0 2 * * *"
-#    rpc: |
-#      <cell-wrapper xmlns="http://accelleran.com/ns/yang/accelleran-granny" #xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc:operation="replace">
-#        <radio-unit xc:operation="replace">
-#          <name>vi su-1</name>
-#          <reboot>true</reboot>
-#        </radio-unit>
-#      </cell-wrapper>
-
-netconf:
-  netconfService:
-    nodePort: 31832
-
-  configOnBoot:
-    enabled: true
-    deleteExistingConfig: true
-    host: 'localhost'
-    config: |
-            <cell-wrapper xmlns="http://accelleran.com/ns/yang/accelleran-granny" xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc:operation="create">
-                <admin-state>unlocked</admin-state>
-
-                <ssh-key-pair xc:operation="create">
-                    <public-key>/home/accelleran/5G/ssh/public</public-key>
-                    <private-key>/home/accelleran/5G/ssh/private</private-key>
-                </ssh-key-pair>
-
-                <auto-repair xc:operation="create">
-                    <enable>true</enable>
-
-                    <health-check xc:operation="create">
-                        <rate xc:operation="create">
-                            <seconds>5</seconds>
-                            <milli-seconds>0</milli-seconds>
-                        </rate>
-                        <unacknowledged-counter-threshold>3</unacknowledged-counter-threshold>
-                    </health-check>
-
-                    <container-not-running-counter-threshold>2</container-not-running-counter-threshold>
-                    <l1-not-listening-to-ru-counter-threshold>6</l1-not-listening-to-ru-counter-threshold>
-                    <l1-rru-traffic-counter-threshold>6</l1-rru-traffic-counter-threshold>
-                </auto-repair>
-
-                <distributed-unit xc:operation="create">
-                    <name>du-1</name>
-                    <type>effnet</type>
-
-                    <connection-details xc:operation="create">
-                        <host>$SERVER_IP</host>
-                        <port>22</port>
-                        <username>$USER</username>
-                    </connection-details>
-
-                    <ssh-timeout>30</ssh-timeout>
-
-                    <config xc:operation="create">
-                        <cgi-plmn-id>$PLMN_ID</cgi-plmn-id>
-                        <cgi-cell-id>000000000000000000000000000000000001</cgi-cell-id>
-                        <pci>$PCI_ID</pci>
-                        <tac>000001</tac>
-                        <arfcn>$ARFCN_POINT_A</arfcn>
-                        <frequency-band>$FREQ_BAND</frequency-band>
-                        <plmns-id>$PLMN_ID</plmns-id>
-                        <plmns-sst>1</plmns-sst>
-
-                        <l1-license-key>$L1_PHLUIDO_KEY</l1-license-key>
-                        <l1-bbu-addr>10.10.0.1</l1-bbu-addr>
-                        <l1-max-pusch-mod-order>6</l1-max-pusch-mod-order>
-                        <l1-max-num-pdsch-layers>2</l1-max-num-pdsch-layers>
-                        <l1-max-num-pusch-layers>1</l1-max-num-pusch-layers>
-                        <l1-num-workers>8</l1-num-workers>
-                        <l1-target-recv-delay-us>2500</l1-target-recv-delay-us>
-                        <l1-pucch-format0-threshold>0.01</l1-pucch-format0-threshold>
-                        <l1-timing-offset-threshold-nsec>10000</l1-timing-offset-threshold-nsec>
-                    </config>
-
-                    <enable-auto-repair>true</enable-auto-repair>
-
-                    <working-directory>/run</working-directory>
-                    <storage-directory>/var/log</storage-directory>
-                    <pcscd-socket>/run/pcscd/pcscd.comm</pcscd-socket>
-
-                    <enable-log-saving>false</enable-log-saving>
-                    <max-storage-disk-usage>80%</max-storage-disk-usage>
-
-                    <enable-log-rotation>false</enable-log-rotation>
-                    <log-rotation-pattern>*.0</log-rotation-pattern>
-                    <log-rotation-count>1</log-rotation-count>
-
-                    <centralized-unit-host>$F1_CU_IP</centralized-unit-host>
-                    <l1-listening-port>44000</l1-listening-port>
-
-                    <traffic-threshold xc:operation="create">
-                        <uplink>10000</uplink>
-                        <downlink>10000</downlink>
-                    </traffic-threshold>
-
-                    <du-image-tag>$DU_VERSION</du-image-tag>
-                    <l1-image-tag>$L1_VERSION</l1-image-tag>
-
-                    <du-extra-args>--cpuset-cpus=$CORE_SET_DU</du-extra-args>
-                    <l1-extra-args>--cpuset-cpus=$CORE_SET_DU</l1-extra-args>
-
-
-                    <du-base-config-file>/home/accelleran/5G/config/duEffnetConfig.json</du-base-config-file>
-
-                    <radio-unit xc:operation="create">ru-1</radio-unit>
-                </distributed-unit>
-
-                <radio-unit xc:operation="create">
-                    <name>ru-1</name>
-                    <type>benetel650</type>
-
-                    <connection-details xc:operation="create">
-                        <host>10.10.0.100</host>
-                        <port>22</port>
-                        <username>root</username>
-                    </connection-details>
-
-                    <enable-ssh>false</enable-ssh>
-                    <ssh-timeout>30</ssh-timeout>
-                </radio-unit>
-            </cell-wrapper>
-
-EOF
-```
-
-> NOTE : uncomment the ```jobs:``` part if the RU should restart every night at 2am.
-
-Install using helm.
-```
-helm repo update
-helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
-```
-
-Now you can see the kubernetes pods being created. Follow there progress with.
-
-``` bash
-watch -d kubectl get pod
-
-```
-
-
-### scripts to steer cell and cell-wrapper
-Following script are delivered. They are located in the ```install_$CU_VERSION/accelleran/bin``` directory.
-The $PATH variable is set accordingly.
-
-  * ```cw-verify.sh```         - verifies if the cw.yaml file is parsed correctly after installation
-  * ```cw-enable.sh```         - will enable the cell-wrapper.
-  * ```cell-start.sh```       
-  * ```cell-stop.sh```
-  * ```cell-restart.sh```      
-  * ```cw-disable.sh```        - cell-wrapper will not restar the cell when it is defect.
-  * ```cw-debug-on.sh```       - turns on more logging
-  * ```cw-debug-off.sh```      - turns on normal logging
-
-The script do what there name says
-
-
-## verify good operation of the B650 (all releases)
+These operations are performed onboard the B650 Radio, just login to it in advance
 
 #### GPS
 See if GPS is locked
@@ -922,7 +552,7 @@ root@benetelru:~# cat /tmp/radio_status
  ```
 
 ### RU Status Report
-some important registers must be checked to determine if the boot sequence has completed correctly:
+The below parameters require the cell to be on ait to be checked to determine if the boot sequence has completed correctly:
 
 ```bash
 root@benetelru:~# reportRuStatus 
@@ -967,7 +597,7 @@ RU Status Register description:
 
 Handshake messages are sent by the RU every second. When phluido L1 is starting or running it will Listen on port 44000 and reply to these messages.
 
-Login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):
+If you don't see the Cell on air in the dashboard, login to the server and check if the handshakes are happening: these are short messages sent periodically from the B650 to the server DU MAC address that was set as discussed and can be seen with a simple tcp dump command on the fiber interface of your server (enp45s0f0 for this example):
 
 ```
 tcpdump -i enp45s0f0 -c 5 port 44000 -en
@@ -977,7 +607,6 @@ tcpdump -i enp45s0f0 -c 5 port 44000 -en
 The above shows that 10.10.0.2 (U plane default IP address of the B650 Cell)  is sending a Handshake message from the MAC address 02:00:5e:01:01:01 (default MAC address of the B650 Uplane interface) to 10.10.0.1 (Server Fiber interface IP address) on MAC 6c:b3:11:08:a4:e0 (the MAC address of that fiber interface)
 
 Such initial message may repeat a certain number of times, this is normal.
-
 
 
 ### Trace traffic between RU and L1.
@@ -1022,11 +651,6 @@ $ ifstat -i enp45s0f0
 ```
 
 ## Troubleshooting
-### DEBUG Configuration
-  * To enable the L1 and DU logs to get saved after a cellwrapper intervention, install the cellwrapper with these settings.
-```
-<enable-log-saving>true</enable-log-saving>
-```
 
 ### Fiber Port not showing up
 https://www.serveradminz.com/blog/unsupported-sfp-linux/
