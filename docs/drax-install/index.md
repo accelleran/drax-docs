@@ -462,13 +462,19 @@ You should see something like this. You can ignore the status of Jaeger in this 
 > ```
 
 ### Install dRAX 5G Components
-> NOTE : when you can't reach the VM from the server the browser is running you can add some iptables in the DU server.
+> NOTE : when you can't reach the VM from the server the browser is running you can add some iptables in the DU server ( the bare metal ).
 > ``` bash
 > sudo iptables -A PREROUTING -t nat -p tcp --dport 31315 -j DNAT --to $NODE_IP:31315
 > sudo iptables -A FORWARD -p tcp -d $NODE_IP --dport 31315 -j ACCEPT
 > ```
 > use URL ```http://<external-ip-du-server>:31315/``` to access the drax dashboard
->
+> to make these ip rules persistent perform
+> ``` bash
+> sudo apt install iptables-persistent
+> chown $USER /etc/iptables/rules.v4
+> chmod 775 /etc/iptables/rules.v4
+> sudo iptables-save > /etc/iptables/rules.v4
+> ```
 
 Accelleran's 5G Components are managed and installed via the Dashboard.
 From the dRAX Dashboard sidebar, select **New deployment** and then click **5G CU deployment**:
