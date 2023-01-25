@@ -2003,7 +2003,7 @@ In this configuration the cell-wrapper will reboot the RU every night at 2:00 AM
 
 
 ``` xml
-mkdir -p ~/install_$INSTALL_VERSION/ 
+mkdir -p ~/install_$CU_VERSION/ 
 cd !$
 tee cw.yaml <<EOF 
 global:
