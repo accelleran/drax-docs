@@ -2008,7 +2008,7 @@ cd !$
 tee cw0.yaml <<EOF 
 global:
 
-  instanceId: "cw"
+  instanceId: "cw0"
   natsUrl: "$NODE_IP"
   natsPort: "31100"
 
@@ -2173,14 +2173,8 @@ watch -d kubectl get pod
 Following script are delivered. They are located in the ```install_$CU_VERSION/accelleran/bin``` directory.
 The $PATH variable is set accordingly.
 
-  * ```cw-verify.sh```         - verifies if the cw0.yaml file is parsed correctly after installation
-  * ```cw-enable.sh```         - will enable the cell-wrapper.
-  * ```cell-start.sh```       
-  * ```cell-stop.sh```
-  * ```cell-restart.sh```      
-  * ```cw-disable.sh```        - cell-wrapper will not restar the cell when it is defect.
-  * ```cw-debug-on.sh```       - turns on more logging
-  * ```cw-debug-off.sh```      - turns on normal logging
+  * ```cw.sh 0 cwdisable```         - disables the cell wrapper. The cell wrapper will not interfere with your work.
+  * ```cw.sh ```                    - will give you all the options possible
 
 The script do what there name says
 
