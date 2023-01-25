@@ -2026,7 +2026,7 @@ nats:
   enabled: false
 
 #jobs:
-#  - name: reboot-ru-1
+#  - name: reboot-ru-0
 #    schedule: "0 2 * * *"
 #    rpc: |
 #      <cell-wrapper xmlns="http://accelleran.com/ns/yang/accelleran-granny" #xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc:operation="replace">
@@ -2038,7 +2038,7 @@ nats:
 
 netconf:
   netconfService:
-    nodePort: 31832
+    nodePort: 31830      # adapted for multiple cells in the future.
 
   configOnBoot:
     enabled: true
@@ -2070,7 +2070,7 @@ netconf:
                 </auto-repair>
 
                 <distributed-unit xc:operation="create">
-                    <name>du-1</name>
+                    <name>du-0</name>
                     <type>effnet</type>
 
                     <connection-details xc:operation="create">
@@ -2132,11 +2132,11 @@ netconf:
 
                     <du-base-config-file>/home/accelleran/5G/config/duEffnetConfig.json</du-base-config-file>
 
-                    <radio-unit xc:operation="create">ru-1</radio-unit>
+                    <radio-unit xc:operation="create">ru-0</radio-unit>
                 </distributed-unit>
 
                 <radio-unit xc:operation="create">
-                    <name>ru-1</name>
+                    <name>ru-0</name>
                     <type>benetel650</type>
 
                     <connection-details xc:operation="create">
