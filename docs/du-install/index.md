@@ -1991,7 +1991,7 @@ kubectl create secret generic cw-public --from-file=public=id_ed25519.pub
 
 and copy the public key to the bare metal server ( DU host )
 ```
-ssh-copy-id -i id_ed25519.pub ad@$SERVER_IP
+ssh-copy-id -i id_ed25519.pub $USER@$SERVER_IP
 ```
 
 
