@@ -2158,7 +2158,7 @@ EOF
 Install using helm.
 ```
 helm repo update
-helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
+helm install cw acc-helm/cw-cell-wrapper --values cw0.yaml
 ```
 
 Now you can see the kubernetes pods being created. Follow there progress with.
@@ -2173,7 +2173,7 @@ watch -d kubectl get pod
 Following script are delivered. They are located in the ```install_$CU_VERSION/accelleran/bin``` directory.
 The $PATH variable is set accordingly.
 
-  * ```cw-verify.sh```         - verifies if the cw.yaml file is parsed correctly after installation
+  * ```cw-verify.sh```         - verifies if the cw0.yaml file is parsed correctly after installation
   * ```cw-enable.sh```         - will enable the cell-wrapper.
   * ```cell-start.sh```       
   * ```cell-stop.sh```
