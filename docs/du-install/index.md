@@ -2158,7 +2158,7 @@ EOF
 Install using helm.
 ```
 helm repo update
-helm install cw acc-helm/cw-cell-wrapper --values cw0.yaml
+helm install cw0 acc-helm/cw-cell-wrapper --values cw0.yaml
 ```
 
 Now you can see the kubernetes pods being created. Follow there progress with.
