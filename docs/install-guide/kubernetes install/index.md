@@ -108,14 +108,14 @@ secret-tool store --label="Unlock password for: id_rsa" unique "ssh-store:/home/
 
 
 <p align="center">
-  <img width="800" height="300" src="vm-create.png">
+  <img width="600" height="400" src="vm-create.png">
 </p>
 
 The steps are very intuitive only on the last Step 5 make sure you create a bridge on one virtio virtual interface as shown below:
 
 
 <p align="center">
-  <img width="800" height="300" src="vm-step5.png">
+  <img width="400" height="400" src="vm-step5.png">
 </p>
 
 copy the install directory from the HOST to this newly created VM
