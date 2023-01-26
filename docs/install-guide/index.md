@@ -1,49 +1,35 @@
 
-# Accelleran Install Guide 
+# Accelleran Internal Install Guide 
 
 ## Introduction
 
-This guide describes the installation of the Accelleran dRAX base, 4G and 5G components, the Effnet DU, Phluido L1 and optionally a core network on a single server machine, however separating the RIC/CU (on a VM) and the DU/L1 (on the server) to increase stability and performances.
-
-This first page is the most important page of the install. This first pages holds all the elements needed to do the install in a minimum of time.  
-
-## Duration
-This install can be done in  1 day up to 1 week depending on the experience of the engineer. This is an estimation done from experience. Why this is the case is not explained here. However a few points listed here without any more details.
-
-* Slight differences in hardware/firmware of each component.
-* The network the platform resides in.
-* The experience and view points of the engineer itself.
-* Network stability in which the platform resides.
-* Access to the platform.
-* ...
-  
-Because the install is done manually by an engineer it might be necessary that this engineer needs some support from accelleran.
-
+This guide describes the installation procedure for RIC 4G and 5G components, the DU, and L1 on a single server machine, however separating the RIC/CU (on a VM) and the DU/L1 (on the server) to increase stability and performances.
+This document is for internal use and takes several steps as  granted for an Accelleran engineer and shall not be shared with Customers unless a different agreement is taken case by case. These first pages holds all the elements needed to do the install in a minimum of time.  
 
 ## Releases
-This document is released together with the system release 2022.3.0. 
+This document is released together with the system release 2022.3.1. 
 This system release contains 
 
 | component    | version                     |
 |--------------|-----------------------------|
-| RIC          | 6.0.0                       |
-| CU CHART     | 5.0.0                       |
-| CU APP       | R3.3.0_hoegaarden           |
-| DU           | 2022-08-26-q2-release-0.4   |
-| L1           | 8.4.2                       |
-| BNTL650      | 0.5.2                       |
+| RIC          | 6.1.0                       |
+| CU CHART     | 5.1.0                       |
+| CU APP       | R3.3.2_hoegaarden           |
+| DU           | 2022-08-26-q3-release-0.2   |
+| L1           | 8.7.4                       |
+| BNTL650      | 0.5.3                       |
 | BNTL550      | 0.6.0                       |
-| cell wrapper | 1.0.0                       |
+| cell wrapper | 1.1.0                       |
 
 During the installation following variables will be used. These are the correct values they are set to for this release.
 
 ``` bash
-export INSTALL_VERSION=2022.3.0
-export RIC_VERSION=6.0.0
-export CU_VERSION=R3.3.0_hoegaarden             # build tag
-export L1_VERSION=v8.7.1
-export DU_VERSION=2022-08-26-q2-release-0.4
-export RU_VERSION=RAN650-2V0.5.2                # shipped with the UNIT.
+export INSTALL_VERSION=2022.3.1
+export RIC_VERSION=6.1.0
+export CU_VERSION=R3.3.2_hoegaarden             # build tag
+export L1_VERSION=v8.7.4
+export DU_VERSION=2022-08-26-q3-release-0.2
+export RU_VERSION=RAN650-2V0.5.3                # shipped with the UNIT.
 ```
 
 ## Prerequisites / Preperations
@@ -60,27 +46,19 @@ This installation guide assumes that that the following are to be taken as prere
 		* 8 assigned cores
 		* 32 GB assigned RAM
 		* 200 GB assigned Disk space  
-           > NOTE: the VM shall be created using KVM/Virsh, this allows to have easy access to its libvirt XML configuration when needed, ex. to perform the CPU pinning. The User can alternately choose other VM management tools, however without further support from Accelleran. 
+           >
+    The VM MUST be created using KVM/Virsh, this allows to have easy access to its libvirt XML configuration when needed, ex. to perform the CPU pinning
 
 * Licenses:
 	* A dRAX license file: license.crt
-	* A Phluido license key (see the chapter on [installing the DU](/drax-docs/du-install/) on how to get one)
-	* Effnet YubiKey 
-	* Effnet yubikey license activation file: effnet-license-activation-2022-07-01.zip
+  * If your setup uses the Phluido/Effnet Stack: 
+	    Phluido license key (see the chapter on [installing the DU](/drax-docs/du-install/) on how to get one)
+      Effnet YubiKey 
+      Effnet yubikey license activation file: effnet-license-activation-yyyy-mm-dd.zip
 	* an active github account that has been enabled to access the necessary software images on accelleran github repository
-	* 4G Only:  A server certificate: server.crt (see the chapter on [installing dRax](/drax-docs/drax-install/) on how to get one)
-	* 4G Only: A CA certificate: ca.crt (see the chapter on [installing dRax](/drax-docs/drax-install/) on how to get one)
 	
-* Software:
-	* Ubuntu Server 20.04 OS both on the VM and on the Server ( ubuntu-20.04.4-live-server-amd64.iso )
-	* Effnet DU: accelleran-du-phluido-%Y-%m-%d-pre-release.zip
-	* Phluido L1: phluido_docker_xxxxx.tar
-	* effnet-license-activation-%Y-%m-%d.zip
-	* sysTest executable 
-
 * Linux Configuration:
     * Linux bridge br0
-    * virsh installed
     
 * 5G configuration :
 	* plmn_identity [ eg 235 88 ]
@@ -97,10 +75,6 @@ This installation guide assumes that that the following are to be taken as prere
 ### Know the ip addresses, interfaces, user account
 Make sure Ubuntu (Server) 20.04 is installed as said both on the physical server and on the virtual machine and that both have access to the internet.
 They both must have a static IP address on a fixed port, in the same subnet
-This guide will refer to the VM static IP address as `$NODE_IP` and the interface it belongs to as `$NODE_INT`, and to  `$SERVER_IP` for the server static IP address.
-Furthermore this guide will refer to the IP address of the gateway as `$GATEWAY_IP`, the IP address of the core (see the section on [Core Installation](/drax-docs/core-install/)) as `$CORE_IP` and the IP address of the CU (see the section on [DU Installation](/drax-docs/du-install/)) as `$CU_IP`.
-In order to be able to execute the commands in this guide as-is you should add these variables to the environment as soon as they are known.
-Alternatively you can edit the configurations to set the correct IP addresses. 
 
 > NOTE : All IP's need to be in the same subnet. The ip's and values used in the variables depicted below are example values.
 
@@ -149,8 +123,13 @@ export DOCKER_PASS=
 export DOCKER_EMAIL=
 ```
 
-In order to perform many of the commands in this installation manual you need root privileges.
-Whenever a command has to be executed with root privileges it will be prefixed with `sudo`.
+In order to perform many of the commands in this installation manual you need root privileges. Make sure the user on can do sudo without password (if tom is the user name):
+
+``` bash
+sudo visudo
+tom ALL=(ALL) NOPASSWD:ALL
+``` 
+It is recommended to do this both on the server and the VM
 
 ### Know the 5G configuration 
 
@@ -210,47 +189,11 @@ export CORE_AMOUNT_CU=10
 ```
 
 ## Prepare install directory and scripts
-We'll create an install directory in which we'll be working through this whole install procedure. 
-
-``` bash
-cd ; mkdir -p ~/install/ ; cd $_
-```
-
-### Get scripts
-
-``` bash
-cd ~/install
-```
+ Create an install directory in which we'll be working through this whole install procedure. 
 
 ``` bash
 git clone --branch $INSTALL_VERSION https://github.com/accelleran/drax-install
 ```
-
-### Fill in variable values.
-
-All the variables mentioned above can be found in the file 
-``` bash
-vi ~/install/drax-install/install-vars.sh
-```
-Update this file with the correct values. 
-They values have been prepared in the section above.
-
-### Making variables boot safe
-After having done that run the install.sh script to make the values available in your shell.
-They values are boot safe so you only have to run them once.
-
-``` bash
-. ~/install/drax-install/install.sh
-```
-
-### Verify the variables
-log out and in again in this server and try
-``` bash
-env | grep VERSION
-```
-The variables will show containing the VERSION info.
-
-
 ## network components overview
 Here a simplified diagram of all network components and the related ip addresses. 
 Before you continue installing fill in this simplified drawing with the ip address that apply for the configuration.
