@@ -1,4 +1,4 @@
-#5G RIC Installation
+# RIC and CU Installation
 
 ## Introduction
 
@@ -23,7 +23,6 @@ Also, as mentioned in the [Overview](../index.md) section of this document, it i
 2. Docker (recommended version 19.03, check the latest compatible version with Kubernetes)
 3. Permanently disabled swap
 4. Kubernetes 1.13 or later till 1.20 (1.21 is currently unsupported)
-5. Helm, version 3
 
 ### Other Requirements
 
@@ -74,14 +73,13 @@ Please determine the following parameters for your setup - these will be used du
 
 #### Prepare License and Certificate
 
-In order to run Accelleran's dRAX software, a License file is required - please contact Accelleran's customer support to request the appropriate license.
-This license file will be named **license.crt** and will be used in a later step.
+In order to run Accelleran's dRAX software, a License file is required - this license file will be named **license.crt** and will be used in a later step.
 
 4G Only : If you intend to deploy the 4G aspects of dRAX (together with Accelleran's E1000 4G DUs), you will also need to prepare a certificate to ensure secure communication between the various components.
 Please refer to [the Appendix on creating certificates](#appendix-drax-provisioner-keys-and-certificates-generation).
 This will also need to be validated and signed by Accelleran's customer support team, so please do this in advance of attempting the installation.
 
-#### Namespaces
+#### Namespaces (Optional)
 
 The definition of namespaces is optional and should be avoided if there is no specific need to define them in order to separate the pods and their visibility, as it brings in a certain complexity in the installation, the creation of secrets, keys, and the execution of kubernetes commands that is worth being considered upfront. At the preference of the customer, additional Kubernetes namespaces may be used for the various components which will be installed during this process.
 Kubernetes namespaces should be all lowercase letters and can include the "-" sign.
@@ -98,7 +96,6 @@ The Default Namespace column sometimes contains another Namespace placeholder, e
 If neither $NS_DRAX nor $NS_4G_CU is specified, the CU will run in the "default" namespace.
 
 ### Install dRAX for the first time 
-When you are not dealing with a new installation you can skip this chapter and move to chapter "Updating existing installation" 
 
 #### install helm
 if helm is not yet installed install it this way
@@ -142,7 +139,7 @@ export NS_DRAX=$NS_DRAX
 kubectl create namespace $NS_DRAX
 ```
 
-This needs to be repeated for each namespace that you wish to use for dRAX, either for the RIC, 4G or 5G components, as per the table in [the Namespaces section](#namespaces).
+This needs to be repeated for each namespace that you wish to use for dRAX, either for the RIC, 4G or 5G components
 
 !!! warning
     If you choose to use specific namespaces, special care must be used throughout the remaining steps when executing the kubectl commands.
@@ -157,7 +154,7 @@ kubectl get pods -n $NS_DRAX
 If you have previously obtained (from the Customer Support) access to Accelleran Dockerhub repository, you can now proceed to create a secret named `accelleran-secret` with your DockerHub credentials, specifically using the kubectl command (do not forget the `-n <namespace>` option if you selected different namespaces previously):
 
 ``` bash
-kubectl create secret docker-registry accelleran-secret --docker-server=docker.io --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASS --docker-email=$DOCKER_EMAIL
+kubectl create secret docker-registry accelleran-secret --docker-server=docker.io --docker-username=DOCKER_USER --docker-password=DOCKER_PASS --docker-email=DOCKER_EMAIL
 ```
 
 This needs to be repeated for each namespace that you created previously, specifying each namespace one time using the -n flag.
@@ -166,7 +163,6 @@ This needs to be repeated for each namespace that you created previously, specif
 
 Create a secret named `accelleran-license` using the previously provided License file.
 The name of this secret is critical - this name is used in our Helm charts to access the License file.
-Please refer to [the previous section on the License file](#prepare-license-and-certificate) if you don't yet have one.
 
 ``` bash
 kubectl create secret generic accelleran-license --from-file=license.crt
@@ -177,7 +173,7 @@ kubectl create secret generic accelleran-license --from-file=license.crt
 > kubectl create secret generic accelleran-license --from-file=license.crt=myfile
 > ```
 
-This needs to be repeated for each namespace that you created previously, specifying each namespace one time using the -n flag.
+**This needs to be repeated for each namespace that you created previously, specifying each namespace one time using the -n flag**
 
 ### Install dRAX RIC and Dashboard
 
@@ -185,22 +181,22 @@ This needs to be repeated for each namespace that you created previously, specif
 
 We first have to prepare the Helm values configuration file for the dRAX RIC and Dashboard Helm chart.
 To do so, we first retrieve the default values file from the Helm chart repository and save it to a file named `ric-values.yaml`.
-We do this with the following command:
+the  this with the following command:
 
 ``` bash
-curl https://raw.githubusercontent.com/accelleran/helm-charts/${RIC_VERSION}/ric/simple-values/simple-values.yaml  > ric-values.yaml
+curl https://raw.githubusercontent.com/accelleran/helm-charts/6.1.0/ric/simple-values/simple-values.yaml  > ric-values.yaml
 ```
 
 Next, edit the newly created `ric-values.yaml` file.
 Find the following fields and edit them according to your setup.
 We use parameters from the [Plan your deployment](#plan-parameters) section, such as 
-* `$NODE_IP`, to show what should be filled in
+* `NODE_IP`, to show what should be filled in
 
 In the example below we disabled 4G assuming we don't install the 4G component.
 
 ``` yaml
 global:
-    kubeIp: $NODE_IP
+    kubeIp: NODE_IP
     enable4G: false
     # Enable the components that you intend to install
     # Note that these must also be supported by the License you have
@@ -209,7 +205,7 @@ global:
 #### Enabling 5G components
 
 If you plan to install the 5G components (and you have the license to support this), you need to make a few other adjustments to the `ric-values.yaml` file:
-Let the $E1_CU_IP and $F1_CU_IP be the last in the range of ip addresses in the file below. Of which the $F1_CU_IP is the last one in the range and is the odd number in the LSB of the ipv4. eg: RANGE=10.10.10.110-10.10.10.121 , E1=10.10.10.120, F1=10.10.10.121
+Make sure the Pool of Load Balancer IP addresses is in the same subnet of the NODE_IP Kubernetes advertised IP address and also that those addresses are free in the server and will not be taken for other VMs or interfaces eg: NODE_IP=10.10.10.20 RANGE=10.10.10.110-10.10.10.120. Make also sure that you allocate a large enough range of addresses depending on your deployment topology
 
 ``` yml
 global:
@@ -222,7 +218,7 @@ acc-5g-infrastructure:
                   protocol: layer2
                   # IP pool used for E1, F1 and GTP interfaces when exposed outside of Kubernetes
                   addresses:
-                      - $LOADBALANCER_IP_RANGE
+                      - RANGE
 ```
 
 > NOTE : The IP pool which is selected here will be used by [MetalLB](https://metallb.universe.tf/), which we use to expose the E1, F1, and GTP interfaces to the
@@ -231,26 +227,23 @@ acc-5g-infrastructure:
 ``` bash
 $ kubectl get services
 #NAME                                             TYPE           CLUSTER-IP       EXTERNAL-IP     PORT> S)                                                                                     AGE
- #acc-5g-cu-cp-cucp-1-sctp-e1                      LoadBalancer   10.107.230.196   192.168.88.170  38462:31859/SCTP                                                                            3h35m
- #acc-5g-cu-cp-cucp-1-sctp-f1                      LoadBalancer   10.99.246.255    192.168.88.171  38472:30306/SCTP                                                                            3h35m
- #acc-5g-cu-up-cuup-1-cu-up-gtp-0                  LoadBalancer   10.104.129.111   192.168.88.160  2152:30176/UDP                                                                              3h34m
- #acc-5g-cu-up-cuup-1-cu-up-gtp-1                  LoadBalancer   10.110.90.45     192.168.88.161  2152:30816/UDP                                                                              3h34m
+ #acc-5g-cu-cp-cucp-1-sctp-e1                      LoadBalancer   10.107.230.196   10.10.10.120  38462:31859/SCTP                                                                            3h35m
+ #acc-5g-cu-cp-cucp-1-sctp-f1                      LoadBalancer   10.99.246.255    10.10.10.121  38472:30306/SCTP                                                                            3h35m
+ #acc-5g-cu-up-cuup-1-cu-up-gtp-0                  LoadBalancer   10.104.129.111   10.10.10.122  2152:30176/UDP                                                                              3h34m
+ #acc-5g-cu-up-cuup-1-cu-up-gtp-1                  LoadBalancer   10.110.90.45     10.10.10.123  2152:30816/UDP                                                                              3h34m
 ```
 
 > NOTE : MetalLB works by handling ARP requests for these addresses, so the external components need to be in the same L2 subnet in order to access these interfaces.
-> To avoid difficulties, it's recommended that this IP pool is unique in the wider network and in the same subnet of your Kubernetes Node
 
  
 #### Enabling 4G components
 4G Only : when you don't need 4G you can skip and move on to chapter [Install the dRAX RIC and Dashboard](#install-the-drax-ricand-dashboard) where the RIC is actually being installed.
 
-If you are not planning any 4G deployment you can skip this section and proceed to the **Install the dRAX RIC and Dashboard** section
-
-###### 4G : Prepare keys and certificates for the dRAX Provisioner
+####$ 4G : Prepare keys and certificates for the dRAX Provisioner
 
 The working assumption is that keys and certificates for the dRAX Provisioner have been created by the Accelleran Support Team, however, for a more detailed guide, please check the [Appendix: dRAX Provisioner - Keys and Certificates Generation](#appendix-drax-provisioner-keys-and-certificates-generation) of this document.
 
-###### 4G : Create configMaps for the dRAX Provisioner
+#### 4G : Create configMaps for the dRAX Provisioner
 
 We now need to store the previously created keys and certificates as configMaps in Kubernetes, so that they can be used by the dRAX Provisioner:
 
@@ -265,7 +258,8 @@ kubectl create configmap -n $NS_DRAX_4G prov-ca-crt --from-file=ca.crt
 !!! warning
     The names of these configmaps are critical - these names are referenced specifically in other parts of Accelleran's software.
 
-###### 4G : Prepare the values configuration file
+#### 4G : Prepare the values configuration file
+
 If you plan to install the 4G components (and you have the license to support this), you need to make a few other adjustments in the ric-values.yaml file 
 
 we first need to enable the 4G components:
@@ -298,7 +292,7 @@ provisioner-dhcp:
 Here, change `eno1` to the intended interface on your machine.
 
 
-##### 4G : Pre-provisioning the list of E1000 DUs
+#### 4G : Pre-provisioning the list of E1000 DUs
 
 If you already have access to the Accelleran E1000 DUs that you wish to use with this dRAX installation, we can pre-provision the information regarding these during installation.
 This can also be done later, or if new E1000 DUs are added.
@@ -325,14 +319,14 @@ configurator:
     If your dRAX installation and Accelleran E1000s will not be on the same subnet, after completing the previous step, please also follow [Appendix: dRAX and Accelleran E1000s on different subnets](#appendix-drax-and-accelleran-e1000s-on-different-subnets).
 
 
-###### 4G : Update E1000 DUs
+#### 4G : Update E1000 DUs
 
 The Accelleran E1000 DUs need to be updated to match the new version of dRAX.
 The following steps will guide you through this update process.
 As a prerequisite, the E1000s must be powered on, and you must be able to connect to them via SSH.
 If you do not have an SSH key to access the E1000s, contact Accelleran's support team.
 
-###### 4G : Download the E1000 update files
+#### 4G : Download the E1000 update files
 
 There is a server included with the dRAX installation that hosts the E1000 update files.
 Depending on the E1000 type (FDD or TDD), you can grab those files using the following command:
@@ -345,7 +339,7 @@ curl http://$NODE_IP:30603/tdd --output tdd-update.tar.gz
 !!! note
     Please replace the $NODE_IP with the advertised address of your Kubernetes
 
-###### 4G : Update software of E1000
+#### 4G : Update software of E1000
 
 Copy the TDD or FDD image to the E1000 in /tmp/.
 For example:
@@ -366,7 +360,7 @@ Now execute:
 do_update.sh
 ```
 
-###### 4G : Verify the update of E1000 on the unit and the alignment with dRAX version
+#### 4G : Verify the update of E1000 on the unit and the alignment with dRAX version
 
 To validate that the newly updated software matches with the installed version of dRAX, we can run the following steps:
 
@@ -587,30 +581,6 @@ When deploying an xApp using the second method, the user can upload a local pack
 
 Upon clicking the "Submit" button, the xApp will be deployed on the user-defined namespace in Kubernetes following the naming convention "organization-team-xappname-version".
 
-## dRAX Configuration
-
-dRAX configuration is split into multiple subsections which mirrors the microservice approach central to dRAX's design.
-Most of the configuration can be managed via the Dashboard.
-The Dashboard is accessible at [http://$NODE_IP:31315](http://$NODE_IP:31315).
-
-### xApp Configuration
-
-xApps can be configured via our Dashboard.
-From the sidebar, select the **xApps Management **section, and then click **Overview**:
-
-<p align="center">
-  <img width="200" height="300" src="images/dashboard-xapp-configuration.png">
-</p>
-
-You will be presented with a list of installed xApps - you can click on the icon in the Details column to access further information on the xApp:
-
-![List of installed xApps](images/dashboard-xapps-list.jpg)
-
-From the following page, you will be presented with information on the behaviour of the xApp and the topics that the xApp consumes and produces - the exact information is dependent on the vendor of the xApp.
-Configuration of the xApp is now managed in the Configuration Parameters section - it may need to be expanded with the collapse/expand button at the top right of the section.
-
-You can also expand the Services, by clicking the Show button in the Services column.
-This will show all the services used and exposed by the xApp, including the port information.
 
 ### 4G E1000 Provisioning
 
@@ -720,49 +690,6 @@ An alternative way of configuring an individual eNB is to make use of the **Dash
 Click on the eNB in the Network Topology, and then choose **Configure Cell** on the **Selected Node** window at the right: this will take you to the  **eNB Configuration** page and described in the previous section.
 
 ![Configure from Network Topology](images/dashboard-network-topology.png)
-
-### 5G RAN Configuration
-
-If you have a dRAX License for 5G, have enabled 5G during the RIC and Dashboard installation in [Enabling 5G components](#enabling-5g-components), and have deployed the CU components as instructed in [Install dRAX 5G Components](#install-drax-5g-components), you can now configure the 5G CU components.
-You can do so by navigating to **RAN Configuration** in the dRAX Dashboard sidebar and clicking the **gNB Configuration**:
-
-<p align="center">
-  <img width="200" height="300" src="images/dashboard-sidebar-5g-config-menu.png">
-</p>
-
-
-You will reach the 5G CU components configuration page:
-
-![5G CU Components configuration page](images/dashboard-cu-config-page.png)
-
-On this page there are two lists, one for CU-CPs and one for CU-UPs.
-You can click the icon under the Edit column of each CU component to edit its configuration.
-When you deploy the 5G CU component and click this button for the first time, you will be asked to set the initial configuration.
-Later on, you can click this button to edit the configuration.
-
-#### 5G CU-CP configuration
-
-The 5G CU-CP components have a number of parameters that you can set as can be seen below:
-
-* PLMN ID: The PLMN ID to be used
-* GNB ID: The GNB ID
-* GNB CU-CP name: A friendly name of the 5G CU-CP component
-* AMF NG interface IP Address: You can click on the (+) sign in the table to expand it like on the figure below. You can now Add Rows to add multiple AMF NG interface IP addresses, or delete them using the Delete Row field. Edit the **NG Destination IP Address** to be the AMF NG IP address of your setup. This IP is the $CORE_IP.
-
-Click the **Submit** button to send the configuration.
-
-![5G CU-CP Configuration parameters](images/dashboard-cu-cp-config.png)
-
-#### 5G CU-UP configuration
-
-The 5G CU-UP has a number of configuration parameters as seen below:
-
-* GNB CU-UP ID: The 3GPP ID of the CU-UP component.
-* GNB CU-UP name: The 3GPP friendly name of the CU-UP component,
-* E1 Links: You can Add Row or Delete Rows using the button. Here we add the E1 IP address of the CU-CP component that this CU-UP component will connect to. Enter the E1 IP under **E1 Destination IP Address.** This IP is the $E1_CU_IP . 
-* Supported PLMN Slices; Expand the table by clicking the (+) sign. You can now Add Rows or Delete Rows to add multiple PLMN IDs. For each PLMN ID, you can Add Rows to add slices or Delete Rows to delete slices. Each slice is defined by the Slice Type and Slice Differentiator.
-
-![5G CU-UP Configuration parameters](images/dashboard-cu-up-config.png)
 
 #### Install XDP
 This chapter will improve the CU performance.
@@ -970,9 +897,6 @@ execute to verify
 crontab -l
 ```
 
-
-
-
 ## Verifying the dRAX installation
 
 ### Monitoring via the Kubernetes API
@@ -1040,8 +964,6 @@ ric-fluent-bit-loki-jpzfc                                1/1     Running        
 ric-grafana-7488865b58-nwqvx                             1/1     Running            2          71m
 ric-influxdb-0                                           1/1     Running            1          71m
 ric-jaeger-agent-qn6xv                                   1/1     Running            1          71m
-ric-jaeger-collector-55597cfbbc-r9mdh                    0/1     CrashLoopBackOff   19         71m
-ric-jaeger-query-774f759bb6-jz7jc                        1/2     CrashLoopBackOff   19         71m
 ric-kube-eagle-776bf55547-55f5m                          1/1     Running            1          71m
 ric-loki-0                                               1/1     Running            1          71m
 ric-metallb-controller-7dc7845dbc-zlmvv                  1/1     Running            1          71m
@@ -1105,11 +1027,11 @@ ric-zookeeper-headless              ClusterIP      None             <none>      
 The listed Pods should either all be Running and fully Ready (i.e. all expected instances are running - 1/1, 2/2, etc.), or Completed - it may take a few minutes to reach this state.
 The number of restarts for each pod should also stabilize and stop increasing.
 
-If something crashes or you need to restart a pod, you can use the scale command - for example:
+If something crashes or you need to restart a pod, you can use the scale command (no need to add the instance of the pod) - for example:
 
 ``` bash
-kubectl scale deployment $DEPLOYMENT_NAME --replicas=0
-kubectl scale deployment $DEPLOYMENT_NAME --replicas=1
+kubectl scale deployment ric-prometheus-alertmanager --replicas=0
+kubectl scale deployment ric-prometheus-alertmanager --replicas=1
 ```
 
 ### SCTP connections setup
@@ -1123,73 +1045,6 @@ Verify SCTP connection is setup. Expecting  HB REQ and HB ACK tracing with this 
 ``` bash
 sudo tcpdump -i any or 38462
 ```
-
-### The Grafana Accelleran dRAX System Dashboard
-
-The dRAX Grafana contains two system health dashboards, one for 4G and one for 5G.
-On these dashboards we can check if all the 4G or 5G components are running, if there are Kubernetes pods that are in an error state, we can check the RAM and CPU usage per pod, etc.
-In fact, they give a complete overview of the System in 5 sections, each containing detailed information to allow a graphic, intuitive approach to the System health conditions.
-Each section can be expanded by clicking on its name.
-
-1. **Cluster Information** contains:
-    1. Number of nodes
-    2. Allocatable RAM
-    3. Running PODs
-    4. Pending Containers
-    5. Crashed Containers
-    6. Pending or Crashed containers listed by Node, Namespace, Status, POD name and package
- 
-2. **RAM Information** contains:
-    7. Total RAM Usage
-    8. Node RAM Usage
-    9. POD RAM Usage
-    10. Container RAM Usage
-    11. RAM Usage History
-    12. Node RAM Info listed by Node, Requested RAM Limit RAM Allocatable RAM RAM Reserved, RAM Usage
-    13. POD RAM information listed by Node, Pod, Requested RAM, RAM Limit, Used RAM
-    14. Container RAM information listed by Node, Pod, Requested RAM, RAM Limit, Used RAM
-
-
-3. **CPU Information **contains:
-    15. Total CPU Usage
-    16. Node CPU Usage
-    17. POD CPU Usage
-    18. Container CPU Usage
-    19. CPU Usage History
-    20. Node CPU Info listed by Node, Requested Core Limit Cores Allocatable Cores CPU Reserved,CPU Burstable, CPU Usage
-    21. POD CPU information listed by Node, Pod, Requested Cores, Limit Cores, Used Cores
-    22. Container CPU information listed by Node, Pod, Requested Cores, Limit Cores, Used Cores
-
-
-4. **Network Information** contains:
-    23. TX Traffic
-    24. RX Traffic
-
-
-5. **Disk Space information** contains:
-    25. Disk Usage
-    26. Disk Usage History
-    27. Disk Usage per Node listed by Node, User Disk Space, Free Disk Space, Total Disk Space
-    28. Persistent Disk Volumes listed by Node, Volume Name,Disk Space, Bound status
-
-#### 4G system health dashboard
-
-To access the dRAX Grafana, browse to [http://$NODE_IP:30300](http://$NODE_IP:30300).
-From here you can browse the different pre-built Grafana dashboards that come with dRAX.
-One of them is the **Accelleran dRAX System Dashboard**:
-
-![Accelleran dRAX 4G Health Dashboard](images/dashboard-4g-health-1.png)
-
-The 4G specific health dashboard, in addition to the 5 global sections explained above, also shows which components of 4G dRAX are running (Redis, NATS, 4GRC, etc.).
-
-#### 5G system health dashboard
-
-The 5G system health dashboard can also be found on dRAX Grafana on [http://$NODE_IP:30300](http://$NODE_IP:30300).
-This time, pick the **Accelleran dRAX 5G System Dashboard** from the list of pre-built Grafana dashboards:
-
-![Accelleran dRAX 5G Health Dashboard](images/dashboard-5g-health-1.png)
-
-The 5G specific health dashboard, in addition to the 5 global sections explained above, also shows which components of 5G dRAX are running (AMF Controller, CUUP, DS Ctrl, etc.).
 
 ## Appendix: How to enable/disable DHCP for the IP address of the E1000 4G DU
 
