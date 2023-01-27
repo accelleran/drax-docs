@@ -1,25 +1,20 @@
-# RIC & CU Installation
+#5G RIC Installation
 
 ## Introduction
 
-This document contains only the minimal set of information to achieve a default installation of dRAX, with some assumptions made such as software and hardware prerequisites as well as Network Configuration.
+This document as part of the Accelleran Interna Installation User Guide contains only the minimal set of information to achieve a default installation of dRAX, with some assumptions made such as software and hardware prerequisites as well as Network Configuration. The configuration is instead part of the other [Operational User Guide](../../op-guide/) 
 
 The first section gives a detailed overview on hardware, software and other requirements that are considered as default prerequisites to install and operate a dRAX installation.
-Customers who require a more custom-designed deployment should contact Accelleran's Customer Support team to get a tailored solution.
 
-The second section describes all of the steps needed to deploy and run a new software version of Accelleran's dRAX  for the first time, using provided Helm charts.
-This section is split into multiple subsections, including one for the installation of the dRAX base, one for the 4G components, and one for the 5G components.
+The second section describes all of the steps needed to deploy new software version of Accelleran's RIC for the first time, using provided Helm charts.
+This section is split into multiple subsections, including one for the installation of the RIC base, one for the 4G components, and one for the 5G components.
 For a first time installation, it is important to verify of course the SW and HW prerequisites presented in this document before proceeding further.
-
-The third section covers configuration of dRAX, including details on both RAN as well as xApp configuration.
-
-We advise customers who wish to know more about dRAX's architecture to request the full dRAX Architecture User Guide.
 
 ## Software and Hardware Prerequisites
 
-The assumption made in this User Guide is that the typical Customer who doesn't want a full turn key dRAX kit is familiar with Server installations, VMs and VNFs
+The assumption made in this User Guide is that the typical user is familiar with Server installations, VMs and VNFs
 
-Also, as mentioned in the [Overview](../index.md) section of this document, it is assumed that the Customer has already created a VM with a *$NODE_IP* address in the same subnet of the Server (*$SERVER_IP*) and a linux bridge *br0*.
+Also, as mentioned in the [Overview](../index.md) section of this document, it is assumed that the VM is already created with a *NODE_IP* address in the same subnet of the Server (*SERVER_IP*) and a linux bridge *br0*.
 
 
 ### Software Requirements have been installed in previous chapter.
@@ -32,17 +27,17 @@ Also, as mentioned in the [Overview](../index.md) section of this document, it i
 
 ### Other Requirements
 
-1. dRAX License, as provided by Accelleran's Customer Support team
-2. The Customer Network allows access to internet services
-3. a DockerHub account, and have shared the username with the Accelleran team to provide access to the needed images
-4. EPC/5GC must be routable without NAT from dRAX (and E1000 DUs in case of 4G)
-5. From Accelleran you will need access to the Dockerhub repository
+1. RIC License license.crt
+2. enabled DockerHub account
+3. EPC/5GC must be routable without NAT from RIC (and E1000 DUs in case of 4G)
+4. From Accelleran you will need access to the Dockerhub repository
     * please create your account with user, password and email from dockerub
+5. Internet access on the server    
 
 ### 4G Specific requirements:
 
 1. A DHCP server must be available on the subnet where the E1000 DUs will be installed
-2. E1000 DUs must be in the same subnet as Kubernetes' advertise address (otherwise refer to [Appendix: E1000 on separate subnet](#appendix-drax-and-accelleran-e1000s-on-different-subnets))
+2. E1000 DUs must be in the same subnet as Kubernetes' advertised address (otherwise refer to [Appendix: E1000 on separate subnet](#appendix-drax-and-accelleran-e1000s-on-different-subnets))
 
 ### Limitations : 
 1. When using a graphical interface, make sure it will not go to sleep or to standby. 
