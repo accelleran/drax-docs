@@ -118,29 +118,11 @@ The steps are very intuitive only on the last Step 5 make sure you create a brid
   <img width="400" height="400" src="vm-step5.png">
 </p>
 
-copy the install directory from the HOST to this newly created VM
+The main advantage of using the Virtual Machine Manager is that you will be able to have a console on that newly created VM and you can edit the the netplan, add ports using the GUI and complete an otherwise difficult configuration of youe new VM
 
-``` bash
-cd ; scp -r install_$CU_VERSION  $USER@$NODE_IP:
-```
+Make sure that from inside this VM you are able to ping the internet's ip address 8.8.8.8
 
-``` bash
-cd ; scp .profile  $USER@$NODE_IP:
-```
-
-ssh into the VM.
-
-``` bash
-ssh $USER@$NODE_IP
-```
-
-from inside this VM you should be able to ping the internet's ip address 8.8.8.8
-
-``` bash
-ping 8.8.8.8
-```
-
-make sure all available disk space is being used inside the VM.
+Make sure all available disk space is being used inside the VM.
 ```
 lsblk
 sudo lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
@@ -186,6 +168,14 @@ now all the variable values
 sudo usermod -aG docker $USER
 ```
 
+Take this chance to add the option to run sudo without password:
+
+``` bash
+sudo visudo
+```
+
+add there the line ```tom ALL=(ALL) NOPASSWD:ALL``` (if tom is your user name of course)
+
 ``` bash
 sudo reboot
 ```
@@ -195,7 +185,7 @@ rerun the .profile to load install variables
 . $HOME/.profile
 ```
 
-To check if your installation is working you can try to run a test image in a container:
+TNowo check if your docker is working you can try to run a test image in a container:
 
 ``` bash
 docker run hello-world
@@ -229,7 +219,7 @@ sudo systemctl restart docker
 
 ### Disable Swap
 
-Kubernetes refuses to run if swap is enabled on the node, so we disable swap immediately and then also disable it following a reboot:
+Kubernetes refuses to run if swap is enabled on the node, so we disable swap immediately and permanently:
 
 ``` bash
 sudo swapoff -a
@@ -263,17 +253,20 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 ### Configure Kubernetes
 
-To initialize the Kubernetes cluster, the IP address of the node needs to be fixed, i.e. if this IP changes, a full re-installation of Kubernetes will be required.
-This is generally the (primary) IP address of the network interface associated with the default gateway.
-From here on, this IP is referred to as `$NODE_IP` - this shell variable has been stored in the first page:
+To initialize the Kubernetes cluster, the IP address of the node needs to be static, i.e. if this IP changes, a full re-installation of Kubernetes will be required.
+This is generally the (primary) IP address of the network interface associated with the default gateway. 
+From here on, this IP is referred to as `NODE_IP` - this shell variable has been stored in the first page:
 
 > NOTE : in this part these variables will be used.
 > 
->   export NODE_IP             # See Preperation paragraph for correct ip
->   export POD_NETWORK
+>    $NODE_IP             # See Preperation paragraph for correct ip
+>    $POD_NETWORK
 
 This guide assumes we will use Flannel as the CNI-based Pod network for this Kubernetes instance, which uses the `10.244.0.0/16` subnet by default.
-We store it again as an environment variable for later use, and of course if you wish to use a different subnet, change the command accordingly:
+We store it again as an environment variable for later use, and of course if you wish to use a different pod network and subnet, change the command accordingly:
+
+>   export $NODE_IP=NODE_IP             # See Preperation paragraph for correct ip
+>    $POD_NETWORK=10.244.0.0/16
 
 
 The following command initializes the cluster on this node:
@@ -297,7 +290,7 @@ sudo chown "$(id -u):$(id -g)" "$HOME/.kube/config"
 
 ### Install Flannel
 
-Prepare the Manifest file:
+Prepare the Manifest file only if you need to modify the default settings of the POD network (10.244.0.0/16) :
 
 ``` bash
 curl -sSOJ https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
@@ -319,56 +312,13 @@ As we're running with a single Node, we need to remove the node-role.kubernetes.
 kubectl taint nodes --all node-role.kubernetes.io/master-
 ```
 
-### A small busybox pod for testing
-
-It is very convenient (however optional) to test the Kubernetes installation with a simple busybox pod for instance to test your DNS resolution inside a pod. To do so create the following yaml file (/tmp/busybox.yaml):
-
-``` bash
-cat << EOF > /tmp/busybox.yaml
-apiVersion: v1
-kind: Pod
-metadata:
- name: busybox
- namespace: default
-spec:
- containers:
- - name: busybox
-   image: busybox:1.28
-   command:
-     - sleep
-     - "3600"
-   imagePullPolicy: IfNotPresent
- restartPolicy: Always
-EOF
-```
-
-Then you can create the pod:
-NOTE : --kubeconfig is optional here because ```$HOME/.kube/config``` is the default config file
-
-``` bash
-kubectl --kubeconfig $HOME/.kube/config create -f /tmp/busybox.yaml
-```
-
-If all went well a new POD was created, you can verify this with the following command
+If all went well a new Node was created and is Ready, you can verify this with the following command
 
 ``` bash 
-kubectl --kubeconfig $HOME/.kube/config get pods
-#NAME      READY STATUS    RESTARTS AGE
-#busybox   1/1 Running   21 21h
+kubectl get nodes
+NAME        STATUS   ROLES                  AGE    VERSION
+ric-dell5   Ready    control-plane,master   5m   v1.20.0
 ```
-
-In order to verify if your Kubernetes is working correctly you could try some simple commands using the busybox POD. 
-For instance to verify your name resolution works do:
-
-``` bash 
-kubectl exec -ti busybox -- nslookup mirrors.ubuntu.com 
-#Server:    10.96.0.10
-#Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
- 
-#Name:      mirrors.ubuntu.com
-#Address 1: 91.189.89.32 bilimbi.canonical.com
-```
- 
 ## APENDIX : Remove a full Kubernetes installation
 
 On occasion, it may be deemed necessary to fully remove Kubernetes, for instance if for any reason your server IP address will change, then the advertised Kubernetes IP address will have to follow. THe following command help making sure the previous installation is cleared up: 
