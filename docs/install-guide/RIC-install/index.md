@@ -237,9 +237,10 @@ $ kubectl get services
 
  
 #### Enabling 4G components
+
 4G Only : when you don't need 4G you can skip and move on to chapter [Install the dRAX RIC and Dashboard](#install-the-drax-ricand-dashboard) where the RIC is actually being installed.
 
-####$ 4G : Prepare keys and certificates for the dRAX Provisioner
+#### 4G : Prepare keys and certificates for the dRAX Provisioner
 
 The working assumption is that keys and certificates for the dRAX Provisioner have been created by the Accelleran Support Team, however, for a more detailed guide, please check the [Appendix: dRAX Provisioner - Keys and Certificates Generation](#appendix-drax-provisioner-keys-and-certificates-generation) of this document.
 
@@ -454,7 +455,7 @@ Accelleran's 5G Components are managed and installed via the Dashboard.
 From the dRAX Dashboard sidebar, select **New deployment** and then click **5G CU deployment**:
 
 <p align="center">
-  <img width="200" height="300" src="images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png">
+  <img width="200" height="300" src="../../drax-install/images/dashboard-sidebar-expanded-new-deployment-selected-cu-deployment.png">
 </p>
 
 
@@ -463,7 +464,7 @@ Here, you have the ability to deploy either a CU-CP or a CU-UP component.
 Therefore, you first have to pick one from the drop-down menu:
 
 <p align="center">
-  <img width="400" height="300" src="images/dashboard-deploy-a-new-cu-component.png">
+  <img width="400" height="300" src="../../drax-install/images/dashboard-deploy-a-new-cu-component.png">
 </p>
 
 
@@ -475,7 +476,7 @@ The form with the deployment parameters is shown below:
 > NOTE : fill in the E1 and F1 address manually according to what's set in the Preperation section in the start of this installation document.
 > for F1 it will be the ip address we will also configure the DU with.
 
-![Deploy CU-CP form](images/dashboard-cu-cp-deployment-2.png)
+![Deploy CU-CP form](../../drax-install/images/dashboard-cu-cp-deployment-2.png)
 
 ###### Required Parameters
 
@@ -523,7 +524,7 @@ The optional parameters are:
 When deploying the 5G CU-UP component, there is only one required parameter in the **Deploy a new CU component** form.
 The form with the deployment parameters is shown below:
 
-![Deploy CU-UP form](images/dashboard-cu-up-deployment-2.png)
+![Deploy CU-UP form](../../drax-install/images/dashboard-cu-up-deployment-2.png)
 
 ###### Required Parameters
 
@@ -560,12 +561,12 @@ Compatible xApps can be managed and installed via the Dashboard.
 This can be achieved by clicking on **New deployment** in the sidebar, and then clicking **xApp deployment:**
 
 <p align="center">
-  <img width="200" height="300" src="images/dashboard-sidebar-expanded-new-deployment-selected-xapp-deployment.png">
+  <img width="200" height="300" src="../../drax-install/images/dashboard-sidebar-expanded-new-deployment-selected-xapp-deployment.png">
 </p>
 
 In the resulting form, xApps can be deployed either from a remote Helm repository or by uploading a local packaged Helm chart file.
 
-![Deploy an xApp](images/dashboard-xapp-deployment.png)
+![Deploy an xApp](../../drax-install/images/dashboard-xapp-deployment.png)
 
 In the "Metadata" section of the form, the user inputs information regarding the xApp name, the organization and team who own the xApp, the version of the xApp Helm Chart and the namespace where the xApp will be deployed on.
 
@@ -575,185 +576,75 @@ Optionally, the user can upload a values configuration file to override the defa
 When deploying an xApp using the second method, the user can upload a local packaged Helm chart (a .tgz file produced by the command "helm package &lt;chartName>") which contains the dRAX compatible xApp and optionally an accompanying values configuration file.
 
 <p align="center">
-  <img width="400" height="300" src="images/dashboard-local-helm-upload.png">
+  <img width="400" height="300" src="../../drax-install/images/dashboard-local-helm-upload.png">
 </p>
 
 
 Upon clicking the "Submit" button, the xApp will be deployed on the user-defined namespace in Kubernetes following the naming convention "organization-team-xappname-version".
 
-
-### 4G E1000 Provisioning
-
-When you don't use 4G you can skip this and go to [5G Configuration](#5g-configuration)
-
-The certificates and keys referenced in this section are those mentioned in the [Prepare keys and certificates for the dRAX Provisioner section](#prepare-keys-and-certificates-for-the-drax-provisioner).
-These are required so that the onboarding of new E1000s is a secure process.
-
-#### Listing currently provisioned E1000s
-
-The current list of provisioned E1000s can be retrieved with the following command:
-
-``` bash
-curl --cacert ca.crt https://$NODE_IP:31610/get/
-```
-
-#### Provisioning additional Accelleran E1000 DUs
-
-Each additional E1000 DU, which is to be used with this dRAX installation, needs to be provisioned.
-This is only needed for E1000 DUs which were not pre-provisioned during the installation process.
-
-###### Determine Unique Identifier
-
-Each Accelleran E1000 has a Model, a Hardware Version, and a Serial Number - this information is displayed on the label attached to the unit, and is required in order to pre-provision the DUs.
-A unique identifier is constructed from this information in the following format:
-
-```
-Model-HardwareVersion-SerialNumber
-```
-
-This identifier can also be determined automatically via SSH using the following command:
-
-``` bash
-echo "$(eeprom_vars.sh -k)-$(eeprom_vars.sh -v)-$(eeprom_vars.sh -s)"
-```
-
-Each E1000 also needs to be given a unique name.
-This name could be as simple as "du-1" - all that matters is that it is unique in this dRAX installation.
-
-###### Prepare configuration file
-
-To provision a new E1000, create a new file called `cellconfig.yaml` with the following contents:
-
-``` yaml
-E1011-GC01-ACC000000000001:
-     redis:
-         hostname: $NODE_IP
-         port: 32000
-     loki:
-         hostname: $NODE_IP
-         port: 30302
-     instance:
-        filter: du-1
-```
-
-Replace the unique identifier based on the specific E1000, replace `$KUBE_IP` with the correct IP for your installation, and replace `du-1` with the chosen unique name for this DU.
-
-If you'd like to provision multiple E1000s at once, duplicate the above snippet for each additional E1000, updating the unique identifier and the name in each case.
-Make sure to match the indentation in each duplicated snippet - **incorrect indentation will result in an error.**
-It's recommended to keep these snippets all in the same file so that we can push the new configuration with a single command.
-
-###### Push new configuration
-
-Now run the following command to push this configuration to the Provisioner:
-
-``` bash
-curl --cacert ca.crt --cert client.crt --key client.key https://$NODE_IP:31610/push/ --data-binary @cellconfig.yaml
-```
-
-#### Changing the name of an E1000
-
-The name of a specific E1000 can be updated if required in a slightly more straightforward manner.
-First determine the unique identifier - refer to the [Determine Unique Identifier section](#determine-unique-identifier) above for the exact instructions.
-Use the following command, replacing `$KUBE_IP` with the correct IP for your installation, the unique identifier with that just determined, and replacing `du-1` with the new name:
-
-``` bash
-curl --cacert ca.crt --cert admin.crt --key admin.key https://_$NODE_IP:31610_/set/E0123-GC01-ACC0123456978901/instance/filter -d du-1
-```
-
-#### 4G RAN Configuration
-
-Configuration of the 4G RAN is made simple, intuitive and efficient when using the dRAX Dashboard.
-
-Note: all of these options require the Accelleran E1000s to already have been provisioned as described in the [E1000 Provisioning section](#e1000-provisioning) above, or during the installation process.
-
-#### eNB Configuration via eNB list
-
-To access the configuration page for an eNB, first click on the **RAN Configuration** section, and then click on **eNB Configuration.**
-From the displayed list of eNBs, click on the Cog icon in the Edit column corresponding to the eNB you'd like to reconfigure.
-
-![eNB reconfiguration](images/dashboard-manual-config.png)
-
-From the following screen, the configuration of this eNB can be adjusted.
-Once the configuration has been updated as desired, click on the **Create** button at the bottom left of the page:
-
-![eNB configuration](images/dashboard-enb-configuration.png)
-
-Notes:
-
-1. Make sure the Cell ID is a multiple of 256, you can submit Cell IDs that are not a multiple of 256, however this will result in a Macro eNB ID that looks different on the surface, 
-2. There is no conflict or error check in manual mode, therefore for instance it is possible to configure two cells with the same ID, set an EARFCN that is out of band, and so on: it is assumed that the User is aware of what he/she tries to set up
-3. The reference signal power is calculated automatically from the output power, please adjust the output power in dBm which represent the maximum power per channel at the exit without antenna gain
-
-#### eNB Configuration via Dashboard
-
-An alternative way of configuring an individual eNB is to make use of the **Dashboard** initial page (click on **Dashboard** in the sidebar to return there).
-Click on the eNB in the Network Topology, and then choose **Configure Cell** on the **Selected Node** window at the right: this will take you to the  **eNB Configuration** page and described in the previous section.
-
-![Configure from Network Topology](images/dashboard-network-topology.png)
-
 #### Install XDP
 This chapter will improve the CU performance.
 
-go to the CU VM
+go to the CU VM (supposedly ad@10.10.10.201)
 
 ``` bash
-ssh $USER@$NODE_IP
+ssh ad@10.10.10.201
 ```
 
 login to docker
 
 ``` bash
-docker login -u $DOCKER_USER -p $DOCKER_PASS
+docker login -u DOCKER_USER -p DOCKER_PASS
 ```
 
+Determine the **Instance ID** of your CUUP by simply consulting the Dashboard and checking the CUUP configuration of your installed CUUP as in the picture below (the field on left, marked as Id here **cuup-1**):
+
+<p align="center">
+  <img width="400" height="300" src="../../drax-install/images/dashboard-cu-config-page.png">
+</p>
 
 Copy/Paste the below and 2 scripts are generated
   * startXdpAfterBoot.sh
   * deploy_xdpupsappl.sh
 
 
-Now here below the script 2 scripts that get generated by copy/pasting the below in one go.
+Now here below the 2 scripts that get generated by copy/pasting the below in one go:
+
+check of course before proceeding the parameters below:
+
+ -i instanceID
+ -g  VM IP
+ -G the GTP interface of your deployment
+ -t the CU version (helm list will show something like R3.3.0_hoegaarden)
 
 ``` bash
-export XDP_CU_VERSION=$(helm list | grep "cu-up" | awk '{print $NF}')
-mkdir -p $HOME/install_$XDP_CU_VERSION
-cd !$
-tee startXdpAfterBoot.sh <<EOF
 #!/bin/bash
 
-export XDP_INSTANCE_ID=$(kubectl get pod  | grep "e1-sctp" | sed "s/-e1-sctp.*//g")
-export XDP_CU_VERSION=$(helm list | grep "cu-up" | awk '{print $NF}')
-export XDP_GTP_IP=$NODE_IP
-export XDP_GTP_ITF=$(ip -br a | grep $NODE_IP | xargs | cut -d ' ' -f 1)
-
-until [ \$(docker ps | wc -l) -ge "15" ]
+until [ `docker ps | wc -l` -ge "15" ]
 do
     echo "We are waiting for first 15 docker containers."
-    echo "Current amount of docker containers running: "\$(docker ps | wc -l)
+    echo "Current amount of docker containers running: "$(docker ps | wc -l)
     sleep 1
 done
 
 if kubectl get pods | grep ups ; then
     echo "UPS pods are still running. Deleting..."
-    kubectl get pods --no-headers=true | awk '/ups/{print \$1}'| xargs  kubectl delete pod
+    kubectl get pods --no-headers=true | awk '/ups/{print $1}'| xargs  kubectl delete pod
 else
     echo "UPS Pods are not present. Doing nothing."
 fi
 
-if docker ps | grep xdpupsappl ; then
+if docker ps | grep xdp ; then
     echo "XDP Already running. Doing nothing."
 else
     echo "XDP not found. Starting...:"
-     $HOME/install_$XDP_CU_VERSION/deploy_xdpupsappl.sh -i \$XDP_INSTANCE_ID   -g  \$XDP_GTP_IP    -G \$XDP_GTP_ITF   -t \$XDP_CU_VERSION
+     /home/ad/install/q3/deploy_xdpupsappl.sh -i cuup-1 -g 10.10.10.201 -G eno1 -t R3.3.0_hoegaarden
      docker logs xdp_cu_up
 fi
 
-EOF
 ```
 
 ``` bash
-mkdir -p $HOME/install_$XDP_CU_VERSION
-cd !$
 cat > deploy_xdpupsappl.sh <<EOF
 #!/bin/bash
 
@@ -862,22 +753,9 @@ chmod 777 *
 
 ```
 
-In the first script ```startXdpAfterBoot.sh``` verify the 4 variables on top of the script.
-They are autogenerated but you need to verify them manually.
-
-  * XDP_INSTANCE_ID=
-    * The prefix of the output of ```kubectl get pod | grep e1-sctp```
-  * XDP_GTP_IP=
-    * The $NODE_IP mentioned in the preperation page
-  * XDP_GTP_ITF=
-    * The interface in the CU VM holding the $NODE_IP
-  * XDP_CU_VERSION=
-    * The version of the CU. Should be the same as the ```$CU_VERSION``` given in the preperation page.
-  
-
-Startup the xdp 
+Startup the xdp in the directory where your script is:
 ``` bash
-/home/$USER/install_${CU_VERSION}/startXdpAfterBoot.sh >> /tmp/xdp_bootscript_response
+./startXdpAfterBoot.sh >> /tmp/xdp_bootscript_response
 ```
 
 Make the run of the script boot persistent by putting it in crontab
@@ -889,7 +767,7 @@ Add this line into the crontab editor file. Change the ```$USER``` and install `
 Check the preperation page.
 
 ``` bash
-@reboot /home/$USER/install_${CU_VERSION}/startXdpAfterBoot.sh >> /tmp/xdp_bootscript_response
+@reboot /<fullpath-to-script>/startXdpAfterBoot.sh >> /tmp/xdp_bootscript_response
 ```
 
 execute to verify
@@ -1046,177 +924,6 @@ Verify SCTP connection is setup. Expecting  HB REQ and HB ACK tracing with this 
 sudo tcpdump -i any or 38462
 ```
 
-## Appendix: How to enable/disable DHCP for the IP address of the E1000 4G DU
-
-The 4G DU units are separate hardware components and therefore get preconfigured at Accelleran with a standard SW image which of course will have default settings that may require changes.
-Typically in fact a network component will require IP address Netmask default gateway to be configured and the Customer will want to rework these settings before commissioning the component into the existing Network.
-The default settings are:
-
-* Static IP address
-* DHCP Off
-* Provisioner Off
-* Bootstrap file with Redis port 32000, dRAX IP 10.20.20.20 and a generic eNB Name indicating for instance the Customer name, Band, and a progressing number
-
-The rest of environment variables are visible once logged in to the E1000 using the `fprintenv` command.
-So for instance the variable you will be able to see are:
-
-    ethact=octeth0
-    ethaddr=1C:49:7B:DE:35:F7
-    fdtcontroladdr=80000
-    gatewayip=10.188.6.1
-    gpsenable=1
-    ipaddr=10.20.20.222
-    loadaddr=0x20000000
-    mtdparts=mtdparts=octeon_nor0:0x220000(u-boot)ro,128k(u-boot-env)ro,128k(u-boot-env-bak)ro,128k(u-boot-env-gemtek)ro,0x1340000(init-app)ro,-(accelleran-app)ro
-    namedalloc=namedalloc dsp-dump 0x400000 0x7f4D0000; namedalloc pf4cazac 0x13000 0x84000000; namedalloc cazac 0x630000 0x7f8D0000; namedalloc cpu-dsp-if 0x100000 0x7ff00000; namedalloc dsp-log-buf 0x4000000 0x80000000; namedalloc initrd 0x2B00000 0x30800000;
-    netmask=255.255.255.0
-    numcores=4
-    octeon_failsafe_mode=0
-    octeon_ram_mode=0
-    serverip=10.188.6.137
-    stderr=serial
-    stdin=serial
-    stdout=serial
-    swloadby=flash
-    unprotect=protect off 0x17cc0000 0x1fc00000;
-    ver=U-Boot 2017.05 (Sep 08 2017 - 16:27:53 +0000)
-    xoservoenable=1
-    xoservolog=/var/log/xolog.txt
-    dhcp=yes
-
-If the Customers wants to change IP address using the command line he can do the following (special attention must be put as an error in the input can bring the E1000 out of reach):
-
-``` bash
-fsetenv ipaddr <new_ip_address>
-```
-
-In order to modify the netmask type:
-
-``` bash
-fsetenv netmask <new_net_mask> (ex. 255.255.255.0)
-```
-
-NOTE: the User that wishes to perform such modifications must be aware of the consequences of that choice, for instance the necessity of shipping back the unit to Accelleran for refurbishment in case of misconfigurations.
-
-In case the E1000 is supposed to get a dynamic address from a DHCP server in the Customer network the related flag shall be enable:
-
-``` bash
-fsetenv dhcp yes
-```
-
-Don't forget to reboot the E1000 once done with the settings.
-
-If for any reasons the Customer decides not to use the dynamic address assignment he can revert the choice by typing:
-
-``` bash
-fsetenv dhcp no
-```
-
-**IMPORTANT**: In this case it is also essential to configure a static address and an IP Mask in harmony with the rest of the network:
-
-``` bash
-fsetenv ipaddr <new_ip_address>
-fsetenv netmask <new_net_mask> (ex. 255.255.255.0)
-```
-
-_After that_, you can reboot the E1000 which will come back with ARP signals with the chosen static address.
-
-#### How to configure dRAX for a cell
-
-###### Introduction
-
-For the cell to be able to communicate with the dRAX Provisioner, it needs to use its own certificate.
-For this certificate to be valid, the time and date on the cell need to be synchronized.
-If the time and date are not correct, the certificates will not work.
-
-###### How to enable the dRAX Provisioner
-
-SSH into the E1000:
-
-``` bash
-ssh -i guest.key guest@<ip_of_e1000>
-```
-
-Create a folder:
-
-``` bash
-mkdir /mnt/common/bootstrap_source
-```
-
-Create and save an empty dhcp file in the folder created:
-
-``` bash
-touch /mnt/common/bootstrap_source/dhcp
-```
-
-## Appendix: dRAX and Accelleran E1000s on different subnets
-
-Normally, we recommend your Accelleran E1000s are located on the same subnet as your dRAX.
-However, if that is not the case, then you need to run a specific component of the dRAX Provisioner called the Provisioner-DHCP.
-This component should be running on any machine that is part of the subnet where the Accelleran E1000s are.
-We support running this component via Docker, so you must have Docker installed on that machine.
-
-### Prepare conf file
-
-Create the configuration file named udhcpd.conf. The contents are:
-
-```
-start        10.0.0.20
-end          10.255.255.254
-interface    eth0
-opt     dns     10.0.0.1 10.0.0.2
-option  subnet  255.0.0.0
-opt     router  10.0.0.1
-opt     wins    10.0.0.2
-option  domain  local
-option  lease   86400
-option  provision  https://$NODE_IP:31610
-option staticroutes 10.20.20.0/24 10.22.10.52
-```
-
-Substitute the IP in the "option provision …" line to where the provisioner is installed.
-
-Also change the interface to the main interface of the machine (eth0, eno1, br0, …) that is used to reach the subnet where the dRAX is installed.
-
-NOTE: You should make sure from your networking aspect that the two subnets are reachable by one-another.
-If this is not the case, although we do not recommend this, you can create a static route on the E1000s towards the subnet where dRAX is installed.
-This can be done using the Provisioner-DHCP component. Find the line: `option staticroutes 10.20.20.0/24 10.22.10.52`.
-This translates to "create a static route to the 10.20.20.0/24 network (where the dRAX is) via gateway 10.22.10.52".
-Replace the values with the correct ones for your network case.
-
-### Create docker login details
-
-Login with docker command:
-
-``` bash
-sudo docker login
-```
-
-Then use the username and password of your DockerHub account that you also used to create the kubernetes secret.
-
-### Pull the image from DockerHub
-
-Check what is the latest version on DockerHub [https://hub.docker.com/repository/docker/accelleran/provisioner-dhcp](https://hub.docker.com/repository/docker/accelleran/provisioner-dhcp).
-
-Pull the image using the docker command, and substitute the &lt;version> with the one found in the above step:
-
-``` bash
-sudo docker image pull accelleran/provisioner-dhcp:<version>
-```
-
-### Run as docker container
-
-Start the container with the docker run command. Make sure to give the full path to the configuration file (/home/ad/...). Also make sure you give the correct docker image name at the end of the command including the version:
-
-``` bash
-sudo docker run -d --name dhcp --net host --mount type=bind,source=/path/to/udhcpd.conf,target=/conf/udhcpd.conf accelleran/provisioner-dhcp:<version>
-```
-
-To check if the service is running use
-
-``` bash
-sudo docker ps | grep dhcp
-```
 
 ## Appendix: dRAX Provisioner - Keys and Certificates Generation
 
@@ -1347,32 +1054,6 @@ openssl verify -CAfile client.crt client.crt
 openssl verify -CAfile ca.crt server.crt
 ```
 
-## Appendix: Configure 4G Radio Controller
-
-In order for the dRAX 4G components to function properly, we need to configure the 4G Radio Controller.
-This can be done from the Dashboard, which is accessible at [http://$NODE_IP:31315](http://$NODE_IP:31315).
-From the sidebar, select the **xApps Management** section, and then click **Overview**:
-
-<p align="center">
-  <img width="200" height="300" src="images/dashboard-sidebar-expanded-xapps-management.png">
-</p>
-
-From the **dRAX Core** section, find the **4G-Radio-Controller** entry, and click on the corresponding cog icon in the Configure column, as shown in the picture below:
-
-![xApp List](images/dashboard-xapp-list-hover-4GRC-configure.png)
-
-You will be presented with a configuration page - the following changes should be made, making sure to replace `$NODE_IP` with the value from your installation:
-
-<p align="center">
-  <img width="300" height="450" src="images/dashboard-4grc-configuration.png">
-</p>
-
-The parameters are:
-Automatic Handover: If set to true, the 4G default handover algorithm is activated, based on the A3 event. If set to false, the A3 event from the UE is ignored by dRAX and the handover will not be triggered. 
-Publish Measurement Data:
-Publish UE Data:
-Measurement Type:
-Orchestrator URL: This should be the $KUBE_IP:6443, so the Kubernetes advertise address and using the secure port 6443
 
 ## Appendix: License Error Codes
 
