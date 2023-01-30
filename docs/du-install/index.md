@@ -158,8 +158,11 @@ to obtain the Phluido license key. Send this .bin file to phluido to receive a p
 #### Install the Phluido L1 ( docker )
  
 ``` bash
- docker image load -i phluido_docker_$L1_VERSION.tar
+ docker image load -i phluido_l1_$L1_VERSION.tar
 ```
+
+> NOTE : it is expected that the .tar file contains also the <name> and <tag>. 
+> If this is not the case the .tar file is not correct.
 
 ### Effnet Install
 #### Effnet License: Install and check your Yubikey 
