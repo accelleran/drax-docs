@@ -109,4 +109,4 @@ Notes:
 An alternative way of configuring an individual eNB is to make use of the **Dashboard** initial page (click on **Dashboard** in the sidebar to return there).
 Click on the eNB in the Network Topology, and then choose **Configure Cell** on the **Selected Node** window at the right: this will take you to the  **eNB Configuration** page and described in the previous section.
 
-![Configure from Network Topology](images/dashboard-network-topology.png)
+![Configure from Network Topology](../../drax-install/images/dashboard-network-topology.png)
