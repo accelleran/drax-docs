@@ -317,7 +317,7 @@ configurator:
 (In this example, the E1000 specific Model is E1011, the Hardware Version is GC01, and the Serial Numbers were 0001, and 0002. Update this according to the values of your E1000s.)
 
 !!! note
-    If your dRAX installation and Accelleran E1000s will not be on the same subnet, after completing the previous step, please also follow [Appendix: dRAX and Accelleran E1000s on different subnets](./appendix-c/index.md).
+    If your dRAX installation and Accelleran E1000s will not be on the same subnet, after completing the previous step, please also follow [Appendix C: dRAX and Accelleran E1000s on different subnets](./appendix-c/index.md).
 
 
 #### 4G : Update E1000 DUs
@@ -393,12 +393,12 @@ kubectl exec -it drax-4g-4g-radio-controller-xxxx -- cat /data/oranC | strings |
 
 The two commits must match, if not please verify the installation and contact Accelleran for support.
 
-### Install the dRAX RIC and Dashboard
+### Install the dRAX RIC and Dashboard 
 
 Install the RIC and Dashboard with Helm (if installing without dedicated namespaces, leave off the -n option):
 
 ``` bash
-helm install ric acc-helm/ric --version $RIC_VERSION --values ric-values.yaml -n $NS_DRAX
+helm install ric acc-helm/ric --version 6.1.0 --values ric-values.yaml -n $NS_DRAX
 ```
 !!! info
     The installation may take up to 5 minutes, it is essential that you wait till the installation is completed and all the pods are in RUNNING or COMPLETE mode, please do **NOT** interrupt the installation by trying to regain control of the command line
@@ -408,7 +408,7 @@ To check if the installation was successful first use Helm:
 ``` bash
 helm list
 #NAME	NAMESPACE	REVISION	UPDATED                                	STATUS	        CHART    	 APP VERSION
-#ric 	default  	1       	2022-08-30 12:23:24.894432912 +0000 UTC	deployed	ric-5.0.0	 5.0.0      
+#ric 	default  	1       	2022-08-30 12:23:24.894432912 +0000 UTC	deployed	ric-6.1.0	 6.1.0      
 ```
 
 Than view the pods that have been created.
