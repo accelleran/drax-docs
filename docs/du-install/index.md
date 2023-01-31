@@ -2178,6 +2178,7 @@ The $PATH variable is set accordingly.
 
   * ```cw.sh 0 cwdisable```         - disables the cell wrapper. The cell wrapper will not interfere with your work.
   * ```cw.sh ```                    - will give you all the options possible
+  * ```cw.verify.sh 0```            - summarizes the status of the cw. ( xml parsingok, operational, ... )
 
 The script do what there name says
 
