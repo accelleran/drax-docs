@@ -36,7 +36,7 @@ Also, as mentioned in the [Overview](../index.md) section of this document, it i
 ### 4G Specific requirements:
 
 1. A DHCP server must be available on the subnet where the E1000 DUs will be installed
-2. E1000 DUs must be in the same subnet as Kubernetes' advertised address (otherwise refer to [Appendix: E1000 on separate subnet](#appendix-drax-and-accelleran-e1000s-on-different-subnets))
+2. E1000 DUs must be in the same subnet as Kubernetes' advertised address (otherwise refer to [Appendix: E1000 on separate subnet](../../../../op-guide/e1000-provisioning/index.md))
 
 ### Limitations : 
 1. When using a graphical interface, make sure it will not go to sleep or to standby. 
@@ -47,7 +47,7 @@ Also, as mentioned in the [Overview](../index.md) section of this document, it i
 
 This section explains how to install dRAX for the very first time in its default configuration.
 Assuming that the Customer has already verified all the prerequisites described in the previous Section 4.
-If you already have dRAX and are only updating it, please refer to the [section on updating an existing installation](#updating-existing-installations).
+If you already have dRAX and are only updating it, please refer to the [Operational User Guide](../../../../op-guide/ric-update/index.md).
 
 dRAX consists of multiple components:
 
@@ -76,7 +76,7 @@ Please determine the following parameters for your setup - these will be used du
 In order to run Accelleran's dRAX software, a License file is required - this license file will be named **license.crt** and will be used in a later step.
 
 4G Only : If you intend to deploy the 4G aspects of dRAX (together with Accelleran's E1000 4G DUs), you will also need to prepare a certificate to ensure secure communication between the various components.
-Please refer to [the Appendix on creating certificates](#appendix-drax-provisioner-keys-and-certificates-generation).
+Please refer to [the Appendix on creating certificates](../../internal-install-guide/RIC-install/appendix-a/index.md)
 This will also need to be validated and signed by Accelleran's customer support team, so please do this in advance of attempting the installation.
 
 #### Namespaces (Optional)
@@ -238,11 +238,11 @@ $ kubectl get services
  
 #### Enabling 4G components
 
-4G Only : when you don't need 4G you can skip and move on to chapter [Install the dRAX RIC and Dashboard](#install-the-drax-ricand-dashboard) where the RIC is actually being installed.
+4G Only : when you don't need 4G you can skip and move on to chapter [Install the dRAX RIC and Dashboard] where the RIC is actually being installed.
 
 #### 4G : Prepare keys and certificates for the dRAX Provisioner
 
-The working assumption is that keys and certificates for the dRAX Provisioner have been created by the Accelleran Support Team, however, for a more detailed guide, please check the [Appendix: dRAX Provisioner - Keys and Certificates Generation](#appendix-drax-provisioner-keys-and-certificates-generation) of this document.
+The working assumption is that keys and certificates for the dRAX Provisioner have been created by the Accelleran Support Team, however, for a more detailed guide, please check the [Appendix A: dRAX Provisioner - Keys and Certificates Generation](./appendix-a/index.md) of this document.
 
 #### 4G : Create configMaps for the dRAX Provisioner
 
@@ -317,7 +317,7 @@ configurator:
 (In this example, the E1000 specific Model is E1011, the Hardware Version is GC01, and the Serial Numbers were 0001, and 0002. Update this according to the values of your E1000s.)
 
 !!! note
-    If your dRAX installation and Accelleran E1000s will not be on the same subnet, after completing the previous step, please also follow [Appendix: dRAX and Accelleran E1000s on different subnets](#appendix-drax-and-accelleran-e1000s-on-different-subnets).
+    If your dRAX installation and Accelleran E1000s will not be on the same subnet, after completing the previous step, please also follow [Appendix: dRAX and Accelleran E1000s on different subnets](./appendix-c/index.md).
 
 
 #### 4G : Update E1000 DUs
@@ -923,189 +923,3 @@ Verify SCTP connection is setup. Expecting  HB REQ and HB ACK tracing with this 
 ``` bash
 sudo tcpdump -i any or 38462
 ```
-
-
-## Appendix: dRAX Provisioner - Keys and Certificates Generation
-
-In general, TLS certificates only allow you to connect to a server if the URL of the server matches one of the subjects in the certificate configuration.
-
-This section assumes the usage of `openssl` to handle TLS security due to its flexibility, even if  it is both complex to use and easy to make mistakes.
-Customers can choose to use different options to generate the keys and certificates as long as of course the final output matches the content of this section.
-
-### Create the certificates
-
-#### Create the server.key
-
-First thing is to create a key (if it doesn't exist yet):
-
-``` bash
-openssl genrsa -out server.key 4096
-```
-
-This command will create a RSA based server key with a key length of 4096 bits.
-
-#### Create a server certificate
-
-First, create the `cert.conf`.
-Create a file like the example below and save it as `cert.conf`:
-
-```
-[ req ]
-default_bits        = 2048
-default_keyfile     = server-key.pem
-distinguished_name  = subject
-req_extensions      = req_ext
-x509_extensions     = req_ext
-string_mask         = utf8only
-
-[ subject ]
-countryName         = Country Name (2 letter code)
-countryName_default     = BE
-
-stateOrProvinceName     = State or Province Name (full name)
-stateOrProvinceName_default = Example state
-
-localityName            = Locality Name (eg, city)
-localityName_default        = Example city
-
-organizationName         = Organization Name (eg, company)
-organizationName_default    = Example company
-
-commonName          = Common Name (e.g. server FQDN or YOUR name)
-commonName_default      = Example Company
-
-emailAddress            = Email Address
-emailAddress_default        = test@example.com
-
-[ req_ext ]
-
-subjectKeyIdentifier        = hash
-basicConstraints        = CA:FALSE
-keyUsage            = digitalSignature, keyEncipherment
-subjectAltName          = @alternate_names
-nsComment           = "OpenSSL Generated Certificate"
-
-[ alternate_names ]
-DNS.1        = localhost
-IP.1         = 10.0.0.1
-IP.2         = 10.20.20.20
-```
-
-Fill in the details, like the country, company name, etc.
-
-**IMPORTANT:** Edit the last line of the file.
-`IP.2` should be equal to IP where the provisioner will be running.
-This is the `$NODE_IP` from the planning phase.
-The default is set to 10.20.20.20.
-
-To create the server certificate, use the following command:
-
-``` bash
-openssl req -new -key server.key -config cert.conf -out server.csr -batch
-```
-
-Command explanation:
-
-  - `openssl req -new`: create a new certificate
-  - `-key server.key`: use server.key as the private half of the certificate
-  - `-config cert.conf`: use the configuration as a template
-  - `-out server.csr`: generate a csr
-  - `-batch`: don't ask about the configuration on the terminal
-
-#### Create a self-signed client certificate
-
-To create the client certificate, use the following command:
-
-``` bash
-openssl req -newkey rsa:4096 -nodes -keyout client.key -sha384 -x509 -days 3650 -out client.crt -subj /C=XX/ST=YY/O=RootCA
-```
-
-This command will create a `client.key` and `client.crt` from scratch to use for TLS-based authentication, in details the options are:
-
-  - `openssl req`: create a certificate
-  - `-newkey rsa:4096`: create a new client key
-  - `-nodes`: do not encrypt the newly create client key with a passphrase (other options are -aes)
-  - `-keyout client.key`: write the key to client.key
-  - `-x509`: sign this certificate immediately
-  - `-sha384`: use sha384 for signing the certificate`
-  - `-days 3650`: this certificate is valid for ten years
-  - `-subj /C=XX/ST=YY/O=RootCA`: use some default configuration
-  - `-out client.crt`: write the certificate to client.crt
-
-#### Sign the server certificate using the root certificate authority key
-
-The server certificate needs to be signed by Accelleran.
-To do so, please contact the Accelleran Customers Support Team and send us the following files you created previously:
-
-* server.csr
-* cert.conf
-
-You will receive from Accelleran the following files:
-
-* signed server.crt
-* ca.crt
-
-#### Verify the certificates work
-
-The following commands should be used and return both OK:
-
-``` bash
-openssl verify -CAfile client.crt client.crt
-openssl verify -CAfile ca.crt server.crt
-```
-
-
-## Appendix: License Error Codes
-
-Sometimes you might run into issues when trying to launch dRAX due to a licensing error. A list of possible error codes is provided below:
-
-|ID        | Tag                   | Explanation                                                                       |
-|----------|-----------------------| ----------------------------------------------------------------------------------|
-| E001      | ENotInEnv             | Environment variable not set                                                      |
-| E002      | EInvalidUTF8          | The content of the environment varable is not valid UTF8                          |
-| E003      | ECannotOpen          |  Cannot open license file, was it added as a secret with the right name? To verify whether it's loaded correctly, run: ```  bash kubectl get secret accelleran-license -o'jsonpath={.data.license\\.crt}' ```   which should give you a base64 encoded dump. |
-|E004|ELicenseExpired|Your license is expired! You'll likely need a new license from Accelleran|
-|E005|EDecryption|An error occurred during decryption
-|E006|EVerification|An error occurred during verification
-|E007|EMissingPermission|You do not have the permissions to execute the software. You'll likely need a more permissive license from Accelleran.
-|E008|ESOError|Inner function returned an error
-|E009|ERunFn|Cannot find the correct function in the library
-|E010|ELoadLibrary|Cannot load the .so file
-|E011|ETryWait|An error occurred while waiting for the subprocess to return
-|E012|ESpawn|Could not spawn subprocess
-|E013|EWriteDecrypted|Cannot write to file descriptor
-|E014|EMemFd|Cannot open memory file descriptor
-|E015|ECypher|Cannot create cypher|
-
-## Appendix : Remove existing deployments
-
-In order to continue with the remaining steps, we remove the existing deployments of our charts.
-Note that this will not remove the data, so any configured components should remain once the installation is completed.
-
-It may be that the previous versions used different names for the Helm deployments, so to check the correct names we can use the `helm list` command:
-
-``` bash
-helm list
-#NAME        	NAMESPACE	REVISION	UPDATED                                	STATUS  	CHART             	APP VERSION               
-#acc-5g-cu-cp	default  	1       	2022-01-21 15:16:35.893230618 +0000 UTC	deployed	acc-5g-cu-cp-3.0.0	release-2.3-duvel-8b8d7f05
-#acc-5g-cu-up	default  	1       	2022-01-21 15:16:44.931753616 +0000 UTC	deployed	acc-5g-cu-up-3.0.0	release-2.3-duvel-8b8d7f05
-#acc-helm-ric	default  	1       	2022-01-09 17:20:52.860528687 +0000 UTC	deployed  	ric-4.0.0         	4.0.0                     
-
-```
-
-In the above example, the installations are called `acc-5g-cu-cp` , acc-5g-cu-up and `ric`, so the required commands would be:
-
-``` bash
-helm uninstall acc-5g-cu-cp
-helm uninstall acc-5g-cu-up
-helm uninstall ric
-```
-
-Please wait until all the pods and resources of the previous dRAX installation are deleted.
-You can view them by:
-
-``` bash
-watch kubectl get pods -A
-```
-
-You can now continue with the remaining steps.

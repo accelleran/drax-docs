@@ -21,7 +21,7 @@ This system release contains
 | BNTL550      | 0.6.0                       |
 | cell wrapper | 1.1.0                       |
 
-During the installation following variables will be used. These are the correct values they are set to for this release.
+During the installation one may or may not use all or some of the following variables. These are the correct values they are set to for this release:
 
 ``` bash
 export INSTALL_VERSION=2022.3.1
@@ -76,7 +76,7 @@ This installation guide assumes that that the following are to be taken as prere
 Make sure Ubuntu (Server) 20.04 is installed as said both on the physical server and on the virtual machine and that both have access to the internet.
 They both must have a static IP address on a fixed port, in the same subnet
 
-> NOTE : All IP's need to be in the same subnet. The ip's and values used in the variables depicted below are example values.
+> NOTE : All IP's need to be in the same subnet. Here we describe and define the typical parameters that need to be set on each deployment and one can optionally set them as environment variables to expedite the installation. The ip's and values used in the variables depicted below are example values.
 
 > NOTE : the USER of the CU VM and the bare metal HOST is assumed to be the same.   
 
@@ -85,7 +85,7 @@ export NODE_IP=192.168.88.4          # replace 192.168.88.4 by the IP address of
 export NODE_SUBNET=192.168.88.0/24   # the subnet that contains the $NODE_IP
 export NODE_INT=br0               # he name of the network interface that has IP $NODE_IP
 export SERVER_IP=192.168.88.3     # The IP address of the linux bridge ( br0 )
-export SERVER_INT=eno             # The physical interface the server connects to the LAN.
+export SERVER_INT=eno1             # The physical interface the server connects to the LAN.
 export GATEWAY_IP=192.168.88.1    # replace 192.168.88.1 by the IP address of the gateway
 export CORE_IP=192.168.88.5       # replace 192.168.88.5 by the IP address of the core
 export E1_CU_IP=192.168.88.170    # E1 ip address the CU listens on. Good practice to take the second last in the LOADBALANCER_IP_RANGE and anding with an even byte.
@@ -93,7 +93,7 @@ export F1_CU_IP=192.168.88.171    # F1 ip address the CU listens on. Good practi
 export LOADBALANCER_IP_RANGE=192.168.88.160-192.168.88.171
 export POD_NETWORK="10.244.0.0/16"
 
-export USER=sj5g                  # username to log into linux of HOST SERVER and CU VM
+export USER=user                  # username to log into linux of HOST SERVER and CU VM
 export CU_HOSTNAME=cu-cab3        # the hostname the CU VM will get.
 export CU_VM_NAME=cu-cab3         # the hostname the CU VM will get.
 export OPEN5GS_HOSTNAME=open5gs-cab3        # the hostname the CU VM will get.
@@ -109,18 +109,6 @@ export MAC_DU=11:22:33:44:55:66          # mac of the server interface to RU.
 export MAC_RU=aa:bb:cc:dd:ee:ff      # mac of the RU for ip 10.0.0.2. Use tcpdump to find.
 ```
 
-Kubernetes namespaces, listed here for completeness. We will use default.
-``` bash
-export NS_DRAX=default
-export NS_4G_CU=default
-export NS_5G_CU=default
-```
-
-Docker hub account. Request these 3 values to Accelleran.
-``` bash
-export DOCKER_USER=
-export DOCKER_PASS=
-export DOCKER_EMAIL=
 ```
 
 In order to perform many of the commands in this installation manual you need root privileges. Make sure the user on can do sudo without password (if tom is the user name):
@@ -131,15 +119,6 @@ tom ALL=(ALL) NOPASSWD:ALL
 ``` 
 It is recommended to do this both on the server and the VM
 
-### Know the 5G configuration 
-
-``` bash
-export PLMN_ID=001f01
-export PCI_ID=201             
-export ARFCN_POINT_A=662664
-export FREQ_BAND=77
-export FREQ_CENTER=
-```
 > NOTE : for multiple cells bare in mind a correct PCI ID planning.
 
 ### know which cores and cpu you will be using.
