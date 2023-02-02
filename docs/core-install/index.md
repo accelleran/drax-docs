@@ -157,13 +157,18 @@ Add this iptable rule to be able to ping the UE from the core.
 sudo iptables -I INPUT -i ogstun -j ACCEPT
 ```
 
-To make these rules boot safe do
+To make these rules boot safe install and configure
 ```
 sudo apt-get install iptables-persistent
 sudo netfilter-persistent save
 sudo systemctl enable netfilter-persistent
 ```
-
+Each time you change a rule you have to save it like this
+```
+chmod 666 /etc/iptables/rules.v4
+sudo iptables-save > /etc/iptables/rules.v4
+chmod 640 /etc/iptables/rules.v4
+```
 
 ### Provision a UE
 
