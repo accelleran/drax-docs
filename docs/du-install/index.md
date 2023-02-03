@@ -2024,7 +2024,9 @@ redis:
     deleteAfterDay: 7
   jobs:
     deleteExistingData: true
-
+  service:
+    nodePort: 32220
+	
 nats:
   enabled: false
 
