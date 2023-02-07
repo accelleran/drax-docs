@@ -1967,6 +1967,13 @@ printf "$USER ALL=(ALL) NOPASSWD:ALL\n" | sudo tee /etc/sudoers.d/$USER
 sudo usermod -aG sudo $USER
 ```
 
+Before installing or upgrading cell wrapper it is important to remove all container instances of effnet and phluido.
+	
+```
+docker ps -a | grep phluido | awk '{print $1}' | xargs docker rm -f
+```
+	
+
 #### On the CU VM
 Go to the VM. In the VM a cell wrapper will get installed that controls the DU and RU ( cell ).
 Going inside the CU VM.
