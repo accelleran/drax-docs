@@ -1543,20 +1543,6 @@ RAN650-2V0.3
 ```
 
 
-### Configure the physical Benetel Radio End - Release V0.5.x
-
-There are several parameters that can be checked and modified by reading writing the EEPROM, for this we recommend to make use of the original Benetel Software User Guide for RANx50-02 CAT-B O-RUs, in case of doubt ask for clarification to Accelleran Customer Support . Here we just present two of the most used parameters, that will need an adjustment for each deployment.
-
-#### CFR enabled 
-By default the RU ships with CFR enabled. What still needs to be done is set register ```0366``` to value ```0xFFF```. 
-Do this by altering file ```/usr/sbin/radio_setup_ran650_b.sh``` with following line.
-
-``` bash
-    registercontrol -w c0366 -x 0xFFF >> ${LOG_RAD_STAT_FP}
-```
-
-
-
 #### MAC Address of the DU
 
 Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that. If the MAC address of the server port you use to connect to the Benetel B650 Radio End (the NIC Card port where the fiber originates from) is $MAC_DU 11:22:33:44:55:66 then you can program the EEPROM of your B650 unit as follows:
