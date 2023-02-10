@@ -8,11 +8,10 @@
       
       
       
+        <link rel="canonical" href="https://accelleran.github.io/drax-docs-R3.1/publish/">
       
-        <link rel="canonical" href="https://accelleran.github.io/drax-docs/publish/">
-      
-      <link rel="icon" href="../images/accelleran_favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.0">
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
     
     
       
@@ -20,30 +19,33 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.fe914879.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.20d9efc8.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ba0d045b.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
         
       
+      
+
     
     
     
       
+        
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
-    
     
     
       <link rel="stylesheet" href="../css/extra.css">
     
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
-
+    
     
     
   </head>
@@ -57,7 +59,6 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
   
     
-    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -74,15 +75,24 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  <img src="../images/accelleran_logo.png" alt="logo">
+  <img src="../images/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -104,22 +114,21 @@
     
     
       <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
       </label>
-      
-<div class="md-search" data-md-component="search" role="dialog">
+      <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
       
@@ -139,13 +148,9 @@
     
     
   </nav>
-</header>
+  
     
-    <div class="md-container" data-md-component="container">
       
-      
-        
-          
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
@@ -213,6 +218,13 @@
     </ul>
   </div>
 </nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
         
       
       <main class="md-main" data-md-component="main">
@@ -234,7 +246,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  <img src="../images/accelleran_logo.png" alt="logo">
+  <img src="../images/logo.png" alt="logo">
 
     </a>
     dRAX - 2022.3.0 release
@@ -325,12 +337,14 @@
             
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
-                
-                <h1 id="how-to-publish">How to publish<a class="headerlink" href="#how-to-publish" title="Permanent link">&para;</a></h1>
+                  
+
+
+<h1 id="how-to-publish">How to publish<a class="headerlink" href="#how-to-publish" title="Permanent link">&para;</a></h1>
 <p>site with documentation
 https://squidfunk.github.io/mkdocs-material/setup/changing-the-logo-and-icons/</p>
 <h2 id="how-to-install-mkdocs">How to install mkdocs<a class="headerlink" href="#how-to-install-mkdocs" title="Permanent link">&para;</a></h2>
@@ -338,97 +352,51 @@ https://squidfunk.github.io/mkdocs-material/setup/changing-the-logo-and-icons/</
 <p>clone the repo containing the .md files
 <div class="highlight"><pre><span></span><code>git clone  https://github.com/accelleran/drax-docs
 </code></pre></div></p>
-<div class="highlight"><pre><span></span><code>curl -sSL https://install.python-poetry.org | python3 -
-</code></pre></div>
-<p>install the tools ( python 3.9 is needed)
+<p>install the tools
+<div class="highlight"><pre><span></span><code>pip3 install mkdocs-material
+pip3 install mike
+pip3 install mkdocs-section-index
+</code></pre></div></p>
+<p>create a new site
 <div class="highlight"><pre><span></span><code>cd drax-docs
-poetry shell
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>poetry install
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>mkdocs serve
+mkdocs new site
 </code></pre></div></p>
-<p>At this point you can start browsing the docs on your local machine</p>
-<p><img alt="image" src="https://user-images.githubusercontent.com/21971027/208943432-3ed84619-7da0-4f22-be50-74ab8d1d78f0.png" /></p>
-<p>With visual code you can do changes and they will reflect immediatly in the preview on the webbrowser</p>
-<p><img alt="image" src="https://user-images.githubusercontent.com/21971027/208943521-f34ab04a-477c-4454-90bf-c2151990dfc6.png" /></p>
-<p>To make the preview uploaded to git hub use
-<div class="highlight"><pre><span></span><code>mkdocs gh-deploy
-</code></pre></div></p>
-<p><img alt="image" src="https://user-images.githubusercontent.com/21971027/208943676-be1ce5cc-17c9-485a-ae55-a96261232c30.png" /></p>
-<h2 id="formatting">Formatting<a class="headerlink" href="#formatting" title="Permanent link">&para;</a></h2>
-<p>This paragraph shows how the formatting has been accomplished in case you want to change more formatting.
-These changes are also kept in github. </p>
-<h3 id="for-the-logos">for the logos<a class="headerlink" href="#for-the-logos" title="Permanent link">&para;</a></h3>
-<p>file <code>drax-docs/mkdocs.yml</code>. 
-<div class="highlight"><pre><span></span><code>:
-:
-theme:                                    
-  logo: images/accelleran_logo.png        
-  favicon: images/accelleran_favicon.png
-:
-:
-</code></pre></div></p>
-<h3 id="for-the-menus">for the menus<a class="headerlink" href="#for-the-menus" title="Permanent link">&para;</a></h3>
-<p>file <code>drax-docs/docs/css/extra.css</code> </p>
-<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">md-typeset</span> <span class="nt">img</span><span class="o">[</span><span class="nt">align</span><span class="o">=</span><span class="nt">middle</span><span class="o">],</span> <span class="p">.</span><span class="nc">md-typeset</span> <span class="nt">svg</span><span class="o">[</span><span class="nt">align</span><span class="o">=</span><span class="nt">middle</span><span class="o">]</span> <span class="p">{</span>                          
-    <span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>                                                                     
-    <span class="k">margin</span><span class="p">:</span> <span class="mi">0</span> <span class="kc">auto</span><span class="p">;</span>                                                                     
-<span class="p">}</span>                                                                                       
-<span class="p">.</span><span class="nc">md-grid</span> <span class="p">{</span>                                                                              
-        <span class="k">max-width</span><span class="p">:</span> <span class="mi">71</span><span class="kt">rem</span>                                                                
-<span class="p">}</span>                                                                                       
-
-<span class="p">.</span><span class="nc">md-sidebar</span> <span class="p">{</span>                                                                           
-        <span class="k">width</span><span class="p">:</span> <span class="mf">22.1</span><span class="kt">rem</span>                                                                  
-<span class="p">}</span>                                                                                       
-
-<span class="p">@</span><span class="k">supports</span> <span class="nt">selector</span><span class="o">(</span><span class="p">::</span><span class="nd">-webkit-scrollbar</span><span class="o">)</span> <span class="p">{</span>                                               
-    <span class="p">.</span><span class="nc">md-sidebar__scrollwrap</span> <span class="p">{</span>                                                           
-        <span class="n">scrollbar-gutter</span><span class="p">:</span> <span class="kc">auto</span>                                                          
-    <span class="p">}</span>                                                                                   
-
-    <span class="o">[</span><span class="nt">dir</span><span class="o">=</span><span class="nt">ltr</span><span class="o">]</span> <span class="p">.</span><span class="nc">md-sidebar__inner</span> <span class="p">{</span>                                                      
-        <span class="k">padding-right</span><span class="p">:</span> <span class="nb">calc</span><span class="p">(</span><span class="mi">100</span><span class="kt">%</span> <span class="o">-</span> <span class="mf">21.5</span><span class="kt">rem</span><span class="p">);</span>                                            
-        <span class="c">/* padding-right: 0%; */</span>                                                        
-    <span class="p">}</span>                                                                                   
-
-    <span class="o">[</span><span class="nt">dir</span><span class="o">=</span><span class="nt">rtl</span><span class="o">]</span> <span class="p">.</span><span class="nc">md-sidebar__inner</span> <span class="p">{</span>                                                      
-        <span class="k">padding-left</span><span class="p">:</span> <span class="nb">calc</span><span class="p">(</span><span class="mi">100</span><span class="kt">%</span> <span class="o">-</span> <span class="mf">21.5</span><span class="kt">rem</span><span class="p">)</span>                                              
-    <span class="p">}</span>                                                                                   
-<span class="p">}</span>                                                                                       
+<p>Then start the webservice on the ip address of this server. In our example 10.22.11.147</p>
+<div class="highlight"><pre><span></span><code>mkdocs serve -a 10.22.11.147:8000     
 </code></pre></div>
+<p>now you can browse using <a href="http://10.22.11.147:8000/drax-docs/">http:10.22.11.147:8000</a></p>
+
+
+
+
+
                 
-              
-              
-                
-
-
-              
-            </article>
-          </div>
+              </article>
+            </div>
+          
+          
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
             Back to top
           </a>
         
       </main>
       
-        
-<footer class="md-footer">
+        <footer class="md-footer">
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-        
-      </div>
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
       
     </div>
   </div>
@@ -438,10 +406,11 @@ theme:
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.53c85856.min.js", "version": {"provider": "mike"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate"], "search": "../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.716f8af4.min.js"></script>
+      <script src="../assets/javascripts/bundle.078830c0.min.js"></script>
       
     
   </body>
