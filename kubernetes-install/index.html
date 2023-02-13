@@ -8,10 +8,11 @@
       
       
       
-        <link rel="canonical" href="https://accelleran.github.io/drax-docs-R3.1/kubernetes-install/">
       
-      <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
+        <link rel="canonical" href="https://accelleran.github.io/drax-docs-2022-3-1/kubernetes-install/">
+      
+      <link rel="icon" href="../images/accelleran_favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.0">
     
     
       
@@ -19,33 +20,30 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.20d9efc8.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.fe914879.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ba0d045b.min.css">
         
       
-      
-
     
     
     
       
-        
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
       
+    
     
     
       <link rel="stylesheet" href="../css/extra.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
-    
+
     
     
   </head>
@@ -59,6 +57,7 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
   
     
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -75,24 +74,15 @@
       
     </div>
     
-      <div data-md-component="outdated" hidden>
-        
-      </div>
-    
-    
-      
-
-  
-
-<header class="md-header md-header--lifted" data-md-component="header">
+      <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  <img src="../images/logo.png" alt="logo">
+  <img src="../images/accelleran_logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -114,21 +104,22 @@
     
     
       <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
       </label>
-      <div class="md-search" data-md-component="search" role="dialog">
+      
+<div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
         </button>
       </nav>
       
@@ -148,9 +139,13 @@
     
     
   </nav>
-  
+</header>
     
+    <div class="md-container" data-md-component="container">
       
+      
+        
+          
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
@@ -220,13 +215,6 @@
     </ul>
   </div>
 </nav>
-    
-  
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
         
       
       <main class="md-main" data-md-component="main">
@@ -248,7 +236,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  <img src="../images/logo.png" alt="logo">
+  <img src="../images/accelleran_logo.png" alt="logo">
 
     </a>
     dRAX - 2022.3.0 release
@@ -289,8 +277,13 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          CU installation ( VM & kubernetes )
           <span class="md-nav__icon md-icon"></span>
+          
+            <a href="./" class="md-nav__link md-nav__link--active"
+              style="margin: initial; padding: initial; pointer-events: initial">
+          
+            CU installation ( VM & kubernetes )
+          </a>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
@@ -298,7 +291,6 @@
       </a>
       
         
-
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -619,14 +611,12 @@
             
             
           
-          
-            <div class="md-content" data-md-component="content">
-              <article class="md-content__inner md-typeset">
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
                 
-                  
-
-
-<h1 id="cu-installation-vm-kubernetes">CU installation ( VM &amp; kubernetes )<a class="headerlink" href="#cu-installation-vm-kubernetes" title="Permanent link">&para;</a></h1>
+                
+                <h1 id="cu-installation-vm-kubernetes">CU installation ( VM &amp; kubernetes )<a class="headerlink" href="#cu-installation-vm-kubernetes" title="Permanent link">&para;</a></h1>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
 <p>This chapter will install the CU, using Flannel for the CNI.
 This guide defaults to using Docker as the container runtime.</p>
@@ -647,6 +637,9 @@ This guide defaults to using Docker as the container runtime.</p>
 <p>create a linux bridge using netplan</p>
 <p>adapt your netplan file assuming that $SERVER_INT holds the physical interface name of your server
 that connects to the network.</p>
+<div class="highlight"><pre><span></span><code>env | grep -e SERVER_INT -e SERVER_IP -e GATEWAY_IP
+</code></pre></div>
+<p>open netplan and change the variable $SERVER_INT with the correct value.</p>
 <p><div class="highlight"><pre><span></span><code>network:
   ethernets:
     <span class="nv">$SERVER_INT</span>:
@@ -678,7 +671,7 @@ on the host uncomment the line in <code>/etc/sysctl.conf</code> so you get this.
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>sudo apt install qemu-kvm
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>sudo apt install libvirt_daemon_system
+<div class="highlight"><pre><span></span><code>sudo apt install libvirt-daemon-system
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>sudo apt install bridge-utils
 </code></pre></div>
@@ -689,6 +682,10 @@ on the host uncomment the line in <code>/etc/sysctl.conf</code> so you get this.
 <blockquote>
 <p>IMPORTANT ! the $CORE_SET_CU can only be a comma seperated list. </p>
 </blockquote>
+<p>Verify the content of these 3 variables and the existence of the .iso file
+<div class="highlight"><pre><span></span><code>env <span class="p">|</span> grep -e CU_VM_NAME -e CORE_AMOUNT_CU -e CORE_SET_CU
+ls ubuntu-20.04.4-live-server-amd64.iso
+</code></pre></div></p>
 <div class="highlight"><pre><span></span><code>sudo virt-install  --name <span class="s2">&quot;</span><span class="nv">$CU_VM_NAME</span><span class="s2">&quot;</span>  --memory <span class="m">16768</span> --vcpus <span class="s2">&quot;sockets=1,cores=</span><span class="nv">$CORE_AMOUNT_CU</span><span class="s2">,cpuset=</span><span class="nv">$CORE_SET_CU</span><span class="s2">&quot;</span>  --os-type linux  --os-variant rhel7.0 --accelerate --disk <span class="s2">&quot;/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio&quot;</span>  --network <span class="s2">&quot;source=br0,type=bridge&quot;</span> --vnc  --noautoconsole --cdrom <span class="s2">&quot;./ubuntu-20.04.4-live-server-amd64.iso&quot;</span>  --console pty,target_type<span class="o">=</span>virtio
 </code></pre></div>
 <blockquote>
@@ -1076,17 +1073,28 @@ double click it and proceed.</p>
                                [ View full log ]
                                [ Reboot Now    ]
 </code></pre></div>
-Wait untill you can click reboot server</li>
+Wait untill on top you see Install complete and you can click reboot server.</li>
 </ul>
 <blockquote>
-<p>NOTE : if after some minutes the server has not rebooted yet you have to reboot it  forcefully like this. Most likely the cdrom fails to unmount.</p>
+<p>NOTE : if after some minutes the server has not rebooted yet you have to reboot it forcefully like this. 
+Most likely the cdrom fails to unmount. </p>
 <p><div class="highlight"><pre><span></span><code>virsh reset $CU_VM_NAME 
 </code></pre></div>
 </p>
 </blockquote>
-<p>copy the install directory from the HOST to this newly created VM</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span> <span class="p">;</span> scp -r install_<span class="nv">$CU_VERSION</span>  <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>:
+<p>put the newly created VM into autostart mode and start it when not done already.  </p>
+<p><div class="highlight"><pre><span></span><code>virsh autostart <span class="nv">$CU_VM_NAME</span>
+virsh start <span class="nv">$CU_VM_NAME</span>
 </code></pre></div>
+make cu accesible without password
+<div class="highlight"><pre><span></span><code>ssh-keygen
+</code></pre></div>
+press enter for untill command finishes.</p>
+<div class="highlight"><pre><span></span><code>ssh-copy-id <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>
+</code></pre></div>
+<p>copy the install directory from the HOST to this newly created VM
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> <span class="p">;</span> scp -r install  <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>:
+</code></pre></div></p>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span> <span class="p">;</span> scp .profile  <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>:
 </code></pre></div>
 <p>ssh into the VM.</p>
@@ -1099,6 +1107,9 @@ Wait untill you can click reboot server</li>
 <div class="highlight"><pre><span></span><code>lsblk
 sudo lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 lsblk
+</code></pre></div></p>
+<p>See how much diskspace is available with
+<div class="highlight"><pre><span></span><code>df -h 
 </code></pre></div></p>
 <p>Every heading that follows has to be done inside this VM.</p>
 <h2 id="install-docker-in-the-cu-vm">Install Docker in the CU VM<a class="headerlink" href="#install-docker-in-the-cu-vm" title="Permanent link">&para;</a></h2>
@@ -1124,9 +1135,6 @@ lsblk
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>sudo reboot
 </code></pre></div>
-<p>rerun the .profile to load install variables
-<div class="highlight"><pre><span></span><code>. <span class="nv">$HOME</span>/.profile
-</code></pre></div></p>
 <p>To check if your installation is working you can try to run a test image in a container:</p>
 <div class="highlight"><pre><span></span><code>docker run hello-world
 </code></pre></div>
@@ -1163,10 +1171,9 @@ sudo apt update
 <p>Accelleran dRAX currently supports Kubernetes up to version 1.20. The following command installs specifically this version:</p>
 <p><div class="highlight"><pre><span></span><code>sudo apt install -y <span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.20.0-00 
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>sudo apt install -y <span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.20.0-00 
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>sudo apt isntall -y <span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.20.0-00
-</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install -y <span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.20.0-00         <span class="c1"># also installs kubectl.</span>
+</code></pre></div></p>
+<p>Prevent from kubectl being automatically upgraded or updated or installed.
 <div class="highlight"><pre><span></span><code>sudo apt-mark hold kubelet kubeadm kubectl
 </code></pre></div></p>
 <h3 id="configure-kubernetes">Configure Kubernetes<a class="headerlink" href="#configure-kubernetes" title="Permanent link">&para;</a></h3>
@@ -1180,8 +1187,12 @@ From here on, this IP is referred to as <code>$NODE_IP</code> - this shell varia
 </blockquote>
 <p>This guide assumes we will use Flannel as the CNI-based Pod network for this Kubernetes instance, which uses the <code>10.244.0.0/16</code> subnet by default.
 We store it again as an environment variable for later use, and of course if you wish to use a different subnet, change the command accordingly:</p>
+<p>verify 2 veriables 
+<div class="highlight"><pre><span></span><code>env <span class="p">|</span> grep -e POD_NETWORK -e NODE_IP
+</code></pre></div></p>
 <p>The following command initializes the cluster on this node:</p>
-<div class="highlight"><pre><span></span><code>sudo kubeadm init --pod-network-cidr<span class="o">=</span><span class="nv">$POD_NETWORK</span> --apiserver-advertise-address<span class="o">=</span><span class="nv">$NODE_IP</span>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">POD_NETWORK</span><span class="o">=</span><span class="m">10</span>.244.0.0/16
+sudo kubeadm init --pod-network-cidr<span class="o">=</span><span class="nv">$POD_NETWORK</span> --apiserver-advertise-address<span class="o">=</span><span class="nv">$NODE_IP</span>
 </code></pre></div>
 <p>If this succeeds, we should see information for joining other worker nodes to this cluster.
 We won't do that at this point, but it's a sign that the command completed successfully.</p>
@@ -1196,6 +1207,9 @@ sudo cp -i /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
 <div class="highlight"><pre><span></span><code>curl -sSOJ https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 sed -i <span class="s1">&#39;/net-conf.json/,/}/{ s#10.244.0.0/16#&#39;</span><span class="s2">&quot;</span><span class="nv">$POD_NETWORK</span><span class="s2">&quot;</span><span class="s1">&#39;#; }&#39;</span> kube-flannel.yml
 </code></pre></div>
+<p>Check POD_NETWORK change
+<div class="highlight"><pre><span></span><code>cat kube-flannel.yml <span class="p">|</span> grep net-conf -A <span class="m">3</span>
+</code></pre></div></p>
 <p>Apply the Manifest file:</p>
 <div class="highlight"><pre><span></span><code>kubectl apply -f kube-flannel.yml
 </code></pre></div>
@@ -1263,34 +1277,33 @@ For instance to verify your name resolution works do:</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>sudo rm /etc/kubernetes/admin.conf
 </code></pre></div></p>
-
-
-
-
-
                 
-              </article>
-            </div>
-          
-          
+              
+              
+                
+
+
+              
+            </article>
+          </div>
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
             Back to top
           </a>
         
       </main>
       
-        <footer class="md-footer">
+        
+<footer class="md-footer">
   
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
         <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Accelleran CU Install Guide" rel="prev">
           <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
           <div class="md-footer__title">
             <div class="md-ellipsis">
@@ -1314,7 +1327,7 @@ For instance to verify your name resolution works do:</p>
             </div>
           </div>
           <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
           </div>
         </a>
       
@@ -1322,15 +1335,14 @@ For instance to verify your name resolution works do:</p>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-  
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
-    </a>
-  
-</div>
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
       
     </div>
   </div>
@@ -1340,11 +1352,10 @@ For instance to verify your name resolution works do:</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.53c85856.min.js", "version": {"provider": "mike"}}</script>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate"], "search": "../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
     
-    
-      <script src="../assets/javascripts/bundle.078830c0.min.js"></script>
+      <script src="../assets/javascripts/bundle.716f8af4.min.js"></script>
       
     
   </body>

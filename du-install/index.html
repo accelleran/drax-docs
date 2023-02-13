@@ -8,10 +8,11 @@
       
       
       
-        <link rel="canonical" href="https://accelleran.github.io/drax-docs-R3.1/du-install/">
       
-      <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
+        <link rel="canonical" href="https://accelleran.github.io/drax-docs-2022-3-1/du-install/">
+      
+      <link rel="icon" href="../images/accelleran_favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.0">
     
     
       
@@ -19,33 +20,30 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.20d9efc8.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.fe914879.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ba0d045b.min.css">
         
       
-      
-
     
     
     
       
-        
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
       
+    
     
     
       <link rel="stylesheet" href="../css/extra.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
-    
+
     
     
   </head>
@@ -59,6 +57,7 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
   
     
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -75,24 +74,15 @@
       
     </div>
     
-      <div data-md-component="outdated" hidden>
-        
-      </div>
-    
-    
-      
-
-  
-
-<header class="md-header md-header--lifted" data-md-component="header">
+      <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  <img src="../images/logo.png" alt="logo">
+  <img src="../images/accelleran_logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -114,21 +104,22 @@
     
     
       <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
       </label>
-      <div class="md-search" data-md-component="search" role="dialog">
+      
+<div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
         </button>
       </nav>
       
@@ -148,9 +139,13 @@
     
     
   </nav>
-  
+</header>
     
+    <div class="md-container" data-md-component="container">
       
+      
+        
+          
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
@@ -220,13 +215,6 @@
     </ul>
   </div>
 </nav>
-    
-  
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
         
       
       <main class="md-main" data-md-component="main">
@@ -248,7 +236,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
       
-  <img src="../images/logo.png" alt="logo">
+  <img src="../images/accelleran_logo.png" alt="logo">
 
     </a>
     dRAX - 2022.3.0 release
@@ -319,8 +307,13 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          DU Installation
           <span class="md-nav__icon md-icon"></span>
+          
+            <a href="./" class="md-nav__link md-nav__link--active"
+              style="margin: initial; padding: initial; pointer-events: initial">
+          
+            DU Installation
+          </a>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
@@ -328,7 +321,6 @@
       </a>
       
         
-
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -426,6 +418,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#install-the-phluido-l1-docker" class="md-nav__link">
+    Install the Phluido L1 ( docker )
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -456,13 +455,6 @@
           <li class="md-nav__item">
   <a href="#effnet-license-activate-the-yubikey" class="md-nav__link">
     Effnet License: activate the yubikey
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#install-the-phluido-l1-docker" class="md-nav__link">
-    Install the Phluido L1 ( docker )
   </a>
   
 </li>
@@ -599,22 +591,8 @@
     Version Check
   </a>
   
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configure-the-physical-benetel-radio-end-release-v05x" class="md-nav__link">
-    Configure the physical Benetel Radio End - Release V0.5.x
-  </a>
-  
-    <nav class="md-nav" aria-label="Configure the physical Benetel Radio End - Release V0.5.x">
+    <nav class="md-nav" aria-label="Version Check">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#cfr-enabled" class="md-nav__link">
-    CFR enabled
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#mac-address-of-the-du" class="md-nav__link">
@@ -935,14 +913,12 @@
             
             
           
-          
-            <div class="md-content" data-md-component="content">
-              <article class="md-content__inner md-typeset">
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
                 
-                  
-
-
-<h1 id="du-installation">DU Installation<a class="headerlink" href="#du-installation" title="Permanent link">&para;</a></h1>
+                
+                <h1 id="du-installation">DU Installation<a class="headerlink" href="#du-installation" title="Permanent link">&para;</a></h1>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
 <p>The DU will be installed in several Docker containers that run on metal on the host machine. As mentioned in the introduction, a separate Virtual Machine will host the RIC and the CU and their relative pods will be handled by Kubernetes inside that VM. Here we focus on the steps to get DU and L1 up and running.</p>
 <h3 id="variables-needed-for-this-install">Variables needed for this install<a class="headerlink" href="#variables-needed-for-this-install" title="Permanent link">&para;</a></h3>
@@ -1032,6 +1008,9 @@ sudo apt autoremove
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>sudo systemctl disable ondemand
 </code></pre></div></p>
+<p>Check if the server will boot in the new lowlatency kernel. The lowlatency should be the first one in the menu list.
+<div class="highlight"><pre><span></span><code>cat /boot/grub/grub.cfg <span class="p">|</span> grep <span class="s2">&quot;menuentry &quot;</span>
+</code></pre></div></p>
 <p>Restart the machine to make the changes take effect:</p>
 <div class="highlight"><pre><span></span><code>sudo reboot
 </code></pre></div>
@@ -1044,6 +1023,13 @@ System test completed, output written to file &quot;sysTest.bin&quot;.
 </code></pre></div>
 <p>( The test takes around 90 seconds) This will run a test of the system that will allow to determine if the server is properly configured and capable of running the demanding L1/RRU components Once it is finsihed it produces a file sysTest.bin in the same directory Send this file to Accelleran, 
 to obtain the Phluido license key. Send this .bin file to phluido to receive a proper license.</p>
+<h4 id="install-the-phluido-l1-docker">Install the Phluido L1 ( docker )<a class="headerlink" href="#install-the-phluido-l1-docker" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code> docker image load -i phluido_l1_<span class="nv">$L1_VERSION</span>.tar
+</code></pre></div>
+<blockquote>
+<p>NOTE : it is expected that the .tar file contains also the <name> and <tag>. 
+If this is not the case the .tar file is not correct.</p>
+</blockquote>
 <h3 id="effnet-install">Effnet Install<a class="headerlink" href="#effnet-install" title="Permanent link">&para;</a></h3>
 <h4 id="effnet-license-install-and-check-your-yubikey">Effnet License: Install and check your Yubikey<a class="headerlink" href="#effnet-license-install-and-check-your-yubikey" title="Permanent link">&para;</a></h4>
 <p>For the license activation file we indicate the generic format yyyy_mm_dd as the file name may vary from case to case, your Accelleran point of contact will make sure you receive the correct license activation archive file which will have a certain timestamp on it, example effnet-license-activation-2021-12-16.zip</p>
@@ -1125,12 +1111,9 @@ the dongle with the serial number 13134288 has not been activated, or the licens
 <div class="highlight"><pre><span></span><code>Loading certificate to Yubico YubiKey CCID <span class="m">00</span> <span class="m">00</span> <span class="o">(</span>serial: <span class="m">13134288</span><span class="o">)</span>
 </code></pre></div>
 <p>Which means that a license for the dongle with serial-number 13134288 was loaded to the dongle (i.e., it was bundled in the license-activation image).</p>
-<h4 id="install-the-phluido-l1-docker">Install the Phluido L1 ( docker )<a class="headerlink" href="#install-the-phluido-l1-docker" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code> docker image load -i phluido_docker_<span class="nv">$L1_VERSION</span>.tar
-</code></pre></div>
 <h4 id="install-effnet-du-docker">Install Effnet DU ( docker )<a class="headerlink" href="#install-effnet-du-docker" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code>unzip accelleran-du-phluido-<span class="nv">$DU_VERSION</span>.zip
-bzcat accelleran-du-phluido/accelleran-du-phluido-<span class="nv">$DU_VERSION</span>/gnb_du_main_phluido-<span class="nv">$DU_VERSION</span>.tar.bz2 <span class="p">|</span> docker image load
+bzcat accelleran-du-phluido-<span class="nv">$DU_VERSION</span>/gnb_du_main_phluido-<span class="nv">$DU_VERSION</span>.tar.bz2 <span class="p">|</span> docker image load
 </code></pre></div>
 <h3 id="docker-compose-file-with-cpu-pinning">docker compose file ( with CPU PINNING )<a class="headerlink" href="#docker-compose-file-with-cpu-pinning" title="Permanent link">&para;</a></h3>
 <p>To achieve maximum stability and performance it is necessary to optimise the CPU load and this can be done by distributing the available CPUs among the components and assign different priorities to the most demanding processes. We split therefore the CPUs in two groups, one group of CPUs for the VM where the RIC/CU run and one group of CPUs for the containers that run L1 and DU. The CPU pinning allows for ceertain components to run only on certain CPUs, however it doesn't impede other processes to use the same CPUs, so the full optimisation of the CPU usage and the exclusive allocation of the CPUs are beyond the scope of this document, here we illustrate one possible split as an example.</p>
@@ -1157,7 +1140,7 @@ cat &gt; docker-compose.yaml <span class="s">&lt;&lt; EOF</span>
 <span class="s">      - &quot;/etc/machine-id:/etc/machine-id:ro&quot;</span>
 <span class="s">    working_dir: &quot;/workdir&quot;</span>
 <span class="s">    network_mode: host</span>
-<span class="s">    cpuset: &quot;$CORE_SET_DU&quot;</span>
+<span class="s">    cpuset: &quot;$CORE_SET_L1&quot;</span>
 
 <span class="s">  du:</span>
 <span class="s">    image: gnb_du_main_phluido:$DU_VERSION</span>
@@ -1190,11 +1173,11 @@ We then need to take care of the CPUs that the VMs hosted on this server are int
 virsh edit <span class="nv">$OPEN5GS_VM_NAME</span>
 </code></pre></div>
 Other ways of creating a VM may not produce a configuration file in xml format, making things more difficult. We also recommend to identify the xml configuration file by searching the directory:</p>
-<div class="highlight"><pre><span></span><code>/etc/libvirt/qemu/
+<div class="highlight"><pre><span></span><code>ls /etc/libvirt/qemu/
 </code></pre></div>
 <p>But we definitely discourage the direct editing of such file as it will reset to default at the first reboot</p>
 <p>Once done, you can check the content of the xml configuration file, that in this case will show we decided to assign the odd CPUs to the VM:</p>
-<div class="highlight"><pre><span></span><code>ubuntu@bbu3:~$ sudo cat /etc/libvirt/qemu/Ubuntu123.xml
+<p><div class="highlight"><pre><span></span><code>ubuntu@bbu3:~$ sudo cat /etc/libvirt/qemu/Ubuntu123.xml 
 &lt;!--
 WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
 OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
@@ -1219,6 +1202,8 @@ or other application using the libvirt API.
   &lt;/os&gt;
   &lt;features&gt;
 </code></pre></div>
+The following command is also a way to find a quick peak on the cpu settings for this VM
+<code>virsh dumpxml $CU_VM_NAME | grep cpu</code></p>
 </blockquote>
 <h3 id="set-softirq-priorities-to-realtime">set softirq priorities to realtime<a class="headerlink" href="#set-softirq-priorities-to-realtime" title="Permanent link">&para;</a></h3>
 <p>In a normal setup, the softirq processes will run at priority 20, equal to all user processes. Here they need to run at -2, which corresponds to real time priority. They are scheduled on all cores but will get strict priority over any other user processes. To adapt the priority of the ksoft, you can use spcific commands:</p>
@@ -2015,7 +2000,7 @@ tee docker-compose-B650.yml <span class="s">&lt;&lt;EOF</span>
 <span class="s">      - &quot;/etc/machine-id:/etc/machine-id:ro&quot;</span>
 <span class="s">    working_dir: &quot;/workdir&quot;</span>
 <span class="s">    network_mode: host</span>
-<span class="s">    cpuset: &quot;$CORE_SET_DU&quot;</span>
+<span class="s">    cpuset: &quot;$CORE_SET_L1&quot;</span>
 
 <span class="s">  du:</span>
 <span class="s">    image: gnb_du_main_phluido:2022-07-01-q2-pre-release</span>
@@ -2214,13 +2199,6 @@ Depending on the version different configuration commands apply.
 <div class="highlight"><pre><span></span><code>root@benetelru:~# cat /etc/benetel-rootfs-version 
 RAN650-2V0.3
 </code></pre></div></p>
-<h3 id="configure-the-physical-benetel-radio-end-release-v05x">Configure the physical Benetel Radio End - Release V0.5.x<a class="headerlink" href="#configure-the-physical-benetel-radio-end-release-v05x" title="Permanent link">&para;</a></h3>
-<p>There are several parameters that can be checked and modified by reading writing the EEPROM, for this we recommend to make use of the original Benetel Software User Guide for RANx50-02 CAT-B O-RUs, in case of doubt ask for clarification to Accelleran Customer Support . Here we just present two of the most used parameters, that will need an adjustment for each deployment.</p>
-<h4 id="cfr-enabled">CFR enabled<a class="headerlink" href="#cfr-enabled" title="Permanent link">&para;</a></h4>
-<p>By default the RU ships with CFR enabled. What still needs to be done is set register <code>0366</code> to value <code>0xFFF</code>. 
-Do this by altering file <code>/usr/sbin/radio_setup_ran650_b.sh</code> with following line.</p>
-<div class="highlight"><pre><span></span><code>    registercontrol -w c0366 -x 0xFFF &gt;&gt; <span class="si">${</span><span class="nv">LOG_RAD_STAT_FP</span><span class="si">}</span>
-</code></pre></div>
 <h4 id="mac-address-of-the-du">MAC Address of the DU<a class="headerlink" href="#mac-address-of-the-du" title="Permanent link">&para;</a></h4>
 <p>Create this script to program the mac address of the DU inside the RRU. Remember the RRU does not request arp, so we have to manually configure that. If the MAC address of the server port you use to connect to the Benetel B650 Radio End (the NIC Card port where the fiber originates from) is $MAC_DU 11:22:33:44:55:66 then you can program the EEPROM of your B650 unit as follows:</p>
 <p>Here the value of <code>$MAC_DU</code> need to be used.</p>
@@ -2557,6 +2535,9 @@ phluido_l1  |
 <div class="highlight"><pre><span></span><code><span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$USER</span><span class="s2"> ALL=(ALL) NOPASSWD:ALL\n&quot;</span> <span class="p">|</span> sudo tee /etc/sudoers.d/<span class="nv">$USER</span>
 sudo usermod -aG sudo <span class="nv">$USER</span>
 </code></pre></div>
+<p>Before installing or upgrading cell wrapper it is important to remove all container instances of effnet and phluido.</p>
+<div class="highlight"><pre><span></span><code>docker ps -a | grep phluido | awk &#39;{print $1}&#39; | xargs docker rm -f
+</code></pre></div>
 <h4 id="on-the-cu-vm">On the CU VM<a class="headerlink" href="#on-the-cu-vm" title="Permanent link">&para;</a></h4>
 <p>Go to the VM. In the VM a cell wrapper will get installed that controls the DU and RU ( cell ).
 Going inside the CU VM.
@@ -2574,17 +2555,17 @@ sudo apt install zip
 <div class="highlight"><pre><span></span><code>kubectl create secret generic cw-public --from-file<span class="o">=</span><span class="nv">public</span><span class="o">=</span>id_ed25519.pub
 </code></pre></div></p>
 <p>and copy the public key to the bare metal server ( DU host )
-<div class="highlight"><pre><span></span><code>ssh-copy-id -i id_ed25519.pub ad@$SERVER_IP
+<div class="highlight"><pre><span></span><code>ssh-copy-id -i id_ed25519.pub $USER@$SERVER_IP
 </code></pre></div></p>
 <p>Create a .yaml file containing the configuration. Also fill in the values you have prepared on the first page of the install guide.</p>
 <p>It will install the cell-wrapper the will take care of the cell's health. 
 In this configuration the cell-wrapper will reboot the RU every night at 2:00 AM. <code>&lt;reboot&gt;true&lt;/reboot&gt;</code> </p>
-<div class="highlight"><pre><span></span><code>mkdir -p ~/install_$INSTALL_VERSION/ 
+<div class="highlight"><pre><span></span><code>mkdir -p ~/install_$CU_VERSION/ 
 cd !$
-tee cw.yaml <span class="err">&lt;</span><span class="nt">&lt;EOF</span> 
+tee cw0.yaml <span class="err">&lt;</span><span class="nt">&lt;EOF</span> 
 <span class="err">global:</span>
 
-  <span class="err">instanceId:</span> <span class="err">&quot;cw&quot;</span>
+  <span class="err">instanceId:</span> <span class="err">&quot;cw0&quot;</span>
   <span class="err">natsUrl:</span> <span class="err">&quot;$NODE_IP&quot;</span>
   <span class="err">natsPort:</span> <span class="err">&quot;31100&quot;</span>
 
@@ -2597,12 +2578,14 @@ tee cw.yaml <span class="err">&lt;</span><span class="nt">&lt;EOF</span>
     <span class="err">deleteAfterDay:</span> <span class="err">7</span>
   <span class="err">jobs:</span>
     <span class="err">deleteExistingData:</span> <span class="err">true</span>
+  <span class="err">service:</span>
+    <span class="err">nodePort:</span> <span class="err">32220</span>
 
 <span class="err">nats:</span>
   <span class="err">enabled:</span> <span class="err">false</span>
 
 <span class="err">#jobs:</span>
-<span class="err">#</span>  <span class="err">-</span> <span class="err">name:</span> <span class="err">reboot-ru-1</span>
+<span class="err">#</span>  <span class="err">-</span> <span class="err">name:</span> <span class="err">reboot-ru-0</span>
 <span class="err">#</span>    <span class="err">schedule:</span> <span class="err">&quot;0</span> <span class="err">2</span> <span class="err">*</span> <span class="err">*</span> <span class="err">*&quot;</span>
 <span class="err">#</span>    <span class="err">rpc:</span> <span class="err">|</span>
 <span class="err">#</span>      <span class="err">&lt;cell-wrapper</span> <span class="na">xmlns=</span><span class="s">&quot;http://accelleran.com/ns/yang/accelleran-granny&quot;</span> <span class="err">#</span><span class="na">xmlns:xc=</span><span class="s">&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot;</span> <span class="na">xc:operation=</span><span class="s">&quot;replace&quot;</span><span class="nt">&gt;</span>
@@ -2614,7 +2597,7 @@ tee cw.yaml <span class="err">&lt;</span><span class="nt">&lt;EOF</span>
 
 netconf:
   netconfService:
-    nodePort: 31832
+    nodePort: 31830      # adapted for multiple cells in the future.
 
   configOnBoot:
     enabled: true
@@ -2646,7 +2629,7 @@ netconf:
                 <span class="nt">&lt;/auto-repair&gt;</span>
 
                 <span class="nt">&lt;distributed-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-                    <span class="nt">&lt;name&gt;</span>du-1<span class="nt">&lt;/name&gt;</span>
+                    <span class="nt">&lt;name&gt;</span>du-0<span class="nt">&lt;/name&gt;</span>
                     <span class="nt">&lt;type&gt;</span>effnet<span class="nt">&lt;/type&gt;</span>
 
                     <span class="nt">&lt;connection-details</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
@@ -2703,16 +2686,16 @@ netconf:
                     <span class="nt">&lt;l1-image-tag&gt;</span>$L1_VERSION<span class="nt">&lt;/l1-image-tag&gt;</span>
 
                     <span class="nt">&lt;du-extra-args&gt;</span>--cpuset-cpus=$CORE_SET_DU<span class="nt">&lt;/du-extra-args&gt;</span>
-                    <span class="nt">&lt;l1-extra-args&gt;</span>--cpuset-cpus=$CORE_SET_DU<span class="nt">&lt;/l1-extra-args&gt;</span>
+                    <span class="nt">&lt;l1-extra-args&gt;</span>--cpuset-cpus=$CORE_SET_L1<span class="nt">&lt;/l1-extra-args&gt;</span>
 
 
                     <span class="nt">&lt;du-base-config-file&gt;</span>/home/accelleran/5G/config/duEffnetConfig.json<span class="nt">&lt;/du-base-config-file&gt;</span>
 
-                    <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>ru-1<span class="nt">&lt;/radio-unit&gt;</span>
+                    <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>ru-0<span class="nt">&lt;/radio-unit&gt;</span>
                 <span class="nt">&lt;/distributed-unit&gt;</span>
 
                 <span class="nt">&lt;radio-unit</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
-                    <span class="nt">&lt;name&gt;</span>ru-1<span class="nt">&lt;/name&gt;</span>
+                    <span class="nt">&lt;name&gt;</span>ru-0<span class="nt">&lt;/name&gt;</span>
                     <span class="nt">&lt;type&gt;</span>benetel650<span class="nt">&lt;/type&gt;</span>
 
                     <span class="nt">&lt;connection-details</span> <span class="na">xc:operation=</span><span class="s">&quot;create&quot;</span><span class="nt">&gt;</span>
@@ -2733,7 +2716,7 @@ EOF
 </blockquote>
 <p>Install using helm.
 <div class="highlight"><pre><span></span><code>helm repo update
-helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
+helm install cw0 acc-helm/cw-cell-wrapper --values cw0.yaml
 </code></pre></div></p>
 <p>Now you can see the kubernetes pods being created. Follow there progress with.</p>
 <div class="highlight"><pre><span></span><code>watch -d kubectl get pod
@@ -2742,14 +2725,9 @@ helm install cw acc-helm/cw-cell-wrapper --values cw.yaml
 <p>Following script are delivered. They are located in the <code>install_$CU_VERSION/accelleran/bin</code> directory.
 The $PATH variable is set accordingly.</p>
 <ul>
-<li><code>cw-verify.sh</code>         - verifies if the cw.yaml file is parsed correctly after installation</li>
-<li><code>cw-enable.sh</code>         - will enable the cell-wrapper.</li>
-<li><code>cell-start.sh</code>       </li>
-<li><code>cell-stop.sh</code></li>
-<li><code>cell-restart.sh</code>      </li>
-<li><code>cw-disable.sh</code>        - cell-wrapper will not restar the cell when it is defect.</li>
-<li><code>cw-debug-on.sh</code>       - turns on more logging</li>
-<li><code>cw-debug-off.sh</code>      - turns on normal logging</li>
+<li><code>cw.sh 0 cwdisable</code>         - disables the cell wrapper. The cell wrapper will not interfere with your work.</li>
+<li><code>cw.sh</code>                    - will give you all the options possible</li>
+<li><code>cw.verify.sh 0</code>            - summarizes the status of the cw. ( xml parsingok, operational, ... )</li>
 </ul>
 <p>The script do what there name says</p>
 <h2 id="verify-good-operation-of-the-b650-all-releases">verify good operation of the B650 (all releases)<a class="headerlink" href="#verify-good-operation-of-the-b650-all-releases" title="Permanent link">&para;</a></h2>
@@ -2962,34 +2940,33 @@ Start a second time and see the difference.</p>
 </blockquote>
 <h4 id="example">example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h4>
 <p><img alt="image" src="https://user-images.githubusercontent.com/21971027/148368394-44fd92b2-d803-44ce-b20f-08475fb382cc.png" /></p>
-
-
-
-
-
                 
-              </article>
-            </div>
-          
-          
+              
+              
+                
+
+
+              
+            </article>
+          </div>
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
             Back to top
           </a>
         
       </main>
       
-        <footer class="md-footer">
+        
+<footer class="md-footer">
   
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
         <a href="../drax-install/" class="md-footer__link md-footer__link--prev" aria-label="Previous: RIC &amp; CU Installation" rel="prev">
           <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
           <div class="md-footer__title">
             <div class="md-ellipsis">
@@ -3013,7 +2990,7 @@ Start a second time and see the difference.</p>
             </div>
           </div>
           <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
           </div>
         </a>
       
@@ -3021,15 +2998,14 @@ Start a second time and see the difference.</p>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-  
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
-    </a>
-  
-</div>
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
       
     </div>
   </div>
@@ -3039,11 +3015,10 @@ Start a second time and see the difference.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.53c85856.min.js", "version": {"provider": "mike"}}</script>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate"], "search": "../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
     
-    
-      <script src="../assets/javascripts/bundle.078830c0.min.js"></script>
+      <script src="../assets/javascripts/bundle.716f8af4.min.js"></script>
       
     
   </body>
