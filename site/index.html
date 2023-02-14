@@ -9,14 +9,14 @@
       
       
       
-        <link rel="canonical" href="https://accelleran.github.io/drax-docs/">
+        <link rel="canonical" href="https://accelleran.github.io/drax-docs-2022-3-1/">
       
       <link rel="icon" href="images/accelleran_favicon.png">
       <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.0">
     
     
       
-        <title>dRAX - 2022.3.0 release</title>
+        <title>dRAX - 2022.3.1 release</title>
       
     
     
@@ -76,7 +76,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+    <a href="." title="dRAX - 2022.3.1 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.1 release" data-md-component="logo">
       
   <img src="images/accelleran_logo.png" alt="logo">
 
@@ -88,7 +88,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            dRAX - 2022.3.0 release
+            dRAX - 2022.3.1 release
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -234,12 +234,12 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+    <a href="." title="dRAX - 2022.3.1 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.1 release" data-md-component="logo">
       
   <img src="images/accelleran_logo.png" alt="logo">
 
     </a>
-    dRAX - 2022.3.0 release
+    dRAX - 2022.3.1 release
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -525,45 +525,45 @@ This system release contains </p>
 <tbody>
 <tr>
 <td>RIC</td>
-<td>6.0.0</td>
+<td>6.1.0</td>
 </tr>
 <tr>
 <td>CU CHART</td>
-<td>5.0.0</td>
+<td>5.1.0</td>
 </tr>
 <tr>
 <td>CU APP</td>
-<td>R3.3.0_hoegaarden</td>
+<td>R3.3.2_hoegaarden</td>
+</tr>
+<tr>
+<td>cell wrapper</td>
+<td>1.1.0</td>
 </tr>
 <tr>
 <td>DU</td>
-<td>2022-08-26-q2-release-0.4</td>
+<td>2022-12-23-q3-patch-release-02</td>
 </tr>
 <tr>
 <td>L1</td>
-<td>8.4.2</td>
+<td>8.7.4</td>
 </tr>
 <tr>
 <td>BNTL650</td>
-<td>0.5.2</td>
+<td>0.5.3</td>
 </tr>
 <tr>
 <td>BNTL550</td>
 <td>0.6.0</td>
 </tr>
-<tr>
-<td>cell wrapper</td>
-<td>1.0.0</td>
-</tr>
 </tbody>
 </table>
 <p>During the installation following variables will be used. These are the correct values they are set to for this release.</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">INSTALL_VERSION</span><span class="o">=</span><span class="m">2022</span>.3.0
-<span class="nb">export</span> <span class="nv">RIC_VERSION</span><span class="o">=</span><span class="m">6</span>.0.0
-<span class="nb">export</span> <span class="nv">CU_VERSION</span><span class="o">=</span>R3.3.0_hoegaarden             <span class="c1"># build tag</span>
-<span class="nb">export</span> <span class="nv">L1_VERSION</span><span class="o">=</span>v8.7.1
-<span class="nb">export</span> <span class="nv">DU_VERSION</span><span class="o">=</span><span class="m">2022</span>-08-26-q2-release-0.4
-<span class="nb">export</span> <span class="nv">RU_VERSION</span><span class="o">=</span>RAN650-2V0.5.2                <span class="c1"># shipped with the UNIT.</span>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">INSTALL_VERSION</span><span class="o">=</span><span class="m">2023</span>.3.1
+<span class="nb">export</span> <span class="nv">RIC_VERSION</span><span class="o">=</span><span class="m">6</span>.1.0
+<span class="nb">export</span> <span class="nv">CU_VERSION</span><span class="o">=</span>R3.3.2_hoegaarden             <span class="c1"># build tag</span>
+<span class="nb">export</span> <span class="nv">L1_VERSION</span><span class="o">=</span>v8.7.4
+<span class="nb">export</span> <span class="nv">DU_VERSION</span><span class="o">=</span><span class="m">2022</span>-12-23-q3-patch-release-02
+<span class="nb">export</span> <span class="nv">RU_VERSION</span><span class="o">=</span>RAN650-2V0.5.3                <span class="c1"># shipped with the UNIT.</span>
 </code></pre></div>
 <h2 id="prerequisites-preperations">Prerequisites / Preperations<a class="headerlink" href="#prerequisites-preperations" title="Permanent link">&para;</a></h2>
 <p>This installation guide assumes that that the following are to be taken as prerequisites and made available before proceding further:</p>
@@ -739,7 +739,8 @@ Assign first half to DU and last half to CU
 <h3 id="get-scripts">Get scripts<a class="headerlink" href="#get-scripts" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span> ~/install
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>git clone --branch <span class="nv">$INSTALL_VERSION</span> https://github.com/accelleran/drax-install
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">INSTALL_VERSION</span><span class="o">=</span><span class="m">2023</span>.3.1
+git clone --branch <span class="nv">$INSTALL_VERSION</span> https://github.com/accelleran/drax-install
 </code></pre></div>
 <h3 id="fill-in-variable-values">Fill in variable values.<a class="headerlink" href="#fill-in-variable-values" title="Permanent link">&para;</a></h3>
 <p>All the variables mentioned above can be found in the file 

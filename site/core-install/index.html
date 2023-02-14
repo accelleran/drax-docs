@@ -9,14 +9,14 @@
       
       
       
-        <link rel="canonical" href="https://accelleran.github.io/drax-docs/core-install/">
+        <link rel="canonical" href="https://accelleran.github.io/drax-docs-2022-3-1/core-install/">
       
       <link rel="icon" href="../images/accelleran_favicon.png">
       <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.0">
     
     
       
-        <title>Core Installation - dRAX - 2022.3.0 release</title>
+        <title>Core Installation - dRAX - 2022.3.1 release</title>
       
     
     
@@ -76,7 +76,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+    <a href=".." title="dRAX - 2022.3.1 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.1 release" data-md-component="logo">
       
   <img src="../images/accelleran_logo.png" alt="logo">
 
@@ -88,7 +88,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            dRAX - 2022.3.0 release
+            dRAX - 2022.3.1 release
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -234,12 +234,12 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+    <a href=".." title="dRAX - 2022.3.1 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.1 release" data-md-component="logo">
       
   <img src="../images/accelleran_logo.png" alt="logo">
 
     </a>
-    dRAX - 2022.3.0 release
+    dRAX - 2022.3.1 release
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -564,10 +564,15 @@ now you will find that this service is listening on port 3000 on any ip</p>
 <p>Add this iptable rule to be able to ping the UE from the core.
 <div class="highlight"><pre><span></span><code>sudo iptables -I INPUT -i ogstun -j ACCEPT
 </code></pre></div></p>
-<p>To make these rules boot safe do
+<p>To make these rules boot safe install and configure
 <div class="highlight"><pre><span></span><code>sudo apt-get install iptables-persistent
 sudo netfilter-persistent save
 sudo systemctl enable netfilter-persistent
+</code></pre></div>
+Each time you change a rule you have to save it like this
+<div class="highlight"><pre><span></span><code>chmod 666 /etc/iptables/rules.v4
+sudo iptables-save &gt; /etc/iptables/rules.v4
+chmod 640 /etc/iptables/rules.v4
 </code></pre></div></p>
 <h3 id="provision-a-ue">Provision a UE<a class="headerlink" href="#provision-a-ue" title="Permanent link">&para;</a></h3>
 <p>This can be done through command line

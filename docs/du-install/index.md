@@ -161,7 +161,7 @@ to obtain the Phluido license key. Send this .bin file to phluido to receive a p
  docker image load -i phluido_l1_$L1_VERSION.tar
 ```
 
-> NOTE : it is expected that the .tar file contains also the <name> and <tag>. 
+> NOTE : it is expected that the .tar file contains also the ```<name>``` and ```<tag>```. 
 > If this is not the case the .tar file is not correct.
 
 ### Effnet Install

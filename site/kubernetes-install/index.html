@@ -9,14 +9,14 @@
       
       
       
-        <link rel="canonical" href="https://accelleran.github.io/drax-docs/kubernetes-install/">
+        <link rel="canonical" href="https://accelleran.github.io/drax-docs-2022-3-1/kubernetes-install/">
       
       <link rel="icon" href="../images/accelleran_favicon.png">
       <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.0">
     
     
       
-        <title>CU installation ( VM & kubernetes ) - dRAX - 2022.3.0 release</title>
+        <title>CU installation ( VM & kubernetes ) - dRAX - 2022.3.1 release</title>
       
     
     
@@ -76,7 +76,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="dRAX - 2022.3.0 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+    <a href=".." title="dRAX - 2022.3.1 release" class="md-header__button md-logo" aria-label="dRAX - 2022.3.1 release" data-md-component="logo">
       
   <img src="../images/accelleran_logo.png" alt="logo">
 
@@ -88,7 +88,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            dRAX - 2022.3.0 release
+            dRAX - 2022.3.1 release
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -234,12 +234,12 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="dRAX - 2022.3.0 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.0 release" data-md-component="logo">
+    <a href=".." title="dRAX - 2022.3.1 release" class="md-nav__button md-logo" aria-label="dRAX - 2022.3.1 release" data-md-component="logo">
       
   <img src="../images/accelleran_logo.png" alt="logo">
 
     </a>
-    dRAX - 2022.3.0 release
+    dRAX - 2022.3.1 release
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -637,6 +637,9 @@ This guide defaults to using Docker as the container runtime.</p>
 <p>create a linux bridge using netplan</p>
 <p>adapt your netplan file assuming that $SERVER_INT holds the physical interface name of your server
 that connects to the network.</p>
+<div class="highlight"><pre><span></span><code>env | grep -e SERVER_INT -e SERVER_IP -e GATEWAY_IP
+</code></pre></div>
+<p>open netplan and change the variable $SERVER_INT with the correct value.</p>
 <p><div class="highlight"><pre><span></span><code>network:
   ethernets:
     <span class="nv">$SERVER_INT</span>:
@@ -668,7 +671,7 @@ on the host uncomment the line in <code>/etc/sysctl.conf</code> so you get this.
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>sudo apt install qemu-kvm
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>sudo apt install libvirt_daemon_system
+<div class="highlight"><pre><span></span><code>sudo apt install libvirt-daemon-system
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>sudo apt install bridge-utils
 </code></pre></div>
@@ -679,6 +682,10 @@ on the host uncomment the line in <code>/etc/sysctl.conf</code> so you get this.
 <blockquote>
 <p>IMPORTANT ! the $CORE_SET_CU can only be a comma seperated list. </p>
 </blockquote>
+<p>Verify the content of these 3 variables and the existence of the .iso file
+<div class="highlight"><pre><span></span><code>env <span class="p">|</span> grep -e CU_VM_NAME -e CORE_AMOUNT_CU -e CORE_SET_CU
+ls ubuntu-20.04.4-live-server-amd64.iso
+</code></pre></div></p>
 <div class="highlight"><pre><span></span><code>sudo virt-install  --name <span class="s2">&quot;</span><span class="nv">$CU_VM_NAME</span><span class="s2">&quot;</span>  --memory <span class="m">16768</span> --vcpus <span class="s2">&quot;sockets=1,cores=</span><span class="nv">$CORE_AMOUNT_CU</span><span class="s2">,cpuset=</span><span class="nv">$CORE_SET_CU</span><span class="s2">&quot;</span>  --os-type linux  --os-variant rhel7.0 --accelerate --disk <span class="s2">&quot;/var/lib/libvirt/images/CU-ubuntu-20.04.4-live-server-amd64.img,device=disk,size=100,sparse=yes,cache=none,format=qcow2,bus=virtio&quot;</span>  --network <span class="s2">&quot;source=br0,type=bridge&quot;</span> --vnc  --noautoconsole --cdrom <span class="s2">&quot;./ubuntu-20.04.4-live-server-amd64.iso&quot;</span>  --console pty,target_type<span class="o">=</span>virtio
 </code></pre></div>
 <blockquote>
@@ -1066,17 +1073,28 @@ double click it and proceed.</p>
                                [ View full log ]
                                [ Reboot Now    ]
 </code></pre></div>
-Wait untill you can click reboot server</li>
+Wait untill on top you see Install complete and you can click reboot server.</li>
 </ul>
 <blockquote>
-<p>NOTE : if after some minutes the server has not rebooted yet you have to reboot it  forcefully like this. Most likely the cdrom fails to unmount.</p>
+<p>NOTE : if after some minutes the server has not rebooted yet you have to reboot it forcefully like this. 
+Most likely the cdrom fails to unmount. </p>
 <p><div class="highlight"><pre><span></span><code>virsh reset $CU_VM_NAME 
 </code></pre></div>
 </p>
 </blockquote>
-<p>copy the install directory from the HOST to this newly created VM</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span> <span class="p">;</span> scp -r install_<span class="nv">$CU_VERSION</span>  <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>:
+<p>put the newly created VM into autostart mode and start it when not done already.  </p>
+<p><div class="highlight"><pre><span></span><code>virsh autostart <span class="nv">$CU_VM_NAME</span>
+virsh start <span class="nv">$CU_VM_NAME</span>
 </code></pre></div>
+make cu accesible without password
+<div class="highlight"><pre><span></span><code>ssh-keygen
+</code></pre></div>
+press enter for untill command finishes.</p>
+<div class="highlight"><pre><span></span><code>ssh-copy-id <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>
+</code></pre></div>
+<p>copy the install directory from the HOST to this newly created VM
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> <span class="p">;</span> scp -r install  <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>:
+</code></pre></div></p>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span> <span class="p">;</span> scp .profile  <span class="nv">$USER</span>@<span class="nv">$NODE_IP</span>:
 </code></pre></div>
 <p>ssh into the VM.</p>
@@ -1089,6 +1107,9 @@ Wait untill you can click reboot server</li>
 <div class="highlight"><pre><span></span><code>lsblk
 sudo lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 lsblk
+</code></pre></div></p>
+<p>See how much diskspace is available with
+<div class="highlight"><pre><span></span><code>df -h 
 </code></pre></div></p>
 <p>Every heading that follows has to be done inside this VM.</p>
 <h2 id="install-docker-in-the-cu-vm">Install Docker in the CU VM<a class="headerlink" href="#install-docker-in-the-cu-vm" title="Permanent link">&para;</a></h2>
@@ -1114,9 +1135,6 @@ lsblk
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>sudo reboot
 </code></pre></div>
-<p>rerun the .profile to load install variables
-<div class="highlight"><pre><span></span><code>. <span class="nv">$HOME</span>/.profile
-</code></pre></div></p>
 <p>To check if your installation is working you can try to run a test image in a container:</p>
 <div class="highlight"><pre><span></span><code>docker run hello-world
 </code></pre></div>
@@ -1153,10 +1171,9 @@ sudo apt update
 <p>Accelleran dRAX currently supports Kubernetes up to version 1.20. The following command installs specifically this version:</p>
 <p><div class="highlight"><pre><span></span><code>sudo apt install -y <span class="nv">kubelet</span><span class="o">=</span><span class="m">1</span>.20.0-00 
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>sudo apt install -y <span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.20.0-00 
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>sudo apt isntall -y <span class="nv">kubectl</span><span class="o">=</span><span class="m">1</span>.20.0-00
-</code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt install -y <span class="nv">kubeadm</span><span class="o">=</span><span class="m">1</span>.20.0-00         <span class="c1"># also installs kubectl.</span>
+</code></pre></div></p>
+<p>Prevent from kubectl being automatically upgraded or updated or installed.
 <div class="highlight"><pre><span></span><code>sudo apt-mark hold kubelet kubeadm kubectl
 </code></pre></div></p>
 <h3 id="configure-kubernetes">Configure Kubernetes<a class="headerlink" href="#configure-kubernetes" title="Permanent link">&para;</a></h3>
@@ -1170,8 +1187,12 @@ From here on, this IP is referred to as <code>$NODE_IP</code> - this shell varia
 </blockquote>
 <p>This guide assumes we will use Flannel as the CNI-based Pod network for this Kubernetes instance, which uses the <code>10.244.0.0/16</code> subnet by default.
 We store it again as an environment variable for later use, and of course if you wish to use a different subnet, change the command accordingly:</p>
+<p>verify 2 veriables 
+<div class="highlight"><pre><span></span><code>env <span class="p">|</span> grep -e POD_NETWORK -e NODE_IP
+</code></pre></div></p>
 <p>The following command initializes the cluster on this node:</p>
-<div class="highlight"><pre><span></span><code>sudo kubeadm init --pod-network-cidr<span class="o">=</span><span class="nv">$POD_NETWORK</span> --apiserver-advertise-address<span class="o">=</span><span class="nv">$NODE_IP</span>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">POD_NETWORK</span><span class="o">=</span><span class="m">10</span>.244.0.0/16
+sudo kubeadm init --pod-network-cidr<span class="o">=</span><span class="nv">$POD_NETWORK</span> --apiserver-advertise-address<span class="o">=</span><span class="nv">$NODE_IP</span>
 </code></pre></div>
 <p>If this succeeds, we should see information for joining other worker nodes to this cluster.
 We won't do that at this point, but it's a sign that the command completed successfully.</p>
@@ -1186,6 +1207,9 @@ sudo cp -i /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
 <div class="highlight"><pre><span></span><code>curl -sSOJ https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 sed -i <span class="s1">&#39;/net-conf.json/,/}/{ s#10.244.0.0/16#&#39;</span><span class="s2">&quot;</span><span class="nv">$POD_NETWORK</span><span class="s2">&quot;</span><span class="s1">&#39;#; }&#39;</span> kube-flannel.yml
 </code></pre></div>
+<p>Check POD_NETWORK change
+<div class="highlight"><pre><span></span><code>cat kube-flannel.yml <span class="p">|</span> grep net-conf -A <span class="m">3</span>
+</code></pre></div></p>
 <p>Apply the Manifest file:</p>
 <div class="highlight"><pre><span></span><code>kubectl apply -f kube-flannel.yml
 </code></pre></div>
