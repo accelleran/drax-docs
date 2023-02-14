@@ -1,0 +1,26 @@
+.md-typeset img[align=middle], .md-typeset svg[align=middle] {
+    display: block;
+    margin: 0 auto;
+}
+.md-grid {
+	max-width: 71rem
+}
+
+.md-sidebar {
+	width: 22.1rem
+}
+
+@supports selector(::-webkit-scrollbar) {
+    .md-sidebar__scrollwrap {
+        scrollbar-gutter: auto
+    }
+
+    [dir=ltr] .md-sidebar__inner {
+        padding-right: calc(100% - 21.5rem);
+        /* padding-right: 0%; */
+    }
+
+    [dir=rtl] .md-sidebar__inner {
+        padding-left: calc(100% - 21.5rem)
+    }
+}
