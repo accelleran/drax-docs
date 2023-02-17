@@ -1,7 +1,8 @@
-## Remove an existing deployment
-
+# RIC
 This section is about upgrading your existing RIC to a new Release, as a rule Accelleran will regularly issue quarterly Releases with new features, 
 bug fixes, etc and we will therefore recommend regularly to move forward to a new Release. The aim of this section is to take the minimal amount of steps to get the system back to operational: if you do not have an already operational System please contact Accelleran as the full installation from ground zero is beyond the scope of this section.
+
+## Remove an existing deployment
 
 Login first on the machine where your RIC is deployed (typically a VM) and locate the installation directory where your helm charts are (often a directory in your home with a name that reminds of the release you are on ex. Q3Rel or q3release)
 
