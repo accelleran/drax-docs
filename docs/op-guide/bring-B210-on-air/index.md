@@ -1,3 +1,5 @@
+# B210 RU
+
 This section is exclusively applicable to the user/customer that intends to use the Ettus USRP B210 Radio End with our Accellleran 5G end to end solution, if you do not have such radio end the informations included in this section may be misleading and bring to undefined error scenarios. Please contact Accelleran if your Radio End is not included in any section of this user guide
 
 The focus of this document is purely operationa, the assumption here is that Accelleran has already installed and preconfigured your setup to be able to use an Ettus B210 Radio End in this case and therefore the installation and configuration of all the necessary SW and components already happened and should not be a concern. However some sanity checks will be necessary to self determnine if it is all set and ready. If not, please contact your Accelleran Support
