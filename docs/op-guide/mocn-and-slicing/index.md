@@ -1,4 +1,6 @@
-# MOCN Configuration for Effnet Phluido Benetel Solution
+# MOCN 
+
+This section is about MOCN and Slice Configuration for Effnet Phluido Benetel Solution
 
 In order to obtain a working setup with MOCN, it is essential that three components are aligned and configured coherently to serve the same list of PLMNIDs, here below we give an example based on the Accelleran CU, the Effnet DU and the Open5Gs Core, this ofc course may need to be slightly modified case by case, but the principle remains: Currently there is no mechanism to determine if the DU, the CU and the Core have been configured consistently and the effect of a wrong configuration is simply that for instance the DU does not attempt to contact the CU, or the CU does not attempt to contact the Core, so it is essential to plan and ask in advance to your Accelleran Support Team in case of doubts.
 
