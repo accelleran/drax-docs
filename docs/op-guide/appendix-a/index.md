@@ -1,5 +1,4 @@
 # Appendix A
-
 This appendix deals about some useful engineering tips and tricks
 
 ## pcscd debug
@@ -23,7 +22,7 @@ ENTRYPOINT ["/usr/sbin/pcscd", "-d --foreground"]
 
 and  use ``` docker logs ``` on the container to see more logging about what pcscd is doing
 
-### Run RU in freerun mode
+## Run RU in freerun mode
 This is the mode where your Benetel Radio End does not need or does not have synchronisation. By default a Benetel only boots when such sync signal is present, be it GPS or PTP or 1 PPS sync as discussed in the previous sections. Again, this is not a way to cut corners, it is only a workaround for quick sanity checks of the end to end system and shall not replace the 3GPP compliant approach of having synchrised TDD devices whth appropriate infrastructures to guarantee the quality and effecitveness of the synchronisation. In no case it will work when more than one Cell or more than one UE are present.
 
 
