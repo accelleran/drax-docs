@@ -1,4 +1,6 @@
-### 5G RAN Configuration
+# CU
+
+## 5G RAN Configuration
 
 If you have a dRAX License for 5G, have enabled 5G during the RIC and Dashboard installation in [Enabling 5G components](#enabling-5g-components), and have deployed the CU components as instructed in [Install dRAX 5G Components](#install-drax-5g-components), you can now configure the 5G CU components.
 You can do so by navigating to **RAN Configuration** in the dRAX Dashboard sidebar and clicking the **gNB Configuration**:
@@ -17,7 +19,7 @@ You can click the icon under the Edit column of each CU component to edit its co
 When you deploy the 5G CU component and click this button for the first time, you will be asked to set the initial configuration.
 Later on, you can click this button to edit the configuration.
 
-#### 5G CU-CP configuration
+### 5G CU-CP configuration
 
 The 5G CU-CP components have a number of parameters that you can set as can be seen below:
 
@@ -30,7 +32,7 @@ Click the **Submit** button to send the configuration.
 
 ![5G CU-CP Configuration parameters](../../drax-install/images/dashboard-cu-cp-config.png)
 
-#### 5G CU-UP configuration
+### 5G CU-UP configuration
 
 The 5G CU-UP has a number of configuration parameters as seen below:
 
