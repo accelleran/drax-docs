@@ -107,16 +107,17 @@ The Operational User Guide is divided mainly in three different subjects: System
 Each of these steps is described in its own chapter.
 
 
-* [Appendix A]("/drax-docs/docs/op-guide/appendix-a/index.md")
+* [Appendix A](appendix-a/index.md)
 * [Appendix B](appendix-b/index.md)
-* [Configure and bring Ettus B210 on air](/drax-docs/op-guide/bring-B210-on-air)
+* [Configure and bring Ettus B210 on air](bring-B210-on-air/)
 <!-- [Configure and bring Ettus X310 on air] (TBD)-->
-* [Configure and bring Benetel 550 on air](/drax-docs/op-guide/bring-Benetel-550-on-air)
-* [Configure and bring Benetel 650 on air](/drax-docs/op-guide/bring-Benetel-650-on-air)
-* [CU Configuration]("/drax-docs/docs/op-guide/cu-configuration/")
-* [Handover Configuration](/drax-docs/op-guide/handover-configuration)
-* [MOCN and Slicing](/drax-docs/op-guide/mocn-and-slicing)
-* [DU and L1 Update](/drax-docs/op-guide/du-l1-update)
-* [RIC Update](/drax-docs/op-guide/ric-update/)
+* [Configure and bring Benetel 550 on air](bring-Benetel-550-on-air)
+* [Configure and bring Benetel 650 on air](bring-Benetel-650-on-air)
+* [E1000 4G RU Provisioning](e1000-provisioning/index.md)
+* [CU Configuration](cu-configuration/index.md)
+* [Handover Configuration](handover-configuration/index.md)
+* [MOCN and Slicing](mocn-and-slicing/index.md)
+* [DU and L1 Update](du-l1-update/index.md)
+* [RIC Update](ric-update/index.md)
 
 
