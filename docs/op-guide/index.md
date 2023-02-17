@@ -107,13 +107,13 @@ The Operational User Guide is divided mainly in three different subjects: System
 Each of these steps is described in its own chapter.
 
 
-* [Appendix A](appendix-a/index.md)
-* [Appendix B](/drax-docs/docs/op-guide/appendix-b)
+* [Appendix A]("/drax-docs/docs/op-guide/appendix-a/index.md")
+* [Appendix B](appendix-b/index.md)
 * [Configure and bring Ettus B210 on air](/drax-docs/op-guide/bring-B210-on-air)
 <!-- [Configure and bring Ettus X310 on air] (TBD)-->
 * [Configure and bring Benetel 550 on air](/drax-docs/op-guide/bring-Benetel-550-on-air)
 * [Configure and bring Benetel 650 on air](/drax-docs/op-guide/bring-Benetel-650-on-air)
-* [CU Configuration]("/drax-docs/op-guide/cu-configuration/")
+* [CU Configuration]("/drax-docs/docs/op-guide/cu-configuration/")
 * [Handover Configuration](/drax-docs/op-guide/handover-configuration)
 * [MOCN and Slicing](/drax-docs/op-guide/mocn-and-slicing)
 * [DU and L1 Update](/drax-docs/op-guide/du-l1-update)
