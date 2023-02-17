@@ -1,4 +1,4 @@
-## Appendix A: Engineering tips and tricks
+# Appendix A: Engineering tips and tricks
 
 ### pcscd debug
 It occurs rarely that the du software throws
