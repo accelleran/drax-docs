@@ -107,7 +107,7 @@ The Operational User Guide is divided mainly in three different subjects: System
 Each of these steps is described in its own chapter.
 
 
-* [Appendix A](appendix-a)
+* [Appendix A](appendix-a/index.md)
 * [Appendix B](/drax-docs/docs/op-guide/appendix-b)
 * [Configure and bring Ettus B210 on air](/drax-docs/op-guide/bring-B210-on-air)
 <!-- [Configure and bring Ettus X310 on air] (TBD)-->
