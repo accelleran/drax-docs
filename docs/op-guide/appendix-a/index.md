@@ -1,6 +1,8 @@
-# Appendix A: Engineering tips and tricks
+# Appendix A
 
-### pcscd debug
+This appendix deals about some useful engineering tips and tricks
+
+## pcscd debug
 It occurs rarely that the du software throws
 ```
 DU license check failed
