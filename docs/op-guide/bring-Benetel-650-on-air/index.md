@@ -1,3 +1,5 @@
+# B650 RU
+
 ## Prepare and bring on air the Benetel 650 Radio
 
 This section is exclusively applicable to the user/customer that intends to use the Benetel B650 Radio End with our Accellleran 5G end to end solution, if you do not have such radio end the informations included in this section may be misleading and bring to undefined error scenarios. Please contact Accelleran if your Radio End is not included in any section of this user guide
