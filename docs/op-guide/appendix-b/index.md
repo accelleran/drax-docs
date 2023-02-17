@@ -1,4 +1,6 @@
-## Appendix B: License Error Codes
+# Appendix B
+
+This appendix is about License Error Codes
 
 Sometimes you might run into issues when trying to launch dRAX due to a licensing error. A list of possible error codes is provided below:
 
