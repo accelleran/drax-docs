@@ -25,7 +25,7 @@ The 5G CU-CP components have a number of parameters that you can set as can be s
 To edit the configuration, the **Admin State** must be set to Locked and then after modifying the fields Click the **Submit** button to send the configuration.
 
 <p align="center">
-  <img src="cu_cp_configuration.png">
+  <img src="../mocn-and-slicing/mocn_example_cu_cp_config.png">
 </p>
 
 ## 2. CU-UP configuration
@@ -38,7 +38,7 @@ The 5G CU-UP has a number of configuration parameters as seen below:
 - **Supported PLMN Slices**: Expand the table by clicking the (+) sign. This will include the PLMNIDs and the slices that can be handled by this CU-UP. Each slice is defined by the Slice Type and Slice Differentiator. (This will be discussed further as part of the MOCN and slicing scenarios configuration)
 
 <p align="center">
-  <img src="cu_up_configuration.png">
+  <img src="../mocn-and-slicing/mocn_example_cu_up_config.png">
 </p>
 
 **IMPORTANT**  Do not attempt to modify slices and PLMNs unless you are aware of the target Scenario you want to achieve: slice configuration and multiple PLMN (MOCN) configurations are rather complex to handle and require that CU, DU and Core are configured coherently in order for such Scenarios to be functional. We recommend to consult the relative sections of this document and contact your Core Network Supplier and Accelleran to tailor a solution for your specific case. 
