@@ -2,40 +2,16 @@
 
 This section is exclusively applicable to the user/customer that intends to use the Benetel RAN550 or RAN650 Radio End with our Accellleran 5G end to end solution, if you do not have such radio end the informations included in this section may be misleading and bring to undefined error scenarios. Please contact Accelleran if your Radio End is not included in any section of this user guide
 
+## 1. Parameter Configuration
 
-## 1. Diagram
-
-An example is shown below on how the RU is connected to the server itself. The DU/L1 will be running on the server with the RRU is served by a dedicated NIC Card capable of handling a 10 Gbps fiber link. If this is not your case please contact Accelleran for further information 
-
-```
-  10.10.0.100:ssh
-  +-------------+
-  |             |
-  |             |             +-----------+
-  |             |             |     DU    |
-  |     RU      +----fiber----+ (UL1/L2)  |
-  |             |             |           |
-  |             |             +-----------+
-  |             |
-  +-------------+
-aa:bb:cc:dd:ee:ff              11:22:33:44:55:66
-
-  10.10.0.2:44000              10.10.0.1:44000
-
-             eth0              enp45s0f0
-
-```
-
-## 2. Parmater Configuration
-
-### 2.1. Configuring Center Frequency
+### 1.1. Configuring Center Frequency
 
 Take into account that adjusting the center frequency will require applying the change on the RU and on the DU.
 
 - The RU will take the Center Frequency in MHz, both on RX and TX to be witten in the EEPROM
 - The DU will take the center Frequency in MHz, Which will be configured via the Cell Wrapper.
 
-#### 2.1.1. Finding a Proper Frequency
+#### 1.1.1. Finding a Proper Frequency
 
 There are several limitations on the Frequencies that can be selected:
 
@@ -66,7 +42,7 @@ This Frequency, however does not meet the **GSCN Synchronisation requirements** 
 
 At this point, you need to redeploy the Cell Wrapper with the modified ARFCN and write the new Tx and Rx Frequencies on the RU EEPROM. If you are uncertain on how to proceed, but you have calculated the correct frequencies and ARFCN please contact Accelleran to proceed on those modifications
 
-#### 2.1.2. Applying The Frequency Change
+#### 1.1.2. Applying The Frequency Change
 
 1- Apply on the RU:
 - Create a file change_freq.sh with below content in the RU
@@ -116,7 +92,7 @@ eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 372:8
   <img src="Changing_Frequency.png">
 </p>
 
-### 2.2. Configuring RU TX Power
+### 1.2. Configuring RU TX Power
 
 Take into account for an optimum operation, changing the RU Transmission Power require applying a change on the RU and on the DU.
 - The RU will take new attenuation values (this will be explained next), both for ANT1 and ANT3 which will be witten in the EEPROM
@@ -157,3 +133,17 @@ registercontrol -w 0xC036B -x 0x88000488
 <p align="center">
   <img src="Changing_Power.png">
 </p>
+
+
+## 2. Check GPS Synchronization
+
+The RU Synchrnoization status can be checked by running below command on the RU.
+
+```syncmon```
+
+## 3. Check RU Boot-up Status
+
+The RAN650 or RAN550 units usually take from 4~6 mins to boot up after a power cycle.
+- The status of the RU will be printed in a file during boot up. It can be checked by: 
+
+```tail -F /tmp/radio_status```
