@@ -92,7 +92,7 @@ eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 372:8
   <img src="Changing_Frequency.png">
 </p>
 
-### 1.2. Configuring RU TX Power
+### 1.2. Configuring Cell TX Power
 
 Take into account for an optimum operation, changing the RU Transmission Power require applying a change on the RU and on the DU.
 - The RU will take new attenuation values (this will be explained next), both for ANT1 and ANT3 which will be witten in the EEPROM
@@ -135,15 +135,16 @@ registercontrol -w 0xC036B -x 0x88000488
 </p>
 
 
-## 2. Check GPS Synchronization
+## 2. Checking RU Status
 
-The RU Synchrnoization status can be checked by running below command on the RU.
+After applying actions on the RU to change the frequency or the power. A reboot of the RU would be necessary and will be applied via the cell wrapper when clicking **submit** on when configuring the cell parameters. (Unless advanced settings was toggled and reboot RU was unchecked).
+
+Below are some useful checks to confirm the status of the RU after the reboot.
+
+- The RU Synchrnoization status can be checked by running below command on the RU.
 
 ```syncmon```
 
-## 3. Check RU Boot-up Status
-
-The RAN650 or RAN550 units usually take from 4~6 mins to boot up after a power cycle.
-- The status of the RU will be printed in a file during boot up. It can be checked by: 
+- The RAN650 or RAN550 units usually take from 4~6 mins to boot up after a power cycle. The status of the RU boot up will be printed in a file during boot up. It can be checked by: 
 
 ```tail -F /tmp/radio_status```
