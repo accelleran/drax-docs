@@ -44,7 +44,8 @@ At this point, you need to redeploy the Cell Wrapper with the modified ARFCN and
 
 #### 1.1.2. Applying The Frequency Change
 
-1- Apply on the RU:
+**Apply on the RU:**
+
 - Create a file change_freq.sh with below content in the RU
 ```bash
 #!/bin/bash
@@ -82,7 +83,8 @@ registercontrol -w 0xC036B -x 0x88000488
 eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 372:8
 ```
 
-2- Apply on the DU. (Through the cell wrapper)
+**Apply on the DU:** (Through the cell wrapper)
+
 - From the dashboard go to "RAN Overview" then "5G"
 - From the DU/RU list, find the cell to be changed and Click on "configuration".
 - For our example where the center frequency required is 3751.68MHz which is ARFCN 650112. Fill that in the "DL ARFCN" and click submit.
@@ -99,7 +101,8 @@ Take into account for an optimum operation, changing the RU Transmission Power r
 - The DU will take the new transmission power into account as well, Which will be configured via the Cell Wrapper.
 By default RAN650 is configured with 35dBm and RAN550 is configured with 25dBm.
 
-1- Apply on the RU:
+**Apply on the RU:**
+
 - To adjust the power of the RU the attenuation settings on the RU would need to be changed: To increase the power the attenuation must be reduced and to decreasing the power, the attenuation must be increased.
 - Important: The the current attenuation values on the RU must be saved as they are unit specific and used to make sure that the unit is transmitting on the needed power. (Please note these are in mdB)
 For ANT1: ```eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 780:5```
@@ -124,7 +127,8 @@ eeprog_cp60 -f -x -16 /dev/i2c-0 0x57 -w 0x428:0x01:0x30
 registercontrol -w 0xC036B -x 0x88000488
 ```
 
-2- Apply on the DU:
+**Apply on the DU:**
+
 - From the dashboard go to "RAN Overview" then "5G"
 - From the DU/RU list, find the cell to be changed and Click on "configuration".
 - For our the new output power is 25dBm. Fill that in the "Max EIRP (dBm)" and click submit.
