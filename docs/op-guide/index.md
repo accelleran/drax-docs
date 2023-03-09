@@ -1,29 +1,29 @@
 
 # Accelleran Operational User Guide 
 
-## Introduction
+## 1. Introduction
 
-This guide describes how to operate the Accelleran ORAN 5G  Platform and its RIC , CU, DU and L1 components. The scope of this document is therefore to cover only the operational aspects of our platform, including the configuration and the routinary and periodic update of it. 
+This guide describes how to operate the Accelleran ORAN 5G  Platform and its RIC, CU, DU and L1 components. The scope of this document is therefore to cover only the operational aspects of our platform, including the basic configuration and examples of some test cases. 
 
 This of course means that the installation and initial configuration of the System has been already made by Accelleran Customer Support and there is no need to worry about how to prepare the server, install and initialise the components, and so on.
 
-## Releases
-This document is released together with the system release 2022.3.1. 
+## 2. Releases
+This document is released together with the system release 2022.4.0. 
 This system release contains 
 
-| component    | version                     |
-|--------------|-----------------------------|
-| RIC          | 6.1.0                       |
-| CU CHART     | 5.1.0                       |
-| CU APP       | R3.3.2_hoegaarden           |
-| DU           | 2022-08-26-q3-release-0.2   |
-| L1           | 8.7.4                       |
-| BNTL650      | 0.5.3                       |
-| BNTL550      | 0.6.0                       |
-| cell wrapper | 1.1.0                       |
+| component    | version                        |
+|--------------|--------------------------------|
+| RIC          | 6.2.0                          |
+| CU CHART     | 5.1.0                          |
+| CU APP       | R3.4.1_ichtegem                |
+| DU           | 2023-02-14-q4-patch-release-01 |
+| L1           | 8.8.1                          |
+| BNTL650      | 0.5.3                          |
+| BNTL550      | 0.6.0                          |
+| cell wrapper | 2.0.0                          |
 
 
-## network components overview
+## 3. Dashboard
 Here a simplified diagram of all network components and the related ip addresses, the effective network diagram can be rather different from case to case, here we intedn to illustrate the principles and the default standard setup configuration, as an example.
 
 Before you continue you may want to derive the real schema and fill in this simplified drawing with the actual components and ip address that apply for your configuration.
@@ -46,7 +46,7 @@ Before you continue you may want to derive the real schema and fill in this simp
                                   │ │                                  │                                     │
                                   │ │                                  │                                     │
                                   │ │                                  │                                     │
-                                  │ │          enp1s0                  │                                     │
+                                  │ │          enp7s0                  │                                     │
                                   │ └─────────────────────────────┬────┘                                     │
                                   │                               │                                          │
                                   │                               │                                          │
@@ -62,8 +62,8 @@ Before you continue you may want to derive the real schema and fill in this simp
                                   │                               │                                          │
                                   │                               │                                          │
                                   │ ┌─────────────────────────────┴────────────────────────────────────────┐ │
-                                  │ │                           eth0                                       │ │
-                                  │ │ VM CU                                                                │ │
+                                  │ │                           enp1s0                                       │ │
+                                  │ │ VM RIC/CU/CellWrapper                                                                │ │
                                   │ │ NODE_IP=192.168.88.4                                                 │ │
                                   │ │                                                                      │ │
                                   │ │                                                                      │ │
@@ -100,24 +100,38 @@ Before you continue you may want to derive the real schema and fill in this simp
 
 
 ```
+### 3.1. Basic Cell Operations
 
-## Available Sections
+Basic cell operation like start, stop, restart. Or locking and unlocking the CU can all be done through the dashboard.
+- The dashboard can be accessed via https://"RIC/CU_VM_IP":31315
+- From the dashbord go to **RAN Overview** then select **5G**.
 
-The Operational User Guide is divided mainly in three different subjects: System Configuration, Start/Stop of the System, Components Update.
-Each of these steps is described in its own chapter.
+<p align="center">
+  <img src="cu-configuration/config_view.png">
+</p>
 
 
-* [Appendix A](appendix-a/index.md)
-* [Appendix B](appendix-b/index.md)
-* [Configure and bring Ettus B210 on air](bring-B210-on-air/)
-<!-- [Configure and bring Ettus X310 on air] (TBD)-->
-* [Configure and bring Benetel 550 on air](bring-Benetel-550-on-air)
-* [Configure and bring Benetel 650 on air](bring-Benetel-650-on-air)
-* [E1000 4G RU Provisioning](e1000-provisioning/index.md)
+
+### 3.2. Cell Monitoring
+From the home window you can view the cell when it goes live and the UEs attached to it.
+
+<p align="center">
+  <img src="cu-configuration/topology_view.png">
+</p>
+
+The DRAX dashboard also uses grafana to view measurements and Counters.
+- This can be accessed via https://"RIC/CU_VM_IP":30300
+- A number of reports will be readily available on this release as an example:
+    - Radio Condition and Throughput can be viewed in the "5G UE Monitoring" dashboard. 
+    - Accessibility and Mobility Counters (e.g. Number of RRC Attempts or Number of Handover Execution Successes) can be viewed in the "5G PM Counters" dashboard.
+
+
+## 4. More Cell Operations
+
+Below sections will give more information.
+
 * [CU Configuration](cu-configuration/index.md)
+* [RU/DU Configuraiton](modifying-ran650-or-ran550/index.md)
 * [Handover Configuration](handover-configuration/index.md)
 * [MOCN and Slicing](mocn-and-slicing/index.md)
-* [DU and L1 Update](du-l1-update/index.md)
-* [RIC Update](ric-update/index.md)
-
-
+* [Logs Collection](logs-collection/index.md)

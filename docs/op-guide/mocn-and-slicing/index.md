@@ -1,80 +1,97 @@
-# MOCN 
 
-This section is about MOCN and Slice Configuration for Effnet Phluido Benetel Solution
-
-In order to obtain a working setup with MOCN, it is essential that three components are aligned and configured coherently to serve the same list of PLMNIDs, here below we give an example based on the Accelleran CU, the Effnet DU and the Open5Gs Core, this ofc course may need to be slightly modified case by case, but the principle remains: Currently there is no mechanism to determine if the DU, the CU and the Core have been configured consistently and the effect of a wrong configuration is simply that for instance the DU does not attempt to contact the CU, or the CU does not attempt to contact the Core, so it is essential to plan and ask in advance to your Accelleran Support Team in case of doubts.
-
-In the rest of this section we will assume that the user is attempting to set two PLMN IDs 00101 and 00102 served by two different Cores located at two different IP addresses 10.128.7.14 and 10.128.7.15, both reachable by the CU. Each PLMNID has one sigle slice of type embb or type 1.
-
-## CUCP MOCN Configuration 
-
-Add simply in the Operator List the second IP address 10.128.7.15 to your list of NG IP addresses and verify they both are configured as "default" AMF in the relative XML configuration file see images below:
-
-<p align="center">
-  <img width="600" height="400" src="dashboard-cucp-twoamf.png">
-</p>
-
-<p align="center">
-  <img width="600" height="400" src="dashboard-cucp-xml-mocn.png">
-</p>
+# Multi Slice and MOCN Configuration
 
 
+## 1. Multi Slice Configuration
 
-## CUUP MOCN Configuration 
+To enable multiple slices support for a cell, the different components of the network must be configured to support them.
 
-Foresee the creation of one CU UP component for each PLMNID to be served and configure the slices consistently, in this example both slices of type one, one per CUUP as in the picture below (remove the slices that are not in use, by the default the tool will create two slices). Unfortunately not all the Core take the same input for the slices, some ignore the slice differentiator, and some others are very strict, so this will need to be adjusted in details as we go by.
+As an example, Assuming we want to configure three slices: (SST:1), (SST:1,SD:1), (SST2)
+
+### 1.1. CU-UP Multi Slice Configuration
+
+Here, the CU UP must be configured with all the Slices that the Core and the Cell will be configured with to support.
+- From the dashboard go to "RAN Overview" then "5G"
+- From the "CU-UP List", click on configuration.
+- Set Admin State to Locked. (To allow changing the CU configuration)
+- Add the different slices in the "Supported PLMN Slices" and then submit.
+
+>*SD 16777215 (0xFFFFFF) = no SD, SST 1 = eMBB, SST 2 = URLLC*
 
 <p align="center">
-  <img width="600" height="400" src="dashboard-cuup-1.png">
+  <img src="slicing_example_cu_up_config.png">
 </p>
+
+### 1.2. DU Multi Slice Configuration
+
+Similar to the CU UP, the DU must be configured with the slices that it needs to support.
+- From the dashboard go to "RAN Overview" then "5G"
+- From the "DU/RU List", click on configuration.
+- Add the different slices in the "Supported PLMN Slices" and then submit.
+
+>*SD 16777215 (0xFFFFFF) = no SD, SST 1 = eMBB, SST 2 = URLLC*
+
 <p align="center">
-  <img width="600" height="600" src="dashboard-cuup-2.png">
+  <img src="slicing_example_du_config.png">
 </p>
-Don't forget of course to double check the services and make sure your E1 destination address is consistently set on each CUUP:
+
+### 1.3. Core MOCN Configuration 
+
+The core connected should support the slices enabled on the cell. In our example the core should be configured with (SST:1), (SST:1,SD:1), (SST2).
+
+As core configuration would be done differently based on which core vendor is used. It wouldn't be part of this document. Please contact Accelleran with the details of the core used to provide support if possible. 
+
+## 2. MOCN Configuration
+
+To configure the Cell to support MOCN (Multi-Operator Core Network) scenarios 
+
+In order to obtain a working setup with MOCN, it is essential that all the network components are aligned and configured coherently to serve the same list of PLMNIDs.
+
+As an example, this section will show how to configure the below scenario, where one cell will broadcast two PLMNIDs so that UE1 will connect to Core1 and UE2 will connect to Core2.
 
 <p align="center">
-  <img width="600" height="400" src="dashboard-cucp-E1services.png">
+  <img width="346" height="248" src="mocn_example.png">
 </p>
 
-## Effnet DU MOCN Configuration 
+### 2.1. CU-CP MOCN Configuration
 
-the following only applies to the Effnet DU. What we did so far for the CUCP adn the CUUP must be faithfully reflected on the DU confgiration, where we also need to pick one PLMNID as a primary PLMNID. For some Cores,we need to make sure the slice differentiators are consistent as well, here we will ignore them. A DU configuration (extract) that is consistent with the above CU confgiration is:
+Simply the CU-CP must be configured with all the addresses to the cores that are needed.
 
+- From the dashboard go to "RAN Overview" then "5G"
+- From the "CU-CP List", click on configuration.
+- Set Admin State to Locked. (To allow changing the CU configuration)
+- Add the first and second core IPs to the NG Address list and then submit.
 
-``` bash
-"served_cell_information": {
-                    "nr_cgi": {
-                        "plmn_identity": "001f01",
-                        "nr_cell_identity": "000000000000000000000000000000000001"
-                    },
-                    "nr_pci": 42,
-                    "5gs_tac": "000001",
-                    "ran_area_code": 1,
-                    "served_plmns": [
-                        {
-                            "plmn_identity": "001f01",
-                            "tai_slice_support_list": [
-                                {
-                                    "sst": 1
-                                }
-                            ]
-                        },
-                        {
-                            "plmn_identity": "001f02",
-                            "tai_slice_support_list": [
-                                {
-                                    "sst": 1
-                                }
-                            ]
-                        }
-                    ]
-``` 
+<p align="center">
+  <img src="mocn_example_cu_cp_config.png">
+</p>
 
-Locate the file du-config.json and modify it accordingly 
+### 2.2. CU-UP MOCN Configuration
 
-## Open5gs MOCN Configuration 
+Here, the CU UP must be configured with all the PLMNIDs and Slices that the Core and the Cell will be configured with to support.
+(Assuming there is only one slice "SST1, SD:0" configured on each of the cores)
+- From the dashboard go to "RAN Overview" then "5G"
+- From the "CU-UP List", click on configuration.
+- Set Admin State to Locked. (To allow changing the CU configuration)
+- Add the first and second PLMN IDs to the "Supported PLMN Slices" and then submit.
 
-If you opted for two separate Cores, therefore two different AMFs at two different IPs serving one PLMNID each, simply configure one PLMNID for each Core 
+<p align="center">
+  <img src="mocn_example_cu_up_config.png">
+</p>
 
+### 2.3. DU MOCN Configuration 
 
-# Slice Configuration for Effnet Phluido Benetel Solution
+Similar to the CU UP, the DU must be configured with the PLMN IDs and slices that it needs to support.
+- From the dashboard go to "RAN Overview" then "5G"
+- From the "DU/RU List", click on configuration.
+- Add the first and second PLMN IDs to the "Supported PLMN Slices" and then submit.
+
+<p align="center">
+  <img src="mocn_example_du_config.png">
+</p>
+
+### 2.4. Core MOCN Configuration 
+
+The cores connected should support the PLMN IDs. In our example core1 should be configured with PLMNID 00101, and core2 with PLMNID 00102. 
+
+As core configuration would be done differently based on which core vendor is used. It wouldn't be part of this document. Please contact Accelleran with the details of the core used to provide support if possible. 
