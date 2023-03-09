@@ -19,17 +19,21 @@ radiocontrol -o D s
 ## 2. DU/L1 Logs
 
 A directory in the DU machine with the DU/L1 logs and configuration files will be saved in the ```/run/``` directory with the name of the DU (which can be found from the dashboard -> RAN Overview -> 5G)
+
 - Please compress this directory and share them with Accelleran in cases where debug is needed. Assuming du-1 was used: ```zip -r /run/du-1/ ~/du_logs.zip```
 
 ## 3. CU Logs and Traces
 
 A tcpdump on the CU VM can be started before running the test case to save all the packets exchanged between the core <-> CU <-> DU.
+
 - Below command can be used from within the CU VM.
 tcpdump -i enp1s0 'sctp' -w cu_side_trace.pcap
-> PS: This is assuming the interface the CU VM is using is "enp1s0", please change it according to your setup.
-> PS: It is better to save only sctp data unless the test/debug case in question is related to user plane packets otherwise use "sctp or udp" in the command.
+
+> - This is assuming the interface the CU VM is using is "enp1s0", please change it according to your setup.
+> - It is better to save only sctp data unless the test/debug case in question is related to user plane packets otherwise use "sctp or udp" in the command.
 
 To save the CU logs:
+
 - Create a file named collect_logs.sh with the content below.
 - By default it will save the logs of the last 10minutes but to save the logs of the last 20mins for example, run: "``` ./collect_logs.sh 10```"
 - The log files will be saved in below two files: ```/tmp/logs.tar.gz``` and ```/tmp/logs-previous.tar.gz```
