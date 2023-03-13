@@ -22,6 +22,7 @@ A directory in the DU machine with the DU/L1 logs and configuration files will b
 
 - Please compress this directory and share them with Accelleran in cases where debug is needed. Assuming du-1 was used: ```zip -r /run/du-1/ ~/du_logs.zip```
 
+
 ## 3. CU Logs and Traces
 
 A tcpdump on the CU VM can be started before running the test case to save all the packets exchanged between the core <-> CU <-> DU.

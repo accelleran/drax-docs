@@ -8,8 +8,6 @@ The CU components can be configured from the dRAX Dashboard by navigating to **R
 
 On this page there are two lists, one for CU-CPs and one for CU-UPs.
 You can click the icon under the Edit column of each CU component to edit its configuration.
-When you deploy the 5G CU component and click this button for the first time, you will be asked to set the initial configuration.
-Later on, you can click this button to edit the configuration.
 
 ## 1. CU-CP configuration
 

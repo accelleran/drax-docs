@@ -7,6 +7,11 @@ This guide describes how to operate the Accelleran ORAN 5G  Platform and the dif
 
 This means that the installation and initial configuration of the System has been already made by Accelleran Customer Support and there is no need to worry about how to prepare the server, install and initialise the components.
 
+2022.4.0 release include Accelleran Cell Wrapper, which works as a layer on top of the DU and RU. This provides a common interface for configuration and controls over a cell. 
+
+It monitors a DU and RU through periodic health checks and uses the control interface internally to attempt an automatic repair from failures. These health checks include checks for reachability, traffic, container status and checks on a set of log messages. 
+
+
 ## 2. Releases
 This document is released together with the system release 2022.4.0. 
 This system release contains 
@@ -14,18 +19,18 @@ This system release contains
 | component    | version                        |
 |--------------|--------------------------------|
 | RIC          | 6.2.0                          |
-| CU CHART     | 5.1.0                          |
-| CU APP       | R3.4.1_ichtegem                |
+| CU CHART     | 5.2.0                          |
+| CU APP       | R3.4.2_ichtegem                |
 | DU           | 2023-02-14-q4-patch-release-01 |
 | L1           | 8.8.1                          |
 | BNTL650      | 0.5.3                          |
-| BNTL550      | 0.6.0                          |
+| BNTL550      | 0.5.2/0.6.0                    |
 | cell wrapper | 2.0.0                          |
 
 
 ## 3. Dashboard
 
-The dashboard can be accessed via https://"RIC_CU_VM_IP":31315
+The dashboard can be accessed via ```https://"RIC_CU_VM_IP":31315```
 
 ### 3.1. Cell Monitoring
 From the **Home** tab the cell status can be monitored and the UEs attached to it.
@@ -38,12 +43,29 @@ Furthermore, from the **Kubernetes Overview** tab, the status of the RIC/CU/Cell
 
 The DRAX dashboard also uses grafana to view measurements and Counters.
 
-- This can be accessed via https://"RIC_CU_VM_IP":30300
+- This can be accessed via ```https://"RIC_CU_VM_IP":30300```
 - A number of reports will be readily available on this release for example:
-    - Radio Condition and Throughput can be viewed in the **5G UE Monitoring** dashboard. 
-    - Accessibility and Mobility Counters (e.g. Number of RRC Attempts or Number of Handover Execution Successes) can be viewed in the **5G PM Counters** dashboard.
+    - Radio Condition and Throughput can be viewed in the **5G UE Monitoring** dashboard. The dashboard includes:
+        - UE Measured RSRP.
+        - UE Measured RSRQ.
+        - UE Measured SINR
+        - DL Throughput on the NG-Interface per UE.
+        - UL Throughput on the NG-Interface per UE.
+    - Accessibility and Mobility Counters (e.g. Number of RRC Attempts or Number of Handover Execution Successes) can be viewed in the **5G PM Counters** dashboard. The dashboard includes:
+        - RRC Connection Attempts and sub-counters for each of the connection attempt cause (MO Signalling, MO Data, ... etc)
+        - RRC Connection Successes and sub-counters for each of the connection success causes (MO Signalling, MO Data, ... etc)
+        - PDU Session Setup Requests.
+        - PDU Session Setup Failures.
+        - Intra-gNB Handover Execution Attempts.
+        - Intra-gNB Handover Execution Successes.
+        - Mean and Max Number of RRC Connections.
+        > PS: The definition of these counters are included in 3GPP TS 28.552 .
     - A live view of the RIC/CU/CellWrapper Logs can be viewed using the **Loki Log Dashboard**.
 
+Example **5G UE Monitoring** report:
+<p align="center">
+  <img src="logs-collection/grafana_view.png">
+</p>
 
 ### 3.2. Basic Cell Operations
 
@@ -72,6 +94,7 @@ Below sections will give more information on how to change some of the RAN param
 ## 5. Accelleran Customer Support Desk
 
 In case of of bugs, request for support or feature requests. Please use the customer portal available at the below address.
-https://accelleran.atlassian.net/servicedesk/customer/portal/31
+
+[customer portal link](https://accelleran.atlassian.net/servicedesk/customer/portal/31)
 
 Please contact Accelleran to get access to the customer portal. 

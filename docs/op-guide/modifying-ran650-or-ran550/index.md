@@ -40,8 +40,6 @@ This Frequency, however does not meet the **GSCN Synchronisation requirements** 
   <img width="600" height="800" src="../../du-install/Freq3751dot68.png">
 </p>
 
-At this point, you need to redeploy the Cell Wrapper with the modified ARFCN and write the new Tx and Rx Frequencies on the RU EEPROM. If you are uncertain on how to proceed, but you have calculated the correct frequencies and ARFCN please contact Accelleran to proceed on those modifications
-
 #### 1.1.2. Applying The Frequency Change
 
 **Apply on the RU:**

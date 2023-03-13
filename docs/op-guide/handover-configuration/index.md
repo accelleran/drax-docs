@@ -17,6 +17,7 @@ There are a couple of requirements:
 2. The two cells must operate in the same frequency (Intra Frequency).
 3. The two DUs must have be configured with unique Cell ID, PCI, and gNB-DU-ID. (Extra care must be taken into selecting the PCI to prevent cases of PCI conflict or PCI confusion)
 4. The UE must be using a slice that is available on both serving cell and target cell. Otherwise the UE won't find the slice it is currently using on the target cell and hence never trigger a handover.
+>PS: In cases where the CU configuration was changed. Remember to click **submit** on the cell configuration as well. This will restart the cells to use the latest configuration of the CU.  
 
 ## 2. DU Handover Configuration
 
