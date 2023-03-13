@@ -97,6 +97,7 @@ eeprog_cp60 -q -f -16 /dev/i2c-0 0x57 -r 372:8
 ### 1.2. Configuring Cell TX Power
 
 Take into account for an optimum operation, changing the RU Transmission Power require applying a change on the RU and on the DU.
+
 - The RU will take new attenuation values (this will be explained next), both for ANT1 and ANT3 which will be witten in the EEPROM
 - The DU will take the new transmission power into account as well, Which will be configured via the Cell Wrapper.
 By default RAN650 is configured with 35dBm and RAN550 is configured with 25dBm.

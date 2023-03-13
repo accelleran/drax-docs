@@ -11,10 +11,11 @@ As an example, Assuming we want to configure three slices: (SST:1), (SST:1,SD:1)
 ### 1.1. CU-UP Multi Slice Configuration
 
 Here, the CU UP must be configured with all the Slices that the Core and the Cell will be configured with to support.
-- From the dashboard go to "RAN Overview" then "5G"
-- From the "CU-UP List", click on configuration.
+
+- From the dashboard go to **RAN Overview** then **5G**
+- From the **CU-UP List**, click on configuration.
 - Set Admin State to Locked. (To allow changing the CU configuration)
-- Add the different slices in the "Supported PLMN Slices" and then submit.
+- Add the different slices in the **Supported PLMN Slices** and then submit.
 
 >*SD 16777215 (0xFFFFFF) = no SD, SST 1 = eMBB, SST 2 = URLLC*
 
@@ -25,9 +26,10 @@ Here, the CU UP must be configured with all the Slices that the Core and the Cel
 ### 1.2. DU Multi Slice Configuration
 
 Similar to the CU UP, the DU must be configured with the slices that it needs to support.
-- From the dashboard go to "RAN Overview" then "5G"
-- From the "DU/RU List", click on configuration.
-- Add the different slices in the "Supported PLMN Slices" and then submit.
+
+- From the dashboard go to **RAN Overview** then **5G**
+- From the **DU/RU List**, click on configuration.
+- Add the different slices in the **Supported PLMN Slices** and then submit.
 
 >*SD 16777215 (0xFFFFFF) = no SD, SST 1 = eMBB, SST 2 = URLLC*
 
@@ -57,8 +59,8 @@ As an example, this section will show how to configure the below scenario, where
 
 Simply the CU-CP must be configured with all the addresses to the cores that are needed.
 
-- From the dashboard go to "RAN Overview" then "5G"
-- From the "CU-CP List", click on configuration.
+- From the dashboard go to **RAN Overview** then **5G**
+- From the **CU-CP List**, click on configuration.
 - Set Admin State to Locked. (To allow changing the CU configuration)
 - Add the first and second core IPs to the NG Address list and then submit.
 
@@ -70,10 +72,11 @@ Simply the CU-CP must be configured with all the addresses to the cores that are
 
 Here, the CU UP must be configured with all the PLMNIDs and Slices that the Core and the Cell will be configured with to support.
 (Assuming there is only one slice "SST1, SD:0" configured on each of the cores)
-- From the dashboard go to "RAN Overview" then "5G"
-- From the "CU-UP List", click on configuration.
+
+- From the dashboard go to **RAN Overview** then **5G**
+- From the **CU-UP List**, click on configuration.
 - Set Admin State to Locked. (To allow changing the CU configuration)
-- Add the first and second PLMN IDs to the "Supported PLMN Slices" and then submit.
+- Add the first and second PLMN IDs to the **Supported PLMN Slices** and then submit.
 
 <p align="center">
   <img src="mocn_example_cu_up_config.png">
@@ -82,9 +85,10 @@ Here, the CU UP must be configured with all the PLMNIDs and Slices that the Core
 ### 2.3. DU MOCN Configuration 
 
 Similar to the CU UP, the DU must be configured with the PLMN IDs and slices that it needs to support.
-- From the dashboard go to "RAN Overview" then "5G"
-- From the "DU/RU List", click on configuration.
-- Add the first and second PLMN IDs to the "Supported PLMN Slices" and then submit.
+
+- From the dashboard go to **RAN Overview** then **5G**
+- From the **DU/RU List**, click on configuration.
+- Add the first and second PLMN IDs to the **Supported PLMN Slices** and then submit.
 
 <p align="center">
   <img src="mocn_example_du_config.png">

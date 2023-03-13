@@ -27,39 +27,51 @@ This system release contains
 
 The dashboard can be accessed via https://"RIC_CU_VM_IP":31315
 
-### 3.1. Basic Cell Operations
-
-Basic cell operation like start, stop, restart. Or locking and unlocking the CU can all be done through the dashboard.
-
-- From the dashbord go to **RAN Overview** then select **5G**.
-
-<p align="center">
-  <img src="cu-configuration/config_view.png">
-</p>
-
-
-
-### 3.2. Cell Monitoring
+### 3.1. Cell Monitoring
 From the **Home** tab the cell status can be monitored and the UEs attached to it.
 
 <p align="center">
   <img src="cu-configuration/topology_view.png">
 </p>
 
+Furthermore, from the **Kubernetes Overview** tab, the status of the RIC/CU/CellWrapper pods and services can be monitored.
+
 The DRAX dashboard also uses grafana to view measurements and Counters.
 
 - This can be accessed via https://"RIC_CU_VM_IP":30300
-- A number of reports will be readily available on this release as an example:
+- A number of reports will be readily available on this release for example:
     - Radio Condition and Throughput can be viewed in the **5G UE Monitoring** dashboard. 
     - Accessibility and Mobility Counters (e.g. Number of RRC Attempts or Number of Handover Execution Successes) can be viewed in the **5G PM Counters** dashboard.
+    - A live view of the RIC/CU/CellWrapper Logs can be viewed using the **Loki Log Dashboard**.
 
 
-## 4. More Cell Operations
+### 3.2. Basic Cell Operations
 
-Below sections will give more information.
+Basic cell operation like start, stop, restart. Or locking and unlocking the CU can all be done through the dashboard.
+
+- From the dashbord go to **RAN Overview** then select **5G**.
+
+Using the Configuration button, the cell and CU parameters can be easily modified. *(More on this will be explained in the other sections of this document)*
+
+<p align="center">
+  <img src="cu-configuration/config_view.png">
+</p>
+
+
+## 4. Advanced Operations
+
+Below sections will give more information on how to change some of the RAN parameters to enable features or modify RAN behavior.
 
 * [CU Configuration](cu-configuration/index.md)
 * [RU/DU Configuraiton](modifying-ran650-or-ran550/index.md)
 * [Handover Configuration](handover-configuration/index.md)
 * [MOCN and Slicing](mocn-and-slicing/index.md)
 * [Logs Collection](logs-collection/index.md)
+
+
+## 5. Accelleran Customer Support Desk
+
+In case of of bugs, request for support or feature requests. Please use the customer portal available at the below address.
+https://accelleran.atlassian.net/servicedesk/customer/portal/31
+
+Please contact Accelleran to get access to the customer portal. 
