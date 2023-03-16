@@ -22,11 +22,11 @@ This system release contains
 | CU CHART     | 5.2.0                          |
 | CU APP       | R3.4.2_ichtegem                |
 | DU           | 2023-02-14-q4-patch-release-01 |
-| L1           | 8.8.1                          |
+| L1           | 8.7.4                          |
 | BNTL650      | 0.5.3                          |
 | BNTL550      | 0.5.2/0.6.0                    |
 | cell wrapper | 2.0.0                          |
-
+| DU/RU        | 5.1.0.30736                    |
 
 ## 3. Dashboard
 
@@ -88,6 +88,7 @@ Below sections will give more information on how to change some of the RAN param
 * [RU/DU Configuraiton](modifying-ran650-or-ran550/index.md)
 * [Handover Configuration](handover-configuration/index.md)
 * [MOCN and Slicing](mocn-and-slicing/index.md)
+* [Split 2 RU/DU Configuration](nodeh-du-ru-operation/index.md)
 * [Logs Collection](logs-collection/index.md)
 
 
