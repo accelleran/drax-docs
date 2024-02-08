@@ -1,4 +1,4 @@
-site_name: dRAX - 2022.3.0 release
+site_name: Accelleran 5G O-RAN System Installation Guide [2023.3.0]
 
 site_url: https://accelleran.github.io/drax-docs/
 theme: 
@@ -38,7 +38,9 @@ extra_css:
   - css/extra.css
 nav:
     - 'index.md'
-    - 'kubernetes-install/index.md'
-    - 'drax-install/index.md'
-    - 'du-install/index.md'
+    - 'machine-prep/index.md'
+    - 'kubernetes_ng-install/index.md'
+    - 'drax_ng-install/index.md'
+    - 'cu_ng-install/index.md'
+    - 'cw_ng-install/index.md'
     - 'core-install/index.md'
