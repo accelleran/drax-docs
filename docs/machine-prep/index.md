@@ -94,6 +94,8 @@ ping 10.10.0.100
 
 ### 3.1. Prepare the Machine for RealTime Performance
 
+> These changes are needed to run any DU tested in our lab, Plus the VMs.
+
 - On The BIOS Settings:
     - System Profile Settings:
         - System Profile -> Performance
@@ -210,88 +212,9 @@ sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 sudo cp $DOCKER_CONFIG/cli-plugins/docker-compose /usr/bin/.
 ```
 
-### 3.4. Load DU/UL1 Docker Images
+### 3.4. Vendor Specific Steps
+- [Effnet-Phluido-Benetel](/drax-docs/effnet-benetel-prep)
 
-#### 3.4.1. Load DU Image
-
-> This section is only needed when cell wrapper is not used.
-
-- Copy the file containing the image to the server. (example file accelleran-du-phluido-2024-01-31-q3-patch-release-01-8.7.4.zip)
-- Load image
-```bash
-sudo apt install unzip
-unzip accelleran-du-phluido-2024-01-31-q3-patch-release-01-8.7.4.zip
-cd accelleran-du-phluido-2024-01-31-q3-patch-release-01-8.7.4
-bzcat gnb_du_main_phluido-2024-01-31-q3-patch-release-01-8.7.4.tar.bz2 | docker image load
-```
-- Validate that the docker image was loaded and take note of the image tag
-```bash
-docker images
-```
-
-#### 3.4.2. Load DU License
-
-- Make sure a yubikey is inserted and then run below:
-```bash
-mkdir -p pcscd 
-tee pcscd/Dockerfile.pcscd <<EOF
-FROM ubuntu:22.04
-
-RUN \
-set -xe && \
-apt-get update && \
-DEBIAN_FRONTEND="noninteractive" apt-get install -y \
-    pcscd
-
-# Cleanup
-RUN \
-set -xe && \
-apt-get clean && \
-rm -rf \
-    /var/lib/apt/lists/* \
-    /var/tmp/* \
-    /tmp/*
-
-ENTRYPOINT ["/usr/sbin/pcscd", "--foreground"]
-EOF
-docker build --rm -t pcscd_yubikey - <pcscd/Dockerfile.pcscd
-docker run --restart always -id --privileged --name pcscd_yubikey_c -v /run/pcscd:/run/pcscd pcscd_yubikey
-```
-- If a new license is to be loaded, Use the activation file provided by effnet to run below:
-```bash
-unzip effnet-license-activation-2023-06-29_01.zip
-cd effnet-license-activation-2023-06-29_01
-bunzip2 --stdout effnet-license-activation-2023-06-29.tar.bz2 | docker load
-docker run -it --rm -v /var/run/pcscd:/var/run/pcscd effnet/license-activation-2023-06-29
-```
-
-
-#### 3.4.3. Load UL1 Image
-
-> This section is only needed when cell wrapper is not used.
-
-- Copy the binary of the UL1 into the server. (example file for v8.7.4 was named PhluidoUL1_NR_v8_7_4)
-- Prepare files. (Use the date of the installation) and then load image
-```bash
-mkdir Phluido5GL1_v8.7.4
-cd Phluido5GL1_v8.7.4
-mv ~/PhluidoUL1_NR_v8_7_4 PhluidoUL1_NR
-echo "2023-06-12, 12:00:00" > L1_NR_copyright
-tee Dockerfile.l1 <<EOF
-FROM ubuntu:20.04
-
-COPY PhluidoUL1_NR /
-COPY L1_NR_copyright /root/.Phluido/L1_NR_copyright
-
-ENTRYPOINT ["/PhluidoUL1_NR"]
-EOF
-cd ..
-docker build -f Phluido5GL1_v8.7.4/Dockerfile.l1 -t phluido_l1:v8.7.4 Phluido5GL1_v8.7.4
-```
-- Validate that the docker image was loaded and take note of the image tag
-```bash
-docker images
-```
 
 ### 3.5. Extra Steps for the Virtual Machines
 

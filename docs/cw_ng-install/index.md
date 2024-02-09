@@ -4,6 +4,8 @@
 
 ## 1. Prerequests
 
+- Can be found in [Granny Confluence Page](https://accelleran.atlassian.net/wiki/x/AQCXig)
+
 ## 2. Deploying Cell Wrapper Controller
 
 > **This is only needed for deploying With Special Base DU/L1 Configuration. Please skip for default installation.**
