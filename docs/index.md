@@ -59,4 +59,4 @@ It is recommended to execute these steps in the following order as there are dep
 * [DRAX Deployment](/drax-docs/drax_ng-install/)
 * [CU Deployment](/drax-docs/cu_ng-install/)
 * [Cell Wrapper Deployment](/drax-docs/cw_ng-install/)
-* [Optional: Open5GS Installation](/drax-docs/core-install/)
+* [Core Installation](/drax-docs/core-install/)
