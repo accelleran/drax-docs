@@ -62,18 +62,37 @@ chmod 700 get_helm.sh
 
 ## 4. Deploy longhorn
 
-- longhorn would be used for storage managment
-```bash
-helm repo add longhorn https://charts.longhorn.io
-helm repo update
-helm install --create-namespace --namespace=longhorn-system longhorn longhorn/longhorn
+longhorn would be used for storage managment
+- First create the longhorn-system namespace:
+``` bash
+kubectl create namespace longhorn-system
 ```
-- Make sure all pods are operating normaly.
+
+- Then add the longhorn repository to helm:
+``` bash
+helm repo add longhorn https://charts.longhorn.io
+```
+
+- Finally deploy Longhorn in "longhorn-system" namespace, with all replica counts set to 1 and UI exposed on port 32100 via NodePort instead of ClusterIp:
+``` bash
+helm install longhorn longhorn/longhorn --version 1.3.1 \
+--set service.ui.type=NodePort,\
+service.ui.nodePort=32100,\
+persistence.defaultClassReplicaCount=1,\
+csi.attacherReplicaCount=1,\
+csi.provisionerReplicaCount=1,\
+csi.resizerReplicaCount=1,\
+csi.snapshotterReplicaCount=1,\
+defaultSettings.defaultReplicaCount=1 \
+-n longhorn-system
+```
+
+Make sure all pods are operating normaly.
 ```bash
 watch kubectl get pods -A
 ```
 
-> ***Missing manual steps to create the disk***
+> ***To be tested***
 
 ## 5. Deploy a Load Balancer
 > PS: From the [Example Network Diagram](/drax-docs/) the K8s Cluster IP pool is `10.55.5.30-10.55.5.39`
