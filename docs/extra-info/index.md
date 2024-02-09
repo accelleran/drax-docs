@@ -2,7 +2,10 @@
 
 ## 1. Related to the Server Preperation
 
-### 1.1. Incases Where Virtual Functions SR-IOV Can't Be Used
+### 1.1. Unsupported SFP+ module type was detected
+- Use information on this [link](https://www.serveradminz.com/blog/unsupported-sfp-linux/)
+
+### 1.2. Virtual Functions Can't Be Used
 
 - For example in cases where SR-IOV is not supported.
 - Bridge Interface would need to be created on the server and then add NIC interfaces on the CU and CORE VMs to use it.
