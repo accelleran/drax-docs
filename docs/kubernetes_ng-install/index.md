@@ -37,6 +37,7 @@ curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
 sudo apt install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
 ```
 - Initialize the cluster (using `10.55.5.3`)
 ```bash
@@ -62,37 +63,44 @@ chmod 700 get_helm.sh
 
 ## 4. Deploy longhorn
 
-longhorn would be used for storage managment
-- First create the longhorn-system namespace:
-``` bash
-kubectl create namespace longhorn-system
+longhorn would be used for storage managment.
+- Find the kubernetes node name
+```bash
+$ kubectl get nodes
+NAME            STATUS   ROLES           AGE    VERSION
+testmachine-ric-cu   Ready    control-plane   7d4h   v1.29.1
 ```
 
-- Then add the longhorn repository to helm:
+- To create a disk with 100GB (107374182400): (Make sure to update the node name)
+```bash
+tee longhorn-disk.yaml <<EOF
+apiVersion: v1
+kind: Node
+metadata:
+  name: "testmachine-ric-cu"
+  labels:
+    node.longhorn.io/create-default-disk: "config"
+  annotations:
+    node.longhorn.io/default-disks-config: '[{"name": "disk-1", "path": "/var/lib/longhorn", "allowScheduling": true, "storageReserved": 107374182400, "tags": []}]'
+EOF
+kubectl apply -f longhorn-disk.yaml
+```
+
+- Add the longhorn repository to helm:
 ``` bash
 helm repo add longhorn https://charts.longhorn.io
+helm repo update
 ```
 
 - Finally deploy Longhorn in "longhorn-system" namespace, with all replica counts set to 1 and UI exposed on port 32100 via NodePort instead of ClusterIp:
 ``` bash
-helm install longhorn longhorn/longhorn --version 1.3.1 \
---set service.ui.type=NodePort,\
-service.ui.nodePort=32100,\
-persistence.defaultClassReplicaCount=1,\
-csi.attacherReplicaCount=1,\
-csi.provisionerReplicaCount=1,\
-csi.resizerReplicaCount=1,\
-csi.snapshotterReplicaCount=1,\
-defaultSettings.defaultReplicaCount=1 \
--n longhorn-system
+helm install --create-namespace --namespace=longhorn-system longhorn longhorn/longhorn
 ```
-
 Make sure all pods are operating normaly.
 ```bash
 watch kubectl get pods -A
 ```
 
-> ***To be tested***
 
 ## 5. Deploy a Load Balancer
 > PS: From the [Example Network Diagram](/drax-docs/) the K8s Cluster IP pool is `10.55.5.30-10.55.5.39`
