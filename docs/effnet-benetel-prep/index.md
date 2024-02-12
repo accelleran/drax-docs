@@ -1,4 +1,4 @@
-# Effnet-Phluido-Benetel Preperation
+# Effnet-Phluido-Benetel Preparation
 
 ## 1. Effnet-Phluido Changes
 
@@ -110,4 +110,4 @@ eeprog_cp60 -q -f -x -16 /dev/i2c-0 0x57 -x -r 26:6
 ```
 - Reboot the RU to apply the change
 
-> # Back to [Server Preperation](/drax-docs/machine-prep/)
+> # Back to [Server Preparation](/drax-docs/machine-prep/)
