@@ -109,26 +109,29 @@ watch kubectl get pods -A
 - Using purelb as a load balancer to the cluster.
 > ***To be changed with metallb***
 ```bash
-helm repo add purelb https://gitlab.com/api/v4/projects/20400619/packages/helm/stable
+helm repo add metallb https://metallb.github.io/metallb
 helm repo update
-helm install --create-namespace --namespace=purelb purelb purelb/purelb
+helm install metallb metallb/metallb --namespace metallb-system --version 0.13.12
 ```
 - Add the allowed IP range to be used in the cluster.
 ```bash
-tee purelb-ip_pool.yaml <<EOF
-apiVersion: purelb.io/v1
-kind: ServiceGroup
+tee metallb-pool.yaml <<EOF
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: loadbalancer-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 10.0.134.30-10.0.134.39
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
 metadata:
   name: default
-  namespace: purelb
-spec:
-  local:
-    v4pools:
-    - subnet: 10.55.5.0/24
-      pool: 10.55.5.30-10.55.5.39
-      aggregation: default
+  namespace: metallb-system
 EOF
-kubectl apply -f purelb-ip_pool.yaml -n purelb
+kubectl apply -f metallb-pool.yaml
 ```
 ```bash
 watch kubectl get pods -A

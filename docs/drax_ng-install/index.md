@@ -24,9 +24,9 @@ global:
     enabled: "true"
     licenseSecretName: "accelleran-license"
 
-# Only needed if the base DU L1 config needs to be overwritten (lab testing cases or engineering builds)
-#cell-wrapper:
-#  enabled: false
+# Only disable if the base DU L1 config needs to be overwritten (lab testing cases or engineering builds)
+cell-wrapper:
+  enabled: true
 EOF
 ```
 - Deploy DRAX

@@ -8,9 +8,15 @@
 
 ## 2. Deploying Cell Wrapper Controller
 
-> **This is only needed for deploying With Special Base DU/L1 Configuration. Please skip for default installation.**
+- **Please skip for default installation.** 
+> This is only needed for deploying With Special Base DU/L1 Configuration.
 
-- Make sure DRAX was installed with cell-wrapper disabled in [Steps for DRAX Deployment](/drax-docs/drax_ng-install)
+- Make sure DRAX was installed with cell-wrapper disabled.
+    - This can be done by editing `drax-values.yaml` (change `cell-wrapper`: `enabled: false`)
+    - Update the DRAX deployed:
+  ```bash
+  helm upgrade --install drax accelleran-ng/drax --version 7.0.0-rc.3 --values drax-values.yaml --debug
+  ``` 
 
 - Create a values file for the controller with the new base configuration.
 

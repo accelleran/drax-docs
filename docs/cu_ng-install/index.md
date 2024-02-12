@@ -59,7 +59,7 @@ testmachine-ric-cu   Ready    control-plane   7d4h   v1.29.1
 
 - Create a values file as below (make sure to update the nodeName and the XDP uplink and downlink IPs)
 ```bash
-tee cu-cp-values.yaml <<EOF
+tee cu-up-values.yaml <<EOF
 global:
 
   # The release to install.
