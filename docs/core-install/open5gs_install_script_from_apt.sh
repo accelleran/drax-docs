@@ -48,4 +48,9 @@ sudo netfilter-persistent save
 sudo systemctl enable netfilter-persistent
 
 
+# open5gs-dbctl
+sudo curl -o /usr/bin/open5gs-dbctl https://raw.githubusercontent.com/open5gs/open5gs/main/misc/db/open5gs-dbctl
+sudo chmod +x /usr/bin/open5gs-dbctl
+
+
 echo "Installation Done"
