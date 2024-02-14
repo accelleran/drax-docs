@@ -63,6 +63,8 @@ chmod 700 get_helm.sh
 
 ## 4. Deploy longhorn
 
+> PS: Be careful with this step, as it might be difficult to recover
+
 longhorn would be used for storage managment.
 - Find the kubernetes node name
 ```bash
@@ -71,7 +73,7 @@ NAME            STATUS   ROLES           AGE    VERSION
 testmachine-ric-cu   Ready    control-plane   7d4h   v1.29.1
 ```
 
-- To create a disk with 100GB (107374182400): (Make sure to update the node name)
+- To create a disk while leaving 50GB for the OS (53687091200): (Make sure to update the node name)
 ```bash
 tee longhorn-disk.yaml <<EOF
 apiVersion: v1
@@ -81,7 +83,7 @@ metadata:
   labels:
     node.longhorn.io/create-default-disk: "config"
   annotations:
-    node.longhorn.io/default-disks-config: '[{"name": "disk-1", "path": "/var/lib/longhorn", "allowScheduling": true, "storageReserved": 107374182400, "tags": []}]'
+    node.longhorn.io/default-disks-config: '[{"name": "disk-1", "path": "/var/lib/longhorn", "allowScheduling": true, "storageReserved": 53687091200, "tags": []}]'
 EOF
 kubectl apply -f longhorn-disk.yaml
 ```
