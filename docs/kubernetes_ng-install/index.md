@@ -6,9 +6,24 @@ Below steps would prepare the cluster in the CU/RIC Virtual machine to be used f
 
 > All below steps would be implemented on the RIC/CU/CW VM.
 
-## 1. Edit containerd Config
+## 1. Install and Edit containerd Config
 
-- Edit `/etc/containerd/config.toml`
+- Install containerd
+```bash
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install containerd.io
+```
+
+- Edit `/etc/containerd/config.toml` to look as below:
 ```bash
 version = 2
 [plugins."io.containerd.grpc.v1.cri"]
@@ -25,18 +40,27 @@ sudo systemctl restart containerd.service
 
 ## 2. Install Kubernetes
 
-- Disable swap and install kubernetes
-
+- Disable swap and prepare bridges 
 ```bash
+echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.all.forwarding=1" | sudo tee -a /etc/sysctl.conf
+sudo modprobe br_netfilter
+sudo sysctl --system
+
 sudo swapoff -a
 sudo sed -i '/\sswap\s/ s/^\(.*\)$/#\1/g' /etc/fstab
+```
 
+- install kubernetes
+
+```bash
 sudo apt-get install -y apt-transport-https ca-certificates curl
 sudo mkdir -p -m 755 /etc/apt/keyrings
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
-sudo apt install -y kubelet kubeadm kubectl
+sudo apt install -y kubelet=1.29.1-1.1 kubeadm=1.29.1-1.1 kubectl=1.29.1-1.1
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 - Initialize the cluster (using `10.55.5.3`)
@@ -98,7 +122,7 @@ helm repo update
 ``` bash
 helm install --create-namespace --namespace=longhorn-system longhorn longhorn/longhorn
 ```
-Make sure all pods are operating normaly.
+Make sure all pods are operating normaly before moving forward
 ```bash
 watch kubectl get pods -A
 ```
@@ -113,7 +137,7 @@ watch kubectl get pods -A
 ```bash
 helm repo add metallb https://metallb.github.io/metallb
 helm repo update
-helm install metallb metallb/metallb --namespace metallb-system --version 0.13.12
+helm install --create-namespace --namespace=metallb-system metallb metallb/metallb --version 0.13.12
 ```
 - Add the allowed IP range to be used in the cluster.
 ```bash
@@ -125,7 +149,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 10.0.134.30-10.0.134.39
+  - 10.55.5.30-10.55.5.39
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
@@ -138,5 +162,16 @@ kubectl apply -f metallb-pool.yaml
 ```bash
 watch kubectl get pods -A
 ```
+
+## 6. Extra Changes
+
+- Due to `Failed to allocate directory watch: Too many open files`:
+```bash
+echo "fs.inotify.max_user_instances=1024" | sudo tee -a /etc/sysctl.conf
+sudo sysctl --system
+```
+
+- Arp related changes:
+    - ***Is it still needed and which ones?***
 
 > # Next Step [DRAX Installation](/drax-docs/drax_ng-install/)
