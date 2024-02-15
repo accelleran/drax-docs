@@ -15,7 +15,7 @@
     - This can be done by editing `drax-values.yaml` (change `cell-wrapper`: `enabled: false`)
     - Update the DRAX deployed:
   ```bash
-  helm upgrade --install drax accelleran-ng/drax --version 7.0.0-rc.3 --values drax-values.yaml --debug
+  helm upgrade --install drax accelleran-ng/drax --version 7.0.0-rc.4 --values drax-values.yaml --debug
   ``` 
 
 - Create a values file for the controller with the new base configuration.
@@ -113,7 +113,7 @@ global:
 
 - Deploy cell wrapper instance
     ```bash
-    helm install cell-1 accelleran-ng/cell-wrapper-config --version 0.2.1 --values cell-1-values.yaml --debug
+    helm install cell-1 accelleran-ng/cell-wrapper-config --version 0.2.2 --values cell-1-values.yaml --debug
     ```
 
 - Make sure all pods are operating normaly.
