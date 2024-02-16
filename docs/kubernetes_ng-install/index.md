@@ -48,6 +48,7 @@ echo "net.ipv6.conf.all.forwarding=1" | sudo tee -a /etc/sysctl.conf
 echo "net.ipv4.conf.all.arp_announce=1" | sudo tee -a /etc/sysctl.conf
 echo "net.ipv4.conf.all.arp_ignore=2" | sudo tee -a /etc/sysctl.conf
 echo "fs.inotify.max_user_instances=4096" | sudo tee -a /etc/sysctl.conf
+echo "br_netfilter" | sudo tee /etc/modules-load.d/kubernetes.conf
 sudo modprobe br_netfilter
 sudo sysctl --system
 
