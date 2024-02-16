@@ -23,8 +23,10 @@ sudo apt-get update
 sudo apt-get install containerd.io
 ```
 
-- Edit `/etc/containerd/config.toml` to look as below:
+- Edit containerd config and restart it:
 ```bash
+sudo rm -rf /etc/containerd/config.toml
+sudo tee /etc/containerd/config.toml <<EOF
 version = 2
 [plugins."io.containerd.grpc.v1.cri"]
   sandbox_image = "registry.k8s.io/pause:3.9"
@@ -32,9 +34,7 @@ version = 2
     runtime_type = "io.containerd.runc.v2"
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
       SystemdCgroup = true
-```
-- Apply changes
-```bash
+EOF
 sudo systemctl restart containerd.service
 ```
 
@@ -45,6 +45,9 @@ sudo systemctl restart containerd.service
 echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
 echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
 echo "net.ipv6.conf.all.forwarding=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv4.conf.all.arp_announce=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv4.conf.all.arp_ignore=2" | sudo tee -a /etc/sysctl.conf
+echo "fs.inotify.max_user_instances=4096" | sudo tee -a /etc/sysctl.conf
 sudo modprobe br_netfilter
 sudo sysctl --system
 
@@ -85,46 +88,24 @@ chmod 700 get_helm.sh
 ./get_helm.sh
 ```
 
-## 4. Deploy longhorn
+## 4. Prepare Storage
 
-> PS: Be careful with this step, as it might be difficult to recover
-
-longhorn would be used for storage managment.
-- Find the kubernetes node name
+- Prepare local storage
 ```bash
-$ kubectl get nodes
-NAME            STATUS   ROLES           AGE    VERSION
-testmachine-ric-cu   Ready    control-plane   7d4h   v1.29.1
-```
+curl https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.26/deploy/local-path-storage.yaml -o /tmp/local-path-storage.yaml
 
-- To create a disk while leaving 50GB for the OS (53687091200): (Make sure to update the node name)
-```bash
-tee longhorn-disk.yaml <<EOF
-apiVersion: v1
-kind: Node
+kubectl apply -f /tmp/local-path-storage.yaml
+kubectl apply -f - <<EOF
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
-  name: "testmachine-ric-cu"
-  labels:
-    node.longhorn.io/create-default-disk: "config"
+  name: local-path
   annotations:
-    node.longhorn.io/default-disks-config: '[{"name": "disk-1", "path": "/var/lib/longhorn", "allowScheduling": true, "storageReserved": 53687091200, "tags": []}]'
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: rancher.io/local-path
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Delete
 EOF
-kubectl apply -f longhorn-disk.yaml
-```
-
-- Add the longhorn repository to helm:
-``` bash
-helm repo add longhorn https://charts.longhorn.io
-helm repo update
-```
-
-- Finally deploy Longhorn in "longhorn-system" namespace, with all replica counts set to 1 and UI exposed on port 32100 via NodePort instead of ClusterIp:
-``` bash
-helm install --create-namespace --namespace=longhorn-system longhorn longhorn/longhorn
-```
-Make sure all pods are operating normaly before moving forward
-```bash
-watch kubectl get pods -A
 ```
 
 
@@ -162,16 +143,5 @@ kubectl apply -f metallb-pool.yaml
 ```bash
 watch kubectl get pods -A
 ```
-
-## 6. Extra Changes
-
-- Due to `Failed to allocate directory watch: Too many open files`:
-```bash
-echo "fs.inotify.max_user_instances=1024" | sudo tee -a /etc/sysctl.conf
-sudo sysctl --system
-```
-
-- Arp related changes:
-    - ***Is it still needed and which ones?***
 
 > # Next Step [DRAX Installation](/drax-docs/drax_ng-install/)
