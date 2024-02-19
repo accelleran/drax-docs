@@ -4,7 +4,24 @@
 
 ## 1. Prerequests
 
-- Can be found in [Granny Confluence Page](https://accelleran.atlassian.net/wiki/x/AQCXig)
+> Details can be found in [Granny Confluence Page](https://accelleran.atlassian.net/wiki/x/AQCXig)
+- On the DRAX/CU/CW VM:
+```bash
+ssh-keygen -t ed25519 -f id_ed25519 -C cell-wrapper
+kubectl create secret generic cw-ssh-key --from-file=private=id_ed25519 --from-file=public=id_ed25519.pub
+```
+  > Don't forget to add the above created public key to the DU and RU `~/.ssh/authorized_keys`
+
+- On the DU machine:
+```bash
+sudo apt update && sudo apt install ifstat zip net-tools
+sudo usermod -aG sudo $USER
+printf "$USER ALL=(ALL) NOPASSWD:ALL\n" | sudo tee /etc/sudoers.d/$USER
+```
+- login to docker in the du machine
+```bash
+docker login
+```
 
 ## 2. Deploying Cell Wrapper Controller
 
@@ -54,6 +71,7 @@ cw-inst:
           maxNumDlFronthaulPrbs = 144;
           pucchFormat0Threshold = 0.01;
           timingOffsetThreshold_nsec = 10000;
+EOF
 ```
 
 - Deploy cell wrapper controller
@@ -82,12 +100,18 @@ global:
         install: |-
           <type>effnet</type>
 
+          <image>accelleran/effnet-du-phluido</image>
+          <version>2023-09-01-q2-patch-release-02</version>
+
           <ssh-connection-details xc:operation="create">
             <host>10.55.5.5</host>
             <username>ad</username>
           </ssh-connection-details>
 
           <l1 xc:operation="create">
+            <image>accelleran/phluido-l1</image>
+            <version>v8.7.4</version>
+
             <phluido-l1-config xc:operation="create">
               <license-key>651A-213B-96AB-0CA8-3E75-63F3-177D-D33F</license-key>
               <bbu-addr>10.10.0.1</bbu-addr>
@@ -108,6 +132,7 @@ global:
             <antenna-gain>0</antenna-gain>
             <maximum-power-capability>35</maximum-power-capability>
             <minimum-power-capability>15</minimum-power-capability>
+EOF
 ```
 
 
