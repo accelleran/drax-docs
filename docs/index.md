@@ -10,14 +10,14 @@ This document is released together with the system release 2023.3.0 which contai
 
 | Component    | Version                              |
 |--------------|--------------------------------------|
-| RIC          | 7.0.0-rc3                            |
+| RIC          | 7.0.0-rc5                            |
 | CU CHART     | 7.0.0-rc1                            |
-| CU APP       | R4.3.9_leffe                         |
+| CU APP       | R4.3.10_leffe                         |
 | DU           | 2024-01-31-q3-patch-release-01-8.7.4 |
 | L1           | 8.7.4                                |
 | BNTL650      | 0.7.0                                |
 | BNTL550      | 0.7.1                                |
-| cell wrapper | 3.0.2                                |
+| cell wrapper | 3.1.0                                |
 
 
 ### 1.2. Prerequisites / Preperations
