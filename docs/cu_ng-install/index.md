@@ -33,6 +33,16 @@ nats:
   enabled: false
 redis:
   enabled: false
+
+
+# Below can be used if the IPs need to be fixed
+#sctp-f1:
+#  service:
+#    loadBalancerIP: "10.55.5.30"
+#
+#sctp-e1:
+#  service:
+#    loadBalancerIP: "10.55.5.31"
 EOF
 ```
 
