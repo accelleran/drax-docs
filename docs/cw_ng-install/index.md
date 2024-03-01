@@ -29,7 +29,11 @@ docker login
 > This is only needed for deploying With Special Base DU/L1 Configuration.
 
 - Make sure DRAX was installed with cell-wrapper disabled.
-    - This can be done by editing `drax-values.yaml` (change `cell-wrapper`: `enabled: false`)
+    - This can be done by editing `drax-values.yaml` to add below.
+    ```yaml
+    cell-wrapper:
+      enabled: false
+    ```
     - Update the DRAX deployed:
   ```bash
   helm upgrade --install drax accelleran-ng/drax --version 7.0.0-rc.4 --values drax-values.yaml --debug
