@@ -36,7 +36,7 @@ docker login
     ```
     - Update the DRAX deployed:
   ```bash
-  helm upgrade --install drax accelleran-ng/drax --version 7.0.0-rc.4 --values drax-values.yaml --debug
+  helm upgrade --install drax accelleran-ng/drax --version 7.0.0-rc.6 --values drax-values.yaml --debug
   ``` 
 
 - Create a values file for the controller with the new base configuration.
