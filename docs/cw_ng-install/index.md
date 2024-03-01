@@ -28,64 +28,39 @@ docker login
 - **Please skip for default installation.** 
 > This is only needed for deploying With Special Base DU/L1 Configuration.
 
-- Make sure DRAX was installed with cell-wrapper disabled.
-    - This can be done by editing `drax-values.yaml` to add below.
-    ```yaml
-    cell-wrapper:
-      enabled: false
-    ```
-    - Update the DRAX deployed:
+- Edit the drax values file with the cellwrapper base config needed.
+
+    > PS: the below example is to edit [Phluido](https://accelleran.atlassian.net/wiki/spaces/GS/pages/2522382337/2.2#Update.1) L1 config, but the same can be used for [Effnet](https://accelleran.atlassian.net/wiki/spaces/GS/pages/2522382337/2.2#Update) or [Nodeh](https://accelleran.atlassian.net/wiki/spaces/GS/pages/2522382337/2.2#Update.2)
+
+```yaml
+cell-wrapper:
+  cw-inst:
+    baseConfig:
+      vendors:
+        phluido:
+        - file: "benetel_v0.7.l1.cfg"
+          data: |-
+            cccServerPort = 44444;
+            cccInterfaceMode = 1;
+            kpiOutputFormat = 2;
+            maxPuschModOrder = 6;
+            maxNumPdschLayers = 2;
+            maxNumPuschLayers = 1;
+            numWorkers = 8;
+            targetRecvDelay_us = 1400;
+            maxNumDlFronthaulPrbs = 144;
+            pucchFormat0Threshold = 0.01;
+            timingOffsetThreshold_nsec = 10000;
+```
+
+  - Update the DRAX deployed:
   ```bash
   helm upgrade --install drax accelleran-ng/drax --version 7.0.0-rc.6 --values drax-values.yaml --debug
   ``` 
 
-- Create a values file for the controller with the new base configuration.
-
-    > PS: the below example is to edit Phluido L1 config, but the same file can be used for the other componenets
-
-```bash
-tee cw_ctrl_config.yaml <<EOF
-bootstrap:
-  redis:
-    hostname: drax-redis-master
-
-  nats:
-    hostname: drax-nats
-
-nats:
-  enabled: false
-redis:
-  enabled: false
-
-
-cw-inst:
-  baseConfig:
-    vendors:
-      phluido:
-      - file: "benetel_v0.7.l1.cfg"
-        data: |-
-          cccServerPort = 44444;
-          cccInterfaceMode = 1;
-          kpiOutputFormat = 2;
-          maxPuschModOrder = 6;
-          maxNumPdschLayers = 2;
-          maxNumPuschLayers = 1;
-          numWorkers = 8;
-          targetRecvDelay_us = 1400;
-          maxNumDlFronthaulPrbs = 144;
-          pucchFormat0Threshold = 0.01;
-          timingOffsetThreshold_nsec = 10000;
-EOF
-```
-
-- Deploy cell wrapper controller
+- If there was already cell wrapper instanced deployed, run below to make sure the change takes effect.
     ```bash
-    helm install cw accelleran-ng/cell-wrapper --version 3.0.2  --values cw_ctrl_config.yaml --debug
-    ```
-
-- Make sure all pods are operating normaly.
-    ```bash
-    watch kubectl get pods
+    kubectl rollout restart deploy drax-cw-inst
     ```
 
 ## 3. Deploying Cell Wrapper Instances
