@@ -117,7 +117,7 @@ EOF
 
 - Deploy cell wrapper instance
     ```bash
-    helm install cell-1 accelleran-ng/cell-wrapper-config --version 0.2.2 --values cell-1-values.yaml --debug
+    helm install cell-1 accelleran-ng/cell-wrapper-config --version 0.2.4 --values cell-1-values.yaml --debug
     ```
 
 - Make sure all pods are operating normaly.
