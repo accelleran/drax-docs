@@ -10,7 +10,7 @@ kubectl create secret generic accelleran-license --from-file=license.crt
 
 - Add the helm repository to be used for drax.
 ```bash
-helm repo add accelleran-ng https://accelleran.github.io/helm-charts-ng
+helm repo add accelleran https://accelleran.github.io/helm-charts
 helm repo update
 ```
 
@@ -31,7 +31,7 @@ EOF
 ```
 - Deploy DRAX
 ```bash
-helm install drax accelleran-ng/drax --version 7.0.0-rc.6 --values drax-values.yaml --debug
+helm install drax accelleran/drax --version 7.0.0-rc.6 --values drax-values.yaml --debug
 ```
 - Make sure all pods are operating normaly.
 ```bash
