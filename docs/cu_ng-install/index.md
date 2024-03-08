@@ -10,7 +10,7 @@ tee cu-cp-values.yaml <<EOF
 global:
 
   # The release to install.
-  tag: "R4.3.10_leffe"
+  tag: "R4.3.12_leffe"
 
 bootstrap:
   # A unique value that identifies the CU-CP
@@ -49,7 +49,7 @@ EOF
 
 - Deploy CU CP
 ```bash
-helm install cu-cp accelleran/cu-cp --version 7.0.0-rc.1 --values cu-cp-values.yaml --debug
+helm install cu-cp accelleran/cu-cp --version 7.0.0 --values cu-cp-values.yaml --debug
 ```
 - Make sure all pods are operating normaly.
 ```bash
@@ -73,7 +73,7 @@ tee cu-up-values.yaml <<EOF
 global:
 
   # The release to install.
-  tag: "R4.3.10_leffe"
+  tag: "R4.3.12_leffe"
 
 bootstrap:
   # A unique value that identifies the CU-CP
@@ -89,9 +89,9 @@ numberOfUpStacks: 0
 xdpUpStacks:
 -
   nodeName: testmachine-ric-cu
-  uplink:
+  ng-u:
     address: "10.55.5.3"
-  downlink:
+  f1-u:
     address: "10.55.5.3"
 
 nats:
@@ -104,7 +104,7 @@ EOF
 
 - Deploy CU UP.
 ```bash
-helm install cu-up accelleran/cu-up --version 7.0.0-rc.1 --values cu-up-values.yaml --debug
+helm install cu-up accelleran/cu-up --version 7.0.0 --values cu-up-values.yaml --debug
 ```
 - Make sure all pods are operating normaly.
 ```bash

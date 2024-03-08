@@ -55,7 +55,7 @@ cell-wrapper:
 
   - Update the DRAX deployed:
   ```bash
-  helm upgrade --install drax accelleran/drax --version 7.0.0-rc.6 --values drax-values.yaml --debug
+  helm upgrade --install drax accelleran/drax --version 7.0.0 --values drax-values.yaml --debug
   ``` 
 
 - If there was already cell wrapper instanced deployed, run below to make sure the change takes effect.

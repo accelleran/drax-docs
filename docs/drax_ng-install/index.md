@@ -31,7 +31,7 @@ EOF
 ```
 - Deploy DRAX
 ```bash
-helm install drax accelleran/drax --version 7.0.0-rc.6 --values drax-values.yaml --debug
+helm install drax accelleran/drax --version 7.0.0 --values drax-values.yaml --debug
 ```
 - Make sure all pods are operating normaly.
 ```bash
