@@ -100,5 +100,5 @@ sudo systemctl restart open5gs-webui.service
 This can be done via the GUI by Accessing `http://10.55.5.4:3000/` or by using command line as below:
 
 ``` bash
-open5gs-dbctl add 001010000006309 00112233445566778899aabbccddeeff 84d4c9c08b4f482861e3a9c6c35bc4d8 internet
+open5gs-dbctl add 001010000006309 00112233445566778899aabbccddeeff 84d4c9c08b4f482861e3a9c6c35bc4d8
 ```
