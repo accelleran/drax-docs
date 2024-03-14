@@ -1,10 +1,6 @@
-# **Accelleran Install Guide**
+# **1. Introduction**
 
-## 1. Introduction
-
-This guide describes the installation of the Accelleran dRAX base, and 5G components, the DU, L1, RU and optionally a core network, however separating the RIC and CU on VMs while the DU/L1 on the server to increase stability and performances.
-
-### 1.1. Releases
+## 1. Releases
 
 This document is released together with the system release 2023.3.0 which containes:
 
@@ -15,12 +11,13 @@ This document is released together with the system release 2023.3.0 which contai
 | CU APP       | R4.3.12_leffe                         |
 | DU           | 2024-01-31-q3-patch-release-01-8.7.4 |
 | L1           | 8.7.4                                |
-| BNTL650      | 0.7.0                                |
+| BNTL650 (CATB)      | 0.7.0                                |
 | BNTL550      | 0.7.1                                |
 | cell wrapper config | 0.2.4                                |
+| BNTL650 (CATA)| RAN650-1v1.0.4-dda1bf5                                |
 
 
-### 1.2. Prerequisites / Preperations
+## 2. Prerequisites / Preperations
 
 This installation guide assumes that that the following are to be taken as prerequisites and made available before proceding further:
 
@@ -39,7 +36,7 @@ This installation guide assumes that that the following are to be taken as prere
     * Effnet yubikey license activation file
     * An active dockerhup account that has been allowed to access the necessary software images on accelleran dockerhub repositories
 
-## 2. Example Network Components Overview
+## 3. Example Network Components Overview
 
 Here a simplified diagram of all network components and the related ip addresses, that would be used for the rest of this guide.
 
@@ -47,6 +44,7 @@ Here a simplified diagram of all network components and the related ip addresses
   <img src="images/install_guide_setup_diagram.png">
 </p>
 
+> Above example is using CAT_B RU. For CAT_A RU there would be a PTP enabled switch between the DU and RU.
 
 ### **Steps to take**
 

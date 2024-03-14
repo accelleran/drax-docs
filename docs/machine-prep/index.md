@@ -1,6 +1,6 @@
-# **Server preparation**
+# **2. Server preparation**
 
-## **1. Mandatory Steps**
+## 1. Mandatory Steps
 
 - This guide will follow the [Example Network Diagram](/drax-docs/)
 - Also, below CPU allocation would be used:

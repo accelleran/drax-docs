@@ -1,16 +1,15 @@
-site_name: Accelleran 5G O-RAN System Installation Guide [2023.3.0]
+site_name: Accelleran 5G O-RAN System Installation Guide [2024.1.0]
 
 site_url: 'https://accelleran.github.io/drax-docs/'
 theme: 
   logo: images/accelleran_logo.png
-  favicon: images/accelleran_logo.png
   name: material
   features:
     - navigation.instant
     - navigation.tracking
     - navigation.expand
     - navigation.top
-    - navigation.tabs
+    # - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
     - toc.integrate
@@ -21,6 +20,7 @@ markdown_extensions:
   - pymdownx.superfences
   - toc:
       permalink: true
+
 extra:
   version:
     provider: mike
@@ -45,4 +45,5 @@ nav:
     - 'cw_ng-install/index.md'
     - 'core-install/index.md'
     - 'effnet-benetel-prep/index.md'
+    - 'srsran-benetel-prep/index.md'
     - 'extra-info/index.md'

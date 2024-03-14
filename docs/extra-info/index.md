@@ -1,11 +1,11 @@
-# Extra Info
+# 10. Extra Info
 
-## **1. Related to the Server Preperation**
+## 1. Related to the Server Preperation
 
-### ***1.1. Unsupported SFP+ module type was detected***
+### 1.1. Unsupported SFP+ module type was detected
 - Use information on this [link](https://www.serveradminz.com/blog/unsupported-sfp-linux/)
 
-### ***1.2. Virtual Functions Can't Be Used***
+### 1.2. Virtual Functions Can't Be Used
 
 - For example in cases where SR-IOV is not supported.
 - Bridge Interface would need to be created on the server and then add NIC interfaces on the CU and CORE VMs to use it.
@@ -38,9 +38,9 @@ network:
   <img src="bridge_interface.png">
 </p>
 
-## **2. Related to Core**
+## 2. Related to Core
 
-### ***2.1. TCP Algorithm Parameter Change***
+### 2.1. TCP Algorithm Parameter Change
 
 - Edit `/etc/sysctl.conf` to include below:
 
@@ -63,9 +63,9 @@ sudo sysctl --system
 ```
 
 
-## **3. Related to Kubernetes**
+## 3. Related to Kubernetes
 
-### ***3.1. Remove in full a Kubernetes installation***
+### 3.1. Remove in full a Kubernetes installation
 
 On occasion, it may be deemed necessary to fully remove Kubernetes, for instance if for any reason your server IP address will change, then the advertised Kubernetes IP address will have to follow. THe following command help making sure the previous installation is cleared up: 
 

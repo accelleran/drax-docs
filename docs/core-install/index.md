@@ -1,4 +1,4 @@
-# Core Installation
+# 7. Core Installation
 
 If you already have a core you can skip this chapter.
 
