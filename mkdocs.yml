@@ -1,9 +1,9 @@
 site_name: Accelleran 5G O-RAN System Installation Guide [2023.3.0]
 
-site_url: https://accelleran.github.io/drax-docs/
+site_url: 'https://accelleran.github.io/drax-docs/'
 theme: 
   logo: images/accelleran_logo.png
-  favicon: images/accelleran_favicon.png
+  favicon: images/accelleran_logo.png
   name: material
   features:
     - navigation.instant
@@ -32,7 +32,7 @@ plugins:
       javascript_dir: js       # the directory to put the version selector's JS
       canonical_version: null  # the version for <link rel="canonical">; `null`
                                # uses the version specified via `mike deploy`
-#  - enumerate-headings 
+  # - enumerate-headings 
   - section-index
 extra_css:
   - css/extra.css
