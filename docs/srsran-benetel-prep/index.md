@@ -33,6 +33,10 @@ sudo ptp4l -2 -i eno1 -f default_ptp4.cfg -m &
 sudo phc2sys -s eno1 -w -m -R 8 -f default_ptp4.cfg &
 ```
 
+- Using [Attached configs](cell_configuraiton_files.zip) along with the configurations on [Integration Github](https://github.com/accelleran/5g-integration/tree/main/configs/products/srsRAN_du/benetel).
+    - Make sure the cell configuration yml file is named gnb_config.yml
+
+
 ## **2. Benetel Changes**
 
 - For all below changes, Reboot the RU to apply.
