@@ -246,6 +246,7 @@ sudo ip link delete flannel.1
 5. Resize the filesystem to use the full space of the partition
 
 ```bash
+sudo pvresize /dev/vda3
 sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
 sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
 ```
