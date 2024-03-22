@@ -1,4 +1,4 @@
-# **2. Server preparation**
+# **1. Server preparation**
 
 ## 1. Mandatory Steps
 

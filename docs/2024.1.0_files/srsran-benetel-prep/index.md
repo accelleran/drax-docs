@@ -1,4 +1,4 @@
-# 9. srsRAN-Benetel Preparation
+# 8. srsRAN-Benetel Preparation
 
 ## **1. srsRAN Changes**
 

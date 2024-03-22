@@ -1,4 +1,4 @@
-# 10. Extra Info
+# 9. Extra Info
 
 ## **1. Related to the Server Preperation**
 

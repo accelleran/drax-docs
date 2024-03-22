@@ -1,4 +1,4 @@
-site_name: Accelleran 5G O-RAN System Installation Guide [nextrelease]
+site_name: Accelleran 5G O-RAN System Installation Guide
 
 site_url: 'https://accelleran.github.io/drax-docs/'
 theme: 
@@ -37,13 +37,24 @@ plugins:
 extra_css:
   - css/extra.css
 nav:
-    - 'index.md'
-    - 'machine-prep/index.md'
-    - 'kubernetes_ng-install/index.md'
-    - 'drax_ng-install/index.md'
-    - 'cu_ng-install/index.md'
-    - 'cw_ng-install/index.md'
-    - 'core-install/index.md'
-    - 'effnet-benetel-prep/index.md'
-    - 'srsran-benetel-prep/index.md'
-    - 'extra-info/index.md'
+  - '[2023.3.0] System Release':
+    - '2023.3.0_files/index.md'
+    - '2023.3.0_files/machine-prep/index.md'
+    - '2023.3.0_files/kubernetes_ng-install/index.md'
+    - '2023.3.0_files/drax_ng-install/index.md'
+    - '2023.3.0_files/cu_ng-install/index.md'
+    - '2023.3.0_files/cw_ng-install/index.md'
+    - '2023.3.0_files/core-install/index.md'
+    - '2023.3.0_files/effnet-benetel-prep/index.md'
+    - '2023.3.0_files/extra-info/index.md'
+  - '[next 2024.1.0] System Release':
+    - '2024.1.0_files/index.md'
+    - '2024.1.0_files/machine-prep/index.md'
+    - '2024.1.0_files/kubernetes_ng-install/index.md'
+    - '2024.1.0_files/drax_ng-install/index.md'
+    - '2024.1.0_files/cu_ng-install/index.md'
+    - '2024.1.0_files/cw_ng-install/index.md'
+    - '2024.1.0_files/core-install/index.md'
+    - '2024.1.0_files/effnet-benetel-prep/index.md'
+    - '2024.1.0_files/srsran-benetel-prep/index.md'
+    - '2024.1.0_files/extra-info/index.md'

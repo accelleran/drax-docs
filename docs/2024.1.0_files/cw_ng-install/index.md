@@ -1,4 +1,4 @@
-# **6. Cell Wrapper Deployment**
+# **5. Cell Wrapper Deployment**
 
 > After installing drax [Steps](/drax-docs/drax_ng-install)
 

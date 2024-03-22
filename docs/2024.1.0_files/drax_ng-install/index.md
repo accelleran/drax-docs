@@ -1,4 +1,4 @@
-# **4. DRAX Deployment**
+# **3. DRAX Deployment**
 
 > After preparing the cluster [Steps](/drax-docs/kubernetes_ng-install)
 

@@ -1,4 +1,4 @@
-# **5. CU Deployment**
+# **4. CU Deployment**
 
 > After installing drax [Steps](/drax-docs/drax_ng-install)
 

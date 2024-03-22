@@ -1,4 +1,4 @@
-# **3. Prepare the Kubernetes Cluster**
+# **2. Prepare the Kubernetes Cluster**
 
 Below steps would prepare the cluster in the CU/RIC Virtual machine to be used for the rest of the deployment.
 
