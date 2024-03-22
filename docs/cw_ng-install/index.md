@@ -80,7 +80,7 @@ global:
           <type>effnet</type>
 
           <image>accelleran/effnet-du-phluido</image>
-          <version>2023-09-01-q2-patch-release-02</version>
+          <version>2024-01-31-q3-patch-release-01-8.7.4</version>
 
           <ssh-connection-details xc:operation="create">
             <host>10.55.5.5</host>
@@ -96,6 +96,24 @@ global:
               <bbu-addr>10.10.0.1</bbu-addr>
             </phluido-l1-config>
           </l1>
+
+          <e2-config xc:operation="replace">
+            <enable>true</enable>
+            <host>10.55.5.3</host>
+            <port>31900</port>
+          </e2-config>
+
+          <netconf xc:operation="replace">
+              <enable>true</enable>
+          </netconf>
+
+          <netconf-connection-details xc:operation="replace">
+              <host>10.55.5.5</host>
+              <port>830</port>
+              <username>effnet</username>
+              <password>effnet</password>
+          </netconf-connection-details>
+
         rus:
         - name: "ru-1"
           install: |-
