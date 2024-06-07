@@ -1,0 +1,32 @@
+global:
+  # nodeSelector:
+  #   drax.accelleran.com/schedule: "true"
+
+  config:
+    enabled: true
+    dus:
+      - name: "du-3"
+        install: |-
+          <type>nodeh</type>
+
+          <ssh-connection-details xc:operation="create">
+            <host>10.55.5.2</host>
+            <username>root</username>
+          </ssh-connection-details>
+
+        rus:
+        - name: "ru-3"
+          install: |-
+            <type>nodehTnw</type>
+
+            <ssh-connection-details xc:operation="create">
+              <host>10.55.5.2</host>
+              <username>root</username>
+            </ssh-connection-details>
+
+            <supported-frequency-band xc:operation="create">78</supported-frequency-band>
+            <supported-frequency-band xc:operation="create">77</supported-frequency-band>
+
+            <antenna-gain>0</antenna-gain>
+            <maximum-power-capability>24</maximum-power-capability>
+            <minimum-power-capability>0</minimum-power-capability>

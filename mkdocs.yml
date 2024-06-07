@@ -1,16 +1,16 @@
-site_name: Accelleran 5G O-RAN System Installation Guide
+site_name: Accelleran 5G System Installation Guide
 
 site_url: 'https://accelleran.github.io/drax-docs/'
 theme: 
   logo: images/accelleran_logo.png
   name: material
   features:
-    - navigation.instant
+    # - navigation.instant
     - navigation.tracking
     - navigation.expand
     - navigation.top
-    # - navigation.tabs
-    - navigation.tabs.sticky
+    - navigation.tabs
+    # - navigation.tabs.sticky
     - navigation.sections
     - toc.integrate
 markdown_extensions:
@@ -37,24 +37,38 @@ plugins:
 extra_css:
   - css/extra.css
 nav:
-  - '[2023.3.0] System Release':
-    - '2023.3.0_files/index.md'
-    - '2023.3.0_files/machine-prep/index.md'
-    - '2023.3.0_files/kubernetes_ng-install/index.md'
-    - '2023.3.0_files/drax_ng-install/index.md'
-    - '2023.3.0_files/cu_ng-install/index.md'
-    - '2023.3.0_files/cw_ng-install/index.md'
-    - '2023.3.0_files/core-install/index.md'
-    - '2023.3.0_files/effnet-benetel-prep/index.md'
-    - '2023.3.0_files/extra-info/index.md'
-  - '[next 2024.1.0] System Release':
-    - '2024.1.0_files/index.md'
-    - '2024.1.0_files/machine-prep/index.md'
-    - '2024.1.0_files/kubernetes_ng-install/index.md'
-    - '2024.1.0_files/drax_ng-install/index.md'
-    - '2024.1.0_files/cu_ng-install/index.md'
-    - '2024.1.0_files/cw_ng-install/index.md'
-    - '2024.1.0_files/core-install/index.md'
-    - '2024.1.0_files/effnet-benetel-prep/index.md'
-    - '2024.1.0_files/srsran-benetel-prep/index.md'
-    - '2024.1.0_files/extra-info/index.md'
+  - '[2023.3.0]':
+    - 'SystemRelease/2023.3.0/index.md'
+    - '1. Server Preparation': 'SystemRelease/2023.3.0/prep_machine/index.md'
+    - '2. Prepare the Kubernetes Cluster': 'K8s/1.24/index.md'
+    - '3. DRAX Deployment': 'drax/7.0.0/index.md'
+    - '4. CU Deployment': 'cu/R4.3.12_leffe/index.md'
+    - '5. Cell Wrapper Deployment': 'cw/0.2.4/index.md'
+    - '6. Core Installation': 'core/from_apt_packages/index.md'
+    - '7. EffnetDU-Phluido-Benetel Preparation': 'ran1_effnet_phluido_benetel/2023.3.0/index.md'
+    - '8. RAN2: NodehDU/RU': 'ran2_nodeh/5.2.1-32888/index.md'
+    - '9. Extra Info': 'extra_info/index.md'
+  - '[2023.3.1]':
+    - 'SystemRelease/2023.3.1/index.md'
+    - '1. Server Preparation': 'SystemRelease/2023.3.1/prep_machine/index.md'
+    - '2. Prepare the Kubernetes Cluster': 'K8s/1.24/index.md'
+    - '3. DRAX Deployment': 'drax/7.1.0/index.md'
+    - '4. CU Deployment': 'cu/R4.3.16_leffe/index.md'
+    - '5. Cell Wrapper Deployment': 'cw/0.2.4/index.md'
+    - '6. Core Installation': 'core/from_apt_packages/index.md'
+    - '7. RAN1: Effnet-Phluido-Benetel Preparation': 'ran1_effnet_phluido_benetel/2023.3.0/index.md'
+    - '8. RAN2: NodehDU/RU': 'ran2_nodeh/5.2.1-32888/index.md'
+    - '9. Extra Info': 'extra_info/index.md'
+
+  - '[2024.1.0]':
+    - 'SystemRelease/2024.1.0/index.md'
+    - '1. Server Preparation': 'SystemRelease/2024.1.0/prep_machine/index.md'
+    - '2. Prepare the Kubernetes Cluster': 'K8s/1.24/index.md'
+    - '3. DRAX Deployment': 'drax/8.0.0/index.md'
+    - '4. CU Deployment': 'cu/5.0.7/index.md'
+    - '5. Cell Wrapper Deployment': 'cw/0.3.0/index.md'
+    - '6. Core Installation': 'core/v2.7.1/index.md'
+    - '7. RAN1: EffnetPhluidoDU-Benetel': 'ran1_effnet_phluido_benetel/2024.1.0/index.md'
+    - '8. RAN2: NodehDU/RU': 'ran2_nodeh/5.2.1-32888/index.md'
+    - '9. RAN3: AccelleranDU-Benetel': 'ran3_accelleran_benetel/2024.1.0/index.md'
+    - '10. Extra Info': 'extra_info/index.md'

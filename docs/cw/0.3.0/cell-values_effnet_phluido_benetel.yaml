@@ -1,0 +1,78 @@
+global:
+  # nodeSelector:
+  #   drax.accelleran.com/schedule: "true"
+
+  config:
+    enabled: true
+    dus:
+      - name: "du-1"
+        install: |-
+          <type>effnet</type>
+
+          <version>2024-01-31-q3-patch-release-01-8.9.3</version>
+          <extra-args>--cpuset-cpus=8,9,10,11,24,25,26,27</extra-args>
+
+          <ssh-connection-details xc:operation="create">
+            <host>10.55.5.2</host>
+            <username>ad</username>
+          </ssh-connection-details>
+
+          <e2-config xc:operation="replace">
+            <enable>true</enable>
+            <host>10.55.5.39</host>
+            <port>38482</port>
+          </e2-config>
+
+          <ofh-interface xc:operation="replace">
+            <ip-address>10.10.0.1</ip-address>
+            <port>44000</port>
+            <mac-address>7c:c2:55:7b:08:79</mac-address>
+          </ofh-interface>
+
+          <phluido xc:operation="replace">
+            <version>v8.12.1</version>
+            <extra-args>--cpuset-cpus=8,9,10,11,24,25,26,27</extra-args>
+            <license-key>651A-213B-96AB-0CA8-3E75-63F3-177D-D33F</license-key>
+          </phluido>
+
+          <netconf xc:operation="replace">
+              <enable>true</enable>
+          </netconf>
+          <netconf-connection-details xc:operation="replace">
+              <host>10.55.5.2</host>
+              <port>830</port>
+              <username>effnet</username>
+              <password>effnet</password>
+          </netconf-connection-details>
+
+        internal: |-
+          <log-saving xc:operation="create">
+              <enable>true</enable>
+              <storage-directory>/var/log</storage-directory>
+              <max-storage-disk-usage>50%</max-storage-disk-usage>
+          </log-saving>
+        rus:
+        - name: "ru-1"
+          install: |-
+            <type>benetel</type>
+
+            <ssh-connection-details xc:operation="create">
+              <host>10.10.0.100</host>
+              <username>root</username>
+            </ssh-connection-details>
+
+            <ofh-interface xc:operation="replace">
+              <ip-address>10.10.0.100</ip-address>
+              <port>44000</port>
+            </ofh-interface>
+
+            <nof-antennas-dl>2</nof-antennas-dl>
+            <nof-antennas-ul>1</nof-antennas-ul>
+
+            <serial-number>06502200419</serial-number>
+            <supported-frequency-band xc:operation="create">78</supported-frequency-band>
+            <supported-frequency-band xc:operation="create">77</supported-frequency-band>
+
+            <antenna-gain>0</antenna-gain>
+            <maximum-power-capability>35</maximum-power-capability>
+            <minimum-power-capability>15</minimum-power-capability>

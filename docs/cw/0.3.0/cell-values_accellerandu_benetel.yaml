@@ -1,0 +1,93 @@
+global:
+  # nodeSelector:
+  #   drax.accelleran.com/schedule: "true"
+
+  config:
+    enabled: true
+    dus:
+      - name: "du-2"
+        install: |-
+          <type>accelleran</type>
+
+          <ssh-connection-details xc:operation="create">
+            <host>10.55.5.2</host>
+            <username>ad</username>
+          </ssh-connection-details>
+
+          <version>1.0.4</version>
+          <extra-args>--tty</extra-args>
+
+          <e2-config xc:operation="replace">
+            <enable>true</enable>
+            <host>10.55.5.39</host>
+            <port>38482</port>
+          </e2-config>
+
+          <extra-config>
+          hal:
+            eal_args: "-l 31 --proc-type auto -a 0000:01:0e.0"
+          expert_execution:
+            affinities:
+              low_priority_cpus: 30
+              isolated_cpus: 12,13,14,15,28,29,30,31
+            cell_affinities:
+              -
+                l1_dl_cpus: 12,13,28
+                l1_ul_cpus: 14,15,29
+                l2_cell_cpus: 28,29,30
+                ru_cpus: 28,29,30
+            threads: 
+              non_rt: 
+                nof_non_rt_threads: 4                   # Default (4)
+              upper_phy: 
+                pdsch_processor_type: auto              # Default (auto)
+                nof_pusch_decoder_threads: 2            # Default (1)
+                nof_ul_threads: 2                       # Default (1)
+                nof_dl_threads: 6                       # Default (1)
+              lower_phy:
+                execution_profile: quad                 # Not Set by default
+              ofh: 
+                enable_dl_parallelization: 1            # Not Set by default
+          log: 
+            filename: stdout
+            ofh_level: error
+          </extra-config>
+
+          <ofh-interface xc:operation="replace">
+            <network-interface>0000:01:0e.0</network-interface>
+            <mac-address>ee:c0:21:77:cc:92</mac-address>
+            <vlan-id>6</vlan-id>
+          </ofh-interface>
+
+
+          <metrics xc:operation="replace">
+            <enable>true</enable>
+            <destination-host>10.55.5.3</destination-host>
+            <destination-port>31555</destination-port>
+          </metrics>
+
+        rus:
+        - name: "ru-2"
+          install: |-
+            <type>benetel</type>
+
+            <ssh-connection-details xc:operation="create">
+              <host>10.10.0.100</host>
+              <username>root</username>
+            </ssh-connection-details>
+
+            <ofh-interface xc:operation="replace">
+              <mac-address>70:b3:d5:e1:5c:59</mac-address>
+              <vlan-id>6</vlan-id>
+            </ofh-interface>
+
+            <nof-antennas-dl>2</nof-antennas-dl>
+            <nof-antennas-ul>1</nof-antennas-ul>
+
+            <serial-number>06502100342</serial-number>
+            <supported-frequency-band xc:operation="create">78</supported-frequency-band>
+            <supported-frequency-band xc:operation="create">77</supported-frequency-band>
+
+            <antenna-gain>0</antenna-gain>
+            <maximum-power-capability>35</maximum-power-capability>
+            <minimum-power-capability>15</minimum-power-capability>
