@@ -123,10 +123,14 @@ virt-manager
 
 
 ## 2. Automated Preparation Using Ansible
-- ***Missing to be added***
+
+- All the following steps and sections won't be needed in case of using ansible.
+- Please follow the guide in [5G Integration Repo](https://github.com/accelleran/5g-integration/tree/main/utilities/install_tools/ansible)
 
 
-## **3. Manual Server Preparation**
+
+
+## 3. Manual Server Preparation
 
 ### 3.1. Install Docker
 

@@ -2,6 +2,8 @@
 
 This will can be done after preparing the cluster as shown [here](/drax-docs/K8s/1.24)
 
+> PS: All the following steps and sections won't be needed in case of using ansible. Guide available in [5G Integration Repo](https://github.com/accelleran/5g-integration/tree/main/utilities/install_tools/ansible)
+
 - Create Secrets with License of RIC and with Dockerhub credentials to access Accelleran repositories.
 ```bash
 kubectl create secret docker-registry accelleran-secret --docker-server=docker.io --docker-username=<username> --docker-password=<password> --docker-email=<email>

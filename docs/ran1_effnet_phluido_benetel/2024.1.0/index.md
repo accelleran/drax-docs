@@ -1,5 +1,8 @@
 # RAN1: Effnet-Phluido-Benetel
 
+> PS: All the following steps and sections won't be needed in case of using ansible. Guide available in [5G Integration Repo](https://github.com/accelleran/5g-integration/tree/main/utilities/install_tools/ansible)
+
+
 | RAN | Component | Version |
 |-|-|-|
 | RAN1 | Effnet DU | 2024-01-31-q3-patch-release-01-8.9.3 |

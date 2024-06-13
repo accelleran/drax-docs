@@ -1,5 +1,8 @@
 # RAN3: AccelleranDU-Benetel
 
+> PS: All the following steps and sections won't be needed in case of using ansible. Guide available in [5G Integration Repo](https://github.com/accelleran/5g-integration/tree/main/utilities/install_tools/ansible)
+
+
 | RAN | Component | Version |
 |-|-|-|
 | RAN3 | Accelelran DU | 1.0.4 |
@@ -82,6 +85,8 @@ sudo ldconfig
 ```
 
 - Update below script with PF,VF,VF_IF,VF_MAC,VF_PCI (VF=VirtualFunction)
+> PS: To find the PCI addr one can use: `lshw -c network -businfo`
+
 ```bash
 mkdir -p ~/accelleran
 tee ~/accelleran/deploy_dpdk.sh <<EOF

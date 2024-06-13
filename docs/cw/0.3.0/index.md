@@ -2,6 +2,9 @@
 
 This can only be done after installing drax as shown [here](/drax-docs/drax/8.0.0/)
 
+> PS: All the following steps and sections won't be needed in case of using ansible. Guide available in [5G Integration Repo](https://github.com/accelleran/5g-integration/tree/main/utilities/install_tools/ansible)
+
+
 ## 1. Prerequests
 
 > Details can be found in [Granny Confluence Page](https://accelleran.atlassian.net/wiki/x/AQCXig)

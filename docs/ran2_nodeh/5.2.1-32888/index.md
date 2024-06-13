@@ -1,5 +1,7 @@
 # RAN2: NodeHDU-T&W/Askey
 
+> PS: All the following steps and sections won't be needed in case of using ansible. Guide available in [5G Integration Repo](https://github.com/accelleran/5g-integration/tree/main/utilities/install_tools/ansible)
+
 
 <p align="center">
   <img src="03_RAN2_Overview.png">

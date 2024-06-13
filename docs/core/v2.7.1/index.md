@@ -2,6 +2,8 @@
 
 If you already have a core you can skip this chapter.
 
+> PS: All the following steps and sections won't be needed in case of using ansible. Guide available in [5G Integration Repo](https://github.com/accelleran/5g-integration/tree/main/utilities/install_tools/ansible)
+
 > PS: From the [Example Network Diagram](/drax-docs/SystemRelease/2024.1.0/#3-example-network-components-overview) the VM IP is 10.55.5.4.
 
 > All below steps would be implemented on the CORE VM.
