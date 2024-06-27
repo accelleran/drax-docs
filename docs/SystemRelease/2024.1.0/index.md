@@ -6,15 +6,15 @@ This document is released together with the system release 2024.1.0 which contai
 
 | RAN | Component | Version |
 |-|-|-|
-| | DRAX | 8.0.0 |
-| | CU CHART | 8.0.0 |
+| | DRAX | 8.0.1 |
+| | CU CHART | 8.0.2 |
 | | CU APP | 5.0.7 |
 | | Cell Wrapper | 4.0.0 |
 | | Cell Wrapper config | 0.3.0 |
-| RAN1 | Effnet DU | 2024-01-31-q3-patch-release-01-8.9.3 |
+| RAN1 | Effnet DU | 2024-06-14-q3-patch-release-02-8.9.3 |
 | RAN1 | Phluido UL1 | 8.12.1 |
 | RAN1 | BNTL650-CATB| RAN650-2V0.8.1 |
-| RAN1 | BNTL550-CATB | 0.7.1 |
+| RAN1 | BNTL550-CATB | RAN550-2-V0.8.1 |
 | RAN2 | NodeH DU | 5.2.1-32888 |
 | RAN3 | Accelelran DU | 1.0.4 |
 | RAN3 | BNTL650-CATA | RAN650-1v1.0.4-dda1bf5 |

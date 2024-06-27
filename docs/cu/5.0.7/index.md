@@ -51,7 +51,7 @@ EOF
 
 - Deploy CU CP
 ```bash
-helm install cu-cp accelleran/cu-cp --version 7.1.0 --values cu-cp-values.yaml --debug
+helm install cu-cp accelleran/cu-cp --version 8.0.2 --values cu-cp-values.yaml --debug
 ```
 - Make sure all pods are operating normaly.
 ```bash
@@ -106,7 +106,7 @@ EOF
 
 - Deploy CU UP.
 ```bash
-helm install cu-up accelleran/cu-up --version 7.1.0 --values cu-up-values.yaml --debug
+helm install cu-up accelleran/cu-up --version 8.0.2 --values cu-up-values.yaml --debug
 ```
 - Make sure all pods are operating normaly.
 ```bash

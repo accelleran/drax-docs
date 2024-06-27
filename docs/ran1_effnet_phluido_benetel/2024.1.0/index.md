@@ -5,10 +5,10 @@
 
 | RAN | Component | Version |
 |-|-|-|
-| RAN1 | Effnet DU | 2024-01-31-q3-patch-release-01-8.9.3 |
+| RAN1 | Effnet DU | 2024-06-14-q3-patch-release-02-8.9.3 |
 | RAN1 | Phluido UL1 | 8.12.1 |
 | RAN1 | BNTL650-CATB| RAN650-2V0.8.1 |
-| RAN1 | BNTL550-CATB | 0.7.1 |
+| RAN1 | BNTL550-CATB | RAN550-2-V0.8.1 |
 
 <p align="center">
   <img src="02_RAN1_Overview.png">
@@ -26,7 +26,7 @@ docker login
 - Optionaly, one can pull the images manually. (This will be done automatically with the cell wrapper)
 ```bash
 docker pull accelleran/phluido-l1:v8.12.1
-docker pull accelleran/effnet-du-phluido:2024-01-31-q3-patch-release-01-8.9.3
+docker pull accelleran/effnet-du-phluido:2024-06-14-q3-patch-release-02-8.9.3
 ```
 
 ## 1.2. Effnet License
