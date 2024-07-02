@@ -120,7 +120,10 @@ virt-manager
         <p align="center">
         <img src="/drax-docs/images/03_vm_add_pci.png">
         </p>    
-
+        - The below should be the default , but Please make sure the CPU configuration is using "host-passthough".
+        <p align="center">
+        <img src="/drax-docs/images/03_vm_cpu_passthrough.png">
+        </p>    
 
 ## 2. Automated Preparation Using Ansible
 
