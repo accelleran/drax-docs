@@ -12,7 +12,7 @@ tee cu-cp-values.yaml <<EOF
 global:
 
   ## The release to install.
-  #tag: "5.0.7"
+  tag: "5.0.7"
 
 bootstrap:
   # A unique value that identifies the CU-CP
@@ -75,7 +75,7 @@ tee cu-up-values.yaml <<EOF
 global:
 
   ## The release to install.
-  #tag: "5.0.7"
+  tag: "5.0.7"
 
 bootstrap:
   # A unique value that identifies the CU-CP
