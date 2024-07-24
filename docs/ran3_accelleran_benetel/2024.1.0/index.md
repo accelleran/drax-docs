@@ -111,6 +111,9 @@ sudo ip link set $VF allmulticast on
 
 sudo ethtool $P_INTERFACE --set-priv-flags vf-true-promisc-support on
 
+log "disabling spoof check"
+sudo ip link set $P_INTERFACE vf 0 spoofchk off
+
 log "assigning DU MAC address for VF"
 sudo ip link set $P_INTERFACE vf $VF_ID mac $VF_MAC
 

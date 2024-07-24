@@ -1,0 +1,12 @@
+[Unit]
+Description=Precision Time Protocol (PTP) service for %I
+Documentation=man:ptp4l
+Requires=phc2sys.service
+After=sys-subsystem-net-devices-enp1s0f0.device
+
+[Service]
+Type=simple
+ExecStart=ptp4l -f /home/ad/accelleran/config_files/ptp4l.cfg -i enp1s0f1 -m -q
+
+[Install]
+WantedBy=multi-user.target

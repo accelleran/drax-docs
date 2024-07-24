@@ -72,3 +72,6 @@ nav:
     - '8. RAN2: NodehDU/RU': 'ran2_nodeh/5.2.1-32888/index.md'
     - '9. RAN3: AccelleranDU-Benetel': 'ran3_accelleran_benetel/2024.1.0/index.md'
     - '10. Extra Info': 'extra_info/index.md'
+
+  - 'DU-RU Timing Synchronization':
+    - 'du-ru_sync_options/2024.1.0/index.md'

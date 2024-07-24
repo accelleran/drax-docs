@@ -33,29 +33,8 @@ docker pull accelleran/effnet-du-phluido:2024-06-14-q3-patch-release-02-8.9.3
 
 - Make sure a yubikey is connected to the server and then run below:
 ```bash
-mkdir -p pcscd 
-tee pcscd/Dockerfile.pcscd <<EOF
-FROM ubuntu:22.04
-
-RUN \
-set -xe && \
-apt-get update && \
-DEBIAN_FRONTEND="noninteractive" apt-get install -y \
-    pcscd
-
-# Cleanup
-RUN \
-set -xe && \
-apt-get clean && \
-rm -rf \
-    /var/lib/apt/lists/* \
-    /var/tmp/* \
-    /tmp/*
-
-ENTRYPOINT ["/usr/sbin/pcscd", "--foreground"]
-EOF
-docker build --rm -t pcscd_yubikey - <pcscd/Dockerfile.pcscd
-docker run --restart always -id --privileged --name pcscd_yubikey_c -v /run/pcscd:/run/pcscd pcscd_yubikey
+docker pull accelleran/effnet-pcscd-yubikey:v1.0.0
+docker run --restart always -id --privileged --name pcscd_yubikey_c -v /run/pcscd:/run/pcscd accelleran/effnet-pcscd-yubikey:v1.0.0
 ```
 
 - If a new license is to be loaded on the key, Use the activation file provided by effnet to run below:

@@ -1,0 +1,11 @@
+[Unit]
+Description=synchronizes PTP Hardware Clocks (PHC) to external time stamp  signals
+Documentation=man:ts2phc
+After=sys-subsystem-net-devices-enp1s0f0.device
+
+[Service]
+Type=simple
+ExecStart=ts2phc -f /home/ad/accelleran/config_files/ts2phc.cfg -s nmea
+
+[Install]
+WantedBy=multi-user.target
