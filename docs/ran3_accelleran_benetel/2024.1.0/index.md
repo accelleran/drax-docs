@@ -18,54 +18,9 @@
 
 ### 1.1. Sync DU Server with PTP
 
-- Install linuxptp
-```bash
-sudo apt install linuxptp
-```
+There are multiple options to sync the RU and DU
 
-> Assuming the interface connected to the switch is "eno1"
-
-- Edit `/lib/systemd/system/phc2sys@.service` to look as below:
-```bash
-[Unit]
-Description=Synchronize system clock or PTP hardware clock (PHC)
-Documentation=man:phc2sys
-Requires=ptp4l@eno1.service
-After=ptp4l@eno1.service
-Before=time-sync.target
-
-[Service]
-Type=simple
-ExecStart=/usr/sbin/phc2sys -f /etc/linuxptp/ptp4l.conf -w -s %I -R 8 -q
-
-[Install]
-WantedBy=multi-user.target
-```
-
-- Edit `/lib/systemd/system/ptp4l@.service` to look as below:
-```bash
-[Unit]
-Description=Precision Time Protocol (PTP) service for %I
-Documentation=man:ptp4l
-After=sys-subsystem-net-devices-%i.device
-
-[Service]
-Type=simple
-ExecStart=/usr/sbin/ptp4l -2 -f /etc/linuxptp/ptp4l.conf -i %I
-
-[Install]
-WantedBy=multi-user.target
-```
-
-- Edit `/etc/linuxptp/ptp4l.conf` domainNumber to be 24.
-- Enable and start the services:
-```bash
-sudo systemctl daemon-reload
-sudo systemctl start ptp4l@eno1
-sudo systemctl enable ptp4l@eno1
-sudo systemctl start phc2sys@eno1
-sudo systemctl enable phc2sys@eno1
-```
+- Details on this can be found in [DU-RU Timing Synchronization](../../du-ru_sync_options/2024.1.0/index.md)
 
 ### 1.2. DPDK and Fronthaul Preperation
 
