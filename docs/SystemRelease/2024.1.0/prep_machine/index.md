@@ -33,12 +33,29 @@ sudo apt autoremove
 ```
 - Configure the OS scheduler to be more responsive
 ```bash
-sudo sh -c "echo -1 > /proc/sys/kernel/sched_rt_runtime_us"
 sudo sh -c "echo 100000 > /sys/kernel/debug/sched/min_granularity_ns"
 sudo sh -c "echo 20000 > /sys/kernel/debug/sched/wakeup_granularity_ns"
 sudo sh -c "echo 500000 > /sys/kernel/debug/sched/latency_ns"
+echo "sched_rt_runtime_us = -1" | sudo tee -a /etc/sysctl.conf
 echo "fs.mqueue.msg_max = 64" | sudo tee -a /etc/sysctl.conf
 sudo sysctl --system 
+```
+
+- As some of the OS parameters are not reboot persistant create a crontab job to run them after reboot
+```bash
+mkdir -p ~/accelleran
+tee ~/accelleran/set-scheduler-settings.sh <<EOF
+#!/bin/sh
+sudo sh -c "echo 100000 > /sys/kernel/debug/sched/min_granularity_ns"
+sudo sh -c "echo 20000 > /sys/kernel/debug/sched/wakeup_granularity_ns"
+sudo sh -c "echo 500000 > /sys/kernel/debug/sched/latency_ns"
+EOF
+chmod +x ~/accelleran/set-scheduler-settings.sh
+```
+```bash
+crontab -e
+# Add below
+@reboot ~/accelleran/set-scheduler-settings.sh
 ```
 
 - Disable CPU scaling
