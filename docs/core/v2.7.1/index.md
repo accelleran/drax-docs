@@ -113,7 +113,29 @@ export SIM_OPC="84d4c9c08b4f482861e3a9c6c35bc4d8"
 open5gs-dbctl add $SIM_IMSI $SIM_K $SIM_OPC
 ```
 
-## 4. More Information
+## 5. Extra Steps for the Virtual Machines
+
+**Changes In the CORE VM**
+
+- Optimization changes for TCP throughput testing, edit `/etc/sysctl.conf` to add below lines:
+```bash
+# allow testing with buffers up to 64MB
+net.core.rmem_max = 67108864
+net.core.wmem_max = 67108864
+# increase Linux autotuning TCP buffer limit to 32MB
+net.ipv4.tcp_rmem = 4096 87380 33554432
+net.ipv4.tcp_wmem = 4096 65536 33554432
+# change TCP congestion algorithm to BBR
+net.ipv4.tcp_congestion_control = bbr
+# recommended to use a 'fair queueing' qdisc
+net.core.default_qdisc = fq
+```
+- To apply:
+```bash
+sudo sysctl --system 
+```
+
+## 6. More Information
 
 More info can be found on:
 

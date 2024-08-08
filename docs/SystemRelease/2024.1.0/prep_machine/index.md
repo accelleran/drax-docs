@@ -189,26 +189,3 @@ sudo cp $DOCKER_CONFIG/cli-plugins/docker-compose /usr/bin/.
 ### 3.2. Vendor Specific Steps
 * [EffnetDU-Phluido Preparation](/drax-docs/effnet_phluido_benetel/2024.1.0/)
 * [AccelleranDU Preparation](/drax-docs/accelleran_benetel/2024.1.0/)
-
-
-### 3.3. Extra Steps for the Virtual Machines
-
-**Changes In the CORE VM**
-
-- Optimization changes for TCP throughput testing, edit `/etc/sysctl.conf` to add below lines:
-```bash
-# allow testing with buffers up to 64MB
-net.core.rmem_max = 67108864
-net.core.wmem_max = 67108864
-# increase Linux autotuning TCP buffer limit to 32MB
-net.ipv4.tcp_rmem = 4096 87380 33554432
-net.ipv4.tcp_wmem = 4096 65536 33554432
-# change TCP congestion algorithm to BBR
-net.ipv4.tcp_congestion_control = bbr
-# recommended to use a 'fair queueing' qdisc
-net.core.default_qdisc = fq
-```
-- To apply:
-```bash
-sudo sysctl --system 
-```
