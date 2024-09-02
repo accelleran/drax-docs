@@ -1,4 +1,4 @@
-# main | v2.7.1 | v2.7.0 | v2.6.6 | v2.6.4
+# main | v2.7.2 | v2.7.1 | v2.7.0 | v2.6.6 | v2.6.4
 OPEN5GS_VERSION="v2.7.1"
 
 # Installing MongoDB

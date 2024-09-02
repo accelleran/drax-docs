@@ -12,7 +12,7 @@ If you already have a core you can skip this chapter.
 ## 1. Install Open5GS
 
 
-This [Install Script](/drax-docs/core-install/open5gs_install_script_from_apt.sh) can be used to install v2.7.1
+This [Install Script](open5gs_install_script_from_sources.sh) can be used to install v2.7.1
 
 
 ## 2. Configure Open5GS
