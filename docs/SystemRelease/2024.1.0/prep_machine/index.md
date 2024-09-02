@@ -31,13 +31,23 @@ sudo apt install linux-image-lowlatency
 sudo apt remove linux-image-generic
 sudo apt autoremove
 ```
-- Configure the OS scheduler to be more responsive
+
+- Disable CPU scaling and set performance governor
+```bash
+sudo apt install cpufrequtils
+echo 'GOVERNOR="performance"' | sudo tee /etc/default/cpufrequtils
+sudo systemctl disable ondemand
+echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null
+```
+
+- Configure the OS scheduler to be more responsive and disable KMS polling
 ```bash
 sudo sh -c "echo 100000 > /sys/kernel/debug/sched/min_granularity_ns"
 sudo sh -c "echo 20000 > /sys/kernel/debug/sched/wakeup_granularity_ns"
 sudo sh -c "echo 500000 > /sys/kernel/debug/sched/latency_ns"
 echo "sched_rt_runtime_us = -1" | sudo tee -a /etc/sysctl.conf
 echo "fs.mqueue.msg_max = 64" | sudo tee -a /etc/sysctl.conf
+echo N | sudo tee /sys/module/drm_kms_helper/parameters/poll >/dev/null
 sudo sysctl --system 
 ```
 
@@ -49,6 +59,8 @@ tee ~/accelleran/set-scheduler-settings.sh <<EOF
 sudo sh -c "echo 100000 > /sys/kernel/debug/sched/min_granularity_ns"
 sudo sh -c "echo 20000 > /sys/kernel/debug/sched/wakeup_granularity_ns"
 sudo sh -c "echo 500000 > /sys/kernel/debug/sched/latency_ns"
+echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null
+echo N | sudo tee /sys/module/drm_kms_helper/parameters/poll >/dev/null
 EOF
 chmod +x ~/accelleran/set-scheduler-settings.sh
 ```
@@ -58,12 +70,15 @@ crontab -e
 @reboot ~/accelleran/set-scheduler-settings.sh
 ```
 
-- Disable CPU scaling
+- tweak the network buffer sizes
 ```bash
-sudo apt install cpufrequtils
-echo 'GOVERNOR="performance"' | sudo tee /etc/default/cpufrequtils
-sudo systemctl disable ondemand
+echo "net.core.wmem_max = 33554432" | sudo tee -a /etc/sysctl.conf
+echo "net.core.rmem_max = 33554432" | sudo tee -a /etc/sysctl.conf
+echo "net.core.wmem_default = 33554432" | sudo tee -a /etc/sysctl.conf
+echo "net.core.rmem_default = 33554432" | sudo tee -a /etc/sysctl.conf
+sudo sysctl --system 
 ```
+
 
 ### 1.2. Isolate CPU Cores for the DU
 
@@ -196,9 +211,8 @@ sudo systemctl restart docker
 ```bash
 DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
 mkdir -p $DOCKER_CONFIG/cli-plugins
-curl -SL https://github.com/docker/compose/releases/download/v2.28.1/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+curl -SL https://github.com/docker/compose/releases/download/v2.29.1/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
 sudo chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
-sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 # to overwite the version installed in earlier
 sudo cp $DOCKER_CONFIG/cli-plugins/docker-compose /usr/bin/.
 ```

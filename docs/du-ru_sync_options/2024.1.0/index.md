@@ -78,6 +78,7 @@ sudo ldconfig
 - Install new ICE driver for E810
 
 ```bash
+mkdir -p ~/accelleran/installation_files/E810_NIC
 cd ~/accelleran/installation_files/E810_NIC
 wget https://downloadmirror.intel.com/825841/ice-1.14.11.tar.gz
 tar -xzf  ice-1.14.11.tar.gz

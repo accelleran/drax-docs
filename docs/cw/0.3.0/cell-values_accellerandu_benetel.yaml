@@ -50,7 +50,7 @@ global:
                 enable_dl_parallelization: 1            # Not Set by default
           log: 
             filename: stdout
-            ofh_level: error
+            all_level: error
           </extra-config>
 
           <ofh-interface xc:operation="replace">
@@ -65,7 +65,18 @@ global:
             <destination-host>10.55.5.3</destination-host>
             <destination-port>31555</destination-port>
           </metrics>
-
+        internal: |-
+          <auto-repair xc:operation="create">
+              <enable>true</enable>
+          </auto-repair>
+          <configuration xc:operation="replace">
+            <enable>true</enable>
+          </configuration>
+          <health-check xc:operation="create">
+              <traffic-throughput xc:operation="create">
+                  <enable>false</enable>
+              </traffic-throughput>
+          </health-check>
         rus:
         - name: "ru-2"
           install: |-
@@ -81,8 +92,8 @@ global:
               <vlan-id>6</vlan-id>
             </ofh-interface>
 
-            <nof-antennas-dl>2</nof-antennas-dl>
-            <nof-antennas-ul>1</nof-antennas-ul>
+            <nof-antennas-dl>4</nof-antennas-dl>
+            <nof-antennas-ul>2</nof-antennas-ul>
 
             <serial-number>06502100342</serial-number>
             <supported-frequency-band xc:operation="create">78</supported-frequency-band>

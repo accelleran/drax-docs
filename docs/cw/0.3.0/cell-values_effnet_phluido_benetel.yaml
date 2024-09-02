@@ -9,7 +9,7 @@ global:
         install: |-
           <type>effnet</type>
 
-          <version>2024-01-31-q3-patch-release-01-8.9.3</version>
+          <version>2024-06-14-q3-patch-release-02-8.9.3</version>
           <extra-args>--cpuset-cpus=8,9,10,11,24,25,26,27</extra-args>
 
           <ssh-connection-details xc:operation="create">
@@ -47,10 +47,21 @@ global:
 
         internal: |-
           <log-saving xc:operation="create">
-              <enable>true</enable>
+              <enable>false</enable>
               <storage-directory>/var/log</storage-directory>
               <max-storage-disk-usage>50%</max-storage-disk-usage>
           </log-saving>
+          <auto-repair xc:operation="create">
+              <enable>true</enable>
+          </auto-repair>
+          <configuration xc:operation="replace">
+            <enable>true</enable>
+          </configuration>
+          <health-check xc:operation="create">
+              <traffic-throughput xc:operation="create">
+                  <enable>false</enable>
+              </traffic-throughput>
+          </health-check>
         rus:
         - name: "ru-1"
           install: |-

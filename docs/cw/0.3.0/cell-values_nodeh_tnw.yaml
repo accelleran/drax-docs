@@ -13,7 +13,13 @@ global:
             <host>10.55.5.2</host>
             <username>root</username>
           </ssh-connection-details>
-
+        internal: |-
+          <auto-repair xc:operation="create">
+              <enable>true</enable>
+          </auto-repair>
+          <configuration xc:operation="replace">
+            <enable>true</enable>
+          </configuration>
         rus:
         - name: "ru-3"
           install: |-

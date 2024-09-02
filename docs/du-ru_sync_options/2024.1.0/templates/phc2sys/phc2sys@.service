@@ -7,6 +7,8 @@ Before=time-sync.target
 
 [Service]
 Type=simple
+# Wait for ptp4l to initialize (you can adjust the sleep duration as needed)
+ExecStartPre=/bin/sleep 5
 ExecStart=/usr/sbin/phc2sys -f /etc/linuxptp/ptp4l.conf -w -s %I -R 8 -q
 
 [Install]
