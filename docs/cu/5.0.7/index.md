@@ -112,3 +112,29 @@ helm install cu-up accelleran/cu-up --version 8.0.2 --values cu-up-values.yaml -
 ```bash
 watch kubectl get pods
 ```
+
+## 3. CU Configuration
+
+- Basic configuration can be done via the dashbaord.
+- After that below changes will need to be done:
+    - Run below on the CU VM: (make sure to update `cucp-1` according to your setup)
+```bash
+curl -X 'PUT'   'http://localhost:31315/api/gnbconfiguration/netconfrpc/gnb/cucp/cucp-1'   -H 'accept: text/plain'   -H 'Content-Type: text/xml'   -d '<nc:config xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+<cu-cp-internal xmlns="http://accelleran.com/ns/yang/accelleran-cucp-internal" xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc:operation="replace">
+  <feature-flags xc:operation="create">
+    <close-f1-connection-on-cell-deactivation>true</close-f1-connection-on-cell-deactivation>
+  </feature-flags>
+</cu-cp-internal>
+</nc:config>'
+```
+
+    - In case ACCDU is used, Run below on the CU VM: (make sure to update `cucp-1` according to your setup)
+```bash
+curl -X 'PUT'   'http://localhost:31315/api/gnbconfiguration/netconfrpc/gnb/cucp/cucp-1'   -H 'accept: text/plain'   -H 'Content-Type: text/xml'   -d '<nc:config xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+<cu-cp-internal xmlns="http://accelleran.com/ns/yang/accelleran-cucp-internal" xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc:operation="replace">
+  <feature-flags xc:operation="create">
+    <send-ue-ctxt-modification-after-rrc-reestablishment>true</send-ue-ctxt-modification-after-rrc-reestablishment>
+  </feature-flags>
+</cu-cp-internal>
+</nc:config>'
+```
