@@ -84,7 +84,7 @@ sudo sysctl --system
 
 - To isolate the needed DU/L1 cores, Edit `/etc/default/grub` file to include below: (update the isolated cores according to the need)
 ```bash
-GRUB_CMDLINE_LINUX="processor.max_cstate=1 intel_idle.max_cstate=0 intel_pstate=passive hugepagesz=1G hugepages=4 hugepagesz=2M hugepages=4 default_hugepagesz=1G intel_iommu=on iommu=pt selinux=0 enforcing=0 nmi_watchdog=0 audit=0 mce=off kthread_cpus=0 irqaffinity=0 isolcpus=8-15,24-31 nosoftlockup nohz=on nohz_full=8-15,24-31 rcu_nocbs=8-15,24-31 skew_tick=1"
+GRUB_CMDLINE_LINUX="processor.max_cstate=1 intel_idle.max_cstate=0 intel_pstate=passive hugepagesz=1G hugepages=3 default_hugepagesz=1G intel_iommu=on iommu=pt selinux=0 enforcing=0 nmi_watchdog=0 audit=0 mce=off kthread_cpus=0 irqaffinity=0 isolcpus=8-15,24-31 nosoftlockup nohz=on nohz_full=8-15,24-31 rcu_nocbs=8-15,24-31 skew_tick=1"
 GRUB_FLAVOUR_ORDER=lowlatency
 ```
 - To Apply run below:
