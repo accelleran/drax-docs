@@ -250,3 +250,23 @@ sudo pvresize /dev/vda3
 sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
 sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
 ```
+
+## 5. Logs Collection
+
+### 5.1. DRAX and CU Logs
+
+- Copy this script [collect_logs.sh](/drax-docs/extra_info/collect_logs.sh) on the DRAX/CU VM
+- To Collect the last 10min logs.
+```bash
+chmod +x collect_logs.sh
+./collect_logs.sh
+```
+- Add time in seconds to collect logs for specific duration back. (e.g. 1 min)
+```bash
+./collect_logs.sh 60
+```
+
+- To follow logs directly.
+```bash
+kubectl logs -f -l drax/role=5g --prefix --tail=0  --max-log-requests 100
+```
