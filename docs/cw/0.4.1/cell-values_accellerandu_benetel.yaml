@@ -1,0 +1,152 @@
+global:
+  # nodeSelector:
+  #   drax.accelleran.com/schedule: "true"
+
+  config:
+    enabled: true
+    dus:
+      - name: "cell-1"
+        install: |-
+          <type>accelleran</type>
+
+          <ssh-connection-details xc:operation="create">
+            <host>10.55.5.2</host>
+            <username>ad</username>
+          </ssh-connection-details>
+
+          <version>2.0.2</version>
+          <extra-args>--tty --volume /tmp/du_logs_and_traces:/tmp --volume /sys/fs/cgroup/:/sys/fs/cgroup/ --cpuset-cpus=1-5,17-21 --cgroup-parent=user.slice</extra-args>
+
+          <e2-config xc:operation="replace">
+            <enable>true</enable>
+            <host>10.55.5.39</host>
+            <port>38482</port>
+          </e2-config>
+
+          <extra-config>
+          hal:
+            eal_args: "-l 5,21 --proc-type auto -a 0000:01:11.0"
+          expert_phy:
+            max_request_headroom_slots: 3
+            max_proc_delay: 6
+            pusch_dec_max_iterations: 4
+          expert_execution:
+            affinities:
+              low_priority_cpus: 2-3,18-19
+              low_priority_pinning: mask
+              ru_timing_cpu: 1,17
+              ofh:
+                - ru_txrx_cpus: 1,17
+            cell_affinities:
+              -
+                l1_dl_cpus: 2-3,18-19,20
+                l1_dl_pinning: mask
+                l1_ul_cpus: 2-3,18-19,20
+                l1_ul_pinning: mask
+                l2_cell_cpus: 4
+                l2_cell_pinning: mask
+                ru_cpus: 1,17
+                ru_pinning: mask
+            threads:
+              upper_phy:
+                pdsch_processor_type: auto 
+                nof_pusch_decoder_threads: 2
+                nof_ul_threads: 1
+                nof_dl_threads: 4
+              lower_phy:
+                execution_profile: quad 
+              ofh: 
+                enable_dl_parallelization: 1
+
+          log: 
+            filename: /tmp/du_logs.txt
+            all_level: warning
+            mac_level: error
+            config_level: debug
+          </extra-config>
+
+          <ofh-interface xc:operation="replace">
+            <network-interface>0000:01:11.0</network-interface>
+            <mac-address>66:2f:2f:4d:c0:1c</mac-address>
+            <vlan-id>6</vlan-id>
+          </ofh-interface>
+
+
+          <metrics xc:operation="replace">
+            <enable>true</enable>
+            <destination-host>10.55.5.3</destination-host>
+            <destination-port>31555</destination-port>
+          </metrics>
+        internal: |-
+          <configuration xc:operation="replace">
+            <enable>true</enable>
+          </configuration>
+          <auto-repair xc:operation="create">
+              <enable>true</enable>
+          </auto-repair>
+          <health-check xc:operation="create">
+              <traffic-throughput xc:operation="create">
+                  <enable>false</enable>
+              </traffic-throughput>
+          </health-check>
+        ran: |-
+            <gnb-id>0</gnb-id>
+            <gnb-id-length>32</gnb-id-length>
+            <gnb-du-id>1</gnb-du-id>
+            <cu>10.55.5.31</cu>
+            <admin-state>unlocked</admin-state>
+            <served-cell xc:operation="replace">
+              <local-cell-id>1</local-cell-id>
+              <pci>1</pci>
+              <tac>1</tac>
+              <admin-state>unlocked</admin-state>
+              <plmn-info-list xc:operation="replace">
+                <plmn-info xc:operation="replace">
+                  <mcc>001</mcc>
+                  <mnc>01</mnc>
+                  <s-nssai xc:operation="replace">
+                    <sst>1</sst>
+                    <sd>16777215</sd>
+                  </s-nssai>
+                </plmn-info>
+              </plmn-info-list>
+              <sector-carrier xc:operation="replace">
+                <carrier-id>1</carrier-id>
+                <tx-direction>dl</tx-direction>
+                <arfcn-dl>649856</arfcn-dl>
+                <bandwidth-dl>100</bandwidth-dl>
+                <arfcn-ul>649856</arfcn-ul>
+                <bandwidth-ul>100</bandwidth-ul>
+                <frequency-band>78</frequency-band>
+                <maximum-eirp-dbm>35</maximum-eirp-dbm>
+                <ru>ru-cell-1</ru>
+              </sector-carrier>
+            </served-cell>
+        rus:
+        - name: "ru-cell-1"
+          install: |-
+            <type>benetel</type>
+
+            <ssh-connection-details xc:operation="create">
+              <host>10.10.0.100</host>
+              <username>root</username>
+              <jump xc:operation="replace">
+                <host>10.55.5.2</host>
+                <username>ad</username>
+              </jump>
+            </ssh-connection-details>
+
+            <ofh-interface xc:operation="replace">
+              <mac-address>70:b3:d5:e1:5a:0e</mac-address>
+              <vlan-id>6</vlan-id>
+            </ofh-interface>
+
+            <nof-antennas-dl>4</nof-antennas-dl>
+            <nof-antennas-ul>2</nof-antennas-ul>
+
+            <serial-number>06502100342</serial-number>
+            <supported-frequency-band xc:operation="create">78</supported-frequency-band>
+
+            <antenna-gain>0</antenna-gain>
+            <maximum-power-capability>35</maximum-power-capability>
+            <minimum-power-capability>15</minimum-power-capability>

@@ -11,7 +11,34 @@ Depending on the setup and the available infrastructure there might be multiple 
 - Fronthaul Switch configured properly to run as PTP Grandmaster source.
 - X710 or E810 card on the DU server to run PTP and DPDK for the fronthaul.
 
-### 1.2. Configuration
+#### Fibrolan Configuration
+
+> PS: Assuming VLAN ID 6 would be used for this testing setup.
+
+- Make sure the Switch is connected to GPS source
+- Configrure the VLAN Allowed for the Ports connected to the DU Side and The RU
+  - (With Fibrolan Falcon Switch): Configuration -> VLANs -> Configuration. (as below image)
+    - Mode: Trunk
+    - Port VLAN: 1588
+    - Egress Tagging: Untag Port VLAN 
+    - Allowed VLANs: 1588,6
+    <p align="center">
+    <img src="images/00_Fibrolan_VLAN_Config.png">
+    </p>
+
+- Configure PTP Clock:
+  - (With Fibrolan Falcon Switch): Configuration -> Timing -> PTP (as below image)
+    - Create/Edit a lock. (Profile G8275.1)
+    - Select the Ports towards the DU and RU
+    - Dom: 24
+    - VID: 1588
+    <p align="center">
+    <img src="images/00_Fibrolan_PTP_Config.png">
+    </p>
+
+
+
+### 1.2. DU Server Configuration
 
 #### 1.2.1. Setup
 

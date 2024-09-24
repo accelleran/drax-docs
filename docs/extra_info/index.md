@@ -266,7 +266,7 @@ chmod +x collect_logs.sh
 ./collect_logs.sh 60
 ```
 
-- To follow logs directly.
+- To follow logs live.
 ```bash
 kubectl logs -f -l drax/role=5g --prefix --tail=0  --max-log-requests 100
 ```

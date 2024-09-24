@@ -1,0 +1,195 @@
+cell-wrapper:
+  cw-inst:
+    baseConfig:
+      vendors:
+        accelleran:
+        - file: "config.yaml"
+          data: |-
+            f1ap:
+              cu_cp_addr: {{ ran.cuAddress }}
+              bind_addr: {{ du.f1.bindAddress }}
+
+            nru:
+              queue_size: 2048
+              bind_addr: {{ du.f1.bindAddress }}
+
+            e2:
+              enable_du_e2: {{ du.e2.enable }}
+            {% if du.e2.enable %}
+              addr: {{ du.e2.address }}
+              port: {{ du.e2.port }}
+              bind_addr: {{ du.e2.bindAddress }}
+            {% endif %}
+              e2sm_kpm_enabled: true
+              e2sm_rc_enabled: false
+
+            gnb_id: {{ ran.gnbId }}
+            gnb_id_bit_length: {{ ran.gnbIdLength }}
+            gnb_du_id: {{ ran.gnbDuId }}
+
+            cell_cfg:
+              sector_id: {{ first(ran.servedCells).nrCellId }}
+              plmn: {{ first(first(ran.servedCells).servedPlmns).plmnId }}
+            {% if length(first(ran.servedCells).servedPlmns) >= 1 %}
+              additional_served_plmns:
+            {% for servedPlmn in first(ran.servedCells).servedPlmns %}
+            {% if not loop.is_first %}
+                - plmn_id: {{ servedPlmn.plmnId }}
+                  slicing:
+            {% for sNssai in servedPlmn.sNssaiList %}
+                    - sst: {{ sNssai.sst }}
+                      sd: {{ sNssai.sd }}
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+              pci: {{ first(ran.servedCells).pci }}
+              tac: {{ first(ran.servedCells).tac }}
+              dl_arfcn: {{ first(first(ran.servedCells).sectorCarriers).nrArfcn }}
+              band: {{ first(first(ran.servedCells).sectorCarriers).frequencyBand }}
+              channel_bandwidth_MHz: {{ first(first(ran.servedCells).sectorCarriers).bandwidth }}
+              common_scs: {{ first(ran.servedCells).subCarrierSpacing }}
+              nof_antennas_dl: {{ at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofDownlinkAntennas }}
+              nof_antennas_ul: {{ at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas }}
+              pcg_p_nr_fr1: 23
+
+              slicing:
+              {% for sNssai in first(first(ran.servedCells).servedPlmns).sNssaiList %}
+                - sst: {{ sNssai.sst }}
+                  sd: {{ sNssai.sd }}
+              {% endfor %}
+
+
+              ssb:
+                ssb_period: 10
+                ssb_block_power_dbm: {{ first(ran.servedCells).ssPbchBlockPower }}
+                pss_to_sss_epre_db: 0
+
+              ul_common:
+                p_max: 23
+
+              pdsch: 
+                mcs_table: qam256
+                max_pdschs_per_slot: 6  # to limit scheduler for max ues in tti
+                max_alloc_attempts: 8
+                olla_target_bler: 0.1   # changed with 2024.2.0
+                olla_max_cqi_offset: 20 # changed with 2024.2.0
+                olla_cqi_inc_step: 0.05 # changed with 2024.2.0
+                dc_offset: center
+
+              pusch:
+                mcs_table: qam64
+                min_k2: 2
+                olla_target_bler: 0.1   # changed with 2024.2.0
+                olla_snr_inc_step: 0.05 # changed with 2024.2.0
+                olla_max_snr_offset: 20 # changed with 2024.2.0
+                p0_nominal_with_grant: -76
+
+              pucch:
+                min_k1: 2
+                nof_cell_harq_pucch_res_sets: 6 # changed with 2024.2.0
+                sr_period_ms: 20        # changed with 2024.2.0
+
+              prach:
+                preamble_trans_max: 200
+                power_ramping_step_db: 2
+            {% if first(first(ran.servedCells).sectorCarriers).bandwidth == 40 %}
+                prach_config_index: 151
+                prach_frequency_start: 2
+            {% else if first(first(ran.servedCells).sectorCarriers).bandwidth == 100 %}
+                prach_config_index: 5
+                prach_frequency_start: 0
+            {% else %}
+                prach_config_index: 151
+                prach_frequency_start: 2
+            {% endif %}
+
+              tdd_ul_dl_cfg: 
+                dl_ul_tx_period: 10
+                nof_dl_slots: 7
+                nof_dl_symbols: 6
+                nof_ul_slots: 2
+                nof_ul_symbols: 4
+
+            ru_ofh:
+              ru_bandwidth_MHz: {{ first(first(ran.servedCells).sectorCarriers).bandwidth }}
+              t1a_max_cp_dl: 470
+              t1a_min_cp_dl: 419
+              t1a_max_cp_ul: 336
+              t1a_min_cp_ul: 285
+              t1a_max_up: 345
+              t1a_min_up: 294
+              ta4_max: 1000               # changed with 2024.2.0
+              ta4_min: 0
+              compr_method_ul: bfp
+              compr_bitwidth_ul: 9
+              compr_method_dl: bfp
+              compr_bitwidth_dl: 9
+              compr_method_prach: bfp
+              compr_bitwidth_prach: 9
+            {% if first(first(ran.servedCells).sectorCarriers).bandwidth == 40 %}
+              is_prach_cp_enabled: true
+              enable_ul_static_compr_hdr: false
+              enable_dl_static_compr_hdr: false
+            {% else if first(first(ran.servedCells).sectorCarriers).bandwidth == 100 %}
+              is_prach_cp_enabled: false
+              enable_ul_static_compr_hdr: true
+              enable_dl_static_compr_hdr: true
+            {% else %}
+              is_prach_cp_enabled: true
+              enable_ul_static_compr_hdr: false
+              enable_dl_static_compr_hdr: false
+            {% endif %}
+              iq_scaling: 7.5               # changed with 2024.2.0
+              cells:
+                - network_interface: {{ du.ofh.networkInterface }}
+                  du_mac_addr: {{ du.ofh.macAddress }}
+                  ru_mac_addr: {{ at(at(rus, first(first(ran.servedCells).sectorCarriers).ruName), "ofh").macAddress }}
+                  vlan_tag_cp: {{ du.ofh.vlanId }}
+                  vlan_tag_up: {{ du.ofh.vlanId }}
+            {% if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofDownlinkAntennas == 4) %}
+                  dl_port_id: [0, 1, 2, 3]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofDownlinkAntennas == 2) %}
+                  dl_port_id: [0, 1]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofDownlinkAntennas == 1) %}
+                  dl_port_id: [0]
+            {% else %}
+                  dl_port_id: [0]
+            {% endif %}
+
+            {% if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 4) %}
+                  ul_port_id: [0, 1, 2, 3]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 2) %}
+                  ul_port_id: [0, 1]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 1) %}
+                  ul_port_id: [0]
+            {% else %}
+                  ul_port_id: [0]
+            {% endif %}
+
+            {% if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofDownlinkAntennas == 4) and  (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 4) %}
+                  prach_port_id: [4, 5]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofDownlinkAntennas == 4) and  (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 2) %}
+                  prach_port_id: [4, 5]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofDownlinkAntennas == 4) and  (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 1) %}
+                  prach_port_id: [4]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofDownlinkAntennas == 2) and  (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 2) %}
+                  prach_port_id: [2, 3]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofDownlinkAntennas == 2) and  (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 1) %}
+                  prach_port_id: [2]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofDownlinkAntennas == 1) and  (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 1) %}
+                  prach_port_id: [2]
+            {% else %}
+                  prach_port_id: [2]
+            {% endif %}
+
+            metrics:
+              enable_json_metrics: {{ du.metrics.enable }}
+            {% if du.metrics.enable %}
+              addr: {{ du.metrics.destinationHost }}
+              port: {{ du.metrics.destinationPort }}
+              rlc_json_enable: true
+              rlc_report_period: 1000           # changed with 2024.2.0
+            {% endif %}
+
+            {{ du.extraConfig }}

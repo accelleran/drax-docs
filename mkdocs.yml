@@ -48,6 +48,7 @@ nav:
     - '7. EffnetDU-Phluido-Benetel Preparation': 'ran1_effnet_phluido_benetel/2023.3.0/index.md'
     - '8. RAN2: NodehDU/RU': 'ran2_nodeh/5.2.1-32888/index.md'
     - '9. Extra Info': 'extra_info/index.md'
+
   - '[2023.3.1]':
     - 'SystemRelease/2023.3.1/index.md'
     - '1. Server Preparation': 'SystemRelease/2023.3.1/prep_machine/index.md'
@@ -70,8 +71,24 @@ nav:
     - '6. Core Installation': 'core/v2.7.1/index.md'
     - '7. RAN1: EffnetPhluidoDU-Benetel': 'ran1_effnet_phluido_benetel/2024.1.0/index.md'
     - '8. RAN2: NodehDU/RU': 'ran2_nodeh/5.2.1-32888/index.md'
-    - '9. RAN3: AccelleranDU-Benetel': 'ran3_accelleran_benetel/2024.1.0/index.md'
+    - '9. RAN3: AccelleranDU-Benetel': 'ran3_accelleran_benetel/1.0.4/index.md'
     - '10. Extra Info': 'extra_info/index.md'
+
+  - '[2024.1.0 with Ansible]':
+    - 'SystemRelease/2024.1.0_usingAnsible/index.md'
+
+  - '[2024.2.0]':
+    - 'SystemRelease/2024.2.0/index.md'
+    - '1. Server Preparation': 'SystemRelease/2024.2.0/prep_machine/index.md'
+    - '2. Prepare the Kubernetes Cluster': 'K8s/1.24/index.md'
+    - '3. DRAX Deployment': 'drax/9.0.0/index.md'
+    - '4. CU Deployment': 'cu/6.0.3/index.md'
+    - '5. Cell Wrapper Deployment': 'cw/0.4.1/index.md'
+    # - '6. Core Installation': 'core/v2.7.1/index.md'
+    # - '7. RAN1: EffnetPhluidoDU-Benetel': 'ran1_effnet_phluido_benetel/2024.1.0/index.md'
+    # - '8. RAN2: NodehDU/RU': 'ran2_nodeh/5.2.1-32888/index.md'
+    - '6. RAN3: AccelleranDU-Benetel': 'ran3_accelleran_benetel/2.0.2/index.md'
+    - '7. Extra Info': 'extra_info/index.md'
 
   - 'DU-RU Timing Synchronization':
     - 'du-ru_sync_options/2024.1.0/index.md'

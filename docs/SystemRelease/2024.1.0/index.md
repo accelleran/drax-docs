@@ -69,4 +69,4 @@ Depending on the RAN to be installed:
 
 * [RAN1: EffnetDU-Phluido Preparation](/drax-docs/ran1_effnet_phluido_benetel/2024.1.0/)
 * [RAN2: NodehDU/RU](/drax-docs/ran2_nodeh/5.2.1-32888/)
-* [RAN3: AccelleranDU Preparation](/drax-docs/ran3_accelleran_benetel/2024.1.0/)
+* [RAN3: AccelleranDU Preparation](/drax-docs/ran3_accelleran_benetel/1.0.4/)

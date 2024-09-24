@@ -1,8 +1,10 @@
 # Server preparation
 
-## 1. Mandatory Steps
+- This guide will try deploying below example:
+<p align="center">
+  <img src="/drax-docs/images/01_NetworkOverview.png">
+</p>
 
-- This guide will follow the [Example Network Diagram](/drax-docs/SystemRelease/2024.1.0/#3-example-network-components-overview)
 - Also, below CPU allocation would be used:
 <p align="center">
   <img src="/drax-docs/images/02_cpu_allocation.png">
@@ -13,16 +15,22 @@
 > - This is based on the `AMD Ryzen 9 7950X 16-Core Processor` used with the lab super micro servers. But depending on the CPU this might be different.
 > - This is intended to be used for single machine setups for testing purposes. (Customer setups would have a seperate machine to run the CU/RIC/CORE)
 
-### 1.1. Prepare the Machine for RealTime Performance
+
+## 1. Isolate CPU Cores for the DU
+
+- To isolate the needed DU/L1 cores, Edit `/etc/default/grub` file to include below: (update the isolated cores according to the need)
+```bash
+GRUB_CMDLINE_LINUX="processor.max_cstate=1 intel_idle.max_cstate=0 intel_pstate=passive hugepagesz=1G hugepages=3 default_hugepagesz=1G intel_iommu=on iommu=pt selinux=0 enforcing=0 nmi_watchdog=0 audit=0 mce=off kthread_cpus=0 irqaffinity=0 isolcpus=8-15,24-31 nosoftlockup nohz=on nohz_full=8-15,24-31 rcu_nocbs=8-15,24-31 skew_tick=1"
+GRUB_FLAVOUR_ORDER=lowlatency
+```
+- To Apply run below:
+```bash
+sudo update-grub2 
+```
+
+## 2. Prepare the Machine for RealTime Performance
 
 > These changes are needed to run any DU tested in our lab, Plus the VMs.
-
-- On The BIOS Settings:
-    - System Profile Settings:
-        - System Profile -> Performance
-    - Integrated Devices Settings:
-        - SR-IOV Global Enable -> Enabled
-        - USB 3.0 Settings -> Enabled
 
 - Install lowlatency kernel
 ```bash
@@ -80,21 +88,8 @@ sudo sysctl --system
 ```
 
 
-### 1.2. Isolate CPU Cores for the DU
 
-- To isolate the needed DU/L1 cores, Edit `/etc/default/grub` file to include below: (update the isolated cores according to the need)
-```bash
-GRUB_CMDLINE_LINUX="processor.max_cstate=1 intel_idle.max_cstate=0 intel_pstate=passive hugepagesz=1G hugepages=3 default_hugepagesz=1G intel_iommu=on iommu=pt selinux=0 enforcing=0 nmi_watchdog=0 audit=0 mce=off kthread_cpus=0 irqaffinity=0 isolcpus=8-15,24-31 nosoftlockup nohz=on nohz_full=8-15,24-31 rcu_nocbs=8-15,24-31 skew_tick=1"
-GRUB_FLAVOUR_ORDER=lowlatency
-```
-- To Apply run below:
-```bash
-sudo update-grub2 
-```
-
-
-
-### 1.3. Prepare Virtual Functions
+## 3. Prepare Virtual Functions
 
 - Create Virtual Function Interfaces on your Server to be used later on by the CU and CORE VMs.
 - Make sure the server interface can support Virtual Functions. This is by checking if the NIC can allow SR_IOV. More details mentioned [here](../../../extra_info/index.md)
@@ -118,7 +113,7 @@ network:
       - 10.55.5.5/24
 ```
 
-### 1.4. Create Virtual Machines
+## 4. Create Virtual Machines
 
 Use below steps to create two VMs on the machine and connect it to the baremetal server.
 
@@ -157,17 +152,8 @@ virt-manager
         <img src="/drax-docs/images/03_vm_cpu_passthrough.png">
         </p>    
 
-## 2. Automated Preparation Using Ansible
 
-- All the following steps and sections won't be needed in case of using ansible.
-- Please follow the guide in [5G Integration Repo](https://github.com/accelleran/5g-integration/tree/main/utilities/install_tools/ansible)
-
-
-
-
-## 3. Manual Server Preparation
-
-### 3.1. Install Docker
+## 5. Install Docker
 
 From (https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
 
@@ -217,6 +203,6 @@ sudo chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
 sudo cp $DOCKER_CONFIG/cli-plugins/docker-compose /usr/bin/.
 ```
 
-### 3.2. Vendor Specific Steps
+## 6. Vendor Specific Steps
 * [EffnetDU-Phluido Preparation](/drax-docs/effnet_phluido_benetel/2024.1.0/)
-* [AccelleranDU Preparation](/drax-docs/accelleran_benetel/2024.1.0/)
+* [AccelleranDU Preparation](/drax-docs/accelleran_benetel/1.0.4/)
