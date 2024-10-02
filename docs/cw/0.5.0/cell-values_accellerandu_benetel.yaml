@@ -15,7 +15,7 @@ global:
           </ssh-connection-details>
 
           <version>2.0.2</version>
-          <extra-args>--tty --volume /tmp/du_logs_and_traces:/tmp --volume /sys/fs/cgroup/:/sys/fs/cgroup/ --cpuset-cpus=1-5,17-21 --cgroup-parent=user.slice</extra-args>
+          <extra-args>--tty --volume /tmp/du_logs_and_traces:/tmp --volume /sys/fs/cgroup/:/sys/fs/cgroup/ --cgroup-parent=user.slice</extra-args>
 
           <e2-config xc:operation="replace">
             <enable>true</enable>
@@ -25,7 +25,7 @@ global:
 
           <extra-config>
           hal:
-            eal_args: "-l 5,21 --proc-type auto -a 0000:01:11.0"
+            eal_args: "--lcores (0-1)@(1-5,17-21) --proc-type auto -a 0000:01:11.0"
           expert_phy:
             max_request_headroom_slots: 3
             max_proc_delay: 6
@@ -36,16 +36,16 @@ global:
               low_priority_pinning: mask
               ru_timing_cpu: 1,17
               ofh:
-                - ru_txrx_cpus: 1,17
+                - ru_txrx_cpus: 5,21
             cell_affinities:
               -
-                l1_dl_cpus: 2-3,18-19,20
+                l1_dl_cpus: 2-3,18-19
                 l1_dl_pinning: mask
-                l1_ul_cpus: 2-3,18-19,20
+                l1_ul_cpus: 2-3,18-19
                 l1_ul_pinning: mask
-                l2_cell_cpus: 4
+                l2_cell_cpus: 4,20
                 l2_cell_pinning: mask
-                ru_cpus: 1,17
+                ru_cpus: 5,21
                 ru_pinning: mask
             threads:
               upper_phy:
