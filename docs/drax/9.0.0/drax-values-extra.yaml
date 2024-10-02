@@ -19,17 +19,22 @@ cell-wrapper:
               addr: {{ du.e2.address }}
               port: {{ du.e2.port }}
               bind_addr: {{ du.e2.bindAddress }}
-            {% endif %}
               e2sm_kpm_enabled: true
               e2sm_rc_enabled: false
+            {% endif %}
 
             gnb_id: {{ ran.gnbId }}
             gnb_id_bit_length: {{ ran.gnbIdLength }}
             gnb_du_id: {{ ran.gnbDuId }}
 
             cell_cfg:
-              sector_id: {{ first(ran.servedCells).nrCellId }}
+              sector_id: {{ first(ran.servedCells).localCellId }}
               plmn: {{ first(first(ran.servedCells).servedPlmns).plmnId }}
+              slicing:
+              {% for sNssai in first(first(ran.servedCells).servedPlmns).sNssaiList %}
+                - sst: {{ sNssai.sst }}
+                  sd: {{ sNssai.sd }}
+              {% endfor %}
             {% if length(first(ran.servedCells).servedPlmns) >= 1 %}
               additional_served_plmns:
             {% for servedPlmn in first(ran.servedCells).servedPlmns %}
@@ -53,13 +58,6 @@ cell-wrapper:
               nof_antennas_ul: {{ at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas }}
               pcg_p_nr_fr1: 23
 
-              slicing:
-              {% for sNssai in first(first(ran.servedCells).servedPlmns).sNssaiList %}
-                - sst: {{ sNssai.sst }}
-                  sd: {{ sNssai.sd }}
-              {% endfor %}
-
-
               ssb:
                 ssb_period: 10
                 ssb_block_power_dbm: {{ first(ran.servedCells).ssPbchBlockPower }}
@@ -68,51 +66,76 @@ cell-wrapper:
               ul_common:
                 p_max: 23
 
-              pdsch: 
+              pdsch:
                 mcs_table: qam256
-                max_pdschs_per_slot: 6  # to limit scheduler for max ues in tti
+                max_pdschs_per_slot: 6          # changed with 2024.1.0, to limit scheduler for max ues in tti
                 max_alloc_attempts: 8
-                olla_target_bler: 0.1   # changed with 2024.2.0
-                olla_max_cqi_offset: 20 # changed with 2024.2.0
-                olla_cqi_inc_step: 0.05 # changed with 2024.2.0
+                olla_target_bler: 0.1           # changed with 2024.2.0, LA optimization (0.01 in 2024.1.0)
+                olla_max_cqi_offset: 20         # changed with 2024.2.0, LA optimization (5 in 2024.1.0) 
+                olla_cqi_inc_step: 0.05         # changed with 2024.2.0, LA optimization
                 dc_offset: center
 
               pusch:
                 mcs_table: qam64
                 min_k2: 2
-                olla_target_bler: 0.1   # changed with 2024.2.0
-                olla_snr_inc_step: 0.05 # changed with 2024.2.0
-                olla_max_snr_offset: 20 # changed with 2024.2.0
-                p0_nominal_with_grant: -76
+                olla_target_bler: 0.1           # changed with 2024.2.0, LA optimization (0.01 in 2024.1.0)
+                olla_snr_inc_step: 0.05         # changed with 2024.2.0, LA optimization (3)
+                olla_max_snr_offset: 20         # changed with 2024.2.0, LA optimization
+                p0_nominal_with_grant: -76      # changed with 2024.2.0, Removed after UL BLER workaround (-78 in 2024.1.0)
 
               pucch:
                 min_k1: 2
-                nof_cell_harq_pucch_res_sets: 6 # changed with 2024.2.0
-                sr_period_ms: 20        # changed with 2024.2.0
+                nof_cell_harq_pucch_res_sets: 8 # changed with 2024.1.0, to avoide multi-ue PUCCCH. [With 2024.2.0, set to 6 for 64UE support]
+                sr_period_ms: 10                # changed with 2024.1.0, to improved RTT. [with 2024.2.0 set to 20 for 64UE support]
 
               prach:
                 preamble_trans_max: 200
                 power_ramping_step_db: 2
+            {% if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "benetel" %}
             {% if first(first(ran.servedCells).sectorCarriers).bandwidth == 40 %}
                 prach_config_index: 151
                 prach_frequency_start: 2
             {% else if first(first(ran.servedCells).sectorCarriers).bandwidth == 100 %}
-                prach_config_index: 5
+                prach_config_index: 5           # changed with 2024.2.0.
                 prach_frequency_start: 0
             {% else %}
                 prach_config_index: 151
                 prach_frequency_start: 2
             {% endif %}
+            {% else if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "cigtech" %}
+                prach_config_index: 159
+                prach_frequency_start: 0
+            {% else if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "comba" %}
+                prach_config_index: 16
+                prach_frequency_start: 0
+            {% else %}                  # For other RUs
+                prach_config_index: 151
+                prach_frequency_start: 2
+            {% endif %}
 
+            {% if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type != "comba" %}
               tdd_ul_dl_cfg: 
                 dl_ul_tx_period: 10
                 nof_dl_slots: 7
                 nof_dl_symbols: 6
                 nof_ul_slots: 2
                 nof_ul_symbols: 4
+            {% endif %}
 
+
+            {% if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type != "b210") and (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type != "n310") %}
             ru_ofh:
               ru_bandwidth_MHz: {{ first(first(ran.servedCells).sectorCarriers).bandwidth }}
+            {% if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "comba" %}
+              t1a_max_cp_dl: 300
+              t1a_min_cp_dl: 120
+              t1a_max_cp_ul: 380
+              t1a_min_cp_ul: 100
+              t1a_max_up: 150
+              t1a_min_up: 10
+              ta4_max:  500
+              ta4_min: 10
+            {% else %}  # works with benetel and cigtech
               t1a_max_cp_dl: 470
               t1a_min_cp_dl: 419
               t1a_max_cp_ul: 336
@@ -121,12 +144,14 @@ cell-wrapper:
               t1a_min_up: 294
               ta4_max: 1000               # changed with 2024.2.0
               ta4_min: 0
+            {% endif %}
               compr_method_ul: bfp
               compr_bitwidth_ul: 9
               compr_method_dl: bfp
               compr_bitwidth_dl: 9
               compr_method_prach: bfp
               compr_bitwidth_prach: 9
+            {% if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "benetel" %}
             {% if first(first(ran.servedCells).sectorCarriers).bandwidth == 40 %}
               is_prach_cp_enabled: true
               enable_ul_static_compr_hdr: false
@@ -140,7 +165,22 @@ cell-wrapper:
               enable_ul_static_compr_hdr: false
               enable_dl_static_compr_hdr: false
             {% endif %}
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "cigtech") or (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "comba") %}
+              is_prach_cp_enabled: true
+              enable_ul_static_compr_hdr: true
+              enable_dl_static_compr_hdr: true
+            {% else %}                      # For other RUs
+              is_prach_cp_enabled: true
+              enable_ul_static_compr_hdr: false
+              enable_dl_static_compr_hdr: false
+            {% endif %}
+            {% if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "benetel" %}
               iq_scaling: 7.5               # changed with 2024.2.0
+            {% else if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "cigtech" %}
+              iq_scaling: 3.5
+            {% else %}
+              iq_scaling: 7.5
+            {% endif %}
               cells:
                 - network_interface: {{ du.ofh.networkInterface }}
                   du_mac_addr: {{ du.ofh.macAddress }}
@@ -167,6 +207,7 @@ cell-wrapper:
                   ul_port_id: [0]
             {% endif %}
 
+            {% if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "benetel" %}
             {% if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofDownlinkAntennas == 4) and  (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 4) %}
                   prach_port_id: [4, 5]
             {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofDownlinkAntennas == 4) and  (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 2) %}
@@ -182,6 +223,64 @@ cell-wrapper:
             {% else %}
                   prach_port_id: [2]
             {% endif %}
+            {% else if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "cigtech" %}
+            {% if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 4 %}
+                  prach_port_id: [6, 7, 14, 15]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 2) %}
+                  prach_port_id: [6, 7]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 1) %}
+                  prach_port_id: [6]
+            {% else %}
+                  prach_port_id: [6]
+            {% endif %}
+            {% else if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "comba" %}
+            {% if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 4 %}
+                  prach_port_id: [4, 5, 6, 7]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 2) %}
+                  prach_port_id: [4, 5]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 1) %}
+                  prach_port_id: [4]
+            {% else %}
+                  prach_port_id: [4]
+            {% endif %}
+            {% else %}                      # For other RUs
+            {% if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 4 %}
+                  prach_port_id: [4, 5, 6, 7]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 2) %}
+                  prach_port_id: [4, 5]
+            {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 1) %}
+                  prach_port_id: [4]
+            {% else %}
+                  prach_port_id: [4]
+            {% endif %}
+            {% endif %}
+
+
+            {% else if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "b210" %}
+            ru_sdr:
+              device_driver: uhd
+              device_args: type=b200,num_recv_frames=64,num_send_frames=64
+            {% if first(first(ran.servedCells).sectorCarriers).bandwidth == 40 %}
+              srate: 46.08
+            {% else %}
+              srate: 23.04
+            {% endif %}
+              tx_gain: 65
+              rx_gain: 30
+
+            {% else if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "n310" %}
+            ru_sdr:
+              device_driver: uhd
+              device_args: type=n3xx,mgmt_addr={{ at(at(rus, first(first(ran.servedCells).sectorCarriers).ruName), "ofh").ipAddress }},addr={{ at(at(rus, first(first(ran.servedCells).sectorCarriers).ruName), "ofh").ipAddress }}
+            {% if first(first(ran.servedCells).sectorCarriers).bandwidth == 100 %}
+              srate: 122.88
+            {% else %}
+              srate: 61.44
+            {% endif %}
+              tx_gain: 52
+              rx_gain: 60
+
+            {% endif %}
 
             metrics:
               enable_json_metrics: {{ du.metrics.enable }}
@@ -189,7 +288,7 @@ cell-wrapper:
               addr: {{ du.metrics.destinationHost }}
               port: {{ du.metrics.destinationPort }}
               rlc_json_enable: true
-              rlc_report_period: 1000           # changed with 2024.2.0
+              rlc_report_period: 1000           # changed with 2024.2.0, back to its default. As a workaround for measurement accuracy issues when set to 1min.
             {% endif %}
 
             {{ du.extraConfig }}
