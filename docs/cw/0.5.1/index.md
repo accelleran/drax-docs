@@ -46,7 +46,7 @@ docker login
 
 - Deploy cell wrapper instance
     ```bash
-    helm install cell-1 accelleran/cell-wrapper-config --version 0.5.0 --values cell-1-values.yaml --debug
+    helm install cell-1 accelleran/cell-wrapper-config --version 0.5.1 --values cell-1-values.yaml --debug
     ```
 
 - Make sure all pods are operating normaly.

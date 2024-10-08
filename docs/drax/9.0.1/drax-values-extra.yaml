@@ -76,7 +76,7 @@ cell-wrapper:
                 dc_offset: center
 
               pusch:
-                mcs_table: qam64
+                mcs_table: qam64                # TO BE TESTED
                 min_k2: 2
                 olla_target_bler: 0.1           # changed with 2024.2.0, LA optimization (0.01 in 2024.1.0)
                 olla_snr_inc_step: 0.05         # changed with 2024.2.0, LA optimization (3)
@@ -85,7 +85,7 @@ cell-wrapper:
 
               pucch:
                 min_k1: 2
-                nof_cell_harq_pucch_res_sets: 8 # changed with 2024.1.0, to avoide multi-ue PUCCCH. [With 2024.2.0, set to 6 for 64UE support]
+                nof_cell_harq_pucch_res_sets: 6 # changed with 2024.2.0, srs reported an issue with it being 8 (8 in 2024.1.0)
                 sr_period_ms: 10                # changed with 2024.1.0, to improved RTT. [with 2024.2.0 set to 20 for 64UE support]
 
               prach:
@@ -108,7 +108,7 @@ cell-wrapper:
             {% else if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "comba" %}
                 prach_config_index: 16
                 prach_frequency_start: 0
-            {% else %}                  # For other RUs
+            {% else %}                          # For other RUs
                 prach_config_index: 151
                 prach_frequency_start: 2
             {% endif %}
@@ -135,14 +135,14 @@ cell-wrapper:
               t1a_min_up: 10
               ta4_max:  500
               ta4_min: 10
-            {% else %}  # works with benetel and cigtech
+            {% else %}                          # works with benetel and cigtech
               t1a_max_cp_dl: 470
               t1a_min_cp_dl: 419
               t1a_max_cp_ul: 336
               t1a_min_cp_ul: 285
               t1a_max_up: 345
               t1a_min_up: 294
-              ta4_max: 1000               # changed with 2024.2.0
+              ta4_max: 1000                     # changed with 2024.2.0
               ta4_min: 0
             {% endif %}
               compr_method_ul: bfp
@@ -169,13 +169,13 @@ cell-wrapper:
               is_prach_cp_enabled: true
               enable_ul_static_compr_hdr: true
               enable_dl_static_compr_hdr: true
-            {% else %}                      # For other RUs
+            {% else %}                          # For other RUs
               is_prach_cp_enabled: true
               enable_ul_static_compr_hdr: false
               enable_dl_static_compr_hdr: false
             {% endif %}
             {% if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "benetel" %}
-              iq_scaling: 7.5               # changed with 2024.2.0
+              iq_scaling: 7.5                   # changed with 2024.2.0
             {% else if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "cigtech" %}
               iq_scaling: 3.5
             {% else %}
@@ -243,7 +243,7 @@ cell-wrapper:
             {% else %}
                   prach_port_id: [4]
             {% endif %}
-            {% else %}                      # For other RUs
+            {% else %}                            # For other RUs
             {% if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 4 %}
                   prach_port_id: [4, 5, 6, 7]
             {% else if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).nofUplinkAntennas == 2) %}
@@ -288,7 +288,7 @@ cell-wrapper:
               addr: {{ du.metrics.destinationHost }}
               port: {{ du.metrics.destinationPort }}
               rlc_json_enable: true
-              rlc_report_period: 1000           # changed with 2024.2.0, back to its default. As a workaround for measurement accuracy issues when set to 1min.
+              rlc_report_period: 1000             # changed with 2024.2.0, back to its default. As a workaround for measurement accuracy issues when set to 1min.
             {% endif %}
 
             {{ du.extraConfig }}

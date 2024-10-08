@@ -6,13 +6,15 @@ This document is released together with the system release 2024.2.0 which contai
 
 | RAN | Component | Version |
 |-|-|-|
-| | DRAX | 9.0.0 |
-| | CU CHART | 9.0.2 |
-| | CU APP | 6.0.3 |
-| | Cell Wrapper | 5.0.1 |
-| | Cell Wrapper config | 0.4.1 |
-| RAN3 | Accelelran DU | 2.0.2 |
+| | DRAX | 9.0.1 |
+| | CU CHART | 9.0.4 |
+| | CU APP | 6.0.5 |
+| | Cell Wrapper | 5.0.3 |
+| | Cell Wrapper config | 0.5.1 |
+| RAN3 | Accelelran DU | 3.0.0 |
 | RAN3 | BNTL650-CATA | RAN650-1v1.0.4-dda1bf5 |
+| RAN3 | BNTL550-CATA | RAN550-1v1.0.4-605a25a |
+| CORE | open5gs | 2.7.2 |
 
 
 ## 2. Prerequisites
@@ -52,14 +54,14 @@ It is recommended to execute these steps in the following order as there are dep
 
 * [Server Preperation](prep_machine/index.md)
 * [Prepare the Kubernetes Cluster](/drax-docs/K8s/1.24/)
-* [DRAX Deployment](/drax-docs/drax/7.2.0-rc.2/)
-* [CU Deployment](/drax-docs/cu/5.0.7/)
-* [Cell Wrapper Deployment](/drax-docs/cw/0.3.0/)
+* [DRAX Deployment](/drax-docs/drax/9.0.1/)
+* [CU Deployment](/drax-docs/cu/6.0.5/)
+* [Cell Wrapper Deployment](/drax-docs/cw/0.5.0/)
 
 If a core to be installed:
 
-* [Core Installation](/drax-docs/core/from_apt_packages/)
+* [Core Installation](/drax-docs/core/v2.7.2/)
 
 Depending on the RAN to be installed:
 
-* [RAN3: AccelleranDU Preparation](/drax-docs/ran3_accelleran_benetel/2.0.2/)
+* [RAN3: AccelleranDU Preparation](/drax-docs/ran3_accelleran_benetel/3.0.0/)

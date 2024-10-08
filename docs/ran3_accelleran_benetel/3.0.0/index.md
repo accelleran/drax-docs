@@ -5,8 +5,9 @@
 
 | RAN | Component | Version |
 |-|-|-|
-| RAN3 | Accelelran DU | 1.0.4 |
+| RAN3 | Accelelran DU | 3.0.0 |
 | RAN3 | BNTL650-CATA | RAN650-1v1.0.4-dda1bf5 |
+| RAN3 | BNTL550-CATA | RAN550-1v1.0.4-605a25a |
 
 <p align="center">
   <img src="04_RAN3_Overview.png">
@@ -102,7 +103,7 @@ docker login
 
 - Optionaly, one can pull the image manually. (This will be done automatically with the cell wrapper)
 ```bash
-docker pull accelleran/du:2.0.2
+docker pull accelleran/du:3.0.0
 ```
 
 

@@ -31,7 +31,7 @@ sudo update-grub2
 
 ## 2. Prepare the Machine for RealTime Performance
 
-- Install lowlatency kernel
+- Install realtime kernel
 ```bash
 sudo apt update
 sudo apt install linux-realtime tuna
@@ -184,7 +184,8 @@ sudo tee /etc/docker/daemon.json <<EOF
   "exec-opts": ["native.cgroupdriver=systemd"],
   "log-driver": "json-file",
   "log-opts": {
-    "max-size": "100m"
+    "max-size": "500m",
+    "max-file": "3"
   },
   "storage-driver": "overlay2"
 }

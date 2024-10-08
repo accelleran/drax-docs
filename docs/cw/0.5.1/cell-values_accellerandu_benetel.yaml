@@ -9,15 +9,15 @@ global:
         install: |-
           <type>accelleran</type>
 
-          <ssh-connection-details xc:operation="create">
+          <ssh-connection-details>
             <host>10.55.5.2</host>
             <username>ad</username>
           </ssh-connection-details>
 
           <version>2.0.2</version>
-          <extra-args>--tty --volume /tmp/du_logs_and_traces:/tmp --volume /sys/fs/cgroup/:/sys/fs/cgroup/ --cgroup-parent=user.slice</extra-args>
+          <extra-args>--tty --volume /sys/fs/cgroup/:/sys/fs/cgroup/ --cgroup-parent=user.slice</extra-args>
 
-          <e2-config xc:operation="replace">
+          <e2-config>
             <enable>true</enable>
             <host>10.55.5.39</host>
             <port>38482</port>
@@ -59,33 +59,50 @@ global:
                 enable_dl_parallelization: 1
 
           log: 
-            filename: /tmp/du_logs.txt
+            filename: stdout
             all_level: warning
-            mac_level: error
+            mac_level: info
+            rlc_level: info
+            # radio_level: info
+            # fapi_level: error
+            # ofh_level: error
+            f1ap_level: info
+            # f1u_level: debug
+            # du_level: debug
+            # lib_level: warning
             config_level: debug
+            metrics_level: debug
+            # hex_max_size: 0
+            # broadcast_enabled: false
+            # phy_rx_symbols_filename:
+            # phy_rx_symbols_port: 0
+            # phy_rx_symbols_prach: false
+            # tracing_filename:
+            # f1ap_json_enabled: false
+            e2ap_level: info
           </extra-config>
 
-          <ofh-interface xc:operation="replace">
+          <ofh-interface>
             <network-interface>0000:01:11.0</network-interface>
             <mac-address>66:2f:2f:4d:c0:1c</mac-address>
             <vlan-id>6</vlan-id>
           </ofh-interface>
 
 
-          <metrics xc:operation="replace">
+          <metrics>
             <enable>true</enable>
             <destination-host>10.55.5.3</destination-host>
             <destination-port>31555</destination-port>
           </metrics>
         internal: |-
-          <configuration xc:operation="replace">
+          <configuration>
             <enable>true</enable>
           </configuration>
-          <auto-repair xc:operation="create">
+          <auto-repair>
               <enable>true</enable>
           </auto-repair>
-          <health-check xc:operation="create">
-              <traffic-throughput xc:operation="create">
+          <health-check>
+              <traffic-throughput>
                   <enable>false</enable>
               </traffic-throughput>
           </health-check>
@@ -95,22 +112,22 @@ global:
             <gnb-du-id>1</gnb-du-id>
             <cu>10.55.5.31</cu>
             <admin-state>unlocked</admin-state>
-            <served-cell xc:operation="replace">
+            <served-cell>
               <local-cell-id>1</local-cell-id>
               <pci>1</pci>
               <tac>1</tac>
               <admin-state>unlocked</admin-state>
-              <plmn-info-list xc:operation="replace">
-                <plmn-info xc:operation="replace">
+              <plmn-info-list>
+                <plmn-info>
                   <mcc>001</mcc>
                   <mnc>01</mnc>
-                  <s-nssai xc:operation="replace">
+                  <s-nssai>
                     <sst>1</sst>
                     <sd>16777215</sd>
                   </s-nssai>
                 </plmn-info>
               </plmn-info-list>
-              <sector-carrier xc:operation="replace">
+              <sector-carrier>
                 <carrier-id>1</carrier-id>
                 <tx-direction>dl</tx-direction>
                 <arfcn-dl>649856</arfcn-dl>
@@ -127,16 +144,16 @@ global:
           install: |-
             <type>benetel</type>
 
-            <ssh-connection-details xc:operation="create">
+            <ssh-connection-details>
               <host>10.10.0.100</host>
               <username>root</username>
-              <jump xc:operation="replace">
+              <jump>
                 <host>10.55.5.2</host>
                 <username>ad</username>
               </jump>
             </ssh-connection-details>
 
-            <ofh-interface xc:operation="replace">
+            <ofh-interface>
               <mac-address>70:b3:d5:e1:5a:0e</mac-address>
               <vlan-id>6</vlan-id>
             </ofh-interface>
@@ -145,7 +162,7 @@ global:
             <nof-antennas-ul>2</nof-antennas-ul>
 
             <serial-number>06502100342</serial-number>
-            <supported-frequency-band xc:operation="create">78</supported-frequency-band>
+            <supported-frequency-band>78</supported-frequency-band>
 
             <antenna-gain>0</antenna-gain>
             <maximum-power-capability>35</maximum-power-capability>

@@ -11,7 +11,7 @@ tee cu-cp-values.yaml <<EOF
 global:
 
   ## The release to install.
-  tag: "6.0.4"
+  tag: "6.0.5"
 
 bootstrap:
   # A unique value that identifies the CU-CP
@@ -50,7 +50,7 @@ EOF
 
 - Deploy CU CP
 ```bash
-helm install cu-cp accelleran/cu-cp --version 9.0.3 --values cu-cp-values.yaml --debug
+helm install cu-cp accelleran/cu-cp --version 9.0.4 --values cu-cp-values.yaml --debug
 ```
 - Make sure all pods are operating normaly.
 ```bash
@@ -74,7 +74,7 @@ tee cu-up-values.yaml <<EOF
 global:
 
   ## The release to install.
-  tag: "6.0.4"
+  tag: "6.0.5"
 
 bootstrap:
   # A unique value that identifies the CU-CP
@@ -103,7 +103,7 @@ EOF
 
 - Deploy CU UP.
 ```bash
-helm install cu-up accelleran/cu-up --version 9.0.3 --values cu-up-values.yaml --debug
+helm install cu-up accelleran/cu-up --version 9.0.4 --values cu-up-values.yaml --debug
 ```
 - Make sure all pods are operating normaly.
 ```bash
