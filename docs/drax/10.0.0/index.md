@@ -27,8 +27,8 @@ global:
     licenseSecretName: "accelleran-license"
 
 e2-t:
-  # global:
-  #   tag: "6.0.0"
+  #global:
+  #  tag: "6.0.0"
   numOfE2Nodes: 3
   e2-t-sctp:
     service:
@@ -41,23 +41,15 @@ e2-t:
   e2-t-sm-ccc:
     enabled: false
 
-du-metrics-server:
-  du-metrics-server:
-    image:
-      repository: accelleran/du-metrics-server
-      pullPolicy: IfNotPresent
-      tag: "3.0.0"
-
 EOF
 ```
-- Download attached `drax-values-extra.yaml` extra values file [drax-values-extra.yaml](drax-values-extra.yaml)
-> Will be needed to run accDU 2.0.2 and above with DRAX 9.0.0
+
 
 ## 2. Deployment
 
 - Deploy DRAX
 ```bash
-helm install drax accelleran/drax --version 9.0.1 --values drax-values.yaml --values drax-values-extra.yaml --debug
+helm install drax accelleran/drax --version 10.0.0 --values drax-values.yaml --debug
 ```
 - Make sure all pods are operating normaly.
 ```bash

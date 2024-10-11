@@ -39,7 +39,7 @@ cell-wrapper:
               additional_served_plmns:
             {% for servedPlmn in first(ran.servedCells).servedPlmns %}
             {% if not loop.is_first %}
-                - plmn_id: {{ servedPlmn.plmnId }}
+                - plmn: {{ servedPlmn.plmnId }}
                   slicing:
             {% for sNssai in servedPlmn.sNssaiList %}
                     - sst: {{ sNssai.sst }}
@@ -76,7 +76,7 @@ cell-wrapper:
                 dc_offset: center
 
               pusch:
-                mcs_table: qam64                # TO BE TESTED
+                mcs_table: qam256
                 min_k2: 2
                 olla_target_bler: 0.1           # changed with 2024.2.0, LA optimization (0.01 in 2024.1.0)
                 olla_snr_inc_step: 0.05         # changed with 2024.2.0, LA optimization (3)
@@ -121,7 +121,6 @@ cell-wrapper:
                 nof_ul_slots: 2
                 nof_ul_symbols: 4
             {% endif %}
-
 
             {% if (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type != "b210") and (at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type != "n310") %}
             ru_ofh:
@@ -174,13 +173,17 @@ cell-wrapper:
               enable_ul_static_compr_hdr: false
               enable_dl_static_compr_hdr: false
             {% endif %}
+
             {% if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "benetel" %}
               iq_scaling: 7.5                   # changed with 2024.2.0
             {% else if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "cigtech" %}
               iq_scaling: 3.5
+            {% else if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "comba" %}
+              iq_scaling: 5.5
             {% else %}
               iq_scaling: 7.5
             {% endif %}
+
               cells:
                 - network_interface: {{ du.ofh.networkInterface }}
                   du_mac_addr: {{ du.ofh.macAddress }}
@@ -253,8 +256,8 @@ cell-wrapper:
             {% else %}
                   prach_port_id: [4]
             {% endif %}
-            {% endif %}
 
+            {% endif %}
 
             {% else if at(rus, first(first(ran.servedCells).sectorCarriers).ruName).type == "b210" %}
             ru_sdr:
@@ -279,7 +282,6 @@ cell-wrapper:
             {% endif %}
               tx_gain: 52
               rx_gain: 60
-
             {% endif %}
 
             metrics:
@@ -292,3 +294,314 @@ cell-wrapper:
             {% endif %}
 
             {{ du.extraConfig }}
+
+        nodeh:
+        - file: "config.json"
+          data: |-
+            {
+              "Services": {
+                "FAPService": {
+                  "1": {
+                    "CellConfig": {
+                      "NR": {
+                        "RAN": {
+                          "CUNumberOfEntries": 0,
+                          "CUUPNumberOfEntries": 0,
+                          "DUNumberOfEntries": 1,
+                          "DU": {
+                            "1": {
+                              "General": {
+                                "Enable": true,
+                                "CellIdx": 0,
+                                "Id": {{ ran.gnbDuId }},
+                                "Name": "{{ ran.gnbDuName }}",
+                                "NrMode": "TDD",
+                                "PhyCellId": {{ first(ran.servedCells).pci }},
+                                "ChannelNrArfcn": {{ first(first(ran.servedCells).sectorCarriers).nrArfcn }},
+                                "ChannelBwRb":  {{ first(first(ran.servedCells).sectorCarriers).nrb }},
+                                "OperatingBandsDl": "n{{ first(first(ran.servedCells).sectorCarriers).frequencyBand }}",
+                                "OperatingBandsUl": "n{{ first(first(ran.servedCells).sectorCarriers).frequencyBand }}",
+                                "MaxMimoLayers": 2,
+                                "MaxUlMimoLayers": 1,
+                                "TxPowerPerPathDBmx10": {{ first(first(ran.servedCells).sectorCarriers).maxTxPower * 10 }},
+                                "SyncSource": "GPS",
+                                "FreqSyncTimeout": 0,
+                                "DuOwnIPAddress": "{{ du.f1.bindAddress }}"
+                              },
+                              "F1": {
+                                "IPAddresses": "{{ ran.cuAddress }}",
+                                "PlmnInfoNumberOfEntries": 1,
+                                "PlmnInfo": {
+                                  "1": {
+                                    "CellIdentity": "{{ first(ran.servedCells).nrCellId }}",
+                                    "PlmnIdentity": "{{ first(first(ran.servedCells).servedPlmns).plmnId }}",
+                                    "RanAreaCode": 1,
+                                    "TrackingAreaCode": {{ first(ran.servedCells).tac }}
+                                  }
+                                },
+                                "Nssai1stPlmnInfoNumberOfEntries": 1,
+                                "Nssai1stPlmnInfo": {
+                                  "1": {
+                                    "NssaiList": "{% for sNssai in first(first(ran.servedCells).servedPlmns).sNssaiList %}{{ sNssai.sst }}{% if sNssai.sd < 16777215 %}:{{sNssai.sd}}{% endif %}{% if not loop.is_last %},{% endif %}{% endfor %}" 
+                                  }
+                                }
+                              },
+                              "RRC": {
+                                "QQualMin": -30,
+                                "QRxLevMin": -70,
+                                "SSB": {
+                                  "GroupPresence": 255,
+                                  "InOneGroup": 1,
+                                  "SsbPeriodicity": "SsbPeriod10ms",
+                                  "TxAntennaLoss": -20
+                                },
+                                "PRach": {
+                                  "PrachRootSequenceIndex": 0,
+                                  "PreambleFormat": "PreambleFormatA2",
+                                  "PeriodSfn": 1,
+                                  "OffsetSfn": 0,
+                                  "NumFdPrachOccasions": 1,
+                                  "NumTdPrachOccasions": 3
+                                },
+                                "TimersAndConsts": {
+                                  "TInactivity": 0
+                                }
+                              },
+                              "MAC": {
+                                "SearchSpace0": 2,
+                                "BwpDlNumberOfEntries": 1,
+                                "BwpUlNumberOfEntries": 1,
+                                "TDD": {
+                                  "TDDSlotsPeriod": 10,
+                                  "TDDSlotsDL": 7,
+                                  "TDDSlotsUL": 2
+                                },
+                                "BwpDl": {
+                                  "1": {
+                                    "Nrb": {{ first(first(ran.servedCells).sectorCarriers).nrb }},
+                                    "Scs": {{ first(ran.servedCells).subCarrierSpacing }},
+                                    "OffsetToCrb0": 0
+                                  }
+                                },
+                                "BwpUl": {
+                                  "1": {
+                                    "Nrb": {{ first(first(ran.servedCells).sectorCarriers).nrb }},
+                                    "Scs": {{ first(ran.servedCells).subCarrierSpacing }},
+                                    "OffsetToCrb0": 0
+                                  }
+                                },
+                                "Pcch": {
+                                  "N": "One",
+                                  "NandPagingFrameOffset": "OneT",
+                                  "Offset": 0,
+                                  "PagingCycle": "RF128"
+                                },
+                                "Rach": {
+                                  "NumContentionBasedPreambles": 32,
+                                  "TotalNumberOfPreambles": 60
+                                }
+                              },
+                              "DEBUG": {
+                                "NphyPcapCaptureDisabled": true
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+        effnet:
+        - file: "config.json"
+          data: |-
+            {
+              "configuration": {
+                "du_address": "du",
+                "cu_address": "{{ ran.cuAddress }}",
+                "gtp_listen_address": "du",
+                "f1c_bind_address": "du",
+                "vphy_listen_address": "127.0.0.1",
+                "vphy_port": 13337,
+                "vphy_tick_multiplier": 1,
+                "gnb_du_id": {{ ran.gnbDuId }},
+                "gnb_du_name": "{{ ran.gnbDuName }}",
+                "phy_control": {
+                  "crnti_range": {
+                    "min": 42001,
+                    "max": 42024
+                  }
+                },
+            {% if du.e2.enable %}
+                "ric": {
+                  "bind_address": "{{ du.e2.bindAddress }}",
+                  "address": "{{ du.e2.address }}",
+                  "port": {{ du.e2.port }}
+                },
+            {% endif %}
+                "rrc_version": {
+                  "x": 15,
+                  "y": 6,
+                  "z": 0
+                },
+                "served_cells_list": [
+                  {% for servedCell in ran.servedCells %}
+                  {
+                    "served_cell_information": {
+                      "nr_cgi": {
+                        "plmn_identity": "{{ first(servedCell.servedPlmns).plmnId }}",
+                        "nr_cell_identity": "{{ servedCell.nrCellId }}"
+                      },
+                      "nr_pci": {{ servedCell.pci }},
+                      "5gs_tac": "{{ servedCell.tac }}",
+                      "ran_area_code": 1,
+                      "served_plmns": [
+                        {% for servedPlmn in servedCell.servedPlmns %}
+                        {
+                          "plmn_identity": "{{ servedPlmn.plmnId }}",
+                          "tai_slice_support_list": [
+                            {% for sNssai in servedPlmn.sNssaiList %}
+                            {
+                              "sst":{{ sNssai.sst }}
+                              {% if sNssai.sd != 16777215 %}
+                                ,
+                                "sd": {{ sNssai.sd }}
+                              {% endif %}
+                            }{% if not loop.is_last %},{% endif %}
+                            {% endfor %}
+                          ]
+                        }{% if not loop.is_last %},{% endif %}
+                        {% endfor %}
+                      ],
+                      "nr_mode_info": {
+                        "nr_freq_info": {
+                          "nr_arfcn": {{ first(servedCell.sectorCarriers).pointANrArfcn }},
+                          "frequency_band_list": [
+                            {
+                              "nr_frequency_band": {{ first(servedCell.sectorCarriers).frequencyBand }}
+                            }
+                          ]
+                        },
+                        "transmission_bandwidth": {
+                          "bandwidth_mhz": {{ first(servedCell.sectorCarriers).bandwidth }},
+                          "scs_khz": {{ servedCell.subCarrierSpacing }},
+                          "nrb": {{ first(servedCell.sectorCarriers).nrb }}
+                        },
+                        "pattern": {
+                          "periodicity_in_slots": 10,
+                          "downlink": {
+                            "slots": 7,
+                            "symbols": 6
+                          },
+                          "uplink": {
+                            "slots": 2,
+                            "symbols": 4
+                          }
+                        }
+                      },
+                      "measurement_timing_configuration": [222, 173, 190, 239],
+                      "dmrs_type_a_position": "pos2",
+                      "intra_freq_reselection": "allowed",
+                      "ssb_pattern": "1000000000000000000000000000000000000000000000000000000000000000",
+                      "ssb_periodicity_serving_cell_ms": 10,
+                      "prach_configuration_index": 202,
+                      "ssb_pbch_scs": 30,
+                      {% if first(servedCell.sectorCarriers).bandwidth == 40 %}
+                      "offset_point_a": 6,
+                      "k_ssb": 0,
+                      "coreset_zero_index": 3,
+                      {% else if first(servedCell.sectorCarriers).bandwidth == 100 %}
+                      "offset_point_a": 26,
+                      "k_ssb": 4,
+                      "coreset_zero_index": 1,
+                      {% else %}
+                      "offset_point_a": 6,
+                      "k_ssb": 0,
+                      "coreset_zero_index": 3,
+                      {% endif %}
+                      "search_space_zero_index": 2,
+                      "ra_response_window_slots": 20,
+                      "sr_slot_periodicity": 40,
+                      "search_space_other_si": 1,
+                      "paging_search_space": 0,
+                      "ra_search_space": 1,
+                      "bwps": [
+                        {
+                          "id": 0,
+                          "start_crb": 0,
+                          "num_rb": {{ first(servedCell.sectorCarriers).nrb }},
+                          "scs": 30,
+                          "cyclic_prefix": "normal"
+                        }
+                      ],
+                      "coresets": [
+                        {
+                          "id": 1,
+                          "bwp_id": 0,
+                          {% if first(servedCell.sectorCarriers).bandwidth == 40 %}
+                          "fd_resources": "111100000000000000000000000000000000000000000",
+                          {% else if first(servedCell.sectorCarriers).bandwidth == 100 %}
+                          "fd_resources": "001111000000000000000000000000000000000000000",
+                          {% else %}
+                          "fd_resources": "111100000000000000000000000000000000000000000",
+                          {% endif %}
+                          "duration": 2,
+                          "interleaved": {
+                            "reg_bundle_size": 6,
+                            "interleaver_size": 2
+                          },
+                          "precoder_granularity": "same_as_reg_bundle"
+                        }
+                      ],
+                      "search_spaces": [
+                        {
+                          "id": 1,
+                          "control_resource_set_id": 0,
+                          "common": {}
+                        },
+                        {
+                          "id": 2,
+                          "control_resource_set_id": 1,
+                          "ue_specific": {
+                            "dci_formats": "formats0-1-And-1-1"
+                          }
+                        }
+                      ],
+                      "maximum_ru_power_dbm": {{ first(servedCell.sectorCarriers).maxTxPower }},
+                      "antenna_gain": 0.0,
+                      {% if at(rus, first(servedCell.sectorCarriers).ruName).nofDownlinkAntennas > 0 %}
+                      "num_tx_antennas": {{ at(rus, first(servedCell.sectorCarriers).ruName).nofDownlinkAntennas }},
+                      {% else %}
+                      "num_tx_antennas": 1,
+                      {% endif %}
+                      "trs": {
+                        "periodicity_and_offset": {
+                          "period": 80,
+                          "offset": 1
+                        },
+                        "symbol_pair": "four_eight",
+                        "subcarrier_location": 1
+                      },
+                      "periodic_srs_periodicity": 64,
+                      "csi_rs": {
+                        "periodicity_and_offset": {
+                          "period": 40,
+                          "offset": 15
+                        }
+                      },
+                      "harq_processes_for_pdsch": 16,
+                      "minimum_k1_delay": 1,
+                      "minimum_k2_delay": 1,
+                      "force_rlc_buffer_size": 8388608,
+                      "default_paging_cycle": 128,
+                      "modification_period_coeff": 2,
+                      "paging_occasions": 1,
+                      "drb_inactivity_timer": 1800
+                    }
+                  }{% if not loop.is_last %},{% endif %}
+                  {% endfor %}
+                ]
+              }
+            }

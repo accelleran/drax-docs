@@ -1,0 +1,75 @@
+global:
+  # nodeSelector:
+  #   drax.accelleran.com/schedule: "true"
+
+  config:
+    enabled: true
+    dus:
+      - name: "cell-1"
+        install: |-
+          <type>nodeh</type>
+
+          <ssh-connection-details>
+            <host>10.55.5.2</host>
+            <username>root</username>
+          </ssh-connection-details>
+
+        internal: |-
+          <configuration>
+            <enable>true</enable>
+          </configuration>
+          <auto-repair>
+              <enable>true</enable>
+          </auto-repair>
+        ran: |-
+            <gnb-id>0</gnb-id>
+            <gnb-id-length>32</gnb-id-length>
+            <gnb-du-id>1</gnb-du-id>
+            <cu>10.55.5.31</cu>
+            <admin-state>unlocked</admin-state>
+            <served-cell>
+              <local-cell-id>1</local-cell-id>
+              <pci>1</pci>
+              <tac>1</tac>
+              <admin-state>unlocked</admin-state>
+              <plmn-info-list>
+                <plmn-info>
+                  <mcc>001</mcc>
+                  <mnc>01</mnc>
+                  <s-nssai>
+                    <sst>1</sst>
+                    <sd>16777215</sd>
+                  </s-nssai>
+                </plmn-info>
+              </plmn-info-list>
+              <sector-carrier>
+                <carrier-id>1</carrier-id>
+                <tx-direction>dl</tx-direction>
+                <arfcn-dl>649856</arfcn-dl>
+                <bandwidth-dl>100</bandwidth-dl>
+                <arfcn-ul>649856</arfcn-ul>
+                <bandwidth-ul>100</bandwidth-ul>
+                <frequency-band>78</frequency-band>
+                <maximum-eirp-dbm>35</maximum-eirp-dbm>
+                <ru>ru-cell-1</ru>
+              </sector-carrier>
+            </served-cell>
+        rus:
+        - name: "ru-cell-1"
+          install: |-
+            <type>nodehTnw</type>
+
+            <ssh-connection-details>
+              <host>10.55.5.2</host>
+              <username>root</username>
+            </ssh-connection-details>
+
+            <nof-antennas-dl>2</nof-antennas-dl>
+            <nof-antennas-ul>2</nof-antennas-ul>
+
+            <serial-number>00000000</serial-number>
+            <supported-frequency-band>78</supported-frequency-band>
+
+            <antenna-gain>0</antenna-gain>
+            <maximum-power-capability>24</maximum-power-capability>
+            <minimum-power-capability>0</minimum-power-capability>

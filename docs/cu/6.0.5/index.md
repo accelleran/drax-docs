@@ -28,7 +28,7 @@ numOfAmfs: 3
 numOfCuUps: 2
 numOfDus: 3
 numOfCells: 3
-numOfUes: 8
+numOfUes: 32
 
 nats:
   enabled: false

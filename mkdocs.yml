@@ -83,7 +83,7 @@ nav:
     - 'SystemRelease/2024.2.0/index.md'
     - '1. Server Preparation': 'SystemRelease/2024.2.0/prep_machine/index.md'
     - '2. Prepare the Kubernetes Cluster': 'K8s/1.24/index.md'
-    - '3. DRAX Deployment': 'drax/9.0.1/index.md'
+    - '3. DRAX Deployment': 'drax/10.0.0/index.md'
     - '4. CU Deployment': 'cu/6.0.5/index.md'
     - '5. Cell Wrapper Deployment': 'cw/0.5.1/index.md'
     - '6. Core Installation': 'core/v2.7.2/index.md'
