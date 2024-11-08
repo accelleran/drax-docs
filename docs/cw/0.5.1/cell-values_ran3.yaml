@@ -14,7 +14,7 @@ global:
             <username>ad</username>
           </ssh-connection-details>
 
-          <version>2.0.2</version>
+          <version>3.0.1</version>
           <extra-args>--tty --volume /sys/fs/cgroup/:/sys/fs/cgroup/ --cgroup-parent=user.slice</extra-args>
 
           <e2-config>
@@ -61,8 +61,8 @@ global:
           log: 
             filename: stdout
             all_level: warning
-            mac_level: info
-            rlc_level: info
+            mac_level: error
+            # rlc_level: info
             # radio_level: info
             # fapi_level: error
             # ofh_level: error
@@ -79,7 +79,7 @@ global:
             # phy_rx_symbols_prach: false
             # tracing_filename:
             # f1ap_json_enabled: false
-            e2ap_level: info
+            # e2ap_level: info
           </extra-config>
 
           <ofh-interface>

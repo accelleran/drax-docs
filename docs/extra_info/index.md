@@ -270,3 +270,23 @@ chmod +x collect_logs.sh
 ```bash
 kubectl logs -f -l drax/role=5g --prefix --tail=0  --max-log-requests 100
 ```
+
+### 5.2. CW
+
+For debug purposes, one can use below:
+
+- To get all cellwrapper saved configs. (using [get-cw-config.yaml](get-cw-config.yaml))
+```
+kubectl apply -f get-cw-config.yaml
+kubectl get pods
+kubectl logs -f get-cw-config-netconf-gqm7r  # replace with the correct pod name
+kubectl delete -f get-cw-config.yaml
+```
+
+- To delete all cellwrapper saved configs. (using [delete-cw-config.yaml](delete-cw-config.yaml))
+```
+kubectl apply -f delete-cw-config.yaml
+kubectl get pods
+kubectl logs -f delete-cw-config-netconf-gqm7r  # replace with the correct pod name
+kubectl delete -f delete-cw-config.yaml
+```

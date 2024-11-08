@@ -24,6 +24,12 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet splash hugepagesz=1G hugepages=4 hugepagesz=2M
 GRUB_CMDLINE_LINUX="selinux=0 enforcing=0 nmi_watchdog=0 crashkernel=auto softlockup_panic=0 nosoftlockup audit=0 mce=off tsc=nowatchdog skew_tick=1"
 GRUB_FLAVOUR_ORDER="realtime"
 ```
+
+> If the machine is using an intel CPU:
+  ```bash
+  GRUB_CMDLINE_LINUX_DEFAULT="quiet splash processor.max_cstate=1 intel_idle.max_cstate=0 intel_pstate=passive hugepagesz=1G hugepages=4 hugepagesz=2M hugepages=0 default_hugepagesz=1G intel_iommu=on iommu=pt rcu_nocb_poll rcu_nocbs=1-15,17-31 nohz=on nohz_full=1-15,17-31 kthread_cpus=0,16 rcutree.kthread_prio=99 irqaffinity=0,16"
+  ```
+
 - To Apply run below:
 ```bash
 sudo update-grub2 
@@ -37,6 +43,12 @@ sudo apt update
 sudo apt install linux-realtime tuna
 sudo apt remove linux-image-generic
 sudo apt autoremove
+```
+
+- Disable Swap
+```bash
+sudo swapoff -a
+sudo sed -i '/\sswap\s/ s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 
 - Update CPUAffinity:
@@ -107,7 +119,7 @@ sudo apt install virt-manager
 ```
 - Download ubuntu22.04 server iso. (example below command)
 ```bash
-curl -O https://releases.ubuntu.com/22.04.4/ubuntu-22.04.4-live-server-amd64.iso
+curl -O https://releases.ubuntu.com/22.04.5/ubuntu-22.04.5-live-server-amd64.iso
 ```
 
 #### Using virt-manager GUI

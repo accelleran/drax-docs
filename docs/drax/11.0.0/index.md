@@ -28,18 +28,15 @@ global:
 
 e2-t:
   #global:
-  #  tag: "6.0.0"
+  #  tag: "6.0.3"
   numOfE2Nodes: 3
   e2-t-sctp:
     service:
       type:  LoadBalancer
       loadBalancerIP: 10.55.5.39
-  e2-t-sm-kpm:
-    enabled: true
-  e2-t-sm-rc:
-    enabled: false
-  e2-t-sm-ccc:
-    enabled: false
+
+loki-deleter:
+  enabled: true
 
 EOF
 ```
@@ -49,7 +46,7 @@ EOF
 
 - Deploy DRAX
 ```bash
-helm install drax accelleran/drax --version 10.0.0 --values drax-values.yaml --debug
+helm install drax accelleran/drax --version 11.0.0 --values drax-values.yaml --debug
 ```
 - Make sure all pods are operating normaly.
 ```bash

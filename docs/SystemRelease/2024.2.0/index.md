@@ -6,11 +6,11 @@ This document is released together with the system release 2024.2.0 which contai
 
 | RAN | Component | Version |
 |-|-|-|
-| | DRAX | 10.0.0 |
-| | xApp SDK | 4.0.1 |
+| | DRAX | 11.0.0 |
+| | xApp SDK | 5.0.0 |
 | | CU CHART | 9.0.4 |
-| | CU APP | 6.0.5 |
-| | Cell Wrapper | 6.0.1 |
+| | CU APP | 6.0.7 |
+| | Cell Wrapper | 6.0.2 |
 | | Cell Wrapper config | 0.5.1 |
 | RAN3 | Accelelran DU | 3.0.1 |
 | RAN3 | BNTL650-CATA | RAN650-1v1.0.4-dda1bf5 |
@@ -55,8 +55,8 @@ It is recommended to execute these steps in the following order as there are dep
 
 * [Server Preperation](prep_machine/index.md)
 * [Prepare the Kubernetes Cluster](/drax-docs/K8s/1.24/)
-* [DRAX Deployment](/drax-docs/drax/10.0.0/)
-* [CU Deployment](/drax-docs/cu/6.0.5/)
+* [DRAX Deployment](/drax-docs/drax/11.0.0/)
+* [CU Deployment](/drax-docs/cu/6.0.7/)
 * [Cell Wrapper Deployment](/drax-docs/cw/0.5.0/)
 
 If a core to be installed:
@@ -65,4 +65,4 @@ If a core to be installed:
 
 Depending on the RAN to be installed:
 
-* [RAN3: AccelleranDU Preparation](/drax-docs/ran3_accelleran_benetel/3.0.0/)
+* [RAN3: AccelleranDU Preparation](/drax-docs/ran3_accelleran_benetel/3.0.1/)

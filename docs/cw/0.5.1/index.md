@@ -37,13 +37,15 @@ docker login
 
 - Create a values file for the cell, Please pay attention to the details used and edit them according to the system. (IP/MAC addresses, VLAN, RU Information, ..etc)
 
-    - RAN2 (nodehDURU) example: [cell-1-values.yaml](cell-values_ran2.yaml)
     - RAN3 (accDU/benetelRU) example: [cell-1-values.yaml](cell-values_ran3.yaml) 
 
 - Make sure to edit `extra-args` and `extra-config` with the detailed CPU allocation based on the cell as below:
 <p align="center">
   <img src="/drax-docs/SystemRelease/2024.2.0/prep_machine/cpu_allocation.png">
 </p>
+
+
+> For RAN2 (nodehDU) example: [cell-1-values.yaml](cell-values_ran2.yaml)
 
 - Deploy cell wrapper instance
     ```bash

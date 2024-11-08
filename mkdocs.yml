@@ -75,20 +75,46 @@ nav:
     - 'DU-RU Timing Synchronization': 'du-ru_sync_options/2024.1.0/index.md'
     - 'Extra Info': 'extra_info/index.md'
 
-  - '[2024.1.0 with Ansible]':
-    - 'SystemRelease/2024.1.0_usingAnsible/index.md'
+  - '[2024.1.1]':
+    - 'SystemRelease/2024.1.1/index.md'
+    - '1. Server Preparation': 'SystemRelease/2024.1.0/prep_machine/index.md'
+    - '2. Prepare the Kubernetes Cluster': 'K8s/1.24/index.md'
+    - '3. DRAX Deployment': 'drax/8.0.3/index.md'
+    - '4. CU Deployment': 'cu/5.0.7/index.md'
+    - '5. Cell Wrapper Deployment': 'cw/0.3.0/index.md'
+    - '6. Core Installation': 'core/v2.7.1/index.md'
+    - '7. RAN1: EffnetPhluidoDU-Benetel': 'ran1_effnet_phluido_benetel/2024.1.0/index.md'
+    - '8. RAN2: NodehDU/RU': 'ran2_nodeh/5.2.1-32888/index.md'
+    - '9. RAN3: AccelleranDU-Benetel': 'ran3_accelleran_benetel/1.0.5/index.md'
     - 'DU-RU Timing Synchronization': 'du-ru_sync_options/2024.1.0/index.md'
+    - 'Extra Info': 'extra_info/index.md'
+
+  # - '[2024.1.0 with Ansible]':
+  #   - 'SystemRelease/2024.1.0_usingAnsible/index.md'
+  #   - 'DU-RU Timing Synchronization': 'du-ru_sync_options/2024.1.0/index.md'
 
   - '[2024.2.0]':
     - 'SystemRelease/2024.2.0/index.md'
     - '1. Server Preparation': 'SystemRelease/2024.2.0/prep_machine/index.md'
     - '2. Prepare the Kubernetes Cluster': 'K8s/1.24/index.md'
-    - '3. DRAX Deployment': 'drax/10.0.0/index.md'
-    - '4. CU Deployment': 'cu/6.0.5/index.md'
+    - '3. DRAX Deployment': 'drax/11.0.0/index.md'
+    - '4. CU Deployment': 'cu/6.0.7/index.md'
     - '5. Cell Wrapper Deployment': 'cw/0.5.1/index.md'
     - '6. Core Installation': 'core/v2.7.2/index.md'
-    # - '7. RAN1: EffnetPhluidoDU-Benetel': 'ran1_effnet_phluido_benetel/2024.1.0/index.md'
     - '7. RAN2: NodehDU/RU': 'ran2_nodeh/5.2.1-32888/index.md'
-    - '8. RAN3: AccelleranDU-Benetel': 'ran3_accelleran_benetel/3.0.0/index.md'
+    - '8. RAN3: AccelleranDU-Benetel': 'ran3_accelleran_benetel/3.0.1/index.md'
+    - 'DU-RU Timing Synchronization': 'du-ru_sync_options/2024.1.0/index.md'
+    - 'Extra Info': 'extra_info/index.md'
+
+  - '[2024.2.1]':
+    - 'SystemRelease/2024.2.1/index.md'
+    - '1. Server Preparation': 'SystemRelease/2024.2.0/prep_machine/index.md'
+    - '2. Prepare the Kubernetes Cluster': 'K8s/1.24/index.md'
+    - '3. DRAX Deployment': 'drax/11.0.2/index.md'
+    - '4. CU Deployment': 'cu/6.0.10/index.md'
+    - '5. Cell Wrapper Deployment': 'cw/0.5.1/index.md'
+    - '6. Core Installation': 'core/v2.7.2/index.md'
+    - '7. RAN2: NodehDU/RU': 'ran2_nodeh/5.2.1-32888/index.md'
+    - '8. RAN3: AccelleranDU-Benetel': 'ran3_accelleran_benetel/test_r1.3/index.md'
     - 'DU-RU Timing Synchronization': 'du-ru_sync_options/2024.1.0/index.md'
     - 'Extra Info': 'extra_info/index.md'

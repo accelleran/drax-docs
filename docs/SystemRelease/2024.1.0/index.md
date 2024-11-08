@@ -57,7 +57,7 @@ It is recommended to execute these steps in the following order as there are dep
 
 * [Server Preperation](prep_machine/index.md)
 * [Prepare the Kubernetes Cluster](/drax-docs/K8s/1.24/)
-* [DRAX Deployment](/drax-docs/drax/7.2.0-rc.2/)
+* [DRAX Deployment](/drax-docs/drax/8.0.1/)
 * [CU Deployment](/drax-docs/cu/5.0.7/)
 * [Cell Wrapper Deployment](/drax-docs/cw/0.3.0/)
 
